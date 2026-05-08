@@ -1,0 +1,322 @@
+@prefix ex:    <https://example.org/daimo-scenario/> .
+@prefix daimo: <https://w3id.org/pionera/daimo#> .
+@prefix dcat:  <http://www.w3.org/ns/dcat#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix it6:   <http://data.europa.eu/it6/> .
+@prefix mls:   <http://www.w3.org/ns/mls#> .
+@prefix odrl:  <http://www.w3.org/ns/odrl/2/> .
+@prefix prov:  <http://www.w3.org/ns/prov#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix edc:   <https://w3id.org/edc/v0.0.1/ns/> .
+@prefix spdx:  <http://spdx.org/rdf/terms#> .
+@prefix spdxalg: <http://spdx.org/rdf/terms#checksumAlgorithm_> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+# Scenario: Flood-risk prediction in an INESData-style data space
+#
+# Actors:
+#   - UPM publishes flood-risk-v2 as a ModelProvider.
+#   - Municipality of Leganés discovers, negotiates, invokes as ModelConsumer.
+#   - INESData operator runs the deployment as PlatformOperator.
+#   - CSIC climate team is an Evaluator under a shared evaluation context.
+#   - Gaia-X compliance office is a GovernanceActor auditing evidence.
+#
+# This file is the example KG for the DAIMO v0.1.0 paper.
+#################################################################
+
+#################################################################
+# Agents and participant contexts
+#################################################################
+
+ex:upm a foaf:Organization ;
+    foaf:name "Universidad Politécnica de Madrid" ;
+    daimo:hasRole ex:upm-provider-role .
+
+ex:municipality a foaf:Organization ;
+    foaf:name "Ayuntamiento de Leganés" ;
+    daimo:hasRole ex:municipality-consumer-role .
+
+ex:inesdata-op a foaf:Organization ;
+    foaf:name "INESData Platform Operations" ;
+    daimo:hasRole ex:inesdata-operator-role .
+
+ex:csic-climate a foaf:Organization ;
+    foaf:name "CSIC Climate Modelling Group" ;
+    daimo:hasRole ex:csic-evaluator-role .
+
+ex:gaia-x-compliance a foaf:Organization ;
+    foaf:name "Gaia-X Compliance Office" ;
+    daimo:hasRole ex:gaia-x-governance-role .
+
+ex:ctx-upm a edc:ParticipantContext ;
+    rdfs:label "UPM participant context"@en .
+
+ex:ctx-municipality a edc:ParticipantContext ;
+    rdfs:label "Leganés participant context"@en .
+
+ex:ctx-inesdata a edc:ParticipantContext ;
+    rdfs:label "INESData platform context"@en .
+
+ex:upm-provider-role         a daimo:ModelProvider    ; daimo:inParticipantContext ex:ctx-upm .
+ex:municipality-consumer-role a daimo:ModelConsumer    ; daimo:inParticipantContext ex:ctx-municipality .
+ex:inesdata-operator-role    a daimo:PlatformOperator ; daimo:inParticipantContext ex:ctx-inesdata .
+ex:csic-evaluator-role       a daimo:Evaluator        ; daimo:inParticipantContext ex:ctx-inesdata .
+ex:gaia-x-governance-role    a daimo:GovernanceActor  ; daimo:inParticipantContext ex:ctx-inesdata .
+
+#################################################################
+# The AI model (REUSED, not redefined)
+#################################################################
+
+ex:flood-risk-v2 a it6:MachineLearningModel ;
+    dct:title "Flood Risk v2"@en ;
+    dct:identifier "flood-risk-v2" ;
+    dct:description "Deep model predicting 24-hour flood risk at 100 m resolution over Iberian basins."@en ;
+    dct:creator ex:upm ;
+    dct:issued "2026-03-18"^^xsd:date ;
+    dct:hasVersion "2.0.0" ;
+    it6:trainedOn ex:climatebench-v1 ;
+    it6:hasTask ex:flood-risk-task ;
+    it6:hasBenchmark ex:flood-risk-benchmark ;
+    odrl:hasPolicy ex:flood-risk-policy .
+
+ex:flood-risk-v1-baseline a it6:MachineLearningModel ;
+    dct:title "Flood Risk v1 (baseline)"@en ;
+    dct:identifier "flood-risk-v1" ;
+    dct:hasVersion "1.0.0" ;
+    dct:creator ex:upm ;
+    it6:trainedOn ex:climatebench-v1 ;
+    it6:hasTask ex:flood-risk-task ;
+    odrl:hasPolicy ex:flood-risk-policy .
+
+ex:flood-risk-v2-commercial a it6:MachineLearningModel ;
+    dct:title "Flood Risk v2 (research-only)"@en ;
+    dct:identifier "flood-risk-v2-ro" ;
+    dct:hasVersion "2.0.0-ro" ;
+    dct:creator ex:upm ;
+    it6:trainedOn ex:climatebench-v1 ;
+    it6:hasTask ex:flood-risk-task ;
+    odrl:hasPolicy ex:flood-risk-research-only-policy .
+
+ex:flood-risk-task a it6:Task ;
+    dct:title "Flood risk prediction"@en ;
+    it6:hasTaskType ex:task-type-regression .
+
+ex:task-type-regression a it6:TaskType ;
+    rdfs:label "regression"@en .
+
+ex:climatebench-v1 a dcat:Dataset ;
+    dct:title "ClimateBench v1"@en ;
+    dct:hasVersion "2026.1" ;
+    dct:creator ex:csic-climate .
+
+ex:flood-risk-benchmark a it6:Benchmark ;
+    dct:title "Flood Risk Benchmark 2026"@en .
+
+#################################################################
+# Offer policies (ODRL)
+#################################################################
+
+ex:flood-risk-policy a odrl:Offer ;
+    odrl:target ex:flood-risk-v2 , ex:flood-risk-v1-baseline ;
+    odrl:assigner ex:upm ;
+    odrl:permission [ a odrl:Permission ;
+                      odrl:action odrl:use ] ;
+    odrl:permission [ a odrl:Permission ;
+                      odrl:action odrl:distribute ] ;
+    dct:title "CC-BY 4.0 offer"@en .
+
+ex:flood-risk-research-only-policy a odrl:Offer ;
+    odrl:target ex:flood-risk-v2-commercial ;
+    odrl:assigner ex:upm ;
+    odrl:permission [ a odrl:Permission ;
+                      odrl:action odrl:use ] ;
+    odrl:prohibition [ a odrl:Prohibition ;
+                       odrl:action odrl:commercialize ] ;
+    dct:title "Research-only offer"@en .
+
+#################################################################
+# Dataspace catalog and AI asset offerings (DAIMO)
+# Offerings are DCAT CatalogRecords registered in the UPM catalog.
+#################################################################
+
+ex:upm-catalog a dcat:Catalog ;
+    dct:title "UPM AI Asset Catalog"@en ;
+    dct:publisher ex:upm ;
+    dcat:record ex:offering-flood-v2 , ex:offering-flood-v1 , ex:offering-flood-v2-ro .
+
+ex:offering-flood-v2 a daimo:AIAssetOffering ;
+    dct:title "UPM offering of Flood Risk v2"@en ;
+    dct:issued "2026-03-18"^^xsd:date ;
+    daimo:offersModel ex:flood-risk-v2 ;
+    daimo:offeredBy ex:upm ;
+    daimo:hasOfferPolicy ex:flood-risk-policy .
+
+ex:offering-flood-v1 a daimo:AIAssetOffering ;
+    dct:title "UPM offering of Flood Risk v1 (baseline)"@en ;
+    dct:issued "2025-11-02"^^xsd:date ;
+    daimo:offersModel ex:flood-risk-v1-baseline ;
+    daimo:offeredBy ex:upm ;
+    daimo:hasOfferPolicy ex:flood-risk-policy .
+
+ex:offering-flood-v2-ro a daimo:AIAssetOffering ;
+    dct:title "UPM offering of Flood Risk v2 (research-only)"@en ;
+    dct:issued "2026-03-18"^^xsd:date ;
+    daimo:offersModel ex:flood-risk-v2-commercial ;
+    daimo:offeredBy ex:upm ;
+    daimo:hasOfferPolicy ex:flood-risk-research-only-policy .
+
+#################################################################
+# Deployment, service, and I/O contract
+#################################################################
+
+ex:deployment-flood-v2 a daimo:ModelDeployment ;
+    rdfs:label "Flood Risk v2 deployment on INESData GPU cluster"@en ;
+    daimo:deploysModel ex:flood-risk-v2 ;
+    daimo:exposedAs ex:flood-risk-service , ex:flood-risk-service-grpc ;
+    daimo:onInfrastructure ex:upm-gpu-cluster ;
+    daimo:hasIOContract ex:flood-risk-iocontract , ex:flood-risk-iocontract-grpc ;
+    prov:wasAttributedTo ex:inesdata-op .
+
+# Primary REST endpoint (JSON / OAuth2-bearer)
+ex:flood-risk-service a dcat:DataService ;
+    dct:title "Flood Risk v2 REST inference service"@en ;
+    dcat:endpointURL <https://api.inesdata.example.org/flood-risk/v2> ;
+    it6:servesModel ex:flood-risk-v2 .
+
+ex:flood-risk-iocontract a daimo:IOContract ;
+    daimo:inputFormat  "application/json" ;
+    daimo:outputFormat "application/geo+json" ;
+    daimo:authMethod   "oauth2-bearer" .
+
+# Secondary gRPC endpoint (protobuf / mTLS) — exercises the
+# multi-endpoint capability enabled by removing owl:FunctionalProperty
+# from daimo:exposedAs and daimo:hasIOContract in v0.1.2.
+ex:flood-risk-service-grpc a dcat:DataService ;
+    dct:title "Flood Risk v2 gRPC inference service"@en ;
+    dcat:endpointURL <https://grpc.inesdata.example.org/flood-risk/v2> ;
+    it6:servesModel ex:flood-risk-v2 .
+
+ex:flood-risk-iocontract-grpc a daimo:IOContract ;
+    daimo:inputFormat  "application/x-protobuf" ;
+    daimo:outputFormat "application/x-protobuf" ;
+    daimo:authMethod   "mtls" .
+
+ex:upm-gpu-cluster a it6:ComputerInfrastructure ;
+    rdfs:label "UPM GPU cluster (A100 x 4)"@en ;
+    it6:hasHardware ex:a100 ;
+    it6:hasLibrary ex:pytorch-2-5 , ex:cuda-12-2 .
+
+ex:a100 a it6:Hardware ;
+    rdfs:label "NVIDIA A100 80GB"@en .
+
+ex:pytorch-2-5 a it6:Library ; rdfs:label "PyTorch 2.5.0"@en .
+ex:cuda-12-2  a it6:Library ; rdfs:label "CUDA 12.2"@en .
+
+#################################################################
+# Agreement and execution authorization
+#################################################################
+
+ex:agreement-municipality-flood-v2 a daimo:ExecutionAuthorization ;
+    rdfs:label "Leganés-UPM execution authorization for flood-risk-v2"@en ;
+    daimo:grantedTo ex:municipality ;
+    daimo:authorizesRun ex:run-2026-04-20-legs ;
+    daimo:expiresAt "2027-04-20T00:00:00Z"^^xsd:dateTime ;
+    odrl:permission [
+        a odrl:Permission ;
+        odrl:target ex:flood-risk-v2 ;
+        odrl:assigner ex:upm ;
+        odrl:assignee ex:municipality ;
+        odrl:action odrl:use
+    ] .
+
+#################################################################
+# Execution: Flow, Run, Evaluation
+#################################################################
+
+ex:flow-flood-v2 a it6:Flow ;
+    rdfs:label "Flood Risk v2 inference pipeline"@en ;
+    dct:hasVersion "2.0.0" .
+
+ex:algo-dl-flood a mls:Algorithm ;
+    rdfs:label "Deep flood prediction (CNN+LSTM)"@en .
+
+ex:run-2026-04-20-legs a it6:Run ;
+    rdfs:label "Inference run 2026-04-20 for Leganés"@en ;
+    mls:realizes ex:algo-dl-flood ;
+    it6:hasFlow ex:flow-flood-v2 ;
+    prov:wasAssociatedWith ex:municipality ;
+    prov:startedAtTime "2026-04-20T08:00:00Z"^^xsd:dateTime ;
+    prov:endedAtTime   "2026-04-20T08:02:10Z"^^xsd:dateTime ;
+    it6:runnedOn ex:upm-gpu-cluster .
+
+ex:run-baseline a it6:Run ;
+    rdfs:label "Baseline inference run"@en ;
+    mls:realizes ex:algo-dl-flood ;
+    it6:hasFlow ex:flow-flood-v2 ;
+    prov:wasAssociatedWith ex:upm ;
+    prov:startedAtTime "2026-03-19T10:00:00Z"^^xsd:dateTime ;
+    prov:endedAtTime   "2026-03-19T10:04:02Z"^^xsd:dateTime ;
+    it6:runnedOn ex:upm-gpu-cluster .
+
+#################################################################
+# Derived artifact (a governed output of a run)
+#################################################################
+
+ex:prediction-legs-2026-04-20 a daimo:DerivedArtifact ;
+    dct:title "Flood risk prediction for Leganés, 2026-04-20"@en ;
+    daimo:derivedFromRun ex:run-2026-04-20-legs ;
+    daimo:underAuthorization ex:agreement-municipality-flood-v2 .
+
+#################################################################
+# Shared evaluation context and evaluation instances
+#################################################################
+
+ex:evalctx-climatebench-v1-2026-1-holdout a daimo:SharedEvaluationContext ;
+    rdfs:label "ClimateBench v1 (2026.1) holdout seed-42 context"@en ;
+    daimo:contextTask    ex:flood-risk-task ;
+    daimo:contextDataset ex:climatebench-v1 ;
+    daimo:datasetVersion "2026.1" ;
+    daimo:protocol       "holdout" ;
+    daimo:randomSeed     42 ;
+    daimo:contextFlow    ex:flow-flood-v2 .
+
+ex:eval-flood-v2 a it6:Evaluation ;
+    rdfs:label "Evaluation of Flood Risk v2"@en ;
+    it6:evaluates ex:flood-risk-v2 ;
+    daimo:usesEvaluationContext ex:evalctx-climatebench-v1-2026-1-holdout ;
+    it6:hasEvaluationMeasure ex:accuracy-measure-v2 .
+
+ex:eval-flood-v1 a it6:Evaluation ;
+    rdfs:label "Evaluation of Flood Risk v1 baseline"@en ;
+    it6:evaluates ex:flood-risk-v1-baseline ;
+    daimo:usesEvaluationContext ex:evalctx-climatebench-v1-2026-1-holdout ;
+    it6:hasEvaluationMeasure ex:accuracy-measure-v1 .
+
+ex:accuracy-measure-v2 a it6:EvaluationMeasure ;
+    rdfs:label "Accuracy of v2"@en ;
+    it6:hasValue "0.89"^^xsd:decimal .
+
+ex:accuracy-measure-v1 a it6:EvaluationMeasure ;
+    rdfs:label "Accuracy of v1 baseline"@en ;
+    it6:hasValue "0.82"^^xsd:decimal .
+
+#################################################################
+# Audit evidence and cross-participant provenance
+#################################################################
+
+ex:audit-run-legs a daimo:AuditEvidence ;
+    daimo:evidenceOf ex:run-2026-04-20-legs ;
+    daimo:integrityHash ex:audit-run-legs-checksum ;
+    daimo:signedBy ex:inesdata-op ;
+    daimo:recordedAt "2026-04-20T08:03:00Z"^^xsd:dateTime .
+
+ex:audit-run-legs-checksum a spdx:Checksum ;
+    spdx:algorithm spdx:checksumAlgorithm_sha256 ;
+    spdx:checksumValue "4a7b2c9e6d14f3a8b0e5c9d7a2f1b3c8e5d9f2a7b4c1e0d3f6a9c2b5e8d1f4a7" .
+
+ex:bundle-flood-legs a daimo:CrossParticipantProvenanceRecord ;
+    rdfs:label "Cross-participant bundle for Leganés flood prediction"@en ;
+    daimo:spansParticipantContext ex:ctx-upm , ex:ctx-municipality , ex:ctx-inesdata ;
+    daimo:records ex:run-2026-04-20-legs , ex:eval-flood-v2 .

@@ -1,0 +1,423 @@
+@prefix daimo:  <https://w3id.org/pionera/daimo#> .
+@prefix dcat:   <http://www.w3.org/ns/dcat#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix it6:    <http://data.europa.eu/it6/> .
+@prefix mls:    <http://www.w3.org/ns/mls#> .
+@prefix odrl:   <http://www.w3.org/ns/odrl/2/> .
+@prefix prov:   <http://www.w3.org/ns/prov#> .
+@prefix spdx:   <http://spdx.org/rdf/terms#> .
+@prefix foaf:   <http://xmlns.com/foaf/0.1/> .
+@prefix dspace: <https://w3id.org/dspace/v0.8/> .
+@prefix edc:    <https://w3id.org/edc/v0.0.1/ns/> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann:   <http://purl.org/vocab/vann/> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+# Ontology header
+#################################################################
+
+<https://w3id.org/pionera/daimo> a owl:Ontology ;
+    dct:title "DAIMO: an ontology for governed AI model assets in data spaces"@en ;
+    dct:description "DAIMO is an integration profile that connects DCAT-AP, MLDCAT-AP, ODRL, PROV-O, and the Dataspace Protocol (DSP, as operationalised by Eclipse EDC) to support publication, discovery, invocation, execution traceability, and contextualised evaluation of AI model assets exchanged in data spaces. The edc: namespace is used only for EDC-specific extensions (e.g., ParticipantContext) not yet standardised in DSP."@en ;
+    dct:creator <https://orcid.org/0000-0000-0000-0000> ,   # REPLACE: Edmundo de Elvira Mori Orrillo ORCID
+                <https://orcid.org/0000-0000-0000-0001> ;   # REPLACE: Jiayun Liu ORCID
+    dct:contributor <https://ror.org/03n6nwv02> ;           # Universidad Politécnica de Madrid (ROR)
+    dct:publisher <https://w3id.org/pionera> ;
+    dct:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dct:issued "2026-04-22"^^xsd:date ;
+    dct:modified "2026-04-23"^^xsd:date ;
+    owl:versionIRI <https://w3id.org/pionera/daimo/0.1.5> ;
+    owl:versionInfo "0.1.5" ;
+    owl:priorVersion <https://w3id.org/pionera/daimo/0.1.4> ;
+    dct:conformsTo <https://www.w3.org/TR/owl2-overview/> ;  # OWL 2 DL profile
+    vann:preferredNamespacePrefix "daimo" ;
+    vann:preferredNamespaceUri "https://w3id.org/pionera/daimo#" ;
+    rdfs:seeAlso <https://w3id.org/pionera/daimo/docs> ,        # WIDOCO HTML documentation
+                 <https://w3id.org/pionera/daimo/shapes> ,      # SHACL shapes module
+                 <https://w3id.org/pionera/daimo/align> ;       # Alignment module
+    rdfs:comment "See the companion documents ONTOLOGY-REFERENCE.md (class-by-class reference), VALIDATION-MATRIX.md (traceability), and daimo-ontology-design.md (design rationale) in the source repository."@en .
+
+#################################################################
+# Classes — dataspace-bridge (DAIMO-native)
+#################################################################
+
+daimo:AIAssetOffering a owl:Class ;
+    rdfs:subClassOf dcat:CatalogRecord ;
+    rdfs:label "AI asset offering"@en ;
+    rdfs:isDefinedBy <https://w3id.org/pionera/daimo> ;
+    skos:definition "A catalog-record entry registering an AI model in a dataspace catalog as a governed offer, bundling the model, the issuing agent, and an ODRL offer policy."@en ;
+    skos:example "A research organisation publishing one of its machine-learning models into a dataspace catalog declares an AIAssetOffering that references the model (via offersModel), the organisation itself (via offeredBy), and an ODRL offer policy (via hasOfferPolicy) permitting use and distribution under a specific licence."@en ;
+    rdfs:comment "A catalog-record entry that registers an AI model in a dataspace catalog, bundling the model reference, the providing agent, and an ODRL offer policy. Specialises dcat:CatalogRecord; carries an odrl:Offer via daimo:hasOfferPolicy. In DSP terms this is the catalog-time artefact that becomes a dspace:ContractOffer during negotiation."@en .
+
+daimo:ParticipantRole a owl:Class ;
+    rdfs:label "participant role"@en ;
+    rdfs:isDefinedBy <https://w3id.org/pionera/daimo> ;
+    skos:definition "A dataspace-scoped role played by a participant with respect to AI assets (anti-rigid; an agent gains and loses roles over time)."@en ;
+    skos:example "An agent acting as a Model Provider within a given EDC participant context has a ParticipantRole instance of type ModelProvider connected via daimo:hasRole and scoped by daimo:inParticipantContext."@en ;
+    rdfs:comment "A dataspace-scoped role taken by a participant with respect to AI assets. Anti-rigid: an agent can gain and lose roles over time. Subclasses are intentionally NOT mutually disjoint — one agent can hold several roles simultaneously (e.g., a research group may be both Evaluator and Model Provider)."@en .
+
+daimo:ModelProvider a owl:Class ;
+    rdfs:subClassOf daimo:ParticipantRole ;
+    rdfs:label "model provider"@en ;
+    skos:definition "Role of an agent that publishes AI models as governed offerings in a dataspace catalog."@en ;
+    skos:example "Any organisation that declares one or more AIAssetOfferings under its own authorship and policy holds a ModelProvider role in the dataspace contexts where those offerings are listed."@en ;
+    rdfs:comment "Role of an agent that publishes one or more AI models as governed offerings in a dataspace catalog."@en ;
+    rdfs:isDefinedBy <https://w3id.org/pionera/daimo> .
+
+daimo:ModelConsumer a owl:Class ;
+    rdfs:subClassOf daimo:ParticipantRole ;
+    rdfs:label "model consumer"@en ;
+    skos:definition "Role of an agent that discovers, negotiates access to, and invokes AI models offered by a Model Provider."@en ;
+    skos:example "Any agent that receives an ExecutionAuthorization (via daimo:grantedTo) and uses it to invoke runs of a deployed model holds a ModelConsumer role within the corresponding participant context."@en ;
+    rdfs:comment "Role of an agent that discovers, negotiates, and invokes AI models offered by a Model Provider."@en ;
+    rdfs:isDefinedBy <https://w3id.org/pionera/daimo> .
+
+daimo:PlatformOperator a owl:Class ;
+    rdfs:subClassOf daimo:ParticipantRole ;
+    rdfs:label "platform operator"@en ;
+    skos:definition "Role of an agent responsible for operating the dataspace runtime, hosting model deployments, and enforcing policy at runtime."@en ;
+    skos:example "A dataspace platform provider hosting one or more ModelDeployments, signing AuditEvidence records, and running the EDC connector acts as a PlatformOperator in each participant context it administers."@en ;
+    rdfs:comment "Role of an agent responsible for operating the dataspace runtime, hosting model deployments, and enforcing policy."@en ;
+    rdfs:isDefinedBy <https://w3id.org/pionera/daimo> .
+
+daimo:Evaluator a owl:Class ;
+    rdfs:subClassOf daimo:ParticipantRole ;
+    rdfs:label "evaluator"@en ;
+    skos:definition "Role of an agent that evaluates or compares AI models under a shared evaluation context."@en ;
+    skos:example "Any agent that produces it6:Evaluation instances linked to a shared SharedEvaluationContext (via daimo:usesEvaluationContext) holds an Evaluator role — for example, a benchmarking team comparing candidate models on the same dataset version and seed."@en ;
+    rdfs:comment "Role of an agent that evaluates or compares AI models under a shared evaluation context."@en ;
+    rdfs:isDefinedBy <https://w3id.org/pionera/daimo> .
+
+daimo:GovernanceActor a owl:Class ;
+    rdfs:subClassOf daimo:ParticipantRole ;
+    rdfs:label "governance actor"@en ;
+    skos:definition "Role of an agent that audits execution evidence, enforces compliance obligations, and validates governance across the dataspace."@en ;
+    skos:example "An external compliance body that reads CrossParticipantProvenanceRecord bundles and AuditEvidence records to verify lawful execution holds a GovernanceActor role — for example, a regulator or a conformance-labelling body."@en ;
+    rdfs:comment "Role of an agent that audits execution evidence, enforces compliance obligations, and validates governance across the dataspace."@en ;
+    rdfs:isDefinedBy <https://w3id.org/pionera/daimo> .
+
+daimo:ModelDeployment a owl:Class ;
+    rdfs:subClassOf prov:Entity ;
+    rdfs:label "model deployment"@en ;
+    rdfs:isDefinedBy <https://w3id.org/pionera/daimo> ;
+    skos:definition "A running or hosted instance of a machine-learning model exposed through one or more DCAT data services over a named compute infrastructure, under a per-service I/O contract."@en ;
+    skos:example "A PlatformOperator that stands up a live inference endpoint for a given model creates a ModelDeployment that (i) deploys the model, (ii) is exposed as one or more dcat:DataServices (e.g., REST + gRPC), (iii) runs on a specific it6:ComputerInfrastructure, and (iv) declares an IOContract per exposed service."@en ;
+    rdfs:comment "A running or hosted instance of an MLDCAT-AP MachineLearningModel exposed through a dcat:DataService under an operational environment."@en .
+
+daimo:IOContract a owl:Class ;
+    rdfs:label "I/O contract"@en ;
+    rdfs:isDefinedBy <https://w3id.org/pionera/daimo> ;
+    skos:definition "The minimum machine-actionable invocation contract for a deployment endpoint: input media type, output media type, authentication method, and optional input/output schemas."@en ;
+    skos:example "A REST inference endpoint might declare an IOContract with inputFormat \"application/json\", outputFormat \"application/geo+json\", and authMethod \"oauth2-bearer\"; a parallel gRPC endpoint on the same deployment can declare a second IOContract with inputFormat \"application/x-protobuf\" and authMethod \"mtls\"."@en ;
+    rdfs:comment "The minimum machine-actionable invocation contract for a deployment: input format, output format, authentication method, and optional input/output schemas."@en .
+
+daimo:ExecutionAuthorization a owl:Class ;
+    rdfs:subClassOf odrl:Agreement ;
+    rdfs:label "execution authorization"@en ;
+    rdfs:isDefinedBy <https://w3id.org/pionera/daimo> ;
+    skos:definition "An ODRL agreement, produced by a Dataspace-Protocol contract negotiation, that binds specific ODRL permissions to concrete MLDCAT-AP run invocations it authorises, with an expiry timestamp and a grantee agent."@en ;
+    skos:example "After a successful DSP contract negotiation, the resulting agreement is represented as an ExecutionAuthorization granting odrl:use to the consumer (daimo:grantedTo), covering one or more runs via daimo:authorizesRun, expiring at a specified daimo:expiresAt timestamp."@en ;
+    rdfs:comment "An ODRL agreement (produced by a DSP contract negotiation) that binds at least one odrl:permission to concrete it6:Run invocations it authorises. Specialises odrl:Agreement; MUST carry at least one odrl:permission per the ODRL policy model."@en .
+
+daimo:DerivedArtifact a owl:Class ;
+    rdfs:subClassOf prov:Entity , dcat:Resource ;
+    rdfs:label "derived artifact"@en ;
+    rdfs:isDefinedBy <https://w3id.org/pionera/daimo> ;
+    skos:definition "A governed, catalog-describable output produced by a run in a dataspace context, carrying its own provenance pointer and authorisation pointer."@en ;
+    skos:example "When a consumer invokes a deployed model, the run's output (a prediction dataset, a classification result, a generated artefact) is typed as a DerivedArtifact that points back to the producing run (daimo:derivedFromRun) and to the authorisation under which it was produced (daimo:underAuthorization)."@en ;
+    rdfs:comment "A governed, catalog-describable output produced by an it6:Run in a dataspace context, bearing its own provenance and policy."@en .
+
+daimo:CrossParticipantProvenanceRecord a owl:Class ;
+    rdfs:subClassOf prov:Bundle ;
+    rdfs:label "cross-participant provenance record"@en ;
+    rdfs:isDefinedBy <https://w3id.org/pionera/daimo> ;
+    skos:definition "A PROV bundle that aggregates activities and entities spanning at least two EDC participant contexts, forming an audit-ready cross-participant provenance narrative."@en ;
+    skos:example "When a derived artefact is produced by a consumer invoking a provider's model hosted by a third-party operator, a CrossParticipantProvenanceRecord aggregates the relevant activities across the provider, consumer, and operator participant contexts into one bundle for audit."@en ;
+    rdfs:comment "A reusable semantic bundle that aggregates prov:Activity and prov:Entity across participant contexts to tell one audit-ready story."@en .
+
+daimo:AuditEvidence a owl:Class ;
+    rdfs:subClassOf prov:Entity ;
+    rdfs:label "audit evidence"@en ;
+    rdfs:isDefinedBy <https://w3id.org/pionera/daimo> ;
+    skos:definition "A compliance-oriented evidence record attached to a governed activity, carrying a structured SPDX checksum (algorithm + digest), a signer, and a timestamp."@en ;
+    skos:example "For each run of a deployed model, the PlatformOperator produces an AuditEvidence record that references the run (daimo:evidenceOf), carries a structured spdx:Checksum (algorithm + digest) over the run's outputs (daimo:integrityHash), identifies the signer (daimo:signedBy), and timestamps the sealing (daimo:recordedAt)."@en ;
+    rdfs:comment "A compliance-oriented evidence record attached to a governed event, carrying integrity hash, signer, and timestamp."@en .
+
+daimo:SharedEvaluationContext a owl:Class ;
+    rdfs:label "shared evaluation context"@en ;
+    rdfs:isDefinedBy <https://w3id.org/pionera/daimo> ;
+    skos:definition "A reified grouping of the conditions under which model evaluations are comparable: task, dataset, dataset version, evaluation protocol, and random seed."@en ;
+    skos:example "Two candidate models evaluated on the same SharedEvaluationContext (identical it6:Task, dcat:Dataset, daimo:datasetVersion, daimo:protocol, and daimo:randomSeed) yield metric values that are directly comparable; changing any of the five facets breaks comparability."@en ;
+    rdfs:comment "A reified grouping of the conditions under which model results are comparable: task, dataset, dataset version, protocol, and random seed. Does not claim to cover every facet that affects comparability (metric, split strategy, hyperparameters); it is the minimum grouping required by CQ-V1..CQ-V3."@en .
+
+#################################################################
+# Pairwise disjointness among top-level DAIMO-native kinds.
+# Note: ParticipantRole subclasses are intentionally excluded so that one
+# agent can hold several participant roles simultaneously.
+#################################################################
+
+daimo:TopLevelKindsDisjointness a owl:AllDisjointClasses ;
+    rdfs:label "DAIMO top-level kinds pairwise disjointness"@en ;
+    rdfs:comment "Asserts that the nine top-level DAIMO-native kinds are pairwise disjoint. ParticipantRole subclasses are deliberately excluded so that a single agent may simultaneously hold several roles (e.g., a research group acting as both Evaluator and Model Provider)."@en ;
+    owl:members ( daimo:AIAssetOffering
+                  daimo:ParticipantRole
+                  daimo:ModelDeployment
+                  daimo:IOContract
+                  daimo:ExecutionAuthorization
+                  daimo:DerivedArtifact
+                  daimo:AuditEvidence
+                  daimo:SharedEvaluationContext
+                  daimo:CrossParticipantProvenanceRecord ) .
+
+#################################################################
+# Object properties
+#################################################################
+
+daimo:offersModel a owl:ObjectProperty , owl:FunctionalProperty , owl:AsymmetricProperty ;
+    rdfs:subPropertyOf foaf:primaryTopic ;
+    rdfs:label "offers model"@en ;
+    rdfs:domain daimo:AIAssetOffering ;
+    rdfs:range  it6:MachineLearningModel ;
+    rdfs:comment "Links a catalog-record offering to the AI model it registers. Functional: one offering registers exactly one model. Asymmetric: an offering is distinct from the model it offers."@en .
+
+daimo:offeredBy a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:label "offered by"@en ;
+    rdfs:domain daimo:AIAssetOffering ;
+    rdfs:range  foaf:Agent ;
+    rdfs:comment "Links an offering to the agent that authored the offered AI model (i.e., the model provider). Functional: each offering has exactly one offering agent. Deliberately NOT declared rdfs:subPropertyOf dct:publisher: on a dcat:CatalogRecord, dct:publisher denotes the catalog maintainer (the platform registering the record), not the author of the asset being registered. Conflating them would entail that the catalog-time publisher is the model creator — semantically wrong in a real dataspace where e.g. INESData publishes records authored by UPM."@en .
+
+daimo:hasOfferPolicy a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:subPropertyOf odrl:hasPolicy ;
+    rdfs:label "has offer policy"@en ;
+    rdfs:domain daimo:AIAssetOffering ;
+    rdfs:range  odrl:Offer ;
+    rdfs:comment "Links an offering to the ODRL offer policy that governs the offered model. Functional: each offering carries exactly one canonical offer policy."@en .
+
+daimo:hasRole a owl:ObjectProperty ;
+    rdfs:label "has role"@en ;
+    rdfs:domain foaf:Agent ;
+    rdfs:range  daimo:ParticipantRole ;
+    rdfs:comment "Links an agent to a dataspace role. Non-functional: agents may hold multiple roles."@en .
+
+daimo:inParticipantContext a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:label "in participant context"@en ;
+    rdfs:domain daimo:ParticipantRole ;
+    rdfs:range  edc:ParticipantContext ;
+    rdfs:comment "Scopes a role assignment to a specific EDC participant context. Functional: a role instance is held within exactly one context."@en .
+
+daimo:deploysModel a owl:ObjectProperty , owl:FunctionalProperty , owl:AsymmetricProperty ;
+    rdfs:label "deploys model"@en ;
+    rdfs:domain daimo:ModelDeployment ;
+    rdfs:range  it6:MachineLearningModel ;
+    rdfs:comment "Links a deployment to the model it serves. Functional: one deployment serves one model. Asymmetric: a deployment and its model are distinct individuals."@en .
+
+daimo:exposedAs a owl:ObjectProperty ;
+    rdfs:label "exposed as"@en ;
+    rdfs:domain daimo:ModelDeployment ;
+    rdfs:range  dcat:DataService ;
+    rdfs:comment "Links a deployment to the DCAT data service(s) that expose it. Non-functional: one deployment may expose multiple endpoints (e.g., a REST service plus a gRPC service, or regional load-balanced endpoints). Each service's I/O contract can differ (see daimo:hasIOContract, also non-functional)."@en .
+
+daimo:onInfrastructure a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:label "on infrastructure"@en ;
+    rdfs:domain daimo:ModelDeployment ;
+    rdfs:range  it6:ComputerInfrastructure ;
+    rdfs:comment "Links a deployment to the MLDCAT-AP computer infrastructure running it. Functional: one deployment runs on one canonical infrastructure instance (redundancy is modelled as multiple deployments)."@en .
+
+daimo:hasIOContract a owl:ObjectProperty ;
+    rdfs:label "has I/O contract"@en ;
+    rdfs:domain daimo:ModelDeployment ;
+    rdfs:range  daimo:IOContract ;
+    rdfs:comment "Links a deployment to its invocation contract(s). Non-functional: a deployment exposing multiple services (see daimo:exposedAs) may carry a distinct IOContract per protocol (e.g., JSON+OAuth2 for REST and protobuf+mTLS for gRPC)."@en .
+
+daimo:authorizesRun a owl:ObjectProperty , owl:AsymmetricProperty ;
+    rdfs:label "authorizes run"@en ;
+    rdfs:domain daimo:ExecutionAuthorization ;
+    rdfs:range  it6:Run ;
+    rdfs:comment "Links an authorization to a run it permits. Non-functional: a single authorization can cover multiple runs (e.g., subscription-style access). Asymmetric: an authorization is distinct from any run it authorises. Deliberately NOT declared a subproperty of prov:used: an odrl:Agreement is a policy artefact (an Entity), not a prov:Activity; the prov:used domain would incorrectly force ExecutionAuthorization ⊑ prov:Activity."@en .
+
+daimo:authorizedBy a owl:ObjectProperty , owl:FunctionalProperty ;
+    owl:inverseOf daimo:authorizesRun ;
+    rdfs:label "authorized by"@en ;
+    rdfs:domain it6:Run ;
+    rdfs:range  daimo:ExecutionAuthorization ;
+    rdfs:comment "Inverse of daimo:authorizesRun. Functional: each run is authorized by exactly one agreement."@en .
+
+#################################################################
+# Inverse properties for convenient reverse traversal of the four
+# most frequently-queried one-to-many relations. Each is declared
+# inverseOf its counterpart (which is owl:FunctionalProperty), so a
+# reasoner entails owl:InverseFunctionalProperty on the inverse.
+#################################################################
+
+daimo:hasDeployment a owl:ObjectProperty ;
+    owl:inverseOf daimo:deploysModel ;
+    rdfs:label "has deployment"@en ;
+    rdfs:domain it6:MachineLearningModel ;
+    rdfs:range  daimo:ModelDeployment ;
+    rdfs:comment "Inverse of daimo:deploysModel: from a model, retrieve every deployment that serves it. Non-functional (a model can have multiple deployments across contexts)."@en .
+
+daimo:hasDerivedArtifact a owl:ObjectProperty ;
+    owl:inverseOf daimo:derivedFromRun ;
+    rdfs:label "has derived artifact"@en ;
+    rdfs:domain it6:Run ;
+    rdfs:range  daimo:DerivedArtifact ;
+    rdfs:comment "Inverse of daimo:derivedFromRun: from a run, retrieve every derived artifact it produced. Non-functional (a run may produce multiple governed outputs)."@en .
+
+daimo:hasAuditEvidence a owl:ObjectProperty ;
+    owl:inverseOf daimo:evidenceOf ;
+    rdfs:label "has audit evidence"@en ;
+    rdfs:domain prov:Activity ;
+    rdfs:range  daimo:AuditEvidence ;
+    rdfs:comment "Inverse of daimo:evidenceOf: from an activity, retrieve every audit-evidence record attesting it. Non-functional (multiple auditors can independently attest the same activity)."@en .
+
+daimo:hasOffering a owl:ObjectProperty ;
+    owl:inverseOf daimo:offersModel ;
+    rdfs:subPropertyOf foaf:isPrimaryTopicOf ;
+    rdfs:label "has offering"@en ;
+    rdfs:domain it6:MachineLearningModel ;
+    rdfs:range  daimo:AIAssetOffering ;
+    rdfs:comment "Inverse of daimo:offersModel: from a model, retrieve every catalog offering that registers it. Non-functional (the same model may be offered by different providers in different catalogs). Declared rdfs:subPropertyOf foaf:isPrimaryTopicOf for symmetry with daimo:offersModel ⊑ foaf:primaryTopic."@en .
+
+daimo:grantedTo a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:subPropertyOf odrl:assignee ;
+    rdfs:label "granted to"@en ;
+    rdfs:domain daimo:ExecutionAuthorization ;
+    rdfs:range  foaf:Agent ;
+    rdfs:comment "Links an authorization to the grantee agent. Functional. Specialises odrl:assignee (the ODRL party receiving an agreement's terms). Deliberately NOT aligned to prov:qualifiedAssociation: that property points to a reified prov:Association object, not to the agent itself; using it here would incorrectly type every grantee Agent as a prov:Association."@en .
+
+daimo:derivedFromRun a owl:ObjectProperty , owl:FunctionalProperty , owl:AsymmetricProperty ;
+    rdfs:subPropertyOf prov:wasGeneratedBy ;
+    rdfs:label "derived from run"@en ;
+    rdfs:domain daimo:DerivedArtifact ;
+    rdfs:range  it6:Run ;
+    rdfs:comment "Links a derived artifact to the run that produced it. Functional: each derived artifact has exactly one originating run. Asymmetric: an artifact and its generating run are distinct."@en .
+
+daimo:underAuthorization a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:label "under authorization"@en ;
+    rdfs:domain daimo:DerivedArtifact ;
+    rdfs:range  daimo:ExecutionAuthorization ;
+    rdfs:comment "Links a derived artifact to the authorisation under which it was produced. Functional."@en .
+
+daimo:spansParticipantContext a owl:ObjectProperty ;
+    rdfs:label "spans participant context"@en ;
+    rdfs:domain daimo:CrossParticipantProvenanceRecord ;
+    rdfs:range  edc:ParticipantContext ;
+    rdfs:comment "Links a cross-participant provenance bundle to each participant context whose activities or entities it records. A record must span at least two contexts (enforced by SHACL)."@en .
+
+daimo:records a owl:ObjectProperty ;
+    rdfs:label "records"@en ;
+    rdfs:domain daimo:CrossParticipantProvenanceRecord ;
+    rdfs:range  prov:Activity ;
+    rdfs:comment "Links a cross-participant provenance bundle to each prov:Activity that forms part of the audit-ready narrative."@en .
+
+daimo:evidenceOf a owl:ObjectProperty , owl:FunctionalProperty , owl:AsymmetricProperty ;
+    rdfs:label "evidence of"@en ;
+    rdfs:domain daimo:AuditEvidence ;
+    rdfs:range  prov:Activity ;
+    rdfs:comment "Links audit evidence to the activity it attests. Functional. Asymmetric: audit evidence is distinct from the activity it records. Deliberately NOT declared a subproperty of prov:hadActivity: that property is used on reified influence/generation/usage objects, not on entities — an AuditEvidence is a prov:Entity that is ABOUT an activity, which PROV-O does not provide a direct property for."@en .
+
+daimo:signedBy a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:label "signed by"@en ;
+    rdfs:domain daimo:AuditEvidence ;
+    rdfs:range  foaf:Agent ;
+    rdfs:comment "Functional: one signer per evidence record."@en .
+
+daimo:usesEvaluationContext a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:label "uses evaluation context"@en ;
+    rdfs:domain it6:Evaluation ;
+    rdfs:range  daimo:SharedEvaluationContext ;
+    rdfs:comment "Links an it6:Evaluation to the shared evaluation context under which its results are comparable to other evaluations. Functional."@en .
+
+daimo:contextTask a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:subPropertyOf it6:hasTask ;
+    rdfs:label "context task"@en ;
+    rdfs:domain daimo:SharedEvaluationContext ;
+    rdfs:range  it6:Task ;
+    rdfs:comment "The it6:Task the evaluation context is defined over. Functional."@en .
+
+daimo:contextDataset a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:label "context dataset"@en ;
+    rdfs:domain daimo:SharedEvaluationContext ;
+    rdfs:range  dcat:Dataset ;
+    rdfs:comment "The dcat:Dataset the evaluation context is defined over. Functional. Not declared a subproperty of it6:trainedOn because an evaluation-context dataset is an evaluation dataset, not necessarily a training dataset."@en .
+
+daimo:contextFlow a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:label "context flow"@en ;
+    rdfs:domain daimo:SharedEvaluationContext ;
+    rdfs:range  it6:Flow ;
+    rdfs:comment "The it6:Flow (pipeline / reproducibility artefact) referenced by the evaluation context. Functional. Not declared a subproperty of it6:hasFlow because the evaluation context is not itself a run."@en .
+
+#################################################################
+# Datatype properties (all functional)
+#################################################################
+
+daimo:inputFormat a owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "input format"@en ;
+    rdfs:domain daimo:IOContract ;
+    rdfs:range  xsd:string ;
+    rdfs:comment "IANA media type of the expected input payload (e.g. \"application/json\")."@en .
+
+daimo:outputFormat a owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "output format"@en ;
+    rdfs:domain daimo:IOContract ;
+    rdfs:range  xsd:string ;
+    rdfs:comment "IANA media type of the produced output payload (e.g. \"application/geo+json\")."@en .
+
+daimo:authMethod a owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "authentication method"@en ;
+    rdfs:domain daimo:IOContract ;
+    rdfs:range  xsd:string ;
+    rdfs:comment "Authentication-method token (e.g. \"oauth2-bearer\", \"api-key\", \"mtls\")."@en .
+
+daimo:inputSchema a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:label "input schema"@en ;
+    rdfs:domain daimo:IOContract ;
+    rdfs:range  dcat:Resource ;
+    rdfs:comment "Optional link to a resource describing the input payload schema (JSON Schema, SHACL shape, etc.)."@en .
+
+daimo:outputSchema a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:label "output schema"@en ;
+    rdfs:domain daimo:IOContract ;
+    rdfs:range  dcat:Resource ;
+    rdfs:comment "Optional link to a resource describing the output payload schema."@en .
+
+daimo:integrityHash a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:label "integrity hash"@en ;
+    rdfs:domain daimo:AuditEvidence ;
+    rdfs:range  spdx:Checksum ;
+    rdfs:comment "Links audit evidence to an spdx:Checksum that bundles the algorithm (spdx:algorithm) and the digest value (spdx:checksumValue). Functional: exactly one canonical checksum per evidence record. A plain-string digest without its algorithm cannot be verified, so a structured spdx:Checksum is required rather than an xsd:string."@en .
+
+daimo:recordedAt a owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "recorded at"@en ;
+    rdfs:domain daimo:AuditEvidence ;
+    rdfs:range  xsd:dateTime ;
+    rdfs:comment "Timestamp at which the audit evidence was sealed."@en .
+
+daimo:expiresAt a owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "expires at"@en ;
+    rdfs:domain daimo:ExecutionAuthorization ;
+    rdfs:range  xsd:dateTime ;
+    rdfs:comment "Expiry timestamp of the execution authorisation."@en .
+
+daimo:protocol a owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "evaluation protocol"@en ;
+    rdfs:domain daimo:SharedEvaluationContext ;
+    rdfs:range  xsd:string ;
+    rdfs:comment "Name of the evaluation protocol (e.g. \"holdout\", \"5-fold-cv\", \"bootstrap-1000\")."@en .
+
+daimo:randomSeed a owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:label "random seed"@en ;
+    rdfs:domain daimo:SharedEvaluationContext ;
+    rdfs:range  xsd:integer ;
+    rdfs:comment "Random seed fixing stochastic components of the protocol, required for reproducibility."@en .
+
+daimo:datasetVersion a owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:subPropertyOf dct:hasVersion ;
+    rdfs:label "dataset version"@en ;
+    rdfs:domain daimo:SharedEvaluationContext ;
+    rdfs:range  xsd:string ;
+    rdfs:comment "Version identifier of the evaluation dataset used by the context."@en .

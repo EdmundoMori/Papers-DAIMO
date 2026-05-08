@@ -1,0 +1,71 @@
+{
+  // ------------------------------------------------------------------
+  // LaTeX Workshop — use Tectonic instead of latexmk.
+  // Tectonic is installed at ~/.local/bin/tectonic (0.16.9). Auto-fetches
+  // TeX packages on first build, so \usepackage[spanish]{babel} works
+  // out of the box with no extra install.
+  // ------------------------------------------------------------------
+  "latex-workshop.latex.recipe.default": "tectonic",
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "tectonic",
+      "tools": ["tectonic"]
+    }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "tectonic",
+      "command": "tectonic",
+      "args": [
+        "-X",
+        "compile",
+        "--synctex",
+        "--keep-logs",
+        "%DOC%.tex"
+      ],
+      "env": {}
+    }
+  ],
+
+  // Auto-build on save.
+  "latex-workshop.latex.autoBuild.run": "onSave",
+
+  // Open PDF in an internal tab next to the editor.
+  "latex-workshop.view.pdf.viewer": "tab",
+
+  // Keep generated aux files tidy.
+  "latex-workshop.latex.outDir": "%DIR%",
+  "latex-workshop.latex.autoClean.run": "onBuilt",
+
+  // ------------------------------------------------------------------
+  // LTeX — Spanish grammar/spell check with DAIMO terminology exempt.
+  // (Activates when the LTeX extension is installed.)
+  // ------------------------------------------------------------------
+  "ltex.language": "es",
+  "ltex.additionalRules.motherTongue": "en-US",
+  "ltex.dictionary": {
+    "es": [
+      "DAIMO", "MLDCAT-AP", "DCAT", "ODRL", "PROV-O", "DSP", "EDC",
+      "INESData", "UPM", "Leganés", "CSIC", "Gaia-X", "SEMIC",
+      "SHACL", "SPARQL", "HermiT", "OWL-RL", "OOPS", "WIDOCO",
+      "Chowlk", "Tectonic", "Zenodo", "ClimateBench", "OpenML",
+      "ModelDB", "ConSolid", "MLflow", "Dataverse",
+      "ontológica", "ontológico", "ontológicos", "ontológicas",
+      "accionable", "reutilización", "reutilizados", "reutilizables",
+      "benchmarking", "benchmark", "dataspaces", "dataspace",
+      "endpoint", "endpoints", "pipeline", "pipelines",
+      "factsheets", "datasheets", "holdout", "accuracy",
+      "subClassOf", "subPropertyOf", "hasPolicy", "CatalogRecord",
+      "serviceEndpoint", "datatypes", "namespace", "namespaces"
+    ]
+  },
+
+  // ------------------------------------------------------------------
+  // Editor ergonomics for .tex.
+  // ------------------------------------------------------------------
+  "[latex]": {
+    "editor.wordWrap": "on",
+    "editor.rulers": [88],
+    "editor.tabSize": 2
+  }
+}

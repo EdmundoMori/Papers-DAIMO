@@ -1,0 +1,65 @@
+cff-version: 1.2.0
+title: "DAIMO: An Ontology for Governed AI Model Assets in Data Spaces"
+message: >-
+  If you use DAIMO in your work, please cite it as below.
+type: software
+version: 0.1.1
+date-released: "2026-04-22"
+license: CC-BY-4.0
+url: "https://w3id.org/pionera/daimo"
+repository-code: "https://github.com/<GITHUB_OWNER>/daimo"
+abstract: >-
+  DAIMO is an OWL 2 DL integration profile connecting DCAT-AP, MLDCAT-AP 3.0.0,
+  ODRL 2.2, PROV-O, and the Dataspace Protocol to make AI models first-class
+  governed assets in data spaces. It covers publication, discovery, invocation,
+  execution traceability, and contextualised evaluation across participant
+  boundaries. The ontology adds nine dataspace-bridge classes
+  (AIAssetOffering, ParticipantRole with five subclasses, ModelDeployment,
+  IOContract, ExecutionAuthorization, DerivedArtifact,
+  CrossParticipantProvenanceRecord, AuditEvidence, SharedEvaluationContext)
+  with axiomatised alignment to the reused vocabularies, SHACL shapes
+  including four cross-class invariants, and an executable validation
+  package with 23 SPARQL-bound competency questions.
+keywords:
+  - ontology
+  - data spaces
+  - AI governance
+  - MLDCAT-AP
+  - DCAT
+  - ODRL
+  - PROV-O
+  - SHACL
+  - OWL
+  - LOT methodology
+authors:
+  - family-names: "de Elvira Mori Orrillo"
+    given-names: "Edmundo"
+    affiliation: "Universidad Politécnica de Madrid"
+    # orcid: "https://orcid.org/0000-0000-0000-0000"
+  - family-names: "Liu"
+    given-names: "Jiayun"
+    affiliation: "Universidad Politécnica de Madrid"
+    # orcid: "https://orcid.org/0000-0000-0000-0000"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.XXXXXXXX"   # filled after Zenodo deposit
+    description: "Zenodo archival DOI"
+  - type: url
+    value: "https://w3id.org/pionera/daimo"
+    description: "Persistent namespace (resolvable via content negotiation)"
+references:
+  - type: conference-paper
+    authors:
+      - family-names: "Poveda-Villalón"
+        given-names: "María"
+      - family-names: "Fernández-Izquierdo"
+        given-names: "Alba"
+      - family-names: "Fernández-López"
+        given-names: "Mariano"
+      - family-names: "García-Castro"
+        given-names: "Raúl"
+    title: "LOT: An industrial oriented ontology engineering framework"
+    journal: "Engineering Applications of Artificial Intelligence"
+    volume: "111"
+    year: 2022
+    doi: "10.1016/j.engappai.2022.104755"

@@ -1,0 +1,174 @@
+@prefix bad:   <https://example.org/daimo-negative/> .
+@prefix daimo: <https://w3id.org/pionera/daimo#> .
+@prefix dcat:  <http://www.w3.org/ns/dcat#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix it6:   <http://data.europa.eu/it6/> .
+@prefix mls:   <http://www.w3.org/ns/mls#> .
+@prefix odrl:  <http://www.w3.org/ns/odrl/2/> .
+@prefix prov:  <http://www.w3.org/ns/prov#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix edc:   <https://w3id.org/edc/v0.0.1/ns/> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+# Negative-test KG: deliberately violates each cross-class invariant
+# (INV-1 through INV-4). Expected SHACL result: conforms=False with
+# exactly four invariant violations.
+#
+# Every focus node that violates an invariant is named bad:INV1-foo,
+# bad:INV2-foo, etc., so the negative-test script can assert which
+# invariants fired.
+#################################################################
+
+# Shared minimal dependencies the bad data references.
+
+bad:ctx-a a edc:ParticipantContext .
+bad:ctx-b a edc:ParticipantContext .
+
+bad:agent-alice a foaf:Agent .
+bad:agent-bob   a foaf:Agent .
+
+bad:some-model a it6:MachineLearningModel ;
+    dct:title "Some model"@en ;
+    dct:identifier "some-model" ;
+    odrl:hasPolicy [ a odrl:Offer ; odrl:permission [ a odrl:Permission ; odrl:action odrl:use ] ] .
+
+bad:other-model a it6:MachineLearningModel ;
+    dct:title "Other model"@en ;
+    dct:identifier "other-model" ;
+    odrl:hasPolicy [ a odrl:Offer ; odrl:permission [ a odrl:Permission ; odrl:action odrl:use ] ] .
+
+bad:algo a mls:Algorithm .
+bad:flow a it6:Flow ; dct:hasVersion "1.0" .
+
+bad:infra a it6:ComputerInfrastructure .
+
+#################################################################
+# INV-1 violation: DerivedArtifact's underAuthorization does NOT
+# authorize the run it derivedFromRun points to.
+#################################################################
+
+bad:INV1-run a it6:Run ;
+    mls:realizes bad:algo ;
+    it6:hasFlow bad:flow ;
+    prov:wasAssociatedWith bad:agent-alice ;
+    prov:startedAtTime "2026-05-01T08:00:00Z"^^xsd:dateTime .
+
+bad:INV1-other-run a it6:Run ;
+    mls:realizes bad:algo ;
+    it6:hasFlow bad:flow ;
+    prov:wasAssociatedWith bad:agent-alice ;
+    prov:startedAtTime "2026-05-01T09:00:00Z"^^xsd:dateTime .
+
+bad:INV1-auth a daimo:ExecutionAuthorization ;
+    rdfs:label "INV-1 authorization (covers the wrong run)"@en ;
+    daimo:grantedTo bad:agent-alice ;
+    daimo:authorizesRun bad:INV1-other-run ;       # authorizes a DIFFERENT run
+    daimo:expiresAt "2027-01-01T00:00:00Z"^^xsd:dateTime ;
+    odrl:permission [ a odrl:Permission ; odrl:action odrl:use ] .
+
+bad:INV1-artifact a daimo:DerivedArtifact ;
+    dct:title "INV-1 violation: unauthorized derivation"@en ;
+    daimo:derivedFromRun bad:INV1-run ;            # produced by INV1-run
+    daimo:underAuthorization bad:INV1-auth .       # under an auth that doesn't cover INV1-run
+
+#################################################################
+# INV-2 violation: run's associated agent is NOT the grantee of the
+# authorization that covers the run.
+#################################################################
+
+bad:INV2-run a it6:Run ;
+    mls:realizes bad:algo ;
+    it6:hasFlow bad:flow ;
+    prov:wasAssociatedWith bad:agent-alice ;       # associated with Alice
+    prov:startedAtTime "2026-05-02T08:00:00Z"^^xsd:dateTime .
+
+bad:INV2-auth a daimo:ExecutionAuthorization ;
+    rdfs:label "INV-2 authorization (granted to the wrong agent)"@en ;
+    daimo:grantedTo bad:agent-bob ;                # granted to Bob, not Alice
+    daimo:authorizesRun bad:INV2-run ;
+    daimo:expiresAt "2027-01-01T00:00:00Z"^^xsd:dateTime ;
+    odrl:permission [ a odrl:Permission ; odrl:action odrl:use ] .
+
+#################################################################
+# INV-3 violation: deployment's service does NOT servesModel the same
+# model the deployment deploysModel.
+#################################################################
+
+bad:INV3-deployment a daimo:ModelDeployment ;
+    rdfs:label "INV-3 deployment (service serves a different model)"@en ;
+    daimo:deploysModel bad:some-model ;
+    daimo:exposedAs bad:INV3-svc ;
+    daimo:onInfrastructure bad:infra ;
+    daimo:hasIOContract [ a daimo:IOContract ;
+                          daimo:inputFormat "application/json" ;
+                          daimo:outputFormat "application/json" ;
+                          daimo:authMethod "api-key" ] .
+
+bad:INV3-svc a dcat:DataService ;
+    dct:title "Service for a different model"@en ;
+    dcat:endpointURL <https://api.example.org/other/v1> ;
+    it6:servesModel bad:other-model .              # serves the WRONG model
+
+#################################################################
+# INV-4 violation: authorization's expiresAt is BEFORE a run it
+# authorizes has even started.
+#################################################################
+
+bad:INV4-run a it6:Run ;
+    mls:realizes bad:algo ;
+    it6:hasFlow bad:flow ;
+    prov:wasAssociatedWith bad:agent-alice ;
+    prov:startedAtTime "2026-05-15T08:00:00Z"^^xsd:dateTime .   # started May 2026
+
+bad:INV4-auth a daimo:ExecutionAuthorization ;
+    rdfs:label "INV-4 authorization (expired before run started)"@en ;
+    daimo:grantedTo bad:agent-alice ;
+    daimo:authorizesRun bad:INV4-run ;
+    daimo:expiresAt "2025-01-01T00:00:00Z"^^xsd:dateTime ;       # expired January 2025
+    odrl:permission [ a odrl:Permission ; odrl:action odrl:use ] .
+
+#################################################################
+# INV-5 violation: Offering's offersModel is NOT a target of its
+# attached policy.
+#################################################################
+
+bad:INV5-model a it6:MachineLearningModel ;
+    dct:title "INV-5 offered model"@en ;
+    dct:identifier "inv5-model" ;
+    odrl:hasPolicy bad:INV5-policy .
+
+bad:INV5-policy a odrl:Offer ;
+    odrl:assigner bad:agent-alice ;
+    odrl:target bad:some-other-model-not-the-offered-one ;     # targets a DIFFERENT model
+    odrl:permission [ a odrl:Permission ; odrl:action odrl:use ] ;
+    dct:title "INV-5 policy (wrong target)"@en .
+
+bad:INV5-offering a daimo:AIAssetOffering ;
+    dct:title "INV-5 offering"@en ;
+    daimo:offersModel bad:INV5-model ;
+    daimo:offeredBy bad:agent-alice ;
+    daimo:hasOfferPolicy bad:INV5-policy .
+
+#################################################################
+# INV-6 violation: Offering's offeredBy differs from the
+# odrl:assigner of its attached policy.
+#################################################################
+
+bad:INV6-model a it6:MachineLearningModel ;
+    dct:title "INV-6 offered model"@en ;
+    dct:identifier "inv6-model" ;
+    odrl:hasPolicy bad:INV6-policy .
+
+bad:INV6-policy a odrl:Offer ;
+    odrl:assigner bad:agent-bob ;                                # assigned by Bob
+    odrl:target bad:INV6-model ;
+    odrl:permission [ a odrl:Permission ; odrl:action odrl:use ] ;
+    dct:title "INV-6 policy (mismatched assigner)"@en .
+
+bad:INV6-offering a daimo:AIAssetOffering ;
+    dct:title "INV-6 offering"@en ;
+    daimo:offersModel bad:INV6-model ;
+    daimo:offeredBy bad:agent-alice ;                            # offering says Alice
+    daimo:hasOfferPolicy bad:INV6-policy .

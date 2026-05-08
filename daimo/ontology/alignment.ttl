@@ -1,0 +1,403 @@
+@prefix daimo:  <https://w3id.org/pionera/daimo#> .
+@prefix dcat:   <http://www.w3.org/ns/dcat#> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix it6:    <http://data.europa.eu/it6/> .
+@prefix mls:    <http://www.w3.org/ns/mls#> .
+@prefix odrl:   <http://www.w3.org/ns/odrl/2/> .
+@prefix prov:   <http://www.w3.org/ns/prov#> .
+@prefix foaf:   <http://xmlns.com/foaf/0.1/> .
+# DSP (Dataspace Protocol) namespace. Both <https://w3id.org/dspace/v0.8/>
+# and <https://w3id.org/dspace/2024/1/> are registered at w3id.org and
+# redirect to the same Eclipse DSP specification repository. We use the
+# v0.8/ form because Eclipse EDC and related tooling reference it in code;
+# the 2024-1 release candidate is the current stable DSP specification.
+@prefix dspace: <https://w3id.org/dspace/v0.8/> .
+@prefix edc:    <https://w3id.org/edc/v0.0.1/ns/> .
+@prefix spdx:   <http://spdx.org/rdf/terms#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+
+# Alignment axioms for DAIMO.
+# Kept in a separate file so that importing consumers can choose to load
+# alignment without committing to full external vocabularies in their reasoner.
+#
+# Namespace taxonomy:
+#   dcat:   - Catalog, CatalogRecord, Dataset, Distribution, DataService
+#   it6:    - MLDCAT-AP 3.0.0 (the AI/ML layer; reuses DCAT-AP)
+#   odrl:   - Policy, Offer, Agreement, Permission, Prohibition, Duty
+#   prov:   - Activity, Entity, Agent, Bundle, Role
+#   dspace: - Dataspace Protocol (DSP), the W3C-track spec EDC implements
+#   edc:    - EDC-specific extensions not yet in DSP (ParticipantContext,
+#             DataPlaneInstance, EndpointDataReferenceEntry)
+#
+# EDC itself is a framework, not a vocabulary; its internal Java data
+# structures (ContractDefinition, Asset) are NOT on the wire and are NOT
+# alignment targets here.
+
+<https://w3id.org/pionera/daimo/align> a owl:Ontology ;
+    rdfs:comment "Alignment axioms linking DAIMO classes and properties to DCAT, MLDCAT-AP, ODRL, PROV-O, and the Dataspace Protocol (DSP)."@en ;
+    owl:imports <https://w3id.org/pionera/daimo> .
+
+#################################################################
+# External term type declarations
+#
+# These are NOT definitions — the canonical definitions live in the
+# source vocabularies. We declare types locally so reasoners and pitfall
+# scanners that process alignment.ttl without the external imports can
+# still resolve the axioms below. Each external term carries an
+# rdfs:isDefinedBy pointing at its authoritative ontology.
+#################################################################
+
+dcat:Catalog a owl:Class ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/dcat> ;
+    rdfs:seeAlso <https://www.w3.org/TR/vocab-dcat-2/#Class:Catalog> ;
+    rdfs:label "Catalog"@en ;
+    rdfs:comment "DCAT: a curated collection of metadata about resources."@en .
+
+dcat:CatalogRecord a owl:Class ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/dcat> ;
+    rdfs:seeAlso <https://www.w3.org/TR/vocab-dcat-2/#Class:Catalog_Record> ;
+    rdfs:label "Catalog Record"@en ;
+    rdfs:comment "DCAT: a record in a data catalog describing the registration of a single dataset or data service."@en .
+
+dcat:Dataset a owl:Class ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/dcat> ;
+    rdfs:seeAlso <https://www.w3.org/TR/vocab-dcat-2/#Class:Dataset> ;
+    rdfs:label "Dataset"@en ;
+    rdfs:comment "DCAT: a collection of data, published or curated by a single source, available for access or download."@en .
+
+dcat:Distribution a owl:Class ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/dcat> ;
+    rdfs:seeAlso <https://www.w3.org/TR/vocab-dcat-2/#Class:Distribution> ;
+    rdfs:label "Distribution"@en ;
+    rdfs:comment "DCAT: a specific representation of a dataset (e.g., a file, feed, or API)."@en .
+
+dcat:DataService a owl:Class ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/dcat> ;
+    rdfs:seeAlso <https://www.w3.org/TR/vocab-dcat-2/#Class:Data_Service> ;
+    rdfs:label "Data Service"@en ;
+    rdfs:comment "DCAT: a site or end-point providing operations related to the discovery of, access to, or processing functions on, data or related resources."@en .
+
+dcat:Resource a owl:Class ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/dcat> ;
+    rdfs:seeAlso <https://www.w3.org/TR/vocab-dcat-2/#Class:Resource> ;
+    rdfs:label "Resource"@en ;
+    rdfs:comment "DCAT: any resource published or curated by a single agent; the common supertype of Dataset, DataService, Distribution, and CatalogRecord."@en .
+
+it6:MachineLearningModel a owl:Class ;
+    rdfs:isDefinedBy <http://data.europa.eu/it6/> ;
+    rdfs:seeAlso <https://semiceu.github.io/MLDCAT-AP/releases/3.0.0/#MachineLearningModel> ;
+    rdfs:label "Machine Learning Model"@en ;
+    rdfs:comment "MLDCAT-AP: a file or set of artefacts that has been trained to recognise patterns; the central ML asset class, itself a subclass of dcat:Dataset."@en .
+
+it6:Run a owl:Class ;
+    rdfs:isDefinedBy <http://data.europa.eu/it6/> ;
+    rdfs:seeAlso <https://semiceu.github.io/MLDCAT-AP/releases/3.0.0/#Run> ;
+    rdfs:label "Run"@en ;
+    rdfs:comment "MLDCAT-AP: a concrete execution of an algorithm over data, producing outputs and evaluations. Specialises mls:Run."@en .
+
+it6:Flow a owl:Class ;
+    rdfs:isDefinedBy <http://data.europa.eu/it6/> ;
+    rdfs:seeAlso <https://semiceu.github.io/MLDCAT-AP/releases/3.0.0/#Flow> ;
+    rdfs:label "Flow"@en ;
+    rdfs:comment "MLDCAT-AP: a reproducible pipeline description (software, dependencies, structure) for building or executing a model."@en .
+
+it6:Task a owl:Class ;
+    rdfs:isDefinedBy <http://data.europa.eu/it6/> ;
+    rdfs:seeAlso <https://semiceu.github.io/MLDCAT-AP/releases/3.0.0/#Task> ;
+    rdfs:label "Task"@en ;
+    rdfs:comment "MLDCAT-AP: the problem definition over source data, linking datasets, features, estimation procedure, and evaluation measures."@en .
+
+it6:Evaluation a owl:Class ;
+    rdfs:isDefinedBy <http://data.europa.eu/it6/> ;
+    rdfs:seeAlso <https://semiceu.github.io/MLDCAT-AP/releases/3.0.0/#Evaluation> ;
+    rdfs:label "Evaluation"@en ;
+    rdfs:comment "MLDCAT-AP: an evaluation of a model, carrying one or more evaluation measures."@en .
+
+it6:ComputerInfrastructure a owl:Class ;
+    rdfs:isDefinedBy <http://data.europa.eu/it6/> ;
+    rdfs:seeAlso <https://semiceu.github.io/MLDCAT-AP/releases/3.0.0/#ComputerInfrastructure> ;
+    rdfs:label "Computer Infrastructure"@en ;
+    rdfs:comment "MLDCAT-AP: a named environment bundling hardware and libraries used to run a model."@en .
+
+odrl:Offer a owl:Class ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/odrl/2/> ;
+    rdfs:seeAlso <https://www.w3.org/TR/odrl-model/#policy-offer> ;
+    rdfs:label "Offer"@en ;
+    rdfs:comment "ODRL: a policy asserting offer terms over a target asset, by an assigner, comprising permissions, prohibitions, and duties."@en .
+
+odrl:Agreement a owl:Class ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/odrl/2/> ;
+    rdfs:seeAlso <https://www.w3.org/TR/odrl-model/#policy-agreement> ;
+    rdfs:label "Agreement"@en ;
+    rdfs:comment "ODRL: a policy asserting an agreement between assigner and assignee over a target asset."@en .
+
+odrl:Permission a owl:Class ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/odrl/2/> ;
+    rdfs:seeAlso <https://www.w3.org/TR/odrl-model/#rule-permission> ;
+    rdfs:label "Permission"@en ;
+    rdfs:comment "ODRL: a rule permitting an action on an asset, optionally subject to constraints and duties."@en .
+
+prov:Entity a owl:Class ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/prov-o#> ;
+    rdfs:seeAlso <https://www.w3.org/TR/prov-o/#Entity> ;
+    rdfs:label "Entity"@en ;
+    rdfs:comment "PROV-O: a physical, digital, or conceptual thing with fixed aspects; entities may be real or imaginary."@en .
+
+prov:Activity a owl:Class ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/prov-o#> ;
+    rdfs:seeAlso <https://www.w3.org/TR/prov-o/#Activity> ;
+    rdfs:label "Activity"@en ;
+    rdfs:comment "PROV-O: something that occurs over a period of time and acts on or with entities."@en .
+
+prov:Bundle a owl:Class ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/prov-o#> ;
+    rdfs:seeAlso <https://www.w3.org/TR/prov-o/#Bundle> ;
+    rdfs:label "Bundle"@en ;
+    rdfs:comment "PROV-O: a named set of provenance descriptions that is itself an entity."@en .
+
+prov:Role a owl:Class ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/prov-o#> ;
+    rdfs:seeAlso <https://www.w3.org/TR/prov-o/#Role> ;
+    rdfs:label "Role"@en ;
+    rdfs:comment "PROV-O: a description of the part played by an entity or agent in an activity."@en .
+
+foaf:Agent a owl:Class ;
+    rdfs:isDefinedBy <http://xmlns.com/foaf/0.1/> ;
+    rdfs:seeAlso <http://xmlns.com/foaf/spec/#term_Agent> ;
+    rdfs:label "Agent"@en ;
+    rdfs:comment "FOAF: a thing that does stuff; a person, group, organisation, or software entity."@en .
+
+spdx:Checksum a owl:Class ;
+    rdfs:isDefinedBy <http://spdx.org/rdf/terms#> ;
+    rdfs:seeAlso <https://spdx.github.io/spdx-spec/v2.3/file-information/#84-file-checksum> ;
+    rdfs:label "Checksum"@en ;
+    rdfs:comment "SPDX: the result of applying a cryptographic hash function over a file's content, bundling the algorithm (spdx:algorithm) and the hexadecimal digest (spdx:checksumValue)."@en .
+
+spdx:algorithm a owl:ObjectProperty ;
+    rdfs:isDefinedBy <http://spdx.org/rdf/terms#> ;
+    rdfs:label "checksum algorithm"@en ;
+    rdfs:comment "SPDX: identifies the algorithm used to compute a checksum (e.g., spdx:checksumAlgorithm_sha256)."@en ;
+    rdfs:domain spdx:Checksum ;
+    rdfs:range owl:Thing .
+
+spdx:checksumValue a owl:DatatypeProperty ;
+    rdfs:isDefinedBy <http://spdx.org/rdf/terms#> ;
+    rdfs:label "checksum value"@en ;
+    rdfs:comment "SPDX: the hexadecimal digest computed by the algorithm."@en ;
+    rdfs:domain spdx:Checksum ;
+    rdfs:range xsd:string .
+
+edc:ParticipantContext a owl:Class ;
+    rdfs:isDefinedBy <https://w3id.org/edc/v0.0.1/ns/> ;
+    rdfs:label "Participant Context"@en ;
+    rdfs:comment "EDC-specific extension: a multi-tenant runtime context identifying a participant within an EDC connector. Not yet standardised in DSP."@en .
+
+# External properties referenced by DAIMO axioms. Domain and range are kept
+# deliberately minimal (using the most permissive types from the source
+# vocabulary) to avoid strengthening the external ontology.
+
+odrl:hasPolicy a owl:ObjectProperty ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/odrl/2/> ;
+    rdfs:label "has policy"@en ;
+    rdfs:comment "ODRL: attaches an ODRL policy to a resource. Range restricted to odrl:Policy."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range odrl:Policy .
+
+odrl:assignee a owl:ObjectProperty ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/odrl/2/> ;
+    rdfs:label "assignee"@en ;
+    rdfs:comment "ODRL: the party receiving the policy rules."@en ;
+    rdfs:domain odrl:Policy ;
+    rdfs:range odrl:Party .
+
+foaf:primaryTopic a owl:ObjectProperty ;
+    rdfs:isDefinedBy <http://xmlns.com/foaf/0.1/> ;
+    rdfs:seeAlso <http://xmlns.com/foaf/spec/#term_primaryTopic> ;
+    rdfs:label "primary topic"@en ;
+    rdfs:comment "FOAF: the primary topic of some document."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range owl:Thing .
+
+foaf:isPrimaryTopicOf a owl:ObjectProperty ;
+    rdfs:isDefinedBy <http://xmlns.com/foaf/0.1/> ;
+    rdfs:seeAlso <http://xmlns.com/foaf/spec/#term_isPrimaryTopicOf> ;
+    rdfs:label "is primary topic of"@en ;
+    rdfs:comment "FOAF: inverse of foaf:primaryTopic. Links a resource to a document whose primary topic it is."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range owl:Thing .
+
+dct:publisher a owl:ObjectProperty ;
+    rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+    rdfs:label "publisher"@en ;
+    rdfs:comment "Dublin Core: entity responsible for making the resource available."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range foaf:Agent .
+
+dct:hasVersion a owl:ObjectProperty ;
+    rdfs:isDefinedBy <http://purl.org/dc/terms/> ;
+    rdfs:label "has version"@en ;
+    rdfs:comment "Dublin Core: a related resource that is a version, edition, or adaptation of the described resource."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range owl:Thing .
+
+prov:used a owl:ObjectProperty ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/prov-o#> ;
+    rdfs:label "used"@en ;
+    rdfs:comment "PROV-O: an activity used an entity."@en ;
+    rdfs:domain prov:Activity ;
+    rdfs:range prov:Entity .
+
+prov:hadActivity a owl:ObjectProperty ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/prov-o#> ;
+    rdfs:label "had activity"@en ;
+    rdfs:comment "PROV-O: links a qualified influence, association, or similar to an activity."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range prov:Activity .
+
+prov:wasGeneratedBy a owl:ObjectProperty ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/prov-o#> ;
+    rdfs:label "was generated by"@en ;
+    rdfs:comment "PROV-O: an entity was generated by an activity."@en ;
+    rdfs:domain prov:Entity ;
+    rdfs:range prov:Activity .
+
+prov:qualifiedAssociation a owl:ObjectProperty ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/prov-o#> ;
+    rdfs:label "qualified association"@en ;
+    rdfs:comment "PROV-O: a qualified association between an activity and an agent."@en ;
+    rdfs:domain prov:Activity ;
+    rdfs:range prov:Association .
+
+it6:hasTask a owl:ObjectProperty ;
+    rdfs:isDefinedBy <http://data.europa.eu/it6/> ;
+    rdfs:label "has task"@en ;
+    rdfs:comment "MLDCAT-AP: links a model or evaluation to the task it addresses."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range it6:Task .
+
+it6:hasFlow a owl:ObjectProperty ;
+    rdfs:isDefinedBy <http://data.europa.eu/it6/> ;
+    rdfs:label "has flow"@en ;
+    rdfs:comment "MLDCAT-AP: links a run to the flow (pipeline) that defines it."@en ;
+    rdfs:domain it6:Run ;
+    rdfs:range it6:Flow .
+
+it6:trainedOn a owl:ObjectProperty ;
+    rdfs:isDefinedBy <http://data.europa.eu/it6/> ;
+    rdfs:label "trained on"@en ;
+    rdfs:comment "MLDCAT-AP: links a machine-learning model to the dataset it was trained on."@en ;
+    rdfs:domain it6:MachineLearningModel ;
+    rdfs:range dcat:Dataset .
+
+# Supporting class/party declarations referenced by domain/range above.
+odrl:Policy a owl:Class ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/odrl/2/> ;
+    rdfs:label "Policy"@en ;
+    rdfs:comment "ODRL: the common superclass of Offer, Agreement, Set, etc."@en .
+
+odrl:Party a owl:Class ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/odrl/2/> ;
+    rdfs:label "Party"@en ;
+    rdfs:comment "ODRL: an entity that plays a role (assigner, assignee) in a policy."@en .
+
+prov:Association a owl:Class ;
+    rdfs:isDefinedBy <http://www.w3.org/ns/prov-o#> ;
+    rdfs:label "Association"@en ;
+    rdfs:comment "PROV-O: an assignment of responsibility to an agent for an activity, indicating that the agent had a role in the activity."@en .
+
+#################################################################
+# Class alignment
+#################################################################
+
+# DAIMO does NOT subclass it6:MachineLearningModel — the model itself is REUSED.
+# Instead, DAIMO classes surround the model with dataspace-bridge semantics.
+
+# Offering: specialises dcat:CatalogRecord. A CatalogRecord is the standard
+# DCAT entity that records a dataset's registration in a catalog; an AI asset
+# offering is precisely this entity specialised to the case where the
+# registered dataset is an AI model and the record carries an ODRL offer
+# policy. DSP's dspace:ContractOffer is the negotiation-time form; we relate
+# informatively rather than subsuming.
+daimo:AIAssetOffering rdfs:subClassOf dcat:CatalogRecord .
+
+# Execution authorization: an ODRL agreement produced by a DSP contract
+# negotiation. DSP defines dspace:ContractNegotiation as the process and
+# reuses odrl:Agreement for the artefact. Every ExecutionAuthorization is a
+# valid odrl:Agreement; SHACL enforces that it carries at least one
+# odrl:permission (required by the ODRL model).
+daimo:ExecutionAuthorization rdfs:subClassOf odrl:Agreement .
+
+# Provenance-aligned classes.
+daimo:ModelDeployment rdfs:subClassOf prov:Entity .
+daimo:DerivedArtifact rdfs:subClassOf prov:Entity , dcat:Resource .
+daimo:CrossParticipantProvenanceRecord rdfs:subClassOf prov:Bundle .
+daimo:AuditEvidence rdfs:subClassOf prov:Entity .
+
+# Participant roles are role-reifications taken by agents, not agent subtypes.
+daimo:ParticipantRole rdfs:subClassOf prov:Role .
+
+#################################################################
+# Property alignment
+#################################################################
+
+daimo:offersModel    rdfs:subPropertyOf foaf:primaryTopic .
+daimo:hasOfferPolicy rdfs:subPropertyOf odrl:hasPolicy .
+
+# Note: daimo:offeredBy is intentionally NOT aligned to dct:publisher.
+# On a dcat:CatalogRecord, dct:publisher denotes the catalog maintainer
+# (the platform registering the record), not the author of the asset
+# being registered. The model's own author is expressed via dct:creator
+# on the it6:MachineLearningModel.
+daimo:grantedTo      rdfs:subPropertyOf odrl:assignee .
+daimo:derivedFromRun rdfs:subPropertyOf prov:wasGeneratedBy .
+daimo:contextTask    rdfs:subPropertyOf it6:hasTask .
+daimo:datasetVersion rdfs:subPropertyOf dct:hasVersion .
+
+# Intentionally NOT aligned (rationale in each property's rdfs:comment):
+#
+# - daimo:authorizesRun NOT ⊑ prov:used.
+#   prov:used has domain prov:Activity. An odrl:Agreement is a policy
+#   artefact (Entity-like), not an Activity. Forcing the alignment would
+#   silently type every ExecutionAuthorization as prov:Activity.
+#
+# - daimo:grantedTo NOT ⊑ prov:qualifiedAssociation.
+#   prov:qualifiedAssociation has range prov:Association (a reified
+#   association object), not the agent itself. The correct agent-side
+#   alignment is odrl:assignee (declared above).
+#
+# - daimo:evidenceOf NOT ⊑ prov:hadActivity.
+#   prov:hadActivity is used on reified influence/generation/usage
+#   objects, not on entities. An AuditEvidence is an Entity that is
+#   ABOUT an activity; PROV-O does not provide a direct property for
+#   this, so DAIMO uses a native property with no PROV subsumption.
+#
+# - daimo:contextDataset and daimo:contextFlow NOT ⊑ it6:trainedOn /
+#   it6:hasFlow. Those external properties have domains
+#   (it6:MachineLearningModel, it6:Run) that would re-type
+#   SharedEvaluationContext via RDFS inference.
+
+#################################################################
+# Informative mappings (SKOS, not entailed)
+#################################################################
+
+# DAIMO's catalog-record offering has a corresponding negotiation-time form
+# in DSP called dspace:ContractOffer; the two are related but structurally
+# different concepts.
+daimo:AIAssetOffering skos:related dspace:ContractOffer .
+
+# DAIMO's execution authorization is produced by a DSP contract negotiation.
+daimo:ExecutionAuthorization skos:related dspace:ContractNegotiation .
+
+# DAIMO's cross-participant provenance may span multiple DSP transfer processes.
+daimo:CrossParticipantProvenanceRecord skos:related dspace:TransferProcess .
+
+daimo:ModelDeployment skos:related it6:MachineLearningModel .
+daimo:SharedEvaluationContext skos:related it6:Task , it6:EstimationProcedure .
+
+# EDC-specific extensions (not in DSP). DAIMO references these only where DSP
+# has not yet standardised an equivalent.
+daimo:inParticipantContext     skos:related edc:ParticipantContext .
+daimo:spansParticipantContext  skos:related edc:ParticipantContext .

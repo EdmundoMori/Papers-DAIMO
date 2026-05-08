@@ -1,0 +1,549 @@
+<https://w3id.org/pionera/daimo> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Ontology> .
+<https://w3id.org/pionera/daimo> <http://www.w3.org/2002/07/owl#versionIRI> <https://w3id.org/pionera/daimo/0.1.1> .
+<https://w3id.org/pionera/daimo> <http://purl.org/dc/terms/description> "DAIMO is an integration profile that connects DCAT-AP, MLDCAT-AP, ODRL, PROV-O, and the Dataspace Protocol (DSP, as operationalised by Eclipse EDC) to support publication, discovery, invocation, execution traceability, and contextualised evaluation of AI model assets exchanged in data spaces. The edc: namespace is used only for EDC-specific extensions (e.g., ParticipantContext) not yet standardised in DSP."@en .
+<https://w3id.org/pionera/daimo> <http://purl.org/dc/terms/issued> "2026-04-22"^^<http://www.w3.org/2001/XMLSchema#date> .
+<https://w3id.org/pionera/daimo> <http://purl.org/dc/terms/license> <https://creativecommons.org/licenses/by/4.0/> .
+<https://w3id.org/pionera/daimo> <http://purl.org/dc/terms/modified> "2026-04-22"^^<http://www.w3.org/2001/XMLSchema#date> .
+<https://w3id.org/pionera/daimo> <http://purl.org/dc/terms/title> "DAIMO: an ontology for governed AI model assets in data spaces"@en .
+<https://w3id.org/pionera/daimo> <http://purl.org/vocab/vann/preferredNamespacePrefix> "daimo" .
+<https://w3id.org/pionera/daimo> <http://purl.org/vocab/vann/preferredNamespaceUri> "https://w3id.org/pionera/daimo#" .
+<https://w3id.org/pionera/daimo> <http://www.w3.org/2000/01/rdf-schema#comment> "See daimo-ontology-design.md for the full design rationale."@en .
+<https://w3id.org/pionera/daimo> <http://www.w3.org/2002/07/owl#versionInfo> "0.1.1" .
+# 
+# 
+# #################################################################
+# #
+# #    Annotation properties
+# #
+# #################################################################
+# 
+# 
+# http://purl.org/dc/terms/description
+<http://purl.org/dc/terms/description> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#AnnotationProperty> .
+# 
+# http://purl.org/dc/terms/issued
+<http://purl.org/dc/terms/issued> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#AnnotationProperty> .
+# 
+# http://purl.org/dc/terms/license
+<http://purl.org/dc/terms/license> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#AnnotationProperty> .
+# 
+# http://purl.org/dc/terms/modified
+<http://purl.org/dc/terms/modified> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#AnnotationProperty> .
+# 
+# http://purl.org/dc/terms/title
+<http://purl.org/dc/terms/title> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#AnnotationProperty> .
+# 
+# http://purl.org/vocab/vann/preferredNamespacePrefix
+<http://purl.org/vocab/vann/preferredNamespacePrefix> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#AnnotationProperty> .
+# 
+# http://purl.org/vocab/vann/preferredNamespaceUri
+<http://purl.org/vocab/vann/preferredNamespaceUri> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#AnnotationProperty> .
+# 
+# 
+# 
+# #################################################################
+# #
+# #    Datatypes
+# #
+# #################################################################
+# 
+# 
+# http://www.w3.org/2001/XMLSchema#date
+<http://www.w3.org/2001/XMLSchema#date> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Datatype> .
+# 
+# 
+# 
+# #################################################################
+# #
+# #    Object Properties
+# #
+# #################################################################
+# 
+# 
+# http://data.europa.eu/it6/hasFlow
+<http://data.europa.eu/it6/hasFlow> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+# 
+# http://data.europa.eu/it6/hasTask
+<http://data.europa.eu/it6/hasTask> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+# 
+# http://data.europa.eu/it6/trainedOn
+<http://data.europa.eu/it6/trainedOn> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+# 
+# http://purl.org/dc/terms/publisher
+<http://purl.org/dc/terms/publisher> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+# 
+# http://www.w3.org/ns/odrl/2/assignee
+<http://www.w3.org/ns/odrl/2/assignee> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+# 
+# http://www.w3.org/ns/odrl/2/hasPolicy
+<http://www.w3.org/ns/odrl/2/hasPolicy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+# 
+# http://www.w3.org/ns/prov#hadActivity
+<http://www.w3.org/ns/prov#hadActivity> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+# 
+# http://www.w3.org/ns/prov#used
+<http://www.w3.org/ns/prov#used> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+# 
+# http://www.w3.org/ns/prov#wasGeneratedBy
+<http://www.w3.org/ns/prov#wasGeneratedBy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+# 
+# http://xmlns.com/foaf/0.1/primaryTopic
+<http://xmlns.com/foaf/0.1/primaryTopic> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+# 
+# https://w3id.org/pionera/daimo#authorizedBy
+<https://w3id.org/pionera/daimo#authorizedBy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#authorizedBy> <http://www.w3.org/2002/07/owl#inverseOf> <https://w3id.org/pionera/daimo#authorizesRun> .
+<https://w3id.org/pionera/daimo#authorizedBy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#authorizedBy> <http://www.w3.org/2000/01/rdf-schema#domain> <http://data.europa.eu/it6/Run> .
+<http://data.europa.eu/it6/Run> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#authorizedBy> <http://www.w3.org/2000/01/rdf-schema#range> <https://w3id.org/pionera/daimo#ExecutionAuthorization> .
+<https://w3id.org/pionera/daimo#authorizedBy> <http://www.w3.org/2000/01/rdf-schema#comment> "Inverse of daimo:authorizesRun. Functional: each run is authorized by exactly one agreement."@en .
+<https://w3id.org/pionera/daimo#authorizedBy> <http://www.w3.org/2000/01/rdf-schema#label> "authorized by"@en .
+# 
+# https://w3id.org/pionera/daimo#authorizesRun
+<https://w3id.org/pionera/daimo#authorizesRun> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#authorizesRun> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://www.w3.org/ns/prov#used> .
+<https://w3id.org/pionera/daimo#authorizesRun> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#ExecutionAuthorization> .
+<https://w3id.org/pionera/daimo#authorizesRun> <http://www.w3.org/2000/01/rdf-schema#range> <http://data.europa.eu/it6/Run> .
+<https://w3id.org/pionera/daimo#authorizesRun> <http://www.w3.org/2000/01/rdf-schema#comment> "Links an authorization to a run it permits. Non-functional: a single authorization can cover multiple runs (e.g., subscription-style access)."@en .
+<https://w3id.org/pionera/daimo#authorizesRun> <http://www.w3.org/2000/01/rdf-schema#label> "authorizes run"@en .
+# 
+# https://w3id.org/pionera/daimo#contextDataset
+<https://w3id.org/pionera/daimo#contextDataset> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#contextDataset> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://data.europa.eu/it6/trainedOn> .
+<https://w3id.org/pionera/daimo#contextDataset> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#contextDataset> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#SharedEvaluationContext> .
+<https://w3id.org/pionera/daimo#contextDataset> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/ns/dcat#Dataset> .
+<http://www.w3.org/ns/dcat#Dataset> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#contextDataset> <http://www.w3.org/2000/01/rdf-schema#label> "context dataset"@en .
+# 
+# https://w3id.org/pionera/daimo#contextFlow
+<https://w3id.org/pionera/daimo#contextFlow> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#contextFlow> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://data.europa.eu/it6/hasFlow> .
+<https://w3id.org/pionera/daimo#contextFlow> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#contextFlow> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#SharedEvaluationContext> .
+<https://w3id.org/pionera/daimo#contextFlow> <http://www.w3.org/2000/01/rdf-schema#range> <http://data.europa.eu/it6/Flow> .
+<http://data.europa.eu/it6/Flow> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#contextFlow> <http://www.w3.org/2000/01/rdf-schema#label> "context flow"@en .
+# 
+# https://w3id.org/pionera/daimo#contextTask
+<https://w3id.org/pionera/daimo#contextTask> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#contextTask> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://data.europa.eu/it6/hasTask> .
+<https://w3id.org/pionera/daimo#contextTask> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#contextTask> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#SharedEvaluationContext> .
+<https://w3id.org/pionera/daimo#contextTask> <http://www.w3.org/2000/01/rdf-schema#range> <http://data.europa.eu/it6/Task> .
+<http://data.europa.eu/it6/Task> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#contextTask> <http://www.w3.org/2000/01/rdf-schema#label> "context task"@en .
+# 
+# https://w3id.org/pionera/daimo#deploysModel
+<https://w3id.org/pionera/daimo#deploysModel> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#deploysModel> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#deploysModel> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#ModelDeployment> .
+<https://w3id.org/pionera/daimo#deploysModel> <http://www.w3.org/2000/01/rdf-schema#range> <http://data.europa.eu/it6/MachineLearningModel> .
+<http://data.europa.eu/it6/MachineLearningModel> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#deploysModel> <http://www.w3.org/2000/01/rdf-schema#comment> "Links a deployment to the model it serves. Functional: one deployment serves one model."@en .
+<https://w3id.org/pionera/daimo#deploysModel> <http://www.w3.org/2000/01/rdf-schema#label> "deploys model"@en .
+# 
+# https://w3id.org/pionera/daimo#derivedFromRun
+<https://w3id.org/pionera/daimo#derivedFromRun> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#derivedFromRun> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://www.w3.org/ns/prov#wasGeneratedBy> .
+<https://w3id.org/pionera/daimo#derivedFromRun> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#derivedFromRun> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#DerivedArtifact> .
+<https://w3id.org/pionera/daimo#derivedFromRun> <http://www.w3.org/2000/01/rdf-schema#range> <http://data.europa.eu/it6/Run> .
+<https://w3id.org/pionera/daimo#derivedFromRun> <http://www.w3.org/2000/01/rdf-schema#comment> "Links a derived artifact to the run that produced it. Functional: each derived artifact has exactly one originating run."@en .
+<https://w3id.org/pionera/daimo#derivedFromRun> <http://www.w3.org/2000/01/rdf-schema#label> "derived from run"@en .
+# 
+# https://w3id.org/pionera/daimo#evidenceOf
+<https://w3id.org/pionera/daimo#evidenceOf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#evidenceOf> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://www.w3.org/ns/prov#hadActivity> .
+<https://w3id.org/pionera/daimo#evidenceOf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#evidenceOf> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#AuditEvidence> .
+<https://w3id.org/pionera/daimo#evidenceOf> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/ns/prov#Activity> .
+<http://www.w3.org/ns/prov#Activity> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#evidenceOf> <http://www.w3.org/2000/01/rdf-schema#comment> "Links audit evidence to the activity it attests. Functional."@en .
+<https://w3id.org/pionera/daimo#evidenceOf> <http://www.w3.org/2000/01/rdf-schema#label> "evidence of"@en .
+# 
+# https://w3id.org/pionera/daimo#exposedAs
+<https://w3id.org/pionera/daimo#exposedAs> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#exposedAs> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#exposedAs> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#ModelDeployment> .
+<https://w3id.org/pionera/daimo#exposedAs> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/ns/dcat#DataService> .
+<http://www.w3.org/ns/dcat#DataService> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#exposedAs> <http://www.w3.org/2000/01/rdf-schema#comment> "Links a deployment to the DCAT data service that exposes it. Functional."@en .
+<https://w3id.org/pionera/daimo#exposedAs> <http://www.w3.org/2000/01/rdf-schema#label> "exposed as"@en .
+# 
+# https://w3id.org/pionera/daimo#grantedTo
+<https://w3id.org/pionera/daimo#grantedTo> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#grantedTo> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://www.w3.org/ns/odrl/2/assignee> .
+<https://w3id.org/pionera/daimo#grantedTo> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#grantedTo> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#ExecutionAuthorization> .
+<https://w3id.org/pionera/daimo#grantedTo> <http://www.w3.org/2000/01/rdf-schema#range> <http://xmlns.com/foaf/0.1/Agent> .
+<http://xmlns.com/foaf/0.1/Agent> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#grantedTo> <http://www.w3.org/2000/01/rdf-schema#comment> "Links an authorization to the grantee agent. Functional."@en .
+<https://w3id.org/pionera/daimo#grantedTo> <http://www.w3.org/2000/01/rdf-schema#label> "granted to"@en .
+# 
+# https://w3id.org/pionera/daimo#hasIOContract
+<https://w3id.org/pionera/daimo#hasIOContract> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#hasIOContract> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#hasIOContract> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#ModelDeployment> .
+<https://w3id.org/pionera/daimo#hasIOContract> <http://www.w3.org/2000/01/rdf-schema#range> <https://w3id.org/pionera/daimo#IOContract> .
+<https://w3id.org/pionera/daimo#hasIOContract> <http://www.w3.org/2000/01/rdf-schema#comment> "Links a deployment to its invocation contract. Functional: one deployment has exactly one canonical I/O contract."@en .
+<https://w3id.org/pionera/daimo#hasIOContract> <http://www.w3.org/2000/01/rdf-schema#label> "has I/O contract"@en .
+# 
+# https://w3id.org/pionera/daimo#hasOfferPolicy
+<https://w3id.org/pionera/daimo#hasOfferPolicy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#hasOfferPolicy> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://www.w3.org/ns/odrl/2/hasPolicy> .
+<https://w3id.org/pionera/daimo#hasOfferPolicy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#hasOfferPolicy> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#AIAssetOffering> .
+<https://w3id.org/pionera/daimo#hasOfferPolicy> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/ns/odrl/2/Offer> .
+<http://www.w3.org/ns/odrl/2/Offer> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#hasOfferPolicy> <http://www.w3.org/2000/01/rdf-schema#comment> "Links an offering to the ODRL offer policy that governs the offered model. Functional: each offering carries exactly one canonical offer policy."@en .
+<https://w3id.org/pionera/daimo#hasOfferPolicy> <http://www.w3.org/2000/01/rdf-schema#label> "has offer policy"@en .
+# 
+# https://w3id.org/pionera/daimo#hasRole
+<https://w3id.org/pionera/daimo#hasRole> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#hasRole> <http://www.w3.org/2000/01/rdf-schema#domain> <http://xmlns.com/foaf/0.1/Agent> .
+<https://w3id.org/pionera/daimo#hasRole> <http://www.w3.org/2000/01/rdf-schema#range> <https://w3id.org/pionera/daimo#ParticipantRole> .
+<https://w3id.org/pionera/daimo#hasRole> <http://www.w3.org/2000/01/rdf-schema#comment> "Links an agent to a dataspace role. Non-functional: agents may hold multiple roles."@en .
+<https://w3id.org/pionera/daimo#hasRole> <http://www.w3.org/2000/01/rdf-schema#label> "has role"@en .
+# 
+# https://w3id.org/pionera/daimo#inParticipantContext
+<https://w3id.org/pionera/daimo#inParticipantContext> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#inParticipantContext> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#inParticipantContext> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#ParticipantRole> .
+<https://w3id.org/pionera/daimo#inParticipantContext> <http://www.w3.org/2000/01/rdf-schema#range> <https://w3id.org/edc/v0.0.1/ns/ParticipantContext> .
+<https://w3id.org/edc/v0.0.1/ns/ParticipantContext> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#inParticipantContext> <http://www.w3.org/2000/01/rdf-schema#label> "in participant context"@en .
+# 
+# https://w3id.org/pionera/daimo#inputSchema
+<https://w3id.org/pionera/daimo#inputSchema> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#inputSchema> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#inputSchema> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#IOContract> .
+<https://w3id.org/pionera/daimo#inputSchema> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/ns/dcat#Resource> .
+<http://www.w3.org/ns/dcat#Resource> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#inputSchema> <http://www.w3.org/2000/01/rdf-schema#label> "input schema"@en .
+# 
+# https://w3id.org/pionera/daimo#offeredBy
+<https://w3id.org/pionera/daimo#offeredBy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#offeredBy> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://purl.org/dc/terms/publisher> .
+<https://w3id.org/pionera/daimo#offeredBy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#offeredBy> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#AIAssetOffering> .
+<https://w3id.org/pionera/daimo#offeredBy> <http://www.w3.org/2000/01/rdf-schema#range> <http://xmlns.com/foaf/0.1/Agent> .
+<https://w3id.org/pionera/daimo#offeredBy> <http://www.w3.org/2000/01/rdf-schema#comment> "Links an offering to its publishing agent. Functional: each offering has exactly one provider."@en .
+<https://w3id.org/pionera/daimo#offeredBy> <http://www.w3.org/2000/01/rdf-schema#label> "offered by"@en .
+# 
+# https://w3id.org/pionera/daimo#offersModel
+<https://w3id.org/pionera/daimo#offersModel> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#offersModel> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://xmlns.com/foaf/0.1/primaryTopic> .
+<https://w3id.org/pionera/daimo#offersModel> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#offersModel> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#AIAssetOffering> .
+<https://w3id.org/pionera/daimo#offersModel> <http://www.w3.org/2000/01/rdf-schema#range> <http://data.europa.eu/it6/MachineLearningModel> .
+<https://w3id.org/pionera/daimo#offersModel> <http://www.w3.org/2000/01/rdf-schema#comment> "Links a catalog-record offering to the AI model it registers. Functional: one offering registers exactly one model."@en .
+<https://w3id.org/pionera/daimo#offersModel> <http://www.w3.org/2000/01/rdf-schema#label> "offers model"@en .
+# 
+# https://w3id.org/pionera/daimo#onInfrastructure
+<https://w3id.org/pionera/daimo#onInfrastructure> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#onInfrastructure> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#onInfrastructure> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#ModelDeployment> .
+<https://w3id.org/pionera/daimo#onInfrastructure> <http://www.w3.org/2000/01/rdf-schema#range> <http://data.europa.eu/it6/ComputerInfrastructure> .
+<http://data.europa.eu/it6/ComputerInfrastructure> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#onInfrastructure> <http://www.w3.org/2000/01/rdf-schema#comment> "Links a deployment to the MLDCAT-AP computer infrastructure running it. Functional: one deployment runs on one canonical infrastructure instance (redundancy is modelled as multiple deployments)."@en .
+<https://w3id.org/pionera/daimo#onInfrastructure> <http://www.w3.org/2000/01/rdf-schema#label> "on infrastructure"@en .
+# 
+# https://w3id.org/pionera/daimo#outputSchema
+<https://w3id.org/pionera/daimo#outputSchema> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#outputSchema> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#outputSchema> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#IOContract> .
+<https://w3id.org/pionera/daimo#outputSchema> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/ns/dcat#Resource> .
+<https://w3id.org/pionera/daimo#outputSchema> <http://www.w3.org/2000/01/rdf-schema#label> "output schema"@en .
+# 
+# https://w3id.org/pionera/daimo#records
+<https://w3id.org/pionera/daimo#records> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#records> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord> .
+<https://w3id.org/pionera/daimo#records> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/ns/prov#Activity> .
+<https://w3id.org/pionera/daimo#records> <http://www.w3.org/2000/01/rdf-schema#label> "records"@en .
+# 
+# https://w3id.org/pionera/daimo#signedBy
+<https://w3id.org/pionera/daimo#signedBy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#signedBy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#signedBy> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#AuditEvidence> .
+<https://w3id.org/pionera/daimo#signedBy> <http://www.w3.org/2000/01/rdf-schema#range> <http://xmlns.com/foaf/0.1/Agent> .
+<https://w3id.org/pionera/daimo#signedBy> <http://www.w3.org/2000/01/rdf-schema#comment> "Functional: one signer per evidence record."@en .
+<https://w3id.org/pionera/daimo#signedBy> <http://www.w3.org/2000/01/rdf-schema#label> "signed by"@en .
+# 
+# https://w3id.org/pionera/daimo#spansParticipantContext
+<https://w3id.org/pionera/daimo#spansParticipantContext> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#spansParticipantContext> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord> .
+<https://w3id.org/pionera/daimo#spansParticipantContext> <http://www.w3.org/2000/01/rdf-schema#range> <https://w3id.org/edc/v0.0.1/ns/ParticipantContext> .
+<https://w3id.org/pionera/daimo#spansParticipantContext> <http://www.w3.org/2000/01/rdf-schema#label> "spans participant context"@en .
+# 
+# https://w3id.org/pionera/daimo#underAuthorization
+<https://w3id.org/pionera/daimo#underAuthorization> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#underAuthorization> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#underAuthorization> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#DerivedArtifact> .
+<https://w3id.org/pionera/daimo#underAuthorization> <http://www.w3.org/2000/01/rdf-schema#range> <https://w3id.org/pionera/daimo#ExecutionAuthorization> .
+<https://w3id.org/pionera/daimo#underAuthorization> <http://www.w3.org/2000/01/rdf-schema#comment> "Links a derived artifact to the authorisation under which it was produced. Functional."@en .
+<https://w3id.org/pionera/daimo#underAuthorization> <http://www.w3.org/2000/01/rdf-schema#label> "under authorization"@en .
+# 
+# https://w3id.org/pionera/daimo#usesEvaluationContext
+<https://w3id.org/pionera/daimo#usesEvaluationContext> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://w3id.org/pionera/daimo#usesEvaluationContext> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#usesEvaluationContext> <http://www.w3.org/2000/01/rdf-schema#domain> <http://data.europa.eu/it6/Evaluation> .
+<http://data.europa.eu/it6/Evaluation> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#usesEvaluationContext> <http://www.w3.org/2000/01/rdf-schema#range> <https://w3id.org/pionera/daimo#SharedEvaluationContext> .
+<https://w3id.org/pionera/daimo#usesEvaluationContext> <http://www.w3.org/2000/01/rdf-schema#label> "uses evaluation context"@en .
+# 
+# 
+# 
+# #################################################################
+# #
+# #    Data properties
+# #
+# #################################################################
+# 
+# 
+# http://purl.org/dc/terms/hasVersion
+<http://purl.org/dc/terms/hasVersion> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DatatypeProperty> .
+# 
+# https://w3id.org/pionera/daimo#authMethod
+<https://w3id.org/pionera/daimo#authMethod> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DatatypeProperty> .
+<https://w3id.org/pionera/daimo#authMethod> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#authMethod> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#IOContract> .
+<https://w3id.org/pionera/daimo#authMethod> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2001/XMLSchema#string> .
+<https://w3id.org/pionera/daimo#authMethod> <http://www.w3.org/2000/01/rdf-schema#label> "authentication method"@en .
+# 
+# https://w3id.org/pionera/daimo#datasetVersion
+<https://w3id.org/pionera/daimo#datasetVersion> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DatatypeProperty> .
+<https://w3id.org/pionera/daimo#datasetVersion> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://purl.org/dc/terms/hasVersion> .
+<https://w3id.org/pionera/daimo#datasetVersion> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#datasetVersion> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#SharedEvaluationContext> .
+<https://w3id.org/pionera/daimo#datasetVersion> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2001/XMLSchema#string> .
+<https://w3id.org/pionera/daimo#datasetVersion> <http://www.w3.org/2000/01/rdf-schema#label> "dataset version"@en .
+# 
+# https://w3id.org/pionera/daimo#expiresAt
+<https://w3id.org/pionera/daimo#expiresAt> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DatatypeProperty> .
+<https://w3id.org/pionera/daimo#expiresAt> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#expiresAt> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#ExecutionAuthorization> .
+<https://w3id.org/pionera/daimo#expiresAt> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://w3id.org/pionera/daimo#expiresAt> <http://www.w3.org/2000/01/rdf-schema#label> "expires at"@en .
+# 
+# https://w3id.org/pionera/daimo#inputFormat
+<https://w3id.org/pionera/daimo#inputFormat> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DatatypeProperty> .
+<https://w3id.org/pionera/daimo#inputFormat> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#inputFormat> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#IOContract> .
+<https://w3id.org/pionera/daimo#inputFormat> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2001/XMLSchema#string> .
+<https://w3id.org/pionera/daimo#inputFormat> <http://www.w3.org/2000/01/rdf-schema#label> "input format"@en .
+# 
+# https://w3id.org/pionera/daimo#integrityHash
+<https://w3id.org/pionera/daimo#integrityHash> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DatatypeProperty> .
+<https://w3id.org/pionera/daimo#integrityHash> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#integrityHash> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#AuditEvidence> .
+<https://w3id.org/pionera/daimo#integrityHash> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2001/XMLSchema#string> .
+<https://w3id.org/pionera/daimo#integrityHash> <http://www.w3.org/2000/01/rdf-schema#label> "integrity hash"@en .
+# 
+# https://w3id.org/pionera/daimo#outputFormat
+<https://w3id.org/pionera/daimo#outputFormat> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DatatypeProperty> .
+<https://w3id.org/pionera/daimo#outputFormat> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#outputFormat> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#IOContract> .
+<https://w3id.org/pionera/daimo#outputFormat> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2001/XMLSchema#string> .
+<https://w3id.org/pionera/daimo#outputFormat> <http://www.w3.org/2000/01/rdf-schema#label> "output format"@en .
+# 
+# https://w3id.org/pionera/daimo#protocol
+<https://w3id.org/pionera/daimo#protocol> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DatatypeProperty> .
+<https://w3id.org/pionera/daimo#protocol> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#protocol> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#SharedEvaluationContext> .
+<https://w3id.org/pionera/daimo#protocol> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2001/XMLSchema#string> .
+<https://w3id.org/pionera/daimo#protocol> <http://www.w3.org/2000/01/rdf-schema#label> "evaluation protocol"@en .
+# 
+# https://w3id.org/pionera/daimo#randomSeed
+<https://w3id.org/pionera/daimo#randomSeed> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DatatypeProperty> .
+<https://w3id.org/pionera/daimo#randomSeed> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#randomSeed> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#SharedEvaluationContext> .
+<https://w3id.org/pionera/daimo#randomSeed> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2001/XMLSchema#integer> .
+<https://w3id.org/pionera/daimo#randomSeed> <http://www.w3.org/2000/01/rdf-schema#label> "random seed"@en .
+# 
+# https://w3id.org/pionera/daimo#recordedAt
+<https://w3id.org/pionera/daimo#recordedAt> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DatatypeProperty> .
+<https://w3id.org/pionera/daimo#recordedAt> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#FunctionalProperty> .
+<https://w3id.org/pionera/daimo#recordedAt> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/pionera/daimo#AuditEvidence> .
+<https://w3id.org/pionera/daimo#recordedAt> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://w3id.org/pionera/daimo#recordedAt> <http://www.w3.org/2000/01/rdf-schema#label> "recorded at"@en .
+# 
+# 
+# 
+# #################################################################
+# #
+# #    Classes
+# #
+# #################################################################
+# 
+# 
+# http://data.europa.eu/it6/ComputerInfrastructure
+# 
+# http://data.europa.eu/it6/Evaluation
+# 
+# http://data.europa.eu/it6/Flow
+# 
+# http://data.europa.eu/it6/MachineLearningModel
+# 
+# http://data.europa.eu/it6/Run
+# 
+# http://data.europa.eu/it6/Task
+# 
+# http://www.w3.org/ns/dcat#CatalogRecord
+<http://www.w3.org/ns/dcat#CatalogRecord> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+# 
+# http://www.w3.org/ns/dcat#DataService
+# 
+# http://www.w3.org/ns/dcat#Dataset
+# 
+# http://www.w3.org/ns/dcat#Resource
+# 
+# http://www.w3.org/ns/odrl/2/Agreement
+<http://www.w3.org/ns/odrl/2/Agreement> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+# 
+# http://www.w3.org/ns/odrl/2/Offer
+# 
+# http://www.w3.org/ns/prov#Activity
+# 
+# http://www.w3.org/ns/prov#Bundle
+<http://www.w3.org/ns/prov#Bundle> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+# 
+# http://www.w3.org/ns/prov#Entity
+<http://www.w3.org/ns/prov#Entity> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+# 
+# http://xmlns.com/foaf/0.1/Agent
+# 
+# https://w3id.org/edc/v0.0.1/ns/ParticipantContext
+# 
+# https://w3id.org/pionera/daimo#AIAssetOffering
+<https://w3id.org/pionera/daimo#AIAssetOffering> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#AIAssetOffering> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://www.w3.org/ns/dcat#CatalogRecord> .
+<https://w3id.org/pionera/daimo#AIAssetOffering> <http://www.w3.org/2000/01/rdf-schema#comment> "A catalog-record entry that registers an AI model in a dataspace catalog, bundling the model reference, the providing agent, and an ODRL offer policy. Specialises dcat:CatalogRecord; carries an odrl:Offer via daimo:hasOfferPolicy. In DSP terms this is the catalog-time artefact that becomes a dspace:ContractOffer during negotiation."@en .
+<https://w3id.org/pionera/daimo#AIAssetOffering> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <https://w3id.org/pionera/daimo> .
+<https://w3id.org/pionera/daimo#AIAssetOffering> <http://www.w3.org/2000/01/rdf-schema#label> "AI asset offering"@en .
+# 
+# https://w3id.org/pionera/daimo#AuditEvidence
+<https://w3id.org/pionera/daimo#AuditEvidence> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#AuditEvidence> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://www.w3.org/ns/prov#Entity> .
+<https://w3id.org/pionera/daimo#AuditEvidence> <http://www.w3.org/2000/01/rdf-schema#comment> "A compliance-oriented evidence record attached to a governed event, carrying integrity hash, signer, and timestamp."@en .
+<https://w3id.org/pionera/daimo#AuditEvidence> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <https://w3id.org/pionera/daimo> .
+<https://w3id.org/pionera/daimo#AuditEvidence> <http://www.w3.org/2000/01/rdf-schema#label> "audit evidence"@en .
+# 
+# https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord
+<https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://www.w3.org/ns/prov#Bundle> .
+<https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord> <http://www.w3.org/2000/01/rdf-schema#comment> "A reusable semantic bundle that aggregates prov:Activity and prov:Entity across participant contexts to tell one audit-ready story."@en .
+<https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <https://w3id.org/pionera/daimo> .
+<https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord> <http://www.w3.org/2000/01/rdf-schema#label> "cross-participant provenance record"@en .
+# 
+# https://w3id.org/pionera/daimo#DerivedArtifact
+<https://w3id.org/pionera/daimo#DerivedArtifact> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#DerivedArtifact> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://www.w3.org/ns/dcat#Resource> .
+<https://w3id.org/pionera/daimo#DerivedArtifact> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://www.w3.org/ns/prov#Entity> .
+<https://w3id.org/pionera/daimo#DerivedArtifact> <http://www.w3.org/2000/01/rdf-schema#comment> "A governed, catalog-describable output produced by an it6:Run in a dataspace context, bearing its own provenance and policy."@en .
+<https://w3id.org/pionera/daimo#DerivedArtifact> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <https://w3id.org/pionera/daimo> .
+<https://w3id.org/pionera/daimo#DerivedArtifact> <http://www.w3.org/2000/01/rdf-schema#label> "derived artifact"@en .
+# 
+# https://w3id.org/pionera/daimo#Evaluator
+<https://w3id.org/pionera/daimo#Evaluator> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#Evaluator> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <https://w3id.org/pionera/daimo#ParticipantRole> .
+<https://w3id.org/pionera/daimo#Evaluator> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <https://w3id.org/pionera/daimo> .
+<https://w3id.org/pionera/daimo#Evaluator> <http://www.w3.org/2000/01/rdf-schema#label> "evaluator"@en .
+# 
+# https://w3id.org/pionera/daimo#ExecutionAuthorization
+<https://w3id.org/pionera/daimo#ExecutionAuthorization> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#ExecutionAuthorization> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://www.w3.org/ns/odrl/2/Agreement> .
+<https://w3id.org/pionera/daimo#ExecutionAuthorization> <http://www.w3.org/2000/01/rdf-schema#comment> "An ODRL agreement (produced by a DSP contract negotiation) that binds at least one odrl:permission to concrete it6:Run invocations it authorises. Specialises odrl:Agreement; MUST carry at least one odrl:permission per the ODRL policy model."@en .
+<https://w3id.org/pionera/daimo#ExecutionAuthorization> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <https://w3id.org/pionera/daimo> .
+<https://w3id.org/pionera/daimo#ExecutionAuthorization> <http://www.w3.org/2000/01/rdf-schema#label> "execution authorization"@en .
+# 
+# https://w3id.org/pionera/daimo#GovernanceActor
+<https://w3id.org/pionera/daimo#GovernanceActor> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#GovernanceActor> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <https://w3id.org/pionera/daimo#ParticipantRole> .
+<https://w3id.org/pionera/daimo#GovernanceActor> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <https://w3id.org/pionera/daimo> .
+<https://w3id.org/pionera/daimo#GovernanceActor> <http://www.w3.org/2000/01/rdf-schema#label> "governance actor"@en .
+# 
+# https://w3id.org/pionera/daimo#IOContract
+<https://w3id.org/pionera/daimo#IOContract> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#IOContract> <http://www.w3.org/2000/01/rdf-schema#comment> "The minimum machine-actionable invocation contract for a deployment: input format, output format, authentication method, and optional input/output schemas."@en .
+<https://w3id.org/pionera/daimo#IOContract> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <https://w3id.org/pionera/daimo> .
+<https://w3id.org/pionera/daimo#IOContract> <http://www.w3.org/2000/01/rdf-schema#label> "I/O contract"@en .
+# 
+# https://w3id.org/pionera/daimo#ModelConsumer
+<https://w3id.org/pionera/daimo#ModelConsumer> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#ModelConsumer> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <https://w3id.org/pionera/daimo#ParticipantRole> .
+<https://w3id.org/pionera/daimo#ModelConsumer> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <https://w3id.org/pionera/daimo> .
+<https://w3id.org/pionera/daimo#ModelConsumer> <http://www.w3.org/2000/01/rdf-schema#label> "model consumer"@en .
+# 
+# https://w3id.org/pionera/daimo#ModelDeployment
+<https://w3id.org/pionera/daimo#ModelDeployment> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#ModelDeployment> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://www.w3.org/ns/prov#Entity> .
+<https://w3id.org/pionera/daimo#ModelDeployment> <http://www.w3.org/2000/01/rdf-schema#comment> "A running or hosted instance of an MLDCAT-AP MachineLearningModel exposed through a dcat:DataService under an operational environment."@en .
+<https://w3id.org/pionera/daimo#ModelDeployment> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <https://w3id.org/pionera/daimo> .
+<https://w3id.org/pionera/daimo#ModelDeployment> <http://www.w3.org/2000/01/rdf-schema#label> "model deployment"@en .
+# 
+# https://w3id.org/pionera/daimo#ModelProvider
+<https://w3id.org/pionera/daimo#ModelProvider> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#ModelProvider> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <https://w3id.org/pionera/daimo#ParticipantRole> .
+<https://w3id.org/pionera/daimo#ModelProvider> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <https://w3id.org/pionera/daimo> .
+<https://w3id.org/pionera/daimo#ModelProvider> <http://www.w3.org/2000/01/rdf-schema#label> "model provider"@en .
+# 
+# https://w3id.org/pionera/daimo#ParticipantRole
+<https://w3id.org/pionera/daimo#ParticipantRole> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#ParticipantRole> <http://www.w3.org/2000/01/rdf-schema#comment> "A dataspace-scoped role taken by a participant with respect to AI assets. Anti-rigid: an agent can gain and lose roles over time. Subclasses are intentionally NOT mutually disjoint — one agent can hold several roles simultaneously (e.g., a research group may be both Evaluator and Model Provider)."@en .
+<https://w3id.org/pionera/daimo#ParticipantRole> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <https://w3id.org/pionera/daimo> .
+<https://w3id.org/pionera/daimo#ParticipantRole> <http://www.w3.org/2000/01/rdf-schema#label> "participant role"@en .
+# 
+# https://w3id.org/pionera/daimo#PlatformOperator
+<https://w3id.org/pionera/daimo#PlatformOperator> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#PlatformOperator> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <https://w3id.org/pionera/daimo#ParticipantRole> .
+<https://w3id.org/pionera/daimo#PlatformOperator> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <https://w3id.org/pionera/daimo> .
+<https://w3id.org/pionera/daimo#PlatformOperator> <http://www.w3.org/2000/01/rdf-schema#label> "platform operator"@en .
+# 
+# https://w3id.org/pionera/daimo#SharedEvaluationContext
+<https://w3id.org/pionera/daimo#SharedEvaluationContext> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://w3id.org/pionera/daimo#SharedEvaluationContext> <http://www.w3.org/2000/01/rdf-schema#comment> "A reified grouping of the conditions under which model results are comparable: task, dataset, dataset version, protocol, and random seed. Does not claim to cover every facet that affects comparability (metric, split strategy, hyperparameters); it is the minimum grouping required by CQ-V1..CQ-V3."@en .
+<https://w3id.org/pionera/daimo#SharedEvaluationContext> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <https://w3id.org/pionera/daimo> .
+<https://w3id.org/pionera/daimo#SharedEvaluationContext> <http://www.w3.org/2000/01/rdf-schema#label> "shared evaluation context"@en .
+# 
+# 
+# 
+# #################################################################
+# #
+# #    General axioms
+# #
+# #################################################################
+# 
+# 
+_:genid1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#AllDisjointClasses> .
+_:genid1 <http://www.w3.org/2002/07/owl#members> _:genid10 .
+_:genid10 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:genid9 .
+_:genid9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:genid8 .
+_:genid8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:genid7 .
+_:genid7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:genid6 .
+_:genid6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:genid5 .
+_:genid5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:genid4 .
+_:genid4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:genid3 .
+_:genid3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:genid2 .
+_:genid2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+_:genid2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <https://w3id.org/pionera/daimo#SharedEvaluationContext> .
+_:genid2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> .
+_:genid3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <https://w3id.org/pionera/daimo#ParticipantRole> .
+_:genid3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> .
+_:genid4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <https://w3id.org/pionera/daimo#ModelDeployment> .
+_:genid4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> .
+_:genid5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <https://w3id.org/pionera/daimo#IOContract> .
+_:genid5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> .
+_:genid6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <https://w3id.org/pionera/daimo#ExecutionAuthorization> .
+_:genid6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> .
+_:genid7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <https://w3id.org/pionera/daimo#DerivedArtifact> .
+_:genid7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> .
+_:genid8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord> .
+_:genid8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> .
+_:genid9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <https://w3id.org/pionera/daimo#AuditEvidence> .
+_:genid9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> .
+_:genid10 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <https://w3id.org/pionera/daimo#AIAssetOffering> .
+_:genid10 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> .
+# 
+# Generated by the OWL API (version 5.1.18) https://github.com/owlcs/owlapi/

@@ -1,0 +1,412 @@
+@prefix daimo: <https://w3id.org/pionera/daimo#> .
+@prefix dcat:  <http://www.w3.org/ns/dcat#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix it6:   <http://data.europa.eu/it6/> .
+@prefix mls:   <http://www.w3.org/ns/mls#> .
+@prefix odrl:  <http://www.w3.org/ns/odrl/2/> .
+@prefix prov:  <http://www.w3.org/ns/prov#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix edc:   <https://w3id.org/edc/v0.0.1/ns/> .
+@prefix spdx:  <http://spdx.org/rdf/terms#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+# Module-level metadata
+#################################################################
+
+<https://w3id.org/pionera/daimo/shapes> a owl:Ontology ;
+    dct:title "DAIMO SHACL Shapes"@en ;
+    dct:description "SHACL node shapes, conformance shapes over reused classes, and cross-class SHACL-SPARQL invariants for DAIMO v0.1.4. Used by the validation pipeline (validate.py, tests/negative_test.py) to enforce minimum completeness on DAIMO-native classes, ODRL / MLDCAT-AP conformance obligations on reused classes, and six business-rule invariants across classes."@en ;
+    dct:creator <https://orcid.org/0000-0000-0000-0000> ,
+                <https://orcid.org/0000-0000-0000-0001> ;
+    dct:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dct:issued "2026-04-22"^^xsd:date ;
+    dct:modified "2026-04-23"^^xsd:date ;
+    owl:versionIRI <https://w3id.org/pionera/daimo/shapes/0.1.5> ;
+    owl:versionInfo "0.1.5" ;
+    rdfs:seeAlso <https://w3id.org/pionera/daimo> ,      # core ontology
+                 <https://w3id.org/pionera/daimo/align> ; # alignment module
+    rdfs:comment "Load alongside daimo-core.ttl to validate knowledge graphs that use DAIMO. Contains 9 per-class completeness shapes, 3 conformance shapes (over odrl:Offer, it6:MachineLearningModel, it6:Run) and 6 cross-class SHACL-SPARQL invariants (INV-1..INV-6)."@en .
+
+#################################################################
+# SHACL shapes for DAIMO v0.1.4
+# Each shape enforces the minimum set of properties required for the
+# paper's operational claims, plus ODRL conformance where DAIMO classes
+# subclass ODRL types.
+#################################################################
+
+daimo:AIAssetOfferingShape a sh:NodeShape ;
+    sh:targetClass daimo:AIAssetOffering ;
+    sh:property [ sh:path daimo:offersModel ;
+                  sh:class it6:MachineLearningModel ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ;
+                  sh:message "An AI asset offering must reference exactly one machine learning model."@en ] ;
+    sh:property [ sh:path daimo:offeredBy ;
+                  sh:class foaf:Agent ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ;
+                  sh:message "An AI asset offering must declare exactly one providing agent."@en ] ;
+    sh:property [ sh:path daimo:hasOfferPolicy ;
+                  sh:class odrl:Offer ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ;
+                  sh:message "An AI asset offering must carry exactly one ODRL offer policy."@en ] ;
+    sh:property [ sh:path dct:title ;
+                  sh:minCount 1 ] .
+
+daimo:ParticipantRoleShape a sh:NodeShape ;
+    sh:targetClass daimo:ParticipantRole ;
+    sh:property [ sh:path [ sh:inversePath daimo:hasRole ] ;
+                  sh:class foaf:Agent ;
+                  sh:minCount 1 ;
+                  sh:message "A participant role must be held by at least one agent."@en ] ;
+    sh:property [ sh:path daimo:inParticipantContext ;
+                  sh:class edc:ParticipantContext ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ;
+                  sh:message "A participant role must be scoped to exactly one participant context."@en ] .
+
+daimo:ModelDeploymentShape a sh:NodeShape ;
+    sh:targetClass daimo:ModelDeployment ;
+    sh:property [ sh:path daimo:deploysModel ;
+                  sh:class it6:MachineLearningModel ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ;
+                  sh:message "A deployment must deploy exactly one model."@en ] ;
+    sh:property [ sh:path daimo:exposedAs ;
+                  sh:class dcat:DataService ;
+                  sh:minCount 1 ;
+                  sh:message "A deployment must be exposed as at least one DCAT data service; multi-endpoint (REST+gRPC, multi-region) deployments are allowed."@en ] ;
+    sh:property [ sh:path daimo:hasIOContract ;
+                  sh:class daimo:IOContract ;
+                  sh:minCount 1 ;
+                  sh:message "A deployment must declare at least one I/O contract; one per exposed service is typical."@en ] ;
+    sh:property [ sh:path daimo:onInfrastructure ;
+                  sh:class it6:ComputerInfrastructure ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ;
+                  sh:message "A deployment must declare its compute infrastructure."@en ] .
+
+daimo:IOContractShape a sh:NodeShape ;
+    sh:targetClass daimo:IOContract ;
+    sh:property [ sh:path daimo:inputFormat ;
+                  sh:datatype xsd:string ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ] ;
+    sh:property [ sh:path daimo:outputFormat ;
+                  sh:datatype xsd:string ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ] ;
+    sh:property [ sh:path daimo:authMethod ;
+                  sh:datatype xsd:string ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ;
+                  sh:in ( "none"
+                          "api-key"
+                          "basic"
+                          "bearer"
+                          "oauth2-bearer"
+                          "oauth2-client-credentials"
+                          "mtls"
+                          "jwt"
+                          "dataspace-token" ) ;
+                  sh:message "daimo:authMethod must be one of the recognised tokens: none, api-key, basic, bearer, oauth2-bearer, oauth2-client-credentials, mtls, jwt, dataspace-token."@en ] .
+
+# ExecutionAuthorization MUST carry at least one odrl:permission.
+# This is required by the ODRL 2.2 model: every agreement is a policy,
+# and every policy must have at least one permission/prohibition/duty.
+daimo:ExecutionAuthorizationShape a sh:NodeShape ;
+    sh:targetClass daimo:ExecutionAuthorization ;
+    sh:property [ sh:path odrl:permission ;
+                  sh:minCount 1 ;
+                  sh:message "ExecutionAuthorization is an odrl:Agreement and must carry at least one odrl:permission."@en ] ;
+    sh:property [ sh:path daimo:authorizesRun ;
+                  sh:class it6:Run ;
+                  sh:minCount 1 ] ;
+    sh:property [ sh:path daimo:grantedTo ;
+                  sh:class foaf:Agent ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ] ;
+    sh:property [ sh:path daimo:expiresAt ;
+                  sh:datatype xsd:dateTime ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ] .
+
+daimo:DerivedArtifactShape a sh:NodeShape ;
+    sh:targetClass daimo:DerivedArtifact ;
+    sh:property [ sh:path daimo:derivedFromRun ;
+                  sh:class it6:Run ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ] ;
+    sh:property [ sh:path daimo:underAuthorization ;
+                  sh:class daimo:ExecutionAuthorization ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ] .
+
+daimo:SharedEvaluationContextShape a sh:NodeShape ;
+    sh:targetClass daimo:SharedEvaluationContext ;
+    sh:property [ sh:path daimo:contextTask ;
+                  sh:class it6:Task ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ] ;
+    sh:property [ sh:path daimo:contextDataset ;
+                  sh:class dcat:Dataset ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ] ;
+    sh:property [ sh:path daimo:datasetVersion ;
+                  sh:datatype xsd:string ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ] ;
+    sh:property [ sh:path daimo:protocol ;
+                  sh:datatype xsd:string ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ;
+                  sh:pattern "^(holdout|stratified-holdout|leave-one-out|temporal-split|\\d+-fold-cv|stratified-\\d+-fold-cv|bootstrap-\\d+)$" ;
+                  sh:message "daimo:protocol must match: holdout, stratified-holdout, leave-one-out, temporal-split, <n>-fold-cv, stratified-<n>-fold-cv, or bootstrap-<n>."@en ] ;
+    sh:property [ sh:path daimo:randomSeed ;
+                  sh:datatype xsd:integer ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ] .
+
+daimo:AuditEvidenceShape a sh:NodeShape ;
+    sh:targetClass daimo:AuditEvidence ;
+    sh:property [ sh:path daimo:evidenceOf ;
+                  sh:class prov:Activity ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ] ;
+    sh:property [ sh:path daimo:integrityHash ;
+                  sh:class spdx:Checksum ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ;
+                  sh:message "Audit evidence requires an spdx:Checksum bundling algorithm and digest value."@en ] ;
+    sh:property [ sh:path (daimo:integrityHash spdx:algorithm) ;
+                  sh:minCount 1 ;
+                  sh:message "The checksum must declare its algorithm (spdx:algorithm)."@en ] ;
+    sh:property [ sh:path (daimo:integrityHash spdx:checksumValue) ;
+                  sh:datatype xsd:string ;
+                  sh:minCount 1 ;
+                  sh:minLength 32 ;
+                  sh:message "The checksum value must be present and at least 32 hex characters (SHA-128-bit-or-stronger equivalent)."@en ] ;
+    sh:property [ sh:path daimo:signedBy ;
+                  sh:class foaf:Agent ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ] ;
+    sh:property [ sh:path daimo:recordedAt ;
+                  sh:datatype xsd:dateTime ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ] .
+
+daimo:CrossParticipantProvenanceRecordShape a sh:NodeShape ;
+    sh:targetClass daimo:CrossParticipantProvenanceRecord ;
+    sh:property [ sh:path daimo:records ;
+                  sh:class prov:Activity ;
+                  sh:minCount 1 ] ;
+    sh:property [ sh:path daimo:spansParticipantContext ;
+                  sh:class edc:ParticipantContext ;
+                  sh:minCount 2 ;
+                  sh:message "A cross-participant provenance record must span at least two participant contexts."@en ] .
+
+#################################################################
+# Conformance shapes for reused classes in DAIMO's context
+#################################################################
+
+# An odrl:Offer used within DAIMO (as the policy carried by an
+# AIAssetOffering) MUST identify the asset it licenses (odrl:target) and
+# the party issuing the offer (odrl:assigner). ODRL 2.2 allows target to
+# be declared at either Policy or Permission level; this shape accepts
+# both, via sh:or.
+daimo:OfferInDAIMOShape a sh:NodeShape ;
+    sh:targetClass odrl:Offer ;
+    sh:property [ sh:path odrl:assigner ;
+                  sh:minCount 1 ;
+                  sh:message "An odrl:Offer must declare its assigner (the party issuing the offer)."@en ] ;
+    sh:or (
+      [ sh:property [ sh:path odrl:target ;
+                      sh:minCount 1 ] ]
+      [ sh:property [ sh:path (odrl:permission odrl:target) ;
+                      sh:minCount 1 ] ]
+    ) ;
+    sh:message "An odrl:Offer must declare odrl:target at either Policy level or on each Permission."@en .
+
+# A MachineLearningModel exchanged via DAIMO must have a policy attached,
+# plus the minimum DCAT identity fields.
+daimo:MachineLearningModelInDAIMOShape a sh:NodeShape ;
+    sh:targetClass it6:MachineLearningModel ;
+    sh:property [ sh:path odrl:hasPolicy ;
+                  sh:minCount 1 ;
+                  sh:message "Models exchanged under DAIMO must carry at least one ODRL policy."@en ] ;
+    sh:property [ sh:path dct:title ;
+                  sh:minCount 1 ] ;
+    sh:property [ sh:path dct:identifier ;
+                  sh:minCount 1 ] .
+
+# A Run referenced by DAIMO must be linked to a flow, an implementation,
+# the agent that executed it, and a start timestamp, because reproducibility
+# and auditability depend on these four facts.
+daimo:RunInDAIMOShape a sh:NodeShape ;
+    sh:targetClass it6:Run ;
+    sh:property [ sh:path it6:hasFlow ;
+                  sh:minCount 1 ;
+                  sh:message "Runs must reference their it6:Flow for reproducibility."@en ] ;
+    sh:property [ sh:path mls:realizes ;
+                  sh:minCount 1 ;
+                  sh:message "Runs must reference the algorithm they realise."@en ] ;
+    sh:property [ sh:path prov:wasAssociatedWith ;
+                  sh:minCount 1 ;
+                  sh:message "Runs must record the agent they were associated with."@en ] ;
+    sh:property [ sh:path prov:startedAtTime ;
+                  sh:datatype xsd:dateTime ;
+                  sh:minCount 1 ] .
+
+#################################################################
+# Cross-class invariant shapes (SHACL-SPARQL)
+#
+# These are governance-level business rules that cut across multiple
+# DAIMO classes. They are what distinguishes DAIMO from a passive
+# metadata profile: a governance ontology must catch cross-class
+# inconsistencies, not only per-class completeness.
+#
+# Shared prefix declaration for all sh:sparql constraints below.
+#################################################################
+
+daimo:_invariantPrefixes
+    sh:declare [ sh:prefix "daimo" ;
+                 sh:namespace "https://w3id.org/pionera/daimo#"^^xsd:anyURI ] ;
+    sh:declare [ sh:prefix "it6" ;
+                 sh:namespace "http://data.europa.eu/it6/"^^xsd:anyURI ] ;
+    sh:declare [ sh:prefix "prov" ;
+                 sh:namespace "http://www.w3.org/ns/prov#"^^xsd:anyURI ] ;
+    sh:declare [ sh:prefix "odrl" ;
+                 sh:namespace "http://www.w3.org/ns/odrl/2/"^^xsd:anyURI ] ;
+    sh:declare [ sh:prefix "dcat" ;
+                 sh:namespace "http://www.w3.org/ns/dcat#"^^xsd:anyURI ] ;
+    sh:declare [ sh:prefix "xsd" ;
+                 sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI ] .
+
+# INV-1 — A DerivedArtifact's underAuthorization MUST authorize the run it
+#         was derived from. Otherwise the derivation is "unauthorized" and
+#         the governance chain is broken.
+daimo:DerivationAuthorizationInvariant a sh:NodeShape ;
+    rdfs:label "INV-1: Derivation authorization consistency"@en ;
+    sh:targetClass daimo:DerivedArtifact ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "INV-1 violation: DerivedArtifact's underAuthorization does not authorize the run it derivedFromRun points to."@en ;
+        sh:prefixes daimo:_invariantPrefixes ;
+        sh:select """
+            SELECT $this ?run ?auth WHERE {
+                $this daimo:derivedFromRun ?run .
+                $this daimo:underAuthorization ?auth .
+                FILTER NOT EXISTS { ?auth daimo:authorizesRun ?run }
+            }
+        """ ;
+    ] .
+
+# INV-2 — The agent prov:wasAssociatedWith a run MUST be the grantee
+#         (daimo:grantedTo) of an authorization that covers that run.
+#         Otherwise the run was not authorized for that specific agent.
+daimo:RunAgentAuthorizationInvariant a sh:NodeShape ;
+    rdfs:label "INV-2: Run agent matches authorization grantee"@en ;
+    sh:targetClass it6:Run ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "INV-2 violation: no authorization grants this run to the agent it was associated with."@en ;
+        sh:prefixes daimo:_invariantPrefixes ;
+        sh:select """
+            SELECT $this ?agent WHERE {
+                $this prov:wasAssociatedWith ?agent .
+                ?auth a daimo:ExecutionAuthorization ;
+                      daimo:authorizesRun $this .
+                FILTER NOT EXISTS {
+                    ?anyAuth a daimo:ExecutionAuthorization ;
+                             daimo:authorizesRun $this ;
+                             daimo:grantedTo ?agent .
+                }
+            }
+        """ ;
+    ] .
+
+# INV-3 — A deployment's exposed service MUST serve the same model the
+#         deployment deploys (via it6:servesModel). Otherwise the deployment
+#         advertises a service for a different model than it runs.
+daimo:DeploymentServiceInvariant a sh:NodeShape ;
+    rdfs:label "INV-3: Deployment service-model consistency"@en ;
+    sh:targetClass daimo:ModelDeployment ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "INV-3 violation: deployment's exposed service does not servesModel the same model the deployment deploys."@en ;
+        sh:prefixes daimo:_invariantPrefixes ;
+        sh:select """
+            SELECT $this ?deployedModel ?svc WHERE {
+                $this daimo:deploysModel ?deployedModel ;
+                      daimo:exposedAs ?svc .
+                FILTER NOT EXISTS { ?svc it6:servesModel ?deployedModel }
+            }
+        """ ;
+    ] .
+
+# INV-4 — An authorization's expiresAt MUST be strictly after the
+#         startedAtTime of every run it authorizes. Otherwise the run was
+#         executed under an already-expired agreement.
+daimo:AuthorizationTemporalInvariant a sh:NodeShape ;
+    rdfs:label "INV-4: Authorization expiry after run start"@en ;
+    sh:targetClass daimo:ExecutionAuthorization ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "INV-4 violation: the authorization expired before a run it authorizes even started."@en ;
+        sh:prefixes daimo:_invariantPrefixes ;
+        sh:select """
+            SELECT $this ?run ?expiry ?runStart WHERE {
+                $this daimo:expiresAt ?expiry ;
+                      daimo:authorizesRun ?run .
+                ?run prov:startedAtTime ?runStart .
+                FILTER (?runStart >= ?expiry)
+            }
+        """ ;
+    ] .
+
+# INV-5 — The offered model MUST be one of the targets of the offering's
+#         attached ODRL policy (at Policy level or on some Permission).
+#         Otherwise the policy does not actually govern the offered model.
+daimo:OfferingPolicyTargetInvariant a sh:NodeShape ;
+    rdfs:label "INV-5: Offered model is a target of the attached policy"@en ;
+    sh:targetClass daimo:AIAssetOffering ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "INV-5 violation: offering's offersModel does not appear as odrl:target of the attached policy (neither at Policy level nor on any Permission)."@en ;
+        sh:prefixes daimo:_invariantPrefixes ;
+        sh:select """
+            SELECT $this ?model ?policy WHERE {
+                $this daimo:offersModel ?model ;
+                      daimo:hasOfferPolicy ?policy .
+                FILTER NOT EXISTS { ?policy odrl:target ?model }
+                FILTER NOT EXISTS { ?policy odrl:permission/odrl:target ?model }
+            }
+        """ ;
+    ] .
+
+# INV-6 — The offering's offeredBy MUST match the odrl:assigner of the
+#         attached policy. Otherwise the catalog record attributes the
+#         publication to one agent while the ODRL offer is issued by
+#         another — a governance chain inconsistency.
+daimo:OfferingAssignerInvariant a sh:NodeShape ;
+    rdfs:label "INV-6: Offering agent consistency with policy assigner"@en ;
+    sh:targetClass daimo:AIAssetOffering ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "INV-6 violation: offering's daimo:offeredBy does not equal the odrl:assigner of the attached policy."@en ;
+        sh:prefixes daimo:_invariantPrefixes ;
+        sh:select """
+            SELECT $this ?provider ?assigner WHERE {
+                $this daimo:offeredBy ?provider ;
+                      daimo:hasOfferPolicy ?policy .
+                ?policy odrl:assigner ?assigner .
+                FILTER (?provider != ?assigner)
+            }
+        """ ;
+    ] .

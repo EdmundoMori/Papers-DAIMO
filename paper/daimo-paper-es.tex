@@ -1,0 +1,501 @@
+% =====================================================================
+% DAIMO — artículo original en español
+%
+% Source file produced by extracting text from daimo-paper-es.pdf on
+% 2026-04-22 and reconstructing the LaTeX source. Content is preserved
+% verbatim from the PDF. Structural changes (moving scenario to §1,
+% renaming classes that were later dropped, adding figures, etc.) are
+% NOT yet applied — this file is the faithful transcription, to serve
+% as the baseline for the paper rewrite.
+%
+% Compile: pdflatex daimo-paper-es.tex  (twice for references)
+% =====================================================================
+
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{csquotes}
+\usepackage{xcolor}
+
+\geometry{margin=2.5cm}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!50!black,
+  citecolor=blue!50!black,
+  urlcolor=blue!50!black,
+  pdftitle={DAIMO: una ontología para la gestión de modelos de IA en espacios de datos}
+}
+
+% Convenience macro for inline ontology terms.
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\cq}[1]{\textsf{#1}}
+
+% A column type that wraps long text nicely.
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\title{DAIMO: una ontología para la gestión de modelos de IA\\en espacios de datos}
+\author{Edmundo de Elvira Mori Orrillo\thanks{Autor de correspondencia: \texttt{edmundo.mori.orrillo@upm.es}.} \and Jiayun Liu \\[0.5em]
+\normalsize Universidad Politécnica de Madrid, España}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent\textbf{Resumen.}
+Los modelos de IA se intercambian, catalogan y consumen cada vez con mayor frecuencia en espacios de datos; sin embargo, las prácticas actuales de documentación y catalogación siguen ofreciendo un soporte semántico débil para tareas operativas como el descubrimiento sensible a políticas, la invocación controlada, la trazabilidad de ejecuciones y la comparación reproducible de resultados de evaluación. Este artículo presenta DAIMO, una ontología para la gestión de modelos de IA en espacios de datos. DAIMO aporta un modelo semántico operacional que integra vocabularios de catálogo, procedencia, políticas y aprendizaje automático con constructos explícitos para contratos de entrada y salida, perfiles de ejecución, contextos de evaluación, artefactos de auditoría y artefactos de reproducibilidad. La ontología se desarrolló mediante una metodología guiada por requisitos que conecta diseño conceptual, implementación, validación y empaquetado. La validación combina restricciones SHACL, preguntas de competencia ejecutables codificadas como consultas SPARQL y materiales de reproducibilidad compuestos por cuadernos, tablas de resultados generadas, registros de auditoría y evidencia de integridad basada en checksums. El artefacto resultante muestra cómo los modelos de IA pueden publicarse como activos gobernados, descubrirse bajo restricciones de política y calidad, invocarse mediante servicios de datos, trazarse a través de ejecuciones y compararse dentro de un contexto de evaluación compartido. El artículo también discute los límites actuales de la propuesta, especialmente en relación con la validación con expertos y con un soporte semántico más rico para compatibilidad y benchmarking.
+
+\medskip
+\noindent\textbf{Palabras clave:} ontología; modelos de IA; espacios de datos; interoperabilidad semántica; SHACL; reproducibilidad.
+\end{abstract}
+
+% =====================================================================
+\section{Introducción}\label{sec:intro}
+
+Los espacios de datos responden a una tensión persistente del intercambio interorganizacional de información: las organizaciones necesitan compartir activos y generar valor a partir de ellos sin perder control sobre gobernanza, acceso y representación técnica~\cite{franklin05,otto19,cappiello22,werbrouck24}. Cuando esta lógica se aplica a la inteligencia artificial, los modelos dejan de ser componentes aislados y pasan a convertirse en activos gobernados. Un modelo que circula en un espacio de datos puede tener que catalogarse, seleccionarse bajo restricciones de política, invocarse mediante un servicio, trazarse a través de su ejecución y compararse mediante evidencia de evaluación~\cite{otto19,cappiello22,werbrouck24}.
+
+Las aproximaciones existentes cubren partes de ese ciclo de vida, pero no la cadena operacional completa. Los artefactos de documentación como model cards, factsheets y datasheets mejoran la transparencia~\cite{mitchell19,arnold19,gebru21}; OpenML, ModelDB, Kipoi y TFX muestran cómo operacionalizar tareas, ejecuciones, protocolos, dependencias y pipelines~\cite{openml,modeldb,kipoi,tfx}; y vocabularios de la Web Semántica como DCAT, ODRL, PROV-O y ML-Schema aportan bases sólidas para publicación, política, procedencia y semántica experimental~\cite{dcat2,odrl22,provo,mls}. Sin embargo, estos recursos siguen fragmentados entre tradiciones de documentación, tooling de ciclo de vida, formalización de políticas e ingeniería ontológica~\cite{pandit-esteves,penteado23,bareedu24,ferranti,robaldo}. Sigue faltando una ontología que conecte esas capacidades en un único modelo operacional para activos de IA en espacios de datos.
+
+DAIMO aborda esa brecha. La ontología aporta un marco semántico coherente para representar modelos de IA como activos de catálogo gobernados y conectarlos con contratos de invocación, requisitos de ejecución, trazas de operación, contextos de evaluación, evidencia de auditoría y evidencia de reproducibilidad. El artículo hace visible esa contribución de tres maneras: define la ontología y su estrategia de reutilización, muestra cómo el modelo responde preguntas de competencia sobre publicación, descubrimiento, ejecución y evaluación, y valida la propuesta mediante restricciones SHACL, consultas SPARQL ejecutables y materiales de reproducibilidad que respaldan los resultados reportados. En ese sentido, el trabajo no se limita al modelado conceptual; demuestra que la ontología resultante puede sostener usos operacionales en escenarios de investigación y de tipo empresarial dentro de espacios de datos.
+
+El resto del artículo se organiza de la siguiente manera. La Sección~\ref{sec:related} sitúa el problema con respecto al trabajo relacionado. La Sección~\ref{sec:method} describe el proceso de desarrollo de la ontología. La Sección~\ref{sec:ontology} presenta la ontología propuesta. La Sección~\ref{sec:demo} demuestra el artefacto mediante escenarios de descubrimiento, ejecución y evaluación. La Sección~\ref{sec:eval} expone la estrategia de validación y sus resultados. La Sección~\ref{sec:discussion} discute implicaciones y limitaciones. La Sección~\ref{sec:avail} resume los aspectos de disponibilidad y reproducibilidad. La Sección~\ref{sec:conclusion} presenta las conclusiones.
+
+% =====================================================================
+\section{Contexto y trabajo relacionado}\label{sec:related}
+
+El problema abordado en este artículo se sitúa en la intersección de cuatro corrientes que con frecuencia se tratan por separado: las arquitecturas de espacios de datos, las prácticas de documentación y repositorios de modelos, las representaciones semánticas para activos de aprendizaje automático y los vocabularios de gobernanza para catalogación, procedencia y política~\cite{otto19,mitchell19,mls,dcat2,odrl22,provo}. Cada una de estas corrientes aporta una pieza necesaria del problema, pero ninguna de ellas, tomada de manera aislada, resulta suficiente para sostener la gestión extremo a extremo de modelos de IA en espacios de datos. Lo que se desprende de la literatura reciente de la Web Semántica y de los espacios de datos no es la ausencia de bloques sólidos, sino su fragmentación entre distintos contextos de problema y distintas tradiciones de validación~\cite{werbrouck24,kurteva,palma,woods}.
+
+La perspectiva de los espacios de datos es importante porque desplaza el foco desde artefactos aislados hacia intercambios gobernados entre actores autónomos. Franklin et al. formularon las \emph{dataspaces} como respuesta a entornos de información heterogéneos~\cite{franklin05}, mientras que los trabajos sobre International Data Spaces y encuestas posteriores convierten la soberanía, los contratos y la interoperabilidad controlada en supuestos explícitos del diseño~\cite{otto19,cappiello22}. Trabajos más recientes sobre ecosistemas federados como ConSolid muestran cómo las infraestructuras de la Web Semántica han evolucionado hacia escenarios descentralizados y multi-actor donde la gobernanza y la interoperabilidad deben diseñarse conjuntamente~\cite{werbrouck24}. En este tipo de entornos, las descripciones de los activos deben soportar descubrimiento accionable por máquina y aplicación de políticas, no solo documentación legible por humanos. Esto es especialmente relevante para los modelos de IA porque un mismo recurso puede aparecer simultáneamente como entrada de catálogo, artefacto descargable, endpoint de servicio, recurso gobernado por condiciones de acceso y entidad cuyas afirmaciones de calidad necesitan estar respaldadas por evidencia de ejecución y evaluación.
+
+Las iniciativas de documentación de modelos, como las \emph{model cards} y los \emph{factsheets}, han sido decisivas para aumentar la transparencia de los artefactos de IA~\cite{mitchell19,arnold19}. Sin embargo, su contribución es principalmente documental: ayudan a explicar a lectores humanos el uso previsto, las limitaciones y el rendimiento reportado. Esto las hace valiosas para comunicación y gobernanza, pero comparativamente débiles como sustrato para descubrimiento automatizado, filtrado y vinculación de evidencia en escenarios máquina a máquina. Desde el lado opuesto, trabajos centrados en política llegan a un límite parecido. Pandit y Esteves muestran que vocabularios como ODRL y DPV permiten hacer más explícitas condiciones de uso que en DUO permanecen en gran medida textuales~\cite{pandit-esteves}, pero su foco está en condiciones de compartición de datos de salud y no en el ciclo de vida operacional completo de activos de modelo en espacios de datos.
+
+Las plataformas de repositorio y de ciclo de vida ocupan una posición intermedia entre la documentación narrativa y las descripciones basadas en ontologías. OpenML demuestra que la comparación entre modelos solo se vuelve operacional cuando datasets, tareas, ejecuciones y protocolos de evaluación se organizan explícitamente como recursos relacionados~\cite{openml}. ModelDB y propuestas afines de gestión del ciclo de vida subrayan la misma idea desde la perspectiva del desarrollo iterativo, el versionado y el tracking de experimentos~\cite{modeldb}. Kipoi y TFX muestran que esta capa operacional también incluye formatos de entrada y salida estandarizados, dependencias declaradas y pipelines reproducibles de ejecución~\cite{kipoi,tfx}. Estas plataformas resuelven partes importantes del problema, pero no constituyen por sí mismas perfiles ontológicos interoperables para intercambio gobernado y sensible a políticas en espacios de datos.
+
+Los recursos semánticos y las ontologías de dominio atacan otra capa del problema. EXPO ofrece una ontología general de experimentos científicos~\cite{expo}; ML-Schema busca exponer la semántica de los experimentos de aprendizaje automático mediante un esquema reutilizable~\cite{mls}; MEX proporciona un vocabulario de intercambio para describir experimentos de aprendizaje automático y sus resultados~\cite{mex}; OntoDM y DMOP organizan tareas, algoritmos, datasets, workflows y supuestos para data mining y semantic meta-mining~\cite{ontodm,dmop}; y el trabajo sobre procedencia en el ciclo de vida de ML enfatiza trazabilidad, recreación y auditabilidad~\cite{souza19}. Ejemplos recientes del \emph{Semantic Web Journal} ilustran bien la fortaleza de este enfoque en dominios concretos: RePlanIT integra conocimiento heterogéneo para pasaportes digitales de producto de dispositivos TIC~\cite{kurteva}, GloSIS operacionaliza un modelo de información de suelos a gran escala mediante OWL y servicios de datos enlazados~\cite{palma}, y Woods et al.\ conectan ingeniería ontológica con flujos de procesamiento del lenguaje natural para mejorar la calidad de datos de mantenimiento~\cite{woods}. Estas contribuciones son metodológicamente próximas a DAIMO, en tanto combinan modelado conceptual con implementación y evaluación. No obstante, su foco es el dominio representado y no la gestión de modelos de IA como activos gobernados en espacios de datos.
+
+Otra corriente relevante concierne a validación accionable por máquina, restricciones y flujos de publicación. Penteado et al.\ muestran que las metodologías de publicación de datos enlazados fallan con frecuencia precisamente en el punto donde la validación y el control operativo de calidad deberían formar parte del proceso~\cite{penteado23}. Bareedu et al.\ derivan reglas de validación semántica a partir de estándares industriales y demuestran cómo documentos de especificación no estructurados pueden transformarse en reglas formales~\cite{bareedu24}. Ferranti et al.\ formalizan restricciones de propiedades de Wikidata mediante SHACL y SPARQL y hacen explícitas las tensiones entre expresividad y operacionalización~\cite{ferranti}. Robaldo y Batsakis muestran además que la validación en SHACL no siempre puede tratarse de forma independiente de la inferencia, una observación importante cuando una ontología pretende soportar comprobaciones operativas no triviales~\cite{robaldo}. En conjunto, estos trabajos dejan claro que la validación ejecutable se ha convertido en una expectativa central para contribuciones ontológicas con pretensiones operativas.
+
+La capa de gobernanza, por su parte, cuenta con vocabularios maduros. DCAT ofrece una base natural para publicación y descubrimiento~\cite{dcat2}; ODRL proporciona un modelo de información consolidado para permisos, prohibiciones y obligaciones~\cite{odrl22}; y PROV-O sigue siendo una base robusta para derivación, rendición de cuentas y trazabilidad de ejecuciones~\cite{provo}. El reto, en consecuencia, no consiste en reemplazar estos vocabularios con una ontología monolítica, sino en articularlos en una ontología que pueda adoptarse en la práctica y responder a preguntas operativas sobre modelos de IA en espacios de datos. La Tabla~\ref{tab:related} resume esa brecha y posiciona el papel de DAIMO en ella.
+
+A partir de esta comparación, la brecha de investigación puede formularse con mayor precisión: todavía no existe una ontología que vincule metadatos de publicación, políticas de acceso, trazas de ejecución y evidencia de evaluación comparativa para modelos de IA en espacios de datos de una forma ejecutable y reproducible. Existen precedentes sólidos en ontologías de dominio, formalización de políticas, metodologías de publicación y validación basada en SHACL/SPARQL~\cite{kurteva,palma,pandit-esteves,penteado23,bareedu24,ferranti}, pero todavía no una ontología centrada en el ciclo de vida operacional de los activos de modelo de IA dentro de un espacio de datos. DAIMO está diseñada para cubrir esa brecha sin duplicar los vocabularios que ya resuelven bien partes del problema.
+
+\begin{table}[t]
+\caption{Categorías de trabajo relacionado y brecha abordada por DAIMO.}
+\label{tab:related}
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}L{3cm}XXX@{}}
+\toprule
+\textbf{Familia} & \textbf{Fortaleza típica} & \textbf{Limitación para la gestión de modelos en espacios de datos} & \textbf{Respuesta de DAIMO} \\
+\midrule
+Artefactos de documentación de modelos &
+Descripciones narrativas ricas del uso previsto, los riesgos y el rendimiento &
+Débil vinculación accionable por máquina entre catálogos, servicios, políticas y artefactos de evaluación &
+Convierte metadatos operativos mínimos en recursos tipados y consultables \\[0.5em]
+
+Ontologías del ciclo de vida de ML &
+Descripciones formales de algoritmos, implementaciones, ejecuciones y evaluaciones &
+Énfasis limitado en publicación, gobernanza del descubrimiento y consumo orientado a servicios en espacios de datos &
+Reutiliza términos del ciclo de vida y añade un perfil orientado a espacios de datos \\[0.5em]
+
+Vocabularios de catálogo &
+Descubrimiento de activos y servicios mediante metadatos estandarizados &
+No modelan por sí solos evidencia de ejecución ni evaluación comparativa &
+Extiende los metadatos de publicación con semántica de ejecución y evaluación \\[0.5em]
+
+Vocabularios de política y procedencia &
+Fuerte soporte para control de acceso, permisos y linaje &
+Requieren integración con metadatos operativos específicos de modelos &
+Conecta política, procedencia y gestión de modelos en un único paquete de artefactos \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% =====================================================================
+\section{Metodología de desarrollo ontológico}\label{sec:method}
+
+La ontología se desarrolló mediante un proceso de ingeniería ontológica guiado por requisitos y adaptado a las necesidades de este proyecto. En lugar de seguir una lista rígida de pasos, el proceso se organizó como una secuencia de decisiones conectadas que abarcan requisitos, diseño conceptual, implementación, validación y empaquetado. Esto era necesario porque el manuscrito original ya contenía parte de la motivación conceptual, mientras que los materiales técnicos debían alinearse con una narrativa de ingeniería ontológica defendible y con las expectativas de validación visibles en contribuciones recientes del área~\cite{kurteva,palma,woods,bareedu24}.
+
+\subsection{Especificación de requisitos}
+
+Los requisitos proceden de dos fuentes complementarias: el manuscrito original y una lista específica de necesidades para la gestión de modelos de IA en espacios de datos. Tomadas en conjunto, estas fuentes dejaban claro que la ontología debía soportar simultáneamente cuatro necesidades prácticas: los modelos tenían que poder publicarse como activos confiables con identidad persistente y metadatos de uso; los participantes tenían que poder descubrirlos y seleccionarlos según tarea, dominio, política y restricciones de calidad; el consumo del modelo tenía que ser operable, trazable y auditable; y la evaluación comparativa tenía que estar contextualizada y respaldada por evidencia de reproducibilidad.
+
+Estas necesidades se organizaron después desde la perspectiva de los actores principales, a saber, proveedores de modelos, consumidores de modelos, operadores de plataforma y actores de gobernanza o evaluación. La Tabla~\ref{tab:actors} resume los requisitos que más importan para cada uno de estos grupos y muestra cómo fueron posteriormente traducidos a preguntas de competencia.
+
+\begin{table}[t]
+\caption{Actores y requisitos representativos.}
+\label{tab:actors}
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}L{3.5cm}XL{3.8cm}@{}}
+\toprule
+\textbf{Actor} & \textbf{Necesidad} & \textbf{Preguntas de competencia representativas} \\
+\midrule
+Proveedor de modelos & Publicar un modelo como activo gobernado con identidad, licencia, política y contrato de invocación & \cq{CQ-R1}, \cq{CQ-R2}, \cq{CQ-R3}, \cq{CQ-R5} \\[0.4em]
+Consumidor de modelos & Descubrir modelos que satisfagan restricciones de tarea, dominio, política y calidad & \cq{CQ-D1}, \cq{CQ-D2}, \cq{CQ-D4} \\[0.4em]
+Operador de plataforma & Invocar servicios, trazar ejecuciones y reconstruir evidencia operativa & \cq{CQ-E1}, \cq{CQ-E3}, \cq{CQ-E4} \\[0.4em]
+Evaluador o actor de gobernanza & Comparar resultados en un contexto compartido e inspeccionar soporte de reproducibilidad & \cq{CQ-V1}, \cq{CQ-V2}, \cq{CQ-V3}, \cq{CQ-V5} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+El conjunto completo de preguntas de competencia cubre aspectos de registro, descubrimiento, ejecución y evaluación. En total se identificaron diecinueve preguntas, de las cuales catorce fueron priorizadas para validación ejecutable en la iteración actual. Esta priorización no fue arbitraria: sirvió para asegurar que las afirmaciones centrales del artículo quedaran respaldadas por artefactos ejecutables y no solo por argumentación narrativa.
+
+\subsection{Diseño conceptual y decisiones de modelado}
+
+Tres decisiones de diseño marcaron la ontología. La primera fue una estrategia de reutilización preferente. En lugar de introducir un gran número de clases y propiedades nuevas, DAIMO reutiliza DCAT para publicación y distribución, ODRL para condiciones de uso, PROV-O para derivación y trazas de actividad, y ML Schema para implementaciones, ejecuciones, métricas y evaluaciones. Esta decisión no fue solo una economía de modelado, sino también una decisión de interoperabilidad: cuanto más pudiera apoyarse la ontología en vocabularios ya reconocidos, más sencillo sería alinear el artefacto con infraestructuras y expectativas existentes.
+
+La segunda decisión consistió en definir DAIMO como una ontología orientada al ciclo de vida operacional de los activos de modelo y no como una ontología general de sistemas de IA. Los términos se introdujeron cuando capturaban relaciones no disponibles en los vocabularios reutilizados y eran necesarios para responder las preguntas de competencia priorizadas. De ahí surge un núcleo DAIMO organizado en torno a \code{Model}, \code{IOContract}, \code{RuntimeProfile}, \code{EvaluationContext}, \code{AuditArtifact} y \code{ReproducibilityArtifact}. La tercera decisión se derivó de las dos anteriores: la publicación se modeló como una capa transversal habilitadora y no como un escenario demostrativo independiente, porque el descubrimiento, la invocación y la evaluación presuponen que el modelo ya ha sido catalogado con suficiente información de identidad, política e interfaz como para convertirse en un activo accionable.
+
+\subsection{Implementación}
+
+La implementación comprende cinco componentes coordinados: una especificación ontológica, una capa de restricciones SHACL, un grafo de conocimiento de ejemplo, una suite de consultas para preguntas de competencia y materiales de reproducibilidad. La Tabla~\ref{tab:impl} resume estos componentes e ilustra una decisión importante del trabajo: la ontología no se presenta como un artefacto conceptual aislado, sino como el núcleo semántico de un flujo operacional validado.
+
+\begin{table}[t]
+\caption{Principales artefactos de implementación.}
+\label{tab:impl}
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}L{4cm}X@{}}
+\toprule
+\textbf{Componente del artefacto} & \textbf{Papel en el estudio} \\
+\midrule
+Especificación ontológica & Define las clases y propiedades para representar activos de modelo de IA gobernados en espacios de datos \\[0.4em]
+Capa de restricciones SHACL & Formaliza los requisitos estructurales para modelos, servicios, ejecuciones, contextos de evaluación y artefactos de evidencia \\[0.4em]
+Grafo de conocimiento de ejemplo & Instancia la ontología con modelos, políticas, ejecuciones, evaluaciones y evidencia asociada \\[0.4em]
+Suite de preguntas de competencia & Comprueba si la ontología puede responder las preguntas operativas que motivaron su diseño \\[0.4em]
+Materiales de reproducibilidad & Aportan cuadernos, resultados generados, registros de auditoría y evidencia de integridad que respaldan las afirmaciones de evaluación \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+El proceso de implementación incluyó también refactorización correctiva. Se eliminaron inconsistencias de namespace entre ontología, ejemplos y \emph{shapes} SHACL, se simplificaron declaraciones de rango múltiple que producían inferencias no deseadas y se enriqueció el grafo de ejemplo hasta que pudo sostener las preguntas de competencia priorizadas con evidencia ejecutable. Conviene explicitar estas intervenciones porque muestran que la ontología maduró no solo mediante la adición de contenido, sino también mediante la eliminación de semánticas frágiles que habrían debilitado su validación y reutilización.
+
+\subsection{Publicación y mantenimiento}
+
+La ontología utiliza el namespace canónico \url{http://purl.org/pionera/daimo#}, reflejando la intención de mantener los identificadores persistentes separados de los detalles locales de despliegue. La versión actual ya conecta especificación ontológica, materiales de validación, datos de ejemplo y evidencia de reproducibilidad en una forma apta para publicación y reutilización externa. La documentación HTML pública y un flujo formal de liberación siguen siendo pasos inmediatos, en línea con recomendaciones de ciclo de vida de publicación que tratan validación, liberación y mantenimiento como partes de un mismo proceso de ingeniería del conocimiento~\cite{penteado23,schmidt21}.
+
+% =====================================================================
+\section{La ontología propuesta}\label{sec:ontology}
+
+\subsection{Alcance y visión general}
+
+DAIMO modela los modelos de IA como activos gobernados que pueden publicarse, descubrirse, ejecutarse y evaluarse dentro de un escenario de espacio de datos. La ontología está diseñada para capturar la semántica operacional necesaria para conectar publicación en catálogo, selección sensible a políticas, invocación, trazabilidad de ejecuciones y evaluación respaldada por reproducibilidad. La decisión de modelado central consiste en representar un modelo como un activo catalogable especializado: \code{daimo:Model} se trata como una subclase de \code{dcat:Dataset}. Esto permite que el modelo herede patrones de publicación de distribuciones y servicios, manteniéndose a la vez compatible con las prácticas de catalogación propias de los espacios de datos. Alrededor de ese recurso central, DAIMO define clases para contratos de interfaz, requisitos de ejecución, contextos de evaluación, evidencia de auditoría y evidencia de reproducibilidad, haciendo explícitas las relaciones que permanecen inframodeladas cuando los vocabularios reutilizados se aplican de forma aislada.
+
+\subsection{Vocabulario central}
+
+La Tabla~\ref{tab:classes} resume las clases de DAIMO que hacen visible el perfil propuesto.
+
+\begin{table}[t]
+\caption{Clases centrales de DAIMO.}
+\label{tab:classes}
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}L{4cm}X@{}}
+\toprule
+\textbf{Clase} & \textbf{Papel en la ontología} \\
+\midrule
+\code{daimo:Model} & Modelo de IA publicado como activo de catálogo y enlazado a política, distribución, implementación y evidencia de evaluación \\[0.3em]
+\code{daimo:IOContract} & Contrato mínimo de entrada y salida, incluyendo formato de entrada, formato de salida y método de autenticación \\[0.3em]
+\code{daimo:RuntimeProfile} & Requisitos operativos como framework y necesidades de hardware \\[0.3em]
+\code{daimo:EvaluationContext} & Contexto compartido por evaluaciones, incluyendo dataset, versión del dataset, protocolo y semilla aleatoria \\[0.3em]
+\code{daimo:Artifact} & Superclase genérica para archivos o recursos que soportan auditoría o reproducibilidad \\[0.3em]
+\code{daimo:AuditArtifact} & Artefacto que ayuda a reconstruir una ejecución, como un log estructurado \\[0.3em]
+\code{daimo:ReproducibilityArtifact} & Artefacto que soporta la reproducibilidad de una evaluación, como un cuaderno o una tabla de resultados \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Las propiedades centrales de DAIMO conectan estas clases con los vocabularios reutilizados y entre sí. La Tabla~\ref{tab:props} recoge los términos más relevantes.
+
+\begin{table}[t]
+\caption{Propiedades representativas de DAIMO.}
+\label{tab:props}
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}L{5cm}X@{}}
+\toprule
+\textbf{Propiedad} & \textbf{Propósito} \\
+\midrule
+\code{daimo:hasIOContract} & Conecta un modelo con su contrato de interfaz \\[0.3em]
+\code{daimo:hasImplementation} & Conecta un modelo con una instancia de implementación \\[0.3em]
+\code{daimo:hasRuntimeProfile} & Conecta una implementación con sus requisitos operativos \\[0.3em]
+\code{daimo:hasEvaluation} & Conecta un modelo con una instancia de evaluación \\[0.3em]
+\code{daimo:hasEvaluationContext} & Conecta una evaluación con información de dataset, protocolo y semilla \\[0.3em]
+\code{daimo:hasAuditArtifact} & Conecta una ejecución con evidencia de auditoría asociada \\[0.3em]
+\code{daimo:hasReproducibilityArtifact} & Conecta una evaluación con cuadernos, tablas de resultados u otros artefactos relacionados \\[0.3em]
+\code{daimo:task} y \code{daimo:applicationDomain} & Soportan el descubrimiento funcional de modelos \\[0.3em]
+\code{daimo:serviceEndpoint} y \code{daimo:authenticationMethod} & Soportan la invocación y el acceso controlado \\[0.3em]
+\code{daimo:metricValue}, \code{daimo:evaluationDatasetVersion} y \code{daimo:randomSeed} & Soportan evidencia de evaluación contextualizada y comparable \\[0.3em]
+\code{daimo:artifactKind}, \code{daimo:artifactLocation} y \code{daimo:artifactChecksum} & Soportan enlaces trazables entre referencias semánticas y archivos materializados \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Este vocabulario sustenta el escenario de demostración presentado en el artículo: tres modelos en el mismo dominio, implementaciones ejecutables, ejecuciones trazadas, contextos de evaluación compartidos, políticas de uso, endpoints de servicio, logs de auditoría y artefactos de reproducibilidad. El valor de la ontología reside en conectar esos elementos dentro de un único modelo semántico capaz de soportar publicación, descubrimiento, ejecución y comparación en un entorno de espacio de datos gobernado.
+
+\subsection{Reutilización y alineamientos}
+
+DAIMO no pretende sustituir los vocabularios que reutiliza. Más bien actúa como una ontología integradora que los alinea para un propósito operacional concreto. La Tabla~\ref{tab:reuse} resume esa estrategia de reutilización.
+
+\begin{table}[t]
+\caption{Reutilización y alineamientos en DAIMO.}
+\label{tab:reuse}
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}L{2cm}L{5cm}X@{}}
+\toprule
+\textbf{Vocabulario} & \textbf{Principales términos reutilizados} & \textbf{Por qué se reutiliza} \\
+\midrule
+DCAT & \code{dcat:Dataset}, \code{dcat:Distribution}, \code{dcat:DataService} y \code{dcat:accessService} & Modelo estándar de publicación y descubrimiento para activos y servicios de catálogo \\[0.4em]
+ODRL & \code{odrl:hasPolicy}, \code{odrl:permission}, \code{odrl:prohibition} y \code{odrl:target} & Selección sensible a políticas y restricciones explícitas de acceso \\[0.4em]
+PROV-O & \code{prov:wasDerivedFrom}, \code{prov:wasAssociatedWith}, \code{prov:startedAtTime} y \code{prov:endedAtTime} & Procedencia, rendición de cuentas y reconstrucción de ejecuciones \\[0.4em]
+ML Schema & \code{mls:Implementation}, \code{mls:Run}, \code{mls:Algorithm}, \code{mls:ModelEvaluation} y \code{mls:EvaluationMeasure} & Representación de implementaciones, ejecuciones y semántica de evaluación \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Esta estrategia de reutilización ofrece dos ventajas principales. Favorece la interoperabilidad con infraestructuras que ya entienden catálogos DCAT, políticas ODRL, cadenas de procedencia o metadatos de experimentación en aprendizaje automático, y mantiene la ontología alineada con prácticas semánticas consolidadas en lugar de re-codificar modelos existentes. La versión actual prioriza la semántica necesaria para publicación, descubrimiento, invocación, trazabilidad y evaluación comparativa; semánticas más especializadas de despliegue o benchmarking constituyen extensiones naturales de esta base.
+
+% =====================================================================
+\section{Escenarios y demostración}\label{sec:demo}
+
+La demostración utiliza un grafo de ejemplo con tres modelos en el mismo dominio de aplicación (\texttt{Climate\ analytics}) y la misma tarea (\texttt{Flood\ risk\ prediction}). \texttt{Model0} actúa como antecedente previamente publicado, mientras que \texttt{Model1} y \texttt{Model2} son candidatos ejecutables y evaluados. Los metadatos de publicación operan como capa habilitadora de todos los escenarios: antes de que un modelo pueda descubrirse, invocarse o compararse, tiene que ser identificable, estar tipado, distribuido y enlazado a información de política e interfaz. Por ello, la narrativa de la demostración avanza desde el descubrimiento hacia la ejecución y finalmente hacia la evaluación, pero los tres escenarios presuponen una capa de publicación compartida.
+
+\subsection{Escenario de descubrimiento}
+
+La primera cuestión es si un participante puede descubrir y seleccionar modelos bajo restricciones operativas. En el grafo de ejemplo, los tres modelos pertenecen a la misma tarea y al mismo dominio, lo que los hace descubribles mediante los metadatos capturados por \code{daimo:task} y \code{daimo:applicationDomain}; esto es precisamente lo que demuestra la consulta \cq{CQ-D1}. El escenario se vuelve más interesante cuando la selección se restringe por política y calidad. \cq{CQ-D2} filtra el conjunto de candidatos según condiciones de licencia y política. En el ejemplo, \texttt{Model0} y \texttt{Model1} permanecen como elegibles porque están publicados bajo una licencia similar a Apache y enlazados a acuerdos permisivos, mientras que \texttt{Model2} está asociado a una licencia restringida a investigación y a un patrón de política prohibitivo. En otras palabras, DAIMO ya soporta una forma básica de estrechamiento del espacio de descubrimiento sensible a políticas sin introducir un lenguaje de política específico ad hoc.
+
+El descubrimiento también puede refinarse mediante evidencia de evaluación. \cq{CQ-D4} muestra que dos modelos comparten un contexto de evaluación y una métrica comunes, pero solo \texttt{Model1} satisface un umbral de 0,85 de \emph{accuracy}. Esto importa porque demuestra que la selección en el espacio de datos no tiene por qué depender únicamente de metadatos descriptivos o afirmaciones textuales: también puede basarse en evidencia explícita y consultable sobre calidad bajo un contexto declarado. El mismo escenario deja ver, sin embargo, una limitación actual de la ontología. Aunque DAIMO puede filtrar modelos mediante un contrato básico de entrada y salida y por calidad contextualizada, todavía no proporciona un modelo semántico rico para compatibilidad fina entre las expectativas del modelo y los esquemas del lado consumidor.
+
+\subsection{Escenario de ejecución}
+
+El escenario de ejecución plantea si un modelo seleccionado puede invocarse de forma controlada y si su uso puede rastrearse posteriormente. \cq{CQ-E1} recupera endpoints de servicio, métodos de autenticación e información sobre el contrato de entrada y salida. En el ejemplo, todos los modelos publicados exponen un servicio de datos, pero el método de autenticación varía entre ellos. Esto hace explícito que la invocación no puede reducirse únicamente a una URL de endpoint; depende también de metadatos de interfaz y acceso que pueden determinar si el consumo real es viable.
+
+El valor operacional de la ontología se aprecia con mayor claridad cuando modelos, implementaciones, ejecuciones y artefactos de auditoría se consultan conjuntamente. \cq{CQ-E3} y \cq{CQ-E4} muestran que \texttt{Model1} y \texttt{Model2} poseen cada uno una ejecución trazada conectada a una implementación, un algoritmo, una evaluación de salida, un operador asociado, marcas temporales y un log de auditoría estructurado. Estos enlaces permiten a un operador de plataforma o a un evaluador reconstruir qué se ejecutó, quién lo ejecutó, cuándo ocurrió y con qué resultado evaluativo. Eso basta para sostener una afirmación básica de auditabilidad: la ontología puede reconstruir ejecuciones concretas mediante enlaces tipados y evidencia materializada. No basta todavía para una observabilidad operacional completa, porque DAIMO captura identificadores, estado, actor, marcas temporales y referencias a artefactos de auditoría, pero no modela aún flujos finos de eventos, mediciones de consumo de recursos o telemetría de seguridad.
+
+\subsection{Escenario de evaluación}
+
+El escenario de evaluación se centra en comparabilidad y reproducibilidad. \cq{CQ-V1} recupera el contexto de evaluación asociado a cada evaluación de modelo y muestra que tanto \texttt{Model1} como \texttt{Model2} fueron evaluados sobre \texttt{ClimateBench-v1}, versión \texttt{2026.1}, bajo el mismo protocolo \emph{holdout} y una semilla fija. Este punto es central para el artículo porque los valores de rendimiento, sin un contexto compartido, constituyen evidencia débil para la comparación. En ese sentido, el ejemplo sigue la misma intuición que hizo operacionalmente útil a OpenML para la experimentación comparativa: las tareas, los datasets y los protocolos deben formar parte de la descripción y no quedar ocultos detrás de una única métrica final~\cite{openml}.
+
+Una vez alineado el contexto, la semántica de las métricas y el ranking adquieren verdadero significado. \cq{CQ-V2} y \cq{CQ-V3} muestran que ambos modelos ejecutables se evalúan con la misma métrica (\emph{Accuracy}), pero \texttt{Model1} alcanza 0,89 y \texttt{Model2} alcanza 0,82. Como esos valores están enlazados a un contexto de evaluación compartido, el ranking no es un simple orden numérico, sino una comparación contextualizada. \cq{CQ-V5} añade después la capa de reproducibilidad al mostrar que cada evaluación está respaldada por un cuaderno y una tabla de resultados, junto con copias ejecutadas de los cuadernos, logs de auditoría y evidencia de integridad basada en checksums. Esto hace que el escenario de evaluación sea más sólido que un ejemplo puramente basado en metadatos: el grafo está conectado a evidencia que puede reejecutarse y verificarse de forma independiente.
+
+% =====================================================================
+\section{Evaluación y validación}\label{sec:eval}
+
+La validación en este trabajo es intencionalmente multicapa. La ontología no se evalúa solo por su corrección sintáctica ni solo mediante ejemplos descriptivos. En su lugar, el paquete de validación combina comprobaciones de parseo, Meta-SHACL, conformidad SHACL del grafo de ejemplo, ejecución de preguntas de competencia mediante SPARQL y materiales de reproducibilidad vinculados a las evaluaciones reportadas. Esta estrategia es coherente con trabajos ontológicos recientes del \emph{Semantic Web Journal} en los que las afirmaciones operativas se respaldan con reglas ejecutables, comprobaciones de ingeniería ontológica y evaluaciones orientadas a dominio, y no únicamente con modelado conceptual~\cite{kurteva,woods,bareedu24,ferranti,robaldo}. Para una ontología orientada a la gestión operacional de modelos, la defendibilidad científica depende de que la semántica propuesta pueda comprobarse, consultarse y reproducirse en la práctica.
+
+\subsection{Validación mediante preguntas de competencia}
+
+Catorce preguntas de competencia priorizadas están implementadas como consultas SPARQL y se ejecutan sobre el grafo de ejemplo mediante un flujo de validación integrado. La suite actual cubre cuatro preguntas de registro, tres de descubrimiento, tres de ejecución y cuatro de evaluación. La Tabla~\ref{tab:cqs} resume esta cobertura y muestra que el esfuerzo de validación actual se distribuye a lo largo de todo el ciclo de vida reivindicado por el artículo, y no únicamente en un único escenario.
+
+\begin{table}[t]
+\caption{Validación ejecutable de preguntas de competencia.}
+\label{tab:cqs}
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}L{3cm}L{4cm}cX@{}}
+\toprule
+\textbf{Bloque de escenario} & \textbf{Consultas} & \textbf{N.} & \textbf{Resultado actual} \\
+\midrule
+Registro y publicación & \cq{CQ-R1}, \cq{CQ-R2}, \cq{CQ-R3}, \cq{CQ-R5} & 4 & Todas las consultas devuelven al menos el número esperado de filas \\[0.4em]
+Descubrimiento y selección & \cq{CQ-D1}, \cq{CQ-D2}, \cq{CQ-D4} & 3 & El descubrimiento, el filtrado por política y el filtrado por calidad funcionan correctamente \\[0.4em]
+Ejecución y auditabilidad & \cq{CQ-E1}, \cq{CQ-E3}, \cq{CQ-E4} & 3 & La invocación del servicio, la traza de ejecuciones y los metadatos de auditoría son recuperables \\[0.4em]
+Evaluación y reproducibilidad & \cq{CQ-V1}, \cq{CQ-V2}, \cq{CQ-V3}, \cq{CQ-V5} & 4 & El contexto, la semántica de las métricas, el ranking y los artefactos de reproducibilidad son recuperables \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Un flujo de validación parsea la ontología, valida el grafo de \emph{shapes}, comprueba la conformidad de los datos y ejecuta la suite SPARQL sobre el grafo de ejemplo. En la iteración actual, todas las preguntas de competencia priorizadas superan sus umbrales mínimos esperados, lo que significa que las afirmaciones principales formuladas en las secciones de descubrimiento, ejecución y evaluación están respaldadas por consultas que realmente se ejecutan sobre el grafo de ejemplo. Esta orientación ejecutable acerca DAIMO a artículos ontológicos que operacionalizan controles de calidad sobre datasets y flujos reales, más que a trabajos que limitan la validación a ejemplos ilustrativos~\cite{woods,bareedu24,ferranti}.
+
+\subsection{Validación SHACL}
+
+SHACL proporciona la capa de validación estructural del artefacto. Los \emph{shapes} actuales cubren los tipos de nodo principales requeridos por la narrativa del artículo: modelos, distribuciones, servicios de datos, contratos de entrada y salida, implementaciones, perfiles de ejecución, ejecuciones, evaluaciones, contextos de evaluación, artefactos de auditoría y artefactos de reproducibilidad. En la práctica, la capa SHACL desempeña un doble papel. Por un lado, impone requisitos mínimos de completitud, como la presencia de creadores, licencias, endpoints de servicio, campos del contrato de entrada y salida, metadatos de perfil de ejecución, metadatos de contexto de evaluación, metadatos de artefactos de auditoría y metadatos de artefactos de reproducibilidad. Por otro lado, garantiza que el grafo de ejemplo no sea meramente ilustrativo, sino formalmente restringido de acuerdo con las afirmaciones que realiza el artículo. Este uso de SHACL como contrato operativo del artefacto es coherente con trabajos actuales que tratan SHACL y SPARQL como instrumentos complementarios para formalizar y comprobar semántica~\cite{shacl,ferranti,robaldo}. El flujo de validación incluye tanto Meta-SHACL, para verificar la buena formación del grafo de \emph{shapes}, como validación de datos, para verificar que el grafo de ejemplo conforma con dichos \emph{shapes}. Ambas comprobaciones se satisfacen en el paquete actual.
+
+\subsection{Evaluación de calidad estructural}
+
+En lugar de apoyarse en un marco externo de puntuación, este trabajo realiza una evaluación de calidad estructural centrada en propiedades que afectan directamente a la defendibilidad del artículo y a la reutilización del artefacto. La Tabla~\ref{tab:quality} resume estas dimensiones y hace explícito que los criterios relevantes para este trabajo no son puntuaciones ontológicas abstractas, sino propiedades concretas como consistencia de namespace, claridad de datatypes, trazabilidad y soporte de reproducibilidad.
+
+\begin{table}[t]
+\caption{Evaluación de calidad estructural del artefacto actual.}
+\label{tab:quality}
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}L{3cm}XL{4cm}@{}}
+\toprule
+\textbf{Dimensión de calidad} & \textbf{Evidencia en el artefacto} & \textbf{Interpretación} \\
+\midrule
+Consistencia de namespace & Ontología, SHACL, ejemplos y suite SPARQL utilizan el mismo namespace DAIMO & Elimina rupturas de trazabilidad entre artefactos \\[0.4em]
+Explicitud de \emph{datatypes} & Endpoints de servicio, valores de métricas, timestamps, semillas aleatorias y checksums están tipados explícitamente & Mejora la fuerza de validación y la fiabilidad de las consultas \\[0.4em]
+Trazabilidad operacional & Las ejecuciones enlazan implementaciones, algoritmos, evaluaciones, actores, timestamps y artefactos de auditoría & Soporta evidencia de ejecución reconstruible \\[0.4em]
+Soporte de reproducibilidad & Las evaluaciones enlazan cuadernos y tablas de resultados junto con copias ejecutadas, registros de auditoría y evidencia de integridad basada en checksums & Lleva el artículo más allá de afirmaciones descriptivas hacia evidencia ejecutable \\[0.4em]
+Flujo integrado de validación & El parseo, Meta-SHACL, SHACL y las comprobaciones SPARQL se ejecutan como un proceso coordinado & Refuerza repetibilidad y tests de regresión \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Un resultado importante derivado de esta evaluación fue la corrección de problemas de modelado que, de otro modo, habrían debilitado el artefacto. Se eliminaron divergencias de namespace entre artefactos y se simplificaron varias declaraciones de rango excesivamente fuertes porque generaban inferencias no deseadas bajo razonamiento RDFS. Esto refuerza una idea más amplia: la calidad estructural en ingeniería ontológica no consiste solo en añadir semántica, sino también en evitar semánticas que vuelvan el artefacto frágil o engañoso.
+
+\subsection{Validación basada en expertos}
+
+La validación basada en expertos aún no se ha completado en la iteración actual, y esta limitación debe declararse explícitamente. El presente trabajo se centra en validación formal y ejecutable porque esa era la brecha más urgente entre el manuscrito original y un artículo ontológico defendible en estilo \emph{Semantic Web Journal}. Esto significa que DAIMO ya iguala una parte del repertorio de validación visible en trabajos recientes del SWJ, pero todavía no la combinación más fuerte de comprobaciones formales y anclaje sostenido en actores del dominio que aparece en ontologías apoyadas en expertos, casos de uso o criterios de adopción específicos~\cite{kurteva,palma,woods}. Un estudio con expertos sigue siendo un siguiente paso importante. En el contexto de DAIMO, dicho estudio debería involucrar al menos a un experto en catálogo o gobernanza de espacios de datos, a un operador MLOps o de plataforma, y a un proveedor o consumidor de modelos. Su objetivo no sería reemplazar la validación formal, sino evaluar si la ontología captura el nivel adecuado de abstracción, si el perfil elegido es práctico en contextos reales y si la información exigida por las preguntas de competencia coincide con la que los actores pueden realmente producir y mantener.
+
+% =====================================================================
+\section{Discusión}\label{sec:discussion}
+
+La principal fortaleza de DAIMO es la forma en que articula semántica de publicación, política, ejecución, procedencia y evaluación dentro de una única ontología capaz de soportar intercambio gobernado de modelos. Esta posición diferencia a DAIMO de ontologías de dominio como RePlanIT, GloSIS o la ontología de actividades de mantenimiento, cuyo esfuerzo principal se centra en representar semántica rica de dominio para pasaportes digitales de producto, información de suelos o flujos industriales de mantenimiento~\cite{kurteva,palma,woods}. DAIMO comparte con ellas una misma ética de ingeniería, especialmente en el énfasis en reutilización, implementación y evaluación, pero la aplica a activos de modelo de IA que deben ser descubribles, invocables, trazables y comparables a través de fronteras organizativas. Esa contribución resulta directamente relevante para escenarios de catalogación empresarial, servicios de IA gobernados y futuras investigaciones sobre intercambio interoperable de modelos.
+
+Dicho esto, la ontología también presenta límites reales, y esos límites no son marginales. El contrato actual de entrada y salida sigue siendo mayormente sintáctico y no plenamente semántico; repositorios y marcos de ejecución como Kipoi y TFX muestran que una reutilización robusta depende también de supuestos explícitos de preprocesamiento, dependencias y pipeline~\cite{kipoi,tfx}. Los contextos de evaluación son suficientes para comparaciones homogéneas en el ejemplo implementado, pero todavía no capturan protocolos de benchmarking más ricos, conjuntos heterogéneos de métricas ni criterios más sofisticados de compatibilidad. La procedencia recogida alrededor de las ejecuciones es útil para reconstrucción y auditoría, pero aún está lejos de una observabilidad operacional completa. Existe además un límite en el modelado de políticas: aunque DAIMO reutiliza ODRL y soporta descubrimiento sensible a políticas, todavía no llega al nivel de semántica fina de política y razonamiento de compatibilidad que aparece en trabajos dedicados específicamente a esa formalización~\cite{pandit-esteves}. Del mismo modo, aunque DAIMO ya operacionaliza validación basada en SHACL y SPARQL, todavía no entra en profundidad en las cuestiones de validación frente a inferencia que la investigación reciente sobre SHACL ha puesto de relieve~\cite{ferranti,robaldo}. Además, el artículo es actualmente más fuerte en validación formal que en validación centrada en usuarios humanos, precisamente porque la revisión con expertos todavía no se ha realizado. Estas limitaciones no invalidan la contribución, pero sí la delimitan con mayor precisión.
+
+Esta delimitación también aclara qué tipo de aportación es DAIMO. La ontología debe entenderse como una capa de integración para la gestión gobernada de modelos de IA, no como un sustituto de DCAT, ODRL, PROV-O o ML Schema. Su novedad reside en el patrón concreto de integración requerido por la gestión de modelos de IA en espacios de datos y en el hecho de que dicho patrón está respaldado por validación ejecutable y evidencia de reproducibilidad. En ese sentido, DAIMO se sitúa junto a contribuciones ontológicas en las que publicación, control de calidad y testeo operacional se tratan como partes integrantes del resultado científico~\cite{penteado23,bareedu24,ferranti}. Su valor depende de que cierre una brecha operacional concreta con evidencia formal y reproducible suficiente como para ser reutilizada por otros.
+
+% =====================================================================
+\section{Disponibilidad y reproducibilidad}\label{sec:avail}
+
+El artefacto de investigación que acompaña a este artículo combina la ontología, las restricciones SHACL, un grafo de conocimiento de ejemplo, preguntas de competencia ejecutables, cuadernos, tablas de resultados generadas, registros de auditoría y evidencia de integridad basada en checksums. Esta organización refleja la estructura de las afirmaciones formuladas en el trabajo: constructos ontológicos, reglas de validación, datos de ejemplo y evidencia de reproducibilidad se presentan como componentes mutuamente reforzados y no como material suplementario desconectado.
+
+Desde la perspectiva del artículo, el punto importante no es la disposición de archivos, sino el flujo de reproducibilidad que hace posible. El artefacto soporta validación ontológica de extremo a extremo, ejecución de la suite de preguntas de competencia, generación de resultados de evaluación, preservación de cuadernos ejecutados y comprobación de integridad de los materiales de soporte. Como consecuencia, el grafo semántico no apunta a evidencia hipotética, sino a evidencia disponible, ejecutable y controlada mediante mecanismos de integridad. La reproducibilidad forma así parte del argumento científico del artículo y no un complemento externo.
+
+El flujo de liberación pública, una documentación HTML más pulida y un alojamiento persistente público siguen siendo pasos inmediatos. También aquí DAIMO debe alinearse con las mejores prácticas visibles en trabajos orientados al ciclo de vida de publicación de datos enlazados, donde liberación, validación y mantenimiento se tratan como etapas explícitas y no como efectos secundarios del desarrollo local~\cite{penteado23}. Trabajos FAIR orientados al ciclo de vida del aprendizaje automático llegan a una conclusión semejante desde la perspectiva del \emph{tooling}: los metadatos de tracking y de publicación deben permanecer conectados si la reutilización quiere ir más allá del intercambio ad hoc de archivos~\cite{schmidt21}. El namespace de la ontología ya es estable; la tarea principal pendiente es completar el proceso de publicación hacia el exterior.
+
+% =====================================================================
+\section{Conclusiones}\label{sec:conclusion}
+
+Este artículo presentó DAIMO, una ontología para la gestión de modelos de IA en espacios de datos. DAIMO aborda una brecha concreta entre vocabularios existentes de catálogo, política, procedencia y aprendizaje automático al integrarlos en un único modelo semántico para publicación, descubrimiento, ejecución, auditabilidad y evaluación respaldada por evidencia de reproducibilidad. La contribución del trabajo no se reduce, por tanto, a definir clases y propiedades; consiste también en demostrar que esa semántica puede sostener preguntas operativas relevantes cuando los modelos de IA circulan en espacios de datos gobernados.
+
+De esa contribución se derivan tres resultados principales. En primer lugar, los modelos de IA pueden representarse como activos de catálogo gobernados y enlazarse con condiciones de política, contratos de invocación, requisitos de ejecución, evidencia de ejecución y resultados de evaluación contextualizados. En segundo lugar, la ontología responde un conjunto significativo de preguntas de competencia que cubren identidad del modelo, descubrimiento sensible a políticas, metadatos de invocación, trazabilidad de ejecuciones, contexto de evaluación, ranking y evidencia de reproducibilidad. En tercer lugar, la propuesta está respaldada por un flujo ejecutable de validación y reproducibilidad, y no únicamente por diagramas conceptuales o ejemplos narrativos, lo que fortalece tanto su defendibilidad científica como su potencial de reutilización en contextos empresariales y de investigación.
+
+El trabajo futuro debería centrarse en modelos semánticos más ricos de compatibilidad para contratos de entrada y salida, una modelización más fuerte de benchmarking y contextos de evaluación, validación con expertos reales y un empaquetado público de liberación acompañado de documentación completa. Estas líneas amplían una ontología que ya proporciona una base validada y operacional para la gestión gobernada de modelos de IA en espacios de datos.
+
+% =====================================================================
+\bibliographystyle{unsrt}
+\begin{thebibliography}{30}
+
+\bibitem{franklin05} M.~Franklin, A.~Halevy, and D.~Maier. From Databases to Dataspaces: A New Abstraction for Information Management. \emph{SIGMOD Record}, 34(4):27--33, 2005.
+
+\bibitem{dcat2} A.~Albertoni et~al. Data Catalog Vocabulary (DCAT) -- Version 2. W3C Recommendation, 2020.
+
+\bibitem{provo} P.~Lebo, S.~Sahoo, and D.~McGuinness, editors. \emph{PROV-O: The PROV Ontology}. W3C Recommendation, 2013.
+
+\bibitem{odrl22} R.~Iannella, S.~Guth, and R.~Steyskal, editors. \emph{ODRL Information Model 2.2}. W3C Recommendation, 2018.
+
+\bibitem{shacl} H.~Knublauch and D.~Kontokostas, editors. \emph{Shapes Constraint Language (SHACL)}. W3C Recommendation, 2017.
+
+\bibitem{mitchell19} M.~Mitchell et~al. Model Cards for Model Reporting. In \emph{Proceedings of the Conference on Fairness, Accountability, and Transparency}, 2019.
+
+\bibitem{arnold19} M.~Arnold et~al. FactSheets: Increasing Trust in AI Services through Supplier's Declarations of Conformity. IBM Research Report, 2019.
+
+\bibitem{werbrouck24} J.~Werbrouck et~al. ConSolid: A federated ecosystem for heterogeneous multi-stakeholder projects. \emph{Semantic Web}, 15:429--460, 2024.
+
+\bibitem{kurteva} A.~Kurteva et~al. RePlanIT Ontology for Digital Product Passports of ICT: Laptops and Data Servers. \emph{Semantic Web}, in press.
+
+\bibitem{palma} R.~Palma et~al. GloSIS: The Global Soil Information System Web Ontology. \emph{Semantic Web}, in press.
+
+\bibitem{woods} C.~Woods et~al. An ontology for maintenance activities and its application to data quality. \emph{Semantic Web}, in press.
+
+\bibitem{penteado23} B.E.~Penteado, J.C.~Maldonado, and S.~Isotani. Methodologies for publishing linked open government data on the Web: A systematic mapping and a unified process model. \emph{Semantic Web}, 14:585--610, 2023.
+
+\bibitem{bareedu24} Y.S.~Bareedu et~al. Deriving semantic validation rules from industrial standards: An OPC UA study. \emph{Semantic Web}, 15:517--554, 2024.
+
+\bibitem{ferranti} N.~Ferranti et~al. Formalizing and Validating Wikidata's Property Constraints using SHACL and SPARQL. \emph{Semantic Web}, in press.
+
+\bibitem{pandit-esteves} H.J.~Pandit and B.~Esteves. Enhancing Data Use Ontology (DUO) for Health-Data Sharing by Extending it with ODRL and DPV. \emph{Semantic Web}, in press.
+
+\bibitem{robaldo} L.~Robaldo and S.~Batsakis. On the interplay between validation and inference in SHACL: an investigation on the Time Ontology. \emph{Semantic Web}, in press.
+
+\bibitem{otto19} B.~Otto et~al. Reference architecture model for international data spaces. \emph{International Journal of Information Management}, 45:182--199, 2019.
+
+\bibitem{cappiello22} C.~Cappiello, A.~Gal, M.~Jarke, J.~Rehof, and Y.~Yang. Data spaces: Design, deployment, and future directions. \emph{ACM Computing Surveys}, 55(2):Article~46, 2022.
+
+\bibitem{gebru21} T.~Gebru et~al. Datasheets for datasets. \emph{Communications of the ACM}, 64(12):86--92, 2021.
+
+\bibitem{openml} J.~Vanschoren, J.N. van~Rijn, B.~Bischl, and L.~Torgo. OpenML: Networked science in machine learning. \emph{SIGKDD Explorations}, 15(2):49--60, 2014.
+
+\bibitem{modeldb} M.~Vartak et~al. ModelDB: A system for machine learning model management. In \emph{Proceedings of the Workshop on Human-in-the-Loop Data Analytics}, 2016.
+
+\bibitem{kipoi} Z.~Avsec et~al. The Kipoi repository accelerates community exchange and reuse of predictive models for genomics. \emph{Nature Biotechnology}, 37, 2019.
+
+\bibitem{tfx} D.~Baylor et~al. TFX: A TensorFlow-based production-scale machine learning platform. In \emph{Proceedings of the 23rd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining}, 2017.
+
+\bibitem{expo} L.N.~Soldatova and R.D.~King. An ontology of scientific experiments. \emph{Journal of the Royal Society Interface}, 3(11), 2006.
+
+\bibitem{mls} G.~Correa Publio et~al. ML-Schema: Exposing the semantics of machine learning with schemas and ontologies. 2018.
+
+\bibitem{mex} C.M.~Keet, J.D.~Fernández, and P.~Panov. MEX vocabulary: A lightweight interchange format for machine learning experiments. In \emph{Proceedings of the International Semantic Web Conference}, 2016.
+
+\bibitem{ontodm} P.~Panov, S.~Džeroski, and L.N.~Soldatova. OntoDM: An ontology of data mining. In \emph{2008 IEEE International Conference on Data Mining Workshops}, 2008.
+
+\bibitem{dmop} C.M.~Keet et~al. The data mining optimization ontology. \emph{Web Semantics: Science, Services and Agents on the World Wide Web}, 2015.
+
+\bibitem{souza19} R.~Souza et~al. Provenance data in the machine learning lifecycle in computational science and engineering. In \emph{2019 IEEE/ACM Workflows in Support of Large-Scale Science}, 2019.
+
+\bibitem{schmidt21} M.~Schmidt et~al. FAIRness along the machine learning lifecycle using Dataverse in combination with MLflow. In \emph{Proceedings of the International Conference on Data Engineering Workshops}, 2021.
+
+\end{thebibliography}
+
+% =====================================================================
+\appendix
+
+\section{Preguntas de competencia}
+
+Las preguntas de competencia que guían la ontología se agrupan del siguiente modo.
+
+\paragraph{Registro y publicación}
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+\item \cq{CQ-R1}: ¿Qué identidad persistente, versión, proveedor y actor responsable tiene un modelo de IA publicado en el espacio de datos?
+\item \cq{CQ-R2}: ¿Qué dominio, tarea y objetivo funcional aborda el modelo, y cuál es su contrato de entrada y salida?
+\item \cq{CQ-R3}: ¿Bajo qué licencia, política de acceso y condiciones de uso puede compartirse o consumirse el modelo?
+\item \cq{CQ-R4}: ¿Cómo se publica el modelo: como artefacto descargable, como servicio invocable o mediante ambas modalidades?
+\item \cq{CQ-R5}: ¿Qué framework, versión de software, dependencias y requisitos de hardware son necesarios para ejecutar el modelo?
+\item \cq{CQ-R6}: ¿Qué evidencia mínima de entrenamiento, validación, procedencia y evaluación acompaña al modelo en el momento de su publicación?
+\end{enumerate}
+
+\paragraph{Descubrimiento}
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+\item \cq{CQ-D1}: ¿Qué modelos satisfacen una tarea, dominio o capacidad declarada en el espacio de datos?
+\item \cq{CQ-D2}: ¿Qué modelos son elegibles para un consumidor dado cuando se consideran licencia, política de acceso y restricciones?
+\item \cq{CQ-D3}: ¿Qué modelos son compatibles con un esquema del lado consumidor o con un contrato de entrada y salida requerido?
+\item \cq{CQ-D4}: ¿Qué modelos satisfacen un umbral mínimo de calidad para una métrica bajo un contexto de evaluación dado?
+\end{enumerate}
+
+\paragraph{Ejecución}
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+\item \cq{CQ-E1}: ¿Cómo puede invocarse un modelo seleccionado, a través de qué endpoint, método de autenticación y contrato de intercambio?
+\item \cq{CQ-E2}: ¿Qué configuración operacional y qué recursos de ejecución requiere un modelo para un despliegue o consumo viable?
+\item \cq{CQ-E3}: ¿Qué ejecuciones se han realizado sobre un modelo, con qué parámetros, actor, propósito, momento y resultados?
+\item \cq{CQ-E4}: ¿Qué trazas, logs o metadatos de auditoría permiten reconstruir una ejecución concreta?
+\end{enumerate}
+
+\paragraph{Evaluación y comparación}
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+\item \cq{CQ-V1}: ¿Con qué dataset, versión del dataset, protocolo, semilla y configuración fue evaluado un modelo?
+\item \cq{CQ-V2}: ¿Qué métricas se utilizaron para evaluar un modelo y cuál es la definición semántica de cada una?
+\item \cq{CQ-V3}: ¿Qué modelos alcanzan el mejor rendimiento para una métrica dada bajo el mismo contexto de evaluación?
+\item \cq{CQ-V4}: ¿Qué variante exacta del modelo produjo un resultado de evaluación dado y cómo se relaciona con otras variantes?
+\item \cq{CQ-V5}: ¿Qué artefactos de reproducibilidad respaldan una evaluación, tales como cuadernos, scripts, archivos de resultados o visualizaciones?
+\end{enumerate}
+
+\section{Shapes SHACL}
+
+El grafo SHACL actual define los principales \emph{node shapes} requeridos por el artículo, a saber, \code{DatasetShape}, \code{DistributionShape} y \code{DataServiceShape} para publicación y exposición de servicios; \code{ModelShape} y \code{IOContractShape} para identidad del modelo y metadatos de invocación; \code{ImplementationShape} y \code{RuntimeProfileShape} para requisitos operativos; \code{RunShape} y \code{AuditArtifactShape} para trazabilidad de ejecuciones; y \code{ModelEvaluationShape}, \code{EvaluationContextShape} y \code{ReproducibilityArtifactShape} para evaluación comparativa y soporte de reproducibilidad. Los \emph{shapes} imponen completitud mínima y no modelado exhaustivo del dominio. Entre otros aspectos, exigen creadores, licencias, distribuciones, endpoints de servicio, metadatos de tarea y dominio, información de autenticación, valores del perfil de ejecución, campos del contexto de evaluación, marcas temporales y metadatos de artefactos.
+
+\section{Consultas SPARQL}
+
+La suite SPARQL actual incluye catorce preguntas de competencia ejecutables que cubren registro y publicación (\cq{CQ-R1}, \cq{CQ-R2}, \cq{CQ-R3} y \cq{CQ-R5}), descubrimiento (\cq{CQ-D1}, \cq{CQ-D2} y \cq{CQ-D4}), ejecución (\cq{CQ-E1}, \cq{CQ-E3} y \cq{CQ-E4}) y evaluación (\cq{CQ-V1}, \cq{CQ-V2}, \cq{CQ-V3} y \cq{CQ-V5}). Las consultas están organizadas como una suite de validación con mínimos declarados de resultados esperados, y el flujo de validación las ejecuta junto con las comprobaciones SHACL, lo que hace repetible la validación mediante preguntas de competencia.
+
+\section{Convenciones de URI}
+
+DAIMO utiliza el namespace canónico \url{http://purl.org/pionera/daimo#}, mientras que el grafo de ejemplo usa el namespace local \url{http://pionera.org/example#} para recursos de demostración. Las URIs de artefactos del grafo de ejemplo siguen ubicaciones lógicas estables como \url{https://pionera.org/repro/model1-eval.ipynb}, \url{https://pionera.org/repro/model1-results.csv} y \url{https://pionera.org/audit/model1-run-001.jsonl}. En los materiales de reproducibilidad, estas URIs se enlazan con artefactos materializados y con evidencia de integridad basada en \emph{checksums} para que las referencias semánticas permanezcan consistentes con la evidencia que las respalda.
+
+\end{document}

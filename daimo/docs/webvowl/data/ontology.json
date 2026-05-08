@@ -1,0 +1,1760 @@
+{
+  "_comment" : "Created with OWL2VOWL (version 0.3.5), http://vowl.visualdataweb.org",
+  "header" : {
+    "languages" : [ "en", "undefined" ],
+    "baseIris" : [ "http://www.w3.org/1999/02/22-rdf-syntax-ns", "http://www.w3.org/ns/odrl/2", "http://data.europa.eu/it6", "https://w3id.org/pionera/daimo", "http://www.w3.org/2000/01/rdf-schema", "http://www.w3.org/ns/prov", "https://w3id.org/edc/v0.0.1/ns", "http://purl.org/dc/terms", "http://www.w3.org/2001/XMLSchema", "http://www.w3.org/ns/dcat", "http://xmlns.com/foaf/0.1" ],
+    "title" : {
+      "en" : "DAIMO: an ontology for governed AI model assets in data spaces"
+    },
+    "iri" : "https://w3id.org/pionera/daimo",
+    "version" : "0.1.1",
+    "description" : {
+      "en" : "DAIMO is an integration profile that connects DCAT-AP, MLDCAT-AP, ODRL, PROV-O, and the Dataspace Protocol (DSP, as operationalised by Eclipse EDC) to support publication, discovery, invocation, execution traceability, and contextualised evaluation of AI model assets exchanged in data spaces. The edc: namespace is used only for EDC-specific extensions (e.g., ParticipantContext) not yet standardised in DSP."
+    },
+    "comments" : {
+      "en" : "See daimo-ontology-design.md for the full design rationale."
+    },
+    "other" : {
+      "license" : [ {
+        "identifier" : "license",
+        "language" : "undefined",
+        "value" : "https://creativecommons.org/licenses/by/4.0/",
+        "type" : "iri"
+      } ],
+      "preferredNamespacePrefix" : [ {
+        "identifier" : "preferredNamespacePrefix",
+        "language" : "undefined",
+        "value" : "daimo",
+        "type" : "label"
+      } ],
+      "modified" : [ {
+        "identifier" : "modified",
+        "language" : "undefined",
+        "value" : "2026-04-22",
+        "type" : "label"
+      } ],
+      "preferredNamespaceUri" : [ {
+        "identifier" : "preferredNamespaceUri",
+        "language" : "undefined",
+        "value" : "https://w3id.org/pionera/daimo#",
+        "type" : "label"
+      } ],
+      "versionInfo" : [ {
+        "identifier" : "versionInfo",
+        "language" : "undefined",
+        "value" : "0.1.1",
+        "type" : "label"
+      } ],
+      "issued" : [ {
+        "identifier" : "issued",
+        "language" : "undefined",
+        "value" : "2026-04-22",
+        "type" : "label"
+      } ],
+      "title" : [ {
+        "identifier" : "title",
+        "language" : "en",
+        "value" : "DAIMO: an ontology for governed AI model assets in data spaces",
+        "type" : "label"
+      } ]
+    }
+  },
+  "namespace" : [ ],
+  "class" : [ {
+    "id" : "5",
+    "type" : "owl:Class"
+  }, {
+    "id" : "6",
+    "type" : "owl:Class"
+  }, {
+    "id" : "22",
+    "type" : "owl:Class"
+  }, {
+    "id" : "29",
+    "type" : "owl:Class"
+  }, {
+    "id" : "15",
+    "type" : "owl:Class"
+  }, {
+    "id" : "43",
+    "type" : "owl:Class"
+  }, {
+    "id" : "51",
+    "type" : "owl:Class"
+  }, {
+    "id" : "41",
+    "type" : "owl:Class"
+  }, {
+    "id" : "47",
+    "type" : "owl:Class"
+  }, {
+    "id" : "16",
+    "type" : "owl:Class"
+  }, {
+    "id" : "9",
+    "type" : "owl:Class"
+  }, {
+    "id" : "60",
+    "type" : "owl:Class"
+  }, {
+    "id" : "66",
+    "type" : "owl:Class"
+  }, {
+    "id" : "24",
+    "type" : "owl:Class"
+  }, {
+    "id" : "81",
+    "type" : "rdfs:Literal"
+  }, {
+    "id" : "64",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "86",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "12",
+    "type" : "owl:Thing"
+  }, {
+    "id" : "84",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "28",
+    "type" : "owl:Class"
+  }, {
+    "id" : "75",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "89",
+    "type" : "owl:Class"
+  }, {
+    "id" : "90",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "93",
+    "type" : "owl:Class"
+  }, {
+    "id" : "94",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "2",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "97",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "77",
+    "type" : "rdfs:Datatype"
+  }, {
+    "id" : "73",
+    "type" : "owl:Class"
+  }, {
+    "id" : "4",
+    "type" : "owl:Class"
+  }, {
+    "id" : "36",
+    "type" : "owl:Class"
+  }, {
+    "id" : "23",
+    "type" : "owl:Class"
+  }, {
+    "id" : "88",
+    "type" : "owl:Class"
+  }, {
+    "id" : "87",
+    "type" : "owl:Class"
+  }, {
+    "id" : "39",
+    "type" : "owl:Class"
+  }, {
+    "id" : "8",
+    "type" : "owl:Class"
+  }, {
+    "id" : "129",
+    "type" : "owl:Class"
+  }, {
+    "id" : "49",
+    "type" : "owl:Class"
+  }, {
+    "id" : "26",
+    "type" : "owl:Class"
+  }, {
+    "id" : "71",
+    "type" : "owl:Class"
+  }, {
+    "id" : "108",
+    "type" : "owl:Class"
+  }, {
+    "id" : "1",
+    "type" : "owl:Class"
+  } ],
+  "classAttribute" : [ {
+    "iri" : "http://www.w3.org/ns/prov#Activity",
+    "baseIri" : "http://www.w3.org/ns/prov",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Activity"
+    },
+    "attributes" : [ "external" ],
+    "id" : "5"
+  }, {
+    "iri" : "http://xmlns.com/foaf/0.1/Agent",
+    "baseIri" : "http://xmlns.com/foaf/0.1",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Agent"
+    },
+    "attributes" : [ "external" ],
+    "id" : "6"
+  }, {
+    "iri" : "http://www.w3.org/ns/prov#Entity",
+    "baseIri" : "http://www.w3.org/ns/prov",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Entity"
+    },
+    "subClasses" : [ "23", "24", "4" ],
+    "attributes" : [ "external" ],
+    "id" : "22"
+  }, {
+    "iri" : "http://data.europa.eu/it6/MachineLearningModel",
+    "baseIri" : "http://data.europa.eu/it6",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "MachineLearningModel"
+    },
+    "attributes" : [ "external" ],
+    "id" : "29"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#ExecutionAuthorization",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "instances" : 0,
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://w3id.org/pionera/daimo",
+        "type" : "iri"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "ExecutionAuthorization",
+      "en" : "execution authorization"
+    },
+    "comment" : {
+      "en" : "An ODRL agreement (produced by a DSP contract negotiation) that binds at least one odrl:permission to concrete it6:Run invocations it authorises. Specialises odrl:Agreement; MUST carry at least one odrl:permission per the ODRL policy model."
+    },
+    "id" : "15",
+    "superClasses" : [ "39" ]
+  }, {
+    "iri" : "https://w3id.org/edc/v0.0.1/ns/ParticipantContext",
+    "baseIri" : "https://w3id.org/edc/v0.0.1/ns",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "ParticipantContext"
+    },
+    "attributes" : [ "external" ],
+    "id" : "43"
+  }, {
+    "iri" : "http://data.europa.eu/it6/Flow",
+    "baseIri" : "http://data.europa.eu/it6",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Flow"
+    },
+    "attributes" : [ "external" ],
+    "id" : "51"
+  }, {
+    "iri" : "http://data.europa.eu/it6/Task",
+    "baseIri" : "http://data.europa.eu/it6",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Task"
+    },
+    "attributes" : [ "external" ],
+    "id" : "41"
+  }, {
+    "iri" : "http://www.w3.org/ns/dcat#Resource",
+    "baseIri" : "http://www.w3.org/ns/dcat",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Resource"
+    },
+    "subClasses" : [ "23" ],
+    "attributes" : [ "external" ],
+    "id" : "47"
+  }, {
+    "iri" : "http://data.europa.eu/it6/Run",
+    "baseIri" : "http://data.europa.eu/it6",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Run"
+    },
+    "attributes" : [ "external" ],
+    "id" : "16"
+  }, {
+    "iri" : "http://www.w3.org/ns/odrl/2/Offer",
+    "baseIri" : "http://www.w3.org/ns/odrl/2",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Offer"
+    },
+    "attributes" : [ "external" ],
+    "id" : "9"
+  }, {
+    "iri" : "http://data.europa.eu/it6/Evaluation",
+    "baseIri" : "http://data.europa.eu/it6",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Evaluation"
+    },
+    "attributes" : [ "external" ],
+    "id" : "60"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#PlatformOperator",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "instances" : 0,
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://w3id.org/pionera/daimo",
+        "type" : "iri"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "PlatformOperator",
+      "en" : "platform operator"
+    },
+    "id" : "66",
+    "superClasses" : [ "28" ]
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#AuditEvidence",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "instances" : 0,
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://w3id.org/pionera/daimo",
+        "type" : "iri"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "AuditEvidence",
+      "en" : "audit evidence"
+    },
+    "comment" : {
+      "en" : "A compliance-oriented evidence record attached to a governed event, carrying integrity hash, signer, and timestamp."
+    },
+    "id" : "24",
+    "superClasses" : [ "22" ]
+  }, {
+    "iri" : "http://www.w3.org/2000/01/rdf-schema#Literal",
+    "id" : "81",
+    "label" : {
+      "IRI-based" : "Literal",
+      "undefined" : "Literal"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#integer",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "64",
+    "label" : {
+      "IRI-based" : "integer"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#string",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "86",
+    "label" : {
+      "IRI-based" : "string"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2002/07/owl#Thing",
+    "baseIri" : "http://owl2vowl.de",
+    "id" : "12",
+    "label" : {
+      "undefined" : "Thing"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#dateTime",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "84",
+    "label" : {
+      "IRI-based" : "dateTime"
+    }
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#ParticipantRole",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "instances" : 0,
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://w3id.org/pionera/daimo",
+        "type" : "iri"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "ParticipantRole",
+      "en" : "participant role"
+    },
+    "subClasses" : [ "73", "71", "87", "88", "66" ],
+    "comment" : {
+      "en" : "A dataspace-scoped role taken by a participant with respect to AI assets. Anti-rigid: an agent can gain and lose roles over time. Subclasses are intentionally NOT mutually disjoint — one agent can hold several roles simultaneously (e.g., a research group may be both Evaluator and Model Provider)."
+    },
+    "id" : "28"
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#string",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "75",
+    "label" : {
+      "IRI-based" : "string"
+    }
+  }, {
+    "iri" : "http://www.w3.org/ns/dcat#DataService",
+    "baseIri" : "http://www.w3.org/ns/dcat",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "DataService"
+    },
+    "attributes" : [ "external" ],
+    "id" : "89"
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#string",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "90",
+    "label" : {
+      "IRI-based" : "string"
+    }
+  }, {
+    "iri" : "http://www.w3.org/ns/prov#Bundle",
+    "baseIri" : "http://www.w3.org/ns/prov",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Bundle"
+    },
+    "subClasses" : [ "36" ],
+    "attributes" : [ "external" ],
+    "id" : "93"
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#string",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "94",
+    "label" : {
+      "IRI-based" : "string"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#string",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "2",
+    "label" : {
+      "IRI-based" : "string"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#dateTime",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "97",
+    "label" : {
+      "IRI-based" : "dateTime"
+    }
+  }, {
+    "iri" : "http://www.w3.org/2001/XMLSchema#string",
+    "baseIri" : "http://www.w3.org/2001/XMLSchema",
+    "id" : "77",
+    "label" : {
+      "IRI-based" : "string"
+    }
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#GovernanceActor",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "instances" : 0,
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://w3id.org/pionera/daimo",
+        "type" : "iri"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "GovernanceActor",
+      "en" : "governance actor"
+    },
+    "id" : "73",
+    "superClasses" : [ "28" ]
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#ModelDeployment",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "instances" : 0,
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://w3id.org/pionera/daimo",
+        "type" : "iri"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "ModelDeployment",
+      "en" : "model deployment"
+    },
+    "comment" : {
+      "en" : "A running or hosted instance of an MLDCAT-AP MachineLearningModel exposed through a dcat:DataService under an operational environment."
+    },
+    "id" : "4",
+    "superClasses" : [ "22" ]
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "instances" : 0,
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://w3id.org/pionera/daimo",
+        "type" : "iri"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "CrossParticipantProvenanceRecord",
+      "en" : "cross-participant provenance record"
+    },
+    "comment" : {
+      "en" : "A reusable semantic bundle that aggregates prov:Activity and prov:Entity across participant contexts to tell one audit-ready story."
+    },
+    "id" : "36",
+    "superClasses" : [ "93" ]
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#DerivedArtifact",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "instances" : 0,
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://w3id.org/pionera/daimo",
+        "type" : "iri"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "DerivedArtifact",
+      "en" : "derived artifact"
+    },
+    "comment" : {
+      "en" : "A governed, catalog-describable output produced by an it6:Run in a dataspace context, bearing its own provenance and policy."
+    },
+    "id" : "23",
+    "superClasses" : [ "22", "47" ]
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#ModelConsumer",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "instances" : 0,
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://w3id.org/pionera/daimo",
+        "type" : "iri"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "ModelConsumer",
+      "en" : "model consumer"
+    },
+    "id" : "88",
+    "superClasses" : [ "28" ]
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#ModelProvider",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "instances" : 0,
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://w3id.org/pionera/daimo",
+        "type" : "iri"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "ModelProvider",
+      "en" : "model provider"
+    },
+    "id" : "87",
+    "superClasses" : [ "28" ]
+  }, {
+    "iri" : "http://www.w3.org/ns/odrl/2/Agreement",
+    "baseIri" : "http://www.w3.org/ns/odrl/2",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Agreement"
+    },
+    "subClasses" : [ "15" ],
+    "attributes" : [ "external" ],
+    "id" : "39"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#AIAssetOffering",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "instances" : 0,
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://w3id.org/pionera/daimo",
+        "type" : "iri"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "AIAssetOffering",
+      "en" : "AI asset offering"
+    },
+    "comment" : {
+      "en" : "A catalog-record entry that registers an AI model in a dataspace catalog, bundling the model reference, the providing agent, and an ODRL offer policy. Specialises dcat:CatalogRecord; carries an odrl:Offer via daimo:hasOfferPolicy. In DSP terms this is the catalog-time artefact that becomes a dspace:ContractOffer during negotiation."
+    },
+    "id" : "8",
+    "superClasses" : [ "108" ]
+  }, {
+    "iri" : "http://data.europa.eu/it6/ComputerInfrastructure",
+    "baseIri" : "http://data.europa.eu/it6",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "ComputerInfrastructure"
+    },
+    "attributes" : [ "external" ],
+    "id" : "129"
+  }, {
+    "iri" : "http://www.w3.org/ns/dcat#Dataset",
+    "baseIri" : "http://www.w3.org/ns/dcat",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "Dataset"
+    },
+    "attributes" : [ "external" ],
+    "id" : "49"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#SharedEvaluationContext",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "instances" : 0,
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://w3id.org/pionera/daimo",
+        "type" : "iri"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "SharedEvaluationContext",
+      "en" : "shared evaluation context"
+    },
+    "comment" : {
+      "en" : "A reified grouping of the conditions under which model results are comparable: task, dataset, dataset version, protocol, and random seed. Does not claim to cover every facet that affects comparability (metric, split strategy, hyperparameters); it is the minimum grouping required by CQ-V1..CQ-V3."
+    },
+    "id" : "26"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#Evaluator",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "instances" : 0,
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://w3id.org/pionera/daimo",
+        "type" : "iri"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "Evaluator",
+      "en" : "evaluator"
+    },
+    "id" : "71",
+    "superClasses" : [ "28" ]
+  }, {
+    "iri" : "http://www.w3.org/ns/dcat#CatalogRecord",
+    "baseIri" : "http://www.w3.org/ns/dcat",
+    "instances" : 0,
+    "label" : {
+      "IRI-based" : "CatalogRecord"
+    },
+    "subClasses" : [ "8" ],
+    "attributes" : [ "external" ],
+    "id" : "108"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#IOContract",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "instances" : 0,
+    "annotations" : {
+      "isDefinedBy" : [ {
+        "identifier" : "isDefinedBy",
+        "language" : "undefined",
+        "value" : "https://w3id.org/pionera/daimo",
+        "type" : "iri"
+      } ]
+    },
+    "label" : {
+      "IRI-based" : "IOContract",
+      "en" : "I/O contract"
+    },
+    "comment" : {
+      "en" : "The minimum machine-actionable invocation contract for a deployment: input format, output format, authentication method, and optional input/output schemas."
+    },
+    "id" : "1"
+  } ],
+  "property" : [ {
+    "id" : "0",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "3",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "7",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "11",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "14",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "18",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "20",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "25",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "27",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "30",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "31",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "32",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "33",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "34",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "35",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "37",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "38",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "40",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "44",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "45",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "46",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "48",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "52",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "53",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "54",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "55",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "57",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "58",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "59",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "61",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "62",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "63",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "65",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "67",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "68",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "69",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "70",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "72",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "74",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "76",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "78",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "79",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "80",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "82",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "83",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "85",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "91",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "95",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "96",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "19",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "98",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "99",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "100",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "101",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "102",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "103",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "17",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "104",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "105",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "42",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "50",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "106",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "10",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "107",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "109",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "110",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "111",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "112",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "113",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "114",
+    "type" : "rdfs:SubClassOf"
+  }, {
+    "id" : "56",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "115",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "116",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "118",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "119",
+    "type" : "owl:datatypeProperty"
+  }, {
+    "id" : "120",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "21",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "121",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "122",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "123",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "124",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "92",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "125",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "126",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "13",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "127",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "128",
+    "type" : "owl:disjointWith"
+  }, {
+    "id" : "130",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "131",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "117",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "132",
+    "type" : "owl:objectProperty"
+  }, {
+    "id" : "133",
+    "type" : "owl:datatypeProperty"
+  } ],
+  "propertyAttribute" : [ {
+    "iri" : "https://w3id.org/pionera/daimo#authMethod",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "2",
+    "label" : {
+      "IRI-based" : "authMethod",
+      "en" : "authentication method"
+    },
+    "domain" : "1",
+    "attributes" : [ "functional", "datatype" ],
+    "id" : "0"
+  }, {
+    "range" : "4",
+    "domain" : "1",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "3"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#hasOfferPolicy",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "9",
+    "label" : {
+      "IRI-based" : "hasOfferPolicy",
+      "en" : "has offer policy"
+    },
+    "superproperty" : [ "10" ],
+    "domain" : "8",
+    "comment" : {
+      "en" : "Links an offering to the ODRL offer policy that governs the offered model. Functional: each offering carries exactly one canonical offer policy."
+    },
+    "attributes" : [ "functional", "object" ],
+    "id" : "7"
+  }, {
+    "iri" : "http://data.europa.eu/it6/hasFlow",
+    "baseIri" : "http://data.europa.eu/it6",
+    "range" : "12",
+    "label" : {
+      "IRI-based" : "hasFlow"
+    },
+    "domain" : "12",
+    "subproperty" : [ "13" ],
+    "attributes" : [ "external", "object" ],
+    "id" : "11"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#authorizesRun",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "16",
+    "label" : {
+      "IRI-based" : "authorizesRun",
+      "en" : "authorizes run"
+    },
+    "superproperty" : [ "17" ],
+    "domain" : "15",
+    "comment" : {
+      "en" : "Links an authorization to a run it permits. Non-functional: a single authorization can cover multiple runs (e.g., subscription-style access)."
+    },
+    "attributes" : [ "object" ],
+    "id" : "14"
+  }, {
+    "iri" : "http://www.w3.org/ns/prov#hadActivity",
+    "baseIri" : "http://www.w3.org/ns/prov",
+    "range" : "12",
+    "label" : {
+      "IRI-based" : "hadActivity"
+    },
+    "domain" : "12",
+    "subproperty" : [ "19" ],
+    "attributes" : [ "external", "object" ],
+    "id" : "18"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#offeredBy",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "6",
+    "label" : {
+      "IRI-based" : "offeredBy",
+      "en" : "offered by"
+    },
+    "superproperty" : [ "21" ],
+    "domain" : "8",
+    "comment" : {
+      "en" : "Links an offering to its publishing agent. Functional: each offering has exactly one provider."
+    },
+    "attributes" : [ "functional", "object" ],
+    "id" : "20"
+  }, {
+    "range" : "26",
+    "domain" : "15",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "25"
+  }, {
+    "range" : "28",
+    "domain" : "15",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "27"
+  }, {
+    "range" : "26",
+    "domain" : "23",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "30"
+  }, {
+    "range" : "28",
+    "domain" : "23",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "31"
+  }, {
+    "range" : "4",
+    "domain" : "15",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "32"
+  }, {
+    "range" : "1",
+    "domain" : "15",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "33"
+  }, {
+    "range" : "15",
+    "domain" : "23",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "34"
+  }, {
+    "range" : "26",
+    "domain" : "36",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "35"
+  }, {
+    "range" : "4",
+    "domain" : "23",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "37"
+  }, {
+    "range" : "1",
+    "domain" : "23",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "38"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#contextTask",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "41",
+    "label" : {
+      "IRI-based" : "contextTask",
+      "en" : "context task"
+    },
+    "superproperty" : [ "42" ],
+    "domain" : "26",
+    "attributes" : [ "functional", "object" ],
+    "id" : "40"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#signedBy",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "6",
+    "label" : {
+      "IRI-based" : "signedBy",
+      "en" : "signed by"
+    },
+    "domain" : "24",
+    "comment" : {
+      "en" : "Functional: one signer per evidence record."
+    },
+    "attributes" : [ "functional", "object" ],
+    "id" : "44"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#records",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "5",
+    "label" : {
+      "IRI-based" : "records",
+      "en" : "records"
+    },
+    "domain" : "36",
+    "attributes" : [ "object" ],
+    "id" : "45"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#outputSchema",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "47",
+    "label" : {
+      "IRI-based" : "outputSchema",
+      "en" : "output schema"
+    },
+    "domain" : "1",
+    "attributes" : [ "functional", "object" ],
+    "id" : "46"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#contextDataset",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "49",
+    "label" : {
+      "IRI-based" : "contextDataset",
+      "en" : "context dataset"
+    },
+    "superproperty" : [ "50" ],
+    "domain" : "26",
+    "attributes" : [ "functional", "object" ],
+    "id" : "48"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#hasRole",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "28",
+    "label" : {
+      "IRI-based" : "hasRole",
+      "en" : "has role"
+    },
+    "domain" : "6",
+    "comment" : {
+      "en" : "Links an agent to a dataspace role. Non-functional: agents may hold multiple roles."
+    },
+    "attributes" : [ "object" ],
+    "id" : "52"
+  }, {
+    "range" : "4",
+    "domain" : "36",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "53"
+  }, {
+    "range" : "1",
+    "domain" : "36",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "54"
+  }, {
+    "iri" : "http://xmlns.com/foaf/0.1/primaryTopic",
+    "baseIri" : "http://xmlns.com/foaf/0.1",
+    "range" : "12",
+    "label" : {
+      "IRI-based" : "primaryTopic"
+    },
+    "domain" : "12",
+    "subproperty" : [ "56" ],
+    "attributes" : [ "external", "object" ],
+    "id" : "55"
+  }, {
+    "range" : "28",
+    "domain" : "36",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "57"
+  }, {
+    "range" : "26",
+    "domain" : "24",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "58"
+  }, {
+    "range" : "28",
+    "domain" : "24",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "59"
+  }, {
+    "range" : "15",
+    "domain" : "36",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "61"
+  }, {
+    "range" : "23",
+    "domain" : "36",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "62"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#randomSeed",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "64",
+    "label" : {
+      "IRI-based" : "randomSeed",
+      "en" : "random seed"
+    },
+    "domain" : "26",
+    "attributes" : [ "functional", "datatype" ],
+    "id" : "63"
+  }, {
+    "range" : "15",
+    "domain" : "24",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "65"
+  }, {
+    "range" : "4",
+    "domain" : "24",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "67"
+  }, {
+    "range" : "1",
+    "domain" : "24",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "68"
+  }, {
+    "range" : "47",
+    "domain" : "23",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "69"
+  }, {
+    "range" : "28",
+    "domain" : "71",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "70"
+  }, {
+    "range" : "28",
+    "domain" : "73",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "72"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#outputFormat",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "75",
+    "label" : {
+      "IRI-based" : "outputFormat",
+      "en" : "output format"
+    },
+    "domain" : "1",
+    "attributes" : [ "functional", "datatype" ],
+    "id" : "74"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#datasetVersion",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "77",
+    "label" : {
+      "IRI-based" : "datasetVersion",
+      "en" : "dataset version"
+    },
+    "domain" : "26",
+    "attributes" : [ "functional", "datatype" ],
+    "id" : "76"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#usesEvaluationContext",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "26",
+    "label" : {
+      "IRI-based" : "usesEvaluationContext",
+      "en" : "uses evaluation context"
+    },
+    "domain" : "60",
+    "attributes" : [ "functional", "object" ],
+    "id" : "78"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#hasIOContract",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "1",
+    "label" : {
+      "IRI-based" : "hasIOContract",
+      "en" : "has I/O contract"
+    },
+    "domain" : "4",
+    "comment" : {
+      "en" : "Links a deployment to its invocation contract. Functional: one deployment has exactly one canonical I/O contract."
+    },
+    "attributes" : [ "functional", "object" ],
+    "id" : "79"
+  }, {
+    "range" : "22",
+    "domain" : "23",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "80"
+  }, {
+    "range" : "22",
+    "domain" : "4",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "82"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#recordedAt",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "84",
+    "label" : {
+      "IRI-based" : "recordedAt",
+      "en" : "recorded at"
+    },
+    "domain" : "24",
+    "attributes" : [ "functional", "datatype" ],
+    "id" : "83"
+  }, {
+    "range" : "22",
+    "domain" : "24",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "85"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#grantedTo",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "6",
+    "label" : {
+      "IRI-based" : "grantedTo",
+      "en" : "granted to"
+    },
+    "superproperty" : [ "92" ],
+    "domain" : "15",
+    "comment" : {
+      "en" : "Links an authorization to the grantee agent. Functional."
+    },
+    "attributes" : [ "functional", "object" ],
+    "id" : "91"
+  }, {
+    "iri" : "http://purl.org/dc/terms/hasVersion",
+    "baseIri" : "http://purl.org/dc/terms",
+    "range" : "81",
+    "label" : {
+      "IRI-based" : "hasVersion"
+    },
+    "domain" : "12",
+    "attributes" : [ "external", "datatype" ],
+    "id" : "95"
+  }, {
+    "range" : "26",
+    "domain" : "28",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "96"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#evidenceOf",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "5",
+    "label" : {
+      "IRI-based" : "evidenceOf",
+      "en" : "evidence of"
+    },
+    "superproperty" : [ "18" ],
+    "domain" : "24",
+    "comment" : {
+      "en" : "Links audit evidence to the activity it attests. Functional."
+    },
+    "attributes" : [ "functional", "object" ],
+    "id" : "19"
+  }, {
+    "range" : "26",
+    "domain" : "1",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "98"
+  }, {
+    "range" : "28",
+    "domain" : "1",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "99"
+  }, {
+    "range" : "26",
+    "domain" : "4",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "100"
+  }, {
+    "range" : "28",
+    "domain" : "4",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "101"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#inParticipantContext",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "43",
+    "label" : {
+      "IRI-based" : "inParticipantContext",
+      "en" : "in participant context"
+    },
+    "domain" : "28",
+    "attributes" : [ "functional", "object" ],
+    "id" : "102"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#integrityHash",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "90",
+    "label" : {
+      "IRI-based" : "integrityHash",
+      "en" : "integrity hash"
+    },
+    "domain" : "24",
+    "attributes" : [ "functional", "datatype" ],
+    "id" : "103"
+  }, {
+    "iri" : "http://www.w3.org/ns/prov#used",
+    "baseIri" : "http://www.w3.org/ns/prov",
+    "range" : "12",
+    "label" : {
+      "IRI-based" : "used"
+    },
+    "domain" : "12",
+    "subproperty" : [ "14" ],
+    "attributes" : [ "external", "object" ],
+    "id" : "17"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#deploysModel",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "29",
+    "label" : {
+      "IRI-based" : "deploysModel",
+      "en" : "deploys model"
+    },
+    "domain" : "4",
+    "comment" : {
+      "en" : "Links a deployment to the model it serves. Functional: one deployment serves one model."
+    },
+    "attributes" : [ "functional", "object" ],
+    "id" : "104"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#inputSchema",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "47",
+    "label" : {
+      "IRI-based" : "inputSchema",
+      "en" : "input schema"
+    },
+    "domain" : "1",
+    "attributes" : [ "functional", "object" ],
+    "id" : "105"
+  }, {
+    "iri" : "http://data.europa.eu/it6/hasTask",
+    "baseIri" : "http://data.europa.eu/it6",
+    "range" : "12",
+    "label" : {
+      "IRI-based" : "hasTask"
+    },
+    "domain" : "12",
+    "subproperty" : [ "40" ],
+    "attributes" : [ "external", "object" ],
+    "id" : "42"
+  }, {
+    "iri" : "http://data.europa.eu/it6/trainedOn",
+    "baseIri" : "http://data.europa.eu/it6",
+    "range" : "12",
+    "label" : {
+      "IRI-based" : "trainedOn"
+    },
+    "domain" : "12",
+    "subproperty" : [ "48" ],
+    "attributes" : [ "external", "object" ],
+    "id" : "50"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#exposedAs",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "89",
+    "label" : {
+      "IRI-based" : "exposedAs",
+      "en" : "exposed as"
+    },
+    "domain" : "4",
+    "comment" : {
+      "en" : "Links a deployment to the DCAT data service that exposes it. Functional."
+    },
+    "attributes" : [ "functional", "object" ],
+    "id" : "106"
+  }, {
+    "iri" : "http://www.w3.org/ns/odrl/2/hasPolicy",
+    "baseIri" : "http://www.w3.org/ns/odrl/2",
+    "range" : "12",
+    "label" : {
+      "IRI-based" : "hasPolicy"
+    },
+    "domain" : "12",
+    "subproperty" : [ "7" ],
+    "attributes" : [ "external", "object" ],
+    "id" : "10"
+  }, {
+    "range" : "108",
+    "domain" : "8",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "107"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#spansParticipantContext",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "43",
+    "label" : {
+      "IRI-based" : "spansParticipantContext",
+      "en" : "spans participant context"
+    },
+    "domain" : "36",
+    "attributes" : [ "object" ],
+    "id" : "109"
+  }, {
+    "range" : "39",
+    "domain" : "15",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "110"
+  }, {
+    "range" : "28",
+    "domain" : "88",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "111"
+  }, {
+    "range" : "28",
+    "domain" : "87",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "112"
+  }, {
+    "range" : "93",
+    "domain" : "36",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "113"
+  }, {
+    "range" : "28",
+    "domain" : "66",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "114"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#offersModel",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "29",
+    "label" : {
+      "IRI-based" : "offersModel",
+      "en" : "offers model"
+    },
+    "superproperty" : [ "55" ],
+    "domain" : "8",
+    "comment" : {
+      "en" : "Links a catalog-record offering to the AI model it registers. Functional: one offering registers exactly one model."
+    },
+    "attributes" : [ "functional", "object" ],
+    "id" : "56"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#inputFormat",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "94",
+    "label" : {
+      "IRI-based" : "inputFormat",
+      "en" : "input format"
+    },
+    "domain" : "1",
+    "attributes" : [ "functional", "datatype" ],
+    "id" : "115"
+  }, {
+    "iri" : "http://www.w3.org/ns/prov#wasGeneratedBy",
+    "baseIri" : "http://www.w3.org/ns/prov",
+    "range" : "12",
+    "label" : {
+      "IRI-based" : "wasGeneratedBy"
+    },
+    "domain" : "12",
+    "subproperty" : [ "117" ],
+    "attributes" : [ "external", "object" ],
+    "id" : "116"
+  }, {
+    "range" : "23",
+    "domain" : "8",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "118"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#protocol",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "86",
+    "label" : {
+      "IRI-based" : "protocol",
+      "en" : "evaluation protocol"
+    },
+    "domain" : "26",
+    "attributes" : [ "functional", "datatype" ],
+    "id" : "119"
+  }, {
+    "range" : "15",
+    "domain" : "8",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "120"
+  }, {
+    "iri" : "http://purl.org/dc/terms/publisher",
+    "baseIri" : "http://purl.org/dc/terms",
+    "range" : "12",
+    "label" : {
+      "IRI-based" : "publisher"
+    },
+    "domain" : "12",
+    "subproperty" : [ "20" ],
+    "attributes" : [ "external", "object" ],
+    "id" : "21"
+  }, {
+    "range" : "1",
+    "domain" : "8",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "121"
+  }, {
+    "range" : "4",
+    "domain" : "8",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "122"
+  }, {
+    "range" : "28",
+    "domain" : "8",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "123"
+  }, {
+    "range" : "26",
+    "domain" : "8",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "124"
+  }, {
+    "iri" : "http://www.w3.org/ns/odrl/2/assignee",
+    "baseIri" : "http://www.w3.org/ns/odrl/2",
+    "range" : "12",
+    "label" : {
+      "IRI-based" : "assignee"
+    },
+    "domain" : "12",
+    "subproperty" : [ "91" ],
+    "attributes" : [ "external", "object" ],
+    "id" : "92"
+  }, {
+    "range" : "36",
+    "domain" : "24",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "125"
+  }, {
+    "range" : "23",
+    "domain" : "24",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "126"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#contextFlow",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "51",
+    "label" : {
+      "IRI-based" : "contextFlow",
+      "en" : "context flow"
+    },
+    "superproperty" : [ "11" ],
+    "domain" : "26",
+    "attributes" : [ "functional", "object" ],
+    "id" : "13"
+  }, {
+    "range" : "24",
+    "domain" : "8",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "127"
+  }, {
+    "range" : "36",
+    "domain" : "8",
+    "attributes" : [ "anonymous", "object" ],
+    "id" : "128"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#underAuthorization",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "15",
+    "label" : {
+      "IRI-based" : "underAuthorization",
+      "en" : "under authorization"
+    },
+    "domain" : "23",
+    "comment" : {
+      "en" : "Links a derived artifact to the authorisation under which it was produced. Functional."
+    },
+    "attributes" : [ "functional", "object" ],
+    "id" : "130"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#onInfrastructure",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "129",
+    "label" : {
+      "IRI-based" : "onInfrastructure",
+      "en" : "on infrastructure"
+    },
+    "domain" : "4",
+    "comment" : {
+      "en" : "Links a deployment to the MLDCAT-AP computer infrastructure running it. Functional: one deployment runs on one canonical infrastructure instance (redundancy is modelled as multiple deployments)."
+    },
+    "attributes" : [ "functional", "object" ],
+    "id" : "131"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#derivedFromRun",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "16",
+    "label" : {
+      "IRI-based" : "derivedFromRun",
+      "en" : "derived from run"
+    },
+    "superproperty" : [ "116" ],
+    "domain" : "23",
+    "comment" : {
+      "en" : "Links a derived artifact to the run that produced it. Functional: each derived artifact has exactly one originating run."
+    },
+    "attributes" : [ "functional", "object" ],
+    "id" : "117"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#authorizedBy",
+    "inverse" : "14",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "15",
+    "label" : {
+      "IRI-based" : "authorizedBy",
+      "en" : "authorized by"
+    },
+    "domain" : "16",
+    "comment" : {
+      "en" : "Inverse of daimo:authorizesRun. Functional: each run is authorized by exactly one agreement."
+    },
+    "attributes" : [ "functional", "object" ],
+    "id" : "132"
+  }, {
+    "iri" : "https://w3id.org/pionera/daimo#expiresAt",
+    "baseIri" : "https://w3id.org/pionera/daimo",
+    "range" : "97",
+    "label" : {
+      "IRI-based" : "expiresAt",
+      "en" : "expires at"
+    },
+    "domain" : "15",
+    "attributes" : [ "functional", "datatype" ],
+    "id" : "133"
+  } ]
+}
