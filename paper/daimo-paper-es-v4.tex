@@ -14,7 +14,7 @@
 \usepackage{xcolor}
 \usepackage{enumitem}
 \usepackage{tikz}
-\usetikzlibrary{shapes.geometric,arrows.meta,positioning,fit,backgrounds,calc}
+\usetikzlibrary{shapes.geometric,shapes.multipart,arrows.meta,positioning,fit,backgrounds,calc}
 \usepackage[colorlinks,bookmarksopen,bookmarksnumbered,citecolor=blue!50!black,urlcolor=blue!50!black,linkcolor=blue!50!black]{hyperref}
 
 % Macros — kept to a minimum per Sage golden rule (i)
@@ -54,6 +54,15 @@
   figlabel/.style={font=\sffamily\footnotesize\bfseries, text=daimoLine},
   edgelabel/.style={fill=white, font=\sffamily\scriptsize, inner sep=1.5pt, text=daimoLine},
   subclassarrow/.style={-{Triangle[open,length=2.5mm,width=2.4mm]}, draw=daimoAccent, thick, line cap=round},
+  umlclass/.style={rectangle split, rectangle split parts=2, draw=daimoAccent!85!black,
+    fill=daimoBridgeFill, thick, rounded corners=2pt, align=left,
+    text width=3.05cm, inner sep=3pt,
+    font=\ttfamily\scriptsize},
+  umlreuse/.style={umlclass, draw=daimoLine!65, fill=daimoReuseFill},
+  umlevidence/.style={umlclass, fill=daimoEvidenceFill},
+  umleval/.style={umlclass, fill=daimoEvalFill},
+  umlrel/.style={-{Latex[length=1.9mm]}, draw=daimoLine, line width=0.6pt, line cap=round},
+  umlagg/.style={-{Diamond[open,length=2.8mm,width=2.2mm]}, draw=daimoLine, line width=0.6pt, line cap=round},
   objpropertyarrow/.style={-{Latex[length=1.9mm]}, draw=daimoLine, line width=0.6pt, line cap=round},
   modulearrow/.style={-{Latex[length=1.8mm]}, draw=daimoLine!70, thick, dashed, line cap=round},
   flowarrow/.style={-{Latex[length=2.2mm]}, draw=daimoAccent, thick, line cap=round},
@@ -111,7 +120,7 @@ Los vocabularios existentes cubren fragmentos importantes de ese ciclo. MLDCAT-A
 
 La brecha identificada en la literatura revisada es relacional. Un modelo descrito con MLDCAT-AP no queda, por ello solo, conectado al acto de ser ofrecido en un catálogo federado. Una política ODRL puede expresar permisos sin quedar ligada al despliegue que gobierna. Una negociación DSP no explicita necesariamente el contexto de evaluación ni la evidencia de auditoría asociada a una invocación de IA. Un bundle PROV puede agrupar procedencia sin distinguir la cadena que cruza varios contextos administrativos. El problema no es añadir otra descripción del modelo, sino articular catálogo, política, despliegue, ejecución, evidencia y evaluación como una cadena consultable y validable.
 
-Este artículo presenta DAIMO (\emph{Dataspace AI Model Ontology}), un perfil OWL~2~DL de integración para modelos de IA gobernados en espacios de datos. DAIMO sigue una estrategia de reutilización preferente: conserva \code{it6:MachineLearningModel} como clase de modelo de MLDCAT-AP y utiliza DCAT, ODRL, PROV-O, DSP/EDC, FOAF, SKOS y SPDX allí donde ya proporcionan la semántica necesaria. Sólo introduce clases puente cuando la relación entre vocabularios no queda cubierta por esos recursos.
+Este artículo presenta DAIMO (\emph{Dataspace AI Model Ontology}), un perfil OWL~2~DL de integración para modelos de IA gobernados en espacios de datos. DAIMO sigue una estrategia de reutilización preferente: conserva \code{it6:MachineLearningModel} como clase de modelo de MLDCAT-AP y utiliza DCAT, ODRL, PROV-O, DSP/EDC, FOAF, SKOS y SPDX allí donde ya proporcionan la semántica necesaria. Sólo introduce clases puente cuando la relación entre vocabularios no queda cubierta por esos recursos. Los requisitos y el demostrador se anclan en la iniciativa de espacio de datos PIONERA, cuyos casos de uso de Movilidad y FLARES proporcionan un contexto de aplicación único y coherente a lo largo del artículo.
 
 Las contribuciones se organizan en tres partes:
 
@@ -179,6 +188,8 @@ La Tabla~\ref{tab:mldcatap-delta} explicita la relación clase a clase entre DAI
 \end{tabular}
 \end{table*}
 
+El bloque superior de la Tabla~\ref{tab:mldcatap-delta} confirma que DAIMO no redefine ni bifurca la descripción del modelo: todos los constructos de MLDCAT-AP se adoptan, y los casos perfilados sólo añaden obligaciones de uso en lugar de nueva semántica. El bloque inferior aísla los constructos puente que MLDCAT-AP no proporciona, que son exactamente las relaciones de gobernanza que motivan el perfil. Leídos en conjunto, ambos bloques muestran que la contribución es relacional y no un vocabulario de modelo competidor.
+
 \subsection{Gobernanza de recursos y espacios de datos}
 
 \paragraph{Vocabularios W3C de gobernanza.}
@@ -227,7 +238,7 @@ DAIMO adopta la metodología \emph{Linked Open Terms} (LOT)~\cite{lot22} por dos
 
 \subsection{Escenario ejecutivo}\label{sec:scenario}
 
-La especificación de requisitos parte de un escenario operativo anonimizado que posteriormente actúa como caso de estudio (§\ref{sec:eval-usecase}). Un Proveedor~A publica un modelo de predicción geoespacial de riesgo en un catálogo federado gestionado por una Plataforma~C. Un Consumidor municipal~B necesita invocar el modelo para apoyar decisiones operativas tras un evento extremo, pero no puede hacerlo sin antes descubrirlo bajo una política compatible con su uso público, verificar que satisface un umbral mínimo de calidad sobre un contexto de evaluación común, negociar un acuerdo que autorice sus ejecuciones concretas e invocarlo a través de un endpoint autenticado. Un Evaluador científico~D compara el modelo con una línea base sobre el mismo contexto de evaluación. Un Actor de cumplimiento~E audita las ejecuciones y archiva la evidencia correspondiente. Los nombres, modelos, endpoints, métricas y fechas del escenario son sintéticos por diseño: el caso no se presenta como piloto desplegado, sino como demostrador reproducible de adecuación representacional.
+La especificación de requisitos se ancla en el espacio de datos PIONERA, una iniciativa española sobre la mejora de la interoperabilidad en espacios de datos mediante inteligencia artificial, que posteriormente actúa como caso de estudio (§\ref{sec:eval-usecase}). En PIONERA, un conector de Empresa actúa como proveedor de modelos y un conector de Ayuntamiento actúa como consumidor municipal, coordinados por un operador de plataforma que gestiona el catálogo federado y la negociación entre conectores. El catálogo expone dos familias de modelos que motivan los requisitos: los modelos de Movilidad, que predicen tiempo de viaje y retraso del transporte público a partir de características de tramo tipo GTFS, y los modelos FLARES, que extraen eventos y clasifican fiabilidad sobre texto en español. El consumidor municipal necesita invocar un modelo de Movilidad de predicción de retraso para apoyar decisiones operativas, pero no puede hacerlo sin antes descubrirlo bajo una política compatible con su uso público, verificar que satisface un umbral mínimo de calidad sobre un contexto de evaluación común, negociar un acuerdo que autorice sus ejecuciones concretas e invocarlo a través de un endpoint autenticado. Un servicio de benchmarking compara el modelo con una línea base sobre el mismo contexto de evaluación, y un actor de gobernanza audita las ejecuciones y archiva la evidencia correspondiente. Los nombres, modelos, endpoints, métricas y fechas del escenario son sintéticos por diseño: el caso no se presenta como piloto desplegado, sino como demostrador reproducible de adecuación representacional.
 
 Este escenario sintetiza las cinco tareas operativas que una ontología del puente catálogo-dataspace debe soportar simultáneamente (publicación, descubrimiento, invocación, trazabilidad y evaluación) e involucra a cinco tipos de actor claramente diferenciados cuyas necesidades son complementarias pero no coinciden. Es verosímil: no depende de tecnología hipotética y se puede instanciar con los vocabularios reutilizados más las extensiones que DAIMO introduce.
 
@@ -235,7 +246,7 @@ Este escenario sintetiza las cinco tareas operativas que una ontología del puen
 
 Los requisitos se elicitaron desde tres fuentes complementarias: el escenario anterior, la especificación y notas de implementación de MLDCAT-AP~3.0.0 y el análisis de términos seleccionados de las extensiones Eclipse EDC empleadas en plataformas de espacios de datos. A partir de ellas se formularon veintitrés preguntas de competencia, organizadas en cinco categorías por actor y etapa del ciclo de vida. La categoría~R (registro y publicación, cinco preguntas) cubre las necesidades del proveedor; la categoría~D (descubrimiento y selección, cuatro preguntas), las del consumidor; la categoría~E (ejecución y auditabilidad, cinco preguntas), las del operador y gobernanza; la categoría~V (evaluación y reproducibilidad, cinco preguntas), las del evaluador; y la categoría~G (puente de gobernanza, cuatro preguntas), las preguntas multi-actor que requieren semántica nativa de DAIMO. El conjunto completo de las veintitrés preguntas en lenguaje natural aparece en el Apéndice~\ref{app:cqs}.
 
-La primera síntesis vincula actores y familias de preguntas. Esta tabla aparece antes de la trazabilidad técnica para fijar quién formula cada necesidad y evitar que las CQs se lean como una lista abstracta desvinculada del escenario.
+La primera síntesis vincula actores y familias de preguntas antes de introducir cualquier trazabilidad técnica. La Tabla~\ref{tab:actors} asocia cada rol de tipo PIONERA ---proveedor, consumidor, operador de plataforma, evaluador y la perspectiva de gobernanza multi-actor--- con la familia de preguntas de competencia que origina y con la necesidad concreta que hay detrás. Presentar primero a los actores fija quién formula cada requisito y evita que las preguntas de competencia se lean como una lista abstracta desvinculada del escenario. Además deja explícito que la categoría de gobernanza es genuinamente transversal, porque ningún participante aislado puede responderla por sí solo.
 
 \begin{table*}[t]
 \small\sf\centering
@@ -253,7 +264,7 @@ Gobernanza (multi-actor) & G & Puentear oferta, despliegue, autorización y proc
 \end{tabular}
 \end{table*}
 
-El segundo paso es trazar cada familia de requisitos hacia el compromiso de modelado que la satisface. Esta tabla justifica los bloques principales de la ontología y conecta la especificación LOT con los artefactos de evaluación usados más adelante.
+El segundo paso es trazar cada familia de requisitos hacia el compromiso de modelado que la satisface y hacia la evidencia que después lo demuestra. La Tabla~\ref{tab:req-trace} es, por tanto, la bisagra entre la fase de especificación LOT y la fase de evaluación: para cada requisito operativo nombra el constructo de la ontología que porta la semántica y el artefacto de validación ---consulta de competencia, \emph{shape} SHACL o prueba negativa--- que lo comprueba. Leer la tabla de arriba abajo justifica por qué existe cada bloque principal de la ontología, en lugar de presentar las clases como preferencias de diseño. También anticipa la sección de evaluación, de modo que el lector ya puede ver qué requisito pretende apoyar cada resultado posterior.
 
 \begin{table*}[t]
 \small\sf\centering
@@ -444,6 +455,8 @@ Para hacer auditables esos conteos, se conserva un desglose de estilo OntoMetric
 \end{tabular}
 \end{table}
 
+El desglose de la Tabla~\ref{tab:ontometrics} muestra que las cifras reportadas cuentan sólo sujetos nativos de DAIMO, de modo que las declaraciones de alineamiento que enlazan el perfil con vocabularios externos no inflan los totales. La alta proporción de propiedades funcionales, dominios y rangos refleja un diseño deliberadamente restringido en el que la mayoría de relaciones están tipadas y son de valor único. Los dos ceros de \code{owl:equivalentClass} y de \code{owl:disjointWith} binario son esperables, porque la disjunción se expresa mediante un único axioma nombrado \code{owl:AllDisjointClasses}.
+
 \subsection{Clases nativas y alineamientos}\label{sec:classes}
 
 Las nueve clases nativas de primer nivel, más las cinco subclases de \code{ParticipantRole}, constituyen el conjunto mínimo que las tres decisiones centrales de diseño producen. La Tabla~\ref{tab:classes} actúa como inventario exhaustivo: clase, alineamiento, papel y preguntas de competencia asociadas. Las figuras siguientes no duplican ese inventario; ofrecen una lectura conceptual del conjunto y una lectura axiomática de los alineamientos principales.
@@ -468,53 +481,72 @@ Las nueve clases nativas de primer nivel, más las cinco subclases de \code{Part
 \end{tabular}
 \end{table*}
 
-La Figura~\ref{fig:ontology-global} ofrece una lectura funcional de la ontología completa. Agrupa las clases puente y los recursos reutilizados según su papel en la cadena de publicación, invocación, autorización, evidencia y evaluación. Esta organización ayuda a leer DAIMO como perfil relacional, no como una lista plana de términos.
+La Figura~\ref{fig:ontology-global} ofrece una lectura a nivel de clases del perfil como diagrama ontológico: cada caja muestra el nombre de una clase y, cuando procede, sus atributos principales, y las flechas etiquetadas son las propiedades de objeto que las conectan. Las clases puente aparecen en azul, las clases externas reutilizadas en gris, las clases de evidencia en ámbar y el contexto de evaluación en verde, de modo que se ve de un vistazo qué conceptos introduce DAIMO y cuáles toma de vocabularios consolidados. El diagrama se restringe deliberadamente a las clases y relaciones más importantes de la cadena gobernada ---publicación, despliegue, invocación, autorización, ejecución, evidencia y evaluación--- en lugar de reproducir todos los términos. Debe leerse como el mapa conceptual que el resto de la sección desarrolla grupo a grupo.
 
-\begin{figure}[H]
+\begin{figure*}[t]
 \centering
-\begin{tikzpicture}[node distance=0.25cm]
-  \node[groupbox, fill=daimoBridgeFill!24, text width=0.88\columnwidth, align=left,
-    font=\sffamily\scriptsize] (g1)
-    {\textbf{Publicaci\'on y gobernanza}\\
-    \code{AIAssetOffering}; \code{ParticipantRole} y subclases de rol.\\
-    Reuso principal: \code{dcat:CatalogRecord} y \code{odrl:Offer}.};
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[x=1cm,y=1cm]
+  % --- Publicaci\'on y gobernanza ---
+  \node[umlclass] (role) at (0,0)
+    {\textbf{daimo:ParticipantRole}\nodepart{two}subclases:\\ModelProvider,\\ModelConsumer,\\PlatformOperator,\\Evaluator,\\GovernanceActor};
+  \node[umlclass] (offer) at (4.6,0)
+    {\textbf{daimo:AIAssetOffering}\nodepart{two}+ dct:issued\\+ hasOfferPolicy\\+ offeredBy};
+  \node[umlreuse] (mlm) at (9.2,0)
+    {\textbf{it6:MachineLearningModel}\nodepart{two}+ dct:title\\+ owl:versionInfo\\+ it6:hasTask\\+ dct:license};
+  \node[umlreuse] (policy) at (13.8,0)
+    {\textbf{odrl:Offer}\nodepart{two}+ odrl:permission\\+ odrl:prohibition\\+ odrl:target};
 
-  \node[groupbox, fill=daimoBridgeFill!24, text width=0.88\columnwidth, align=left,
-    font=\sffamily\scriptsize, below=of g1] (g2)
-    {\textbf{Despliegue e invocaci\'on}\\
-    \code{ModelDeployment}; \code{IOContract}.\\
-    Reuso principal: \code{it6:MachineLearningModel} y \code{dcat:DataService}.};
+  % --- Despliegue e invocaci\'on ---
+  \node[umlclass] (deploy) at (4.6,-3.4)
+    {\textbf{daimo:ModelDeployment}\nodepart{two}+ deploysModel\\+ onInfrastructure};
+  \node[umlclass] (io) at (9.2,-3.4)
+    {\textbf{daimo:IOContract}\nodepart{two}+ inputFormat\\+ outputFormat\\+ authMethod};
+  \node[umlreuse] (svc) at (13.8,-3.4)
+    {\textbf{dcat:DataService}\nodepart{two}+ dcat:endpointURL};
 
-  \node[groupbox, fill=daimoBridgeFill!24, text width=0.88\columnwidth, align=left,
-    font=\sffamily\scriptsize, below=of g2] (g3)
-    {\textbf{Ejecuci\'on autorizada y salidas}\\
-    \code{ExecutionAuthorization}; \code{DerivedArtifact}.\\
-    Reuso principal: \code{odrl:Agreement} e \code{it6:Run}.};
+  % --- Ejecuci\'on autorizada ---
+  \node[umlclass] (auth) at (0,-6.8)
+    {\textbf{daimo:ExecutionAuthorization}\nodepart{two}+ grantedTo\\+ expiresAt};
+  \node[umlreuse] (run) at (4.6,-6.8)
+    {\textbf{it6:Run}\nodepart{two}+ it6:hasFlow\\+ prov:wasAssociatedWith};
+  \node[umlclass] (deriv) at (9.2,-6.8)
+    {\textbf{daimo:DerivedArtifact}\nodepart{two}+ derivedFromRun\\+ underAuthorization};
+  \node[umlevidence] (evid) at (13.8,-6.8)
+    {\textbf{daimo:AuditEvidence}\nodepart{two}+ integrityHash\\+ signedBy\\+ recordedAt};
 
-  \node[groupbox, fill=daimoEvidenceFill!35, text width=0.88\columnwidth, align=left,
-    font=\sffamily\scriptsize, below=of g3] (g4)
-    {\textbf{Evidencia y procedencia}\\
-    \code{AuditEvidence}; \code{CrossParticipantProvenanceRecord}.\\
-    Reuso principal: PROV-O y \code{spdx:Checksum}.};
+  % --- Procedencia y evaluaci\'on ---
+  \node[umlevidence] (cppr) at (0,-10.2)
+    {\textbf{daimo:CrossParticipant}\\\textbf{ProvenanceRecord}\nodepart{two}+ records\\+ spansParticipantContext};
+  \node[umlreuse] (eval) at (9.2,-10.2)
+    {\textbf{it6:Evaluation}\nodepart{two}+ it6:hasEvaluationMeasure};
+  \node[umleval] (sec) at (15.8,-10.2)
+    {\textbf{daimo:Shared}\\\textbf{EvaluationContext}\nodepart{two}+ contextDataset\\+ protocol\\+ randomSeed};
 
-  \node[groupbox, fill=daimoEvalFill!45, text width=0.88\columnwidth, align=left,
-    font=\sffamily\scriptsize, below=of g4] (g5)
-    {\textbf{Evaluaci\'on y comparabilidad}\\
-    \code{SharedEvaluationContext}.\\
-    Reuso principal: \code{it6:Evaluation} e \code{it6:EvaluationMeasure}.};
-
-  \draw[flowarrow] (g1.south) -- (g2.north);
-  \draw[flowarrow] (g2.south) -- (g3.north);
-  \draw[flowarrow] (g3.south) -- (g4.north);
-  \draw[flowarrow] (g4.south) -- (g5.north);
+  % --- Propiedades de objeto (asociaciones) ---
+  \draw[umlrel] (offer) -- node[edgelabel,pos=0.5]{offersModel} (mlm);
+  \draw[umlrel] (offer) -- node[edgelabel,pos=0.5]{offeredBy} (role);
+  \draw[umlrel] (offer.north) -- ++(0,0.9) -| node[edgelabel,pos=0.25]{hasOfferPolicy} (policy.north);
+  \draw[umlrel] (deploy.north east) -- node[edgelabel,pos=0.55]{deploysModel} (mlm.south);
+  \draw[umlrel] (deploy) -- node[edgelabel,pos=0.5]{hasIOContract} (io);
+  \draw[umlrel] (io) -- node[edgelabel,pos=0.5]{exposedAs} (svc);
+  \draw[umlrel] (auth) -- node[edgelabel,pos=0.5]{authorizesRun} (run);
+  \draw[umlrel] (auth.west) -- ++(-0.6,0) |- node[edgelabel,pos=0.25]{grantedTo} (role.west);
+  \draw[umlrel] (deriv) -- node[edgelabel,pos=0.5]{derivedFromRun} (run);
+  \draw[umlrel] (deriv.south) -- ++(0,-0.6) -| node[edgelabel,pos=0.25]{underAuthorization} (auth.south);
+  \draw[umlrel] (evid.south) -- ++(0,-1.1) -| node[edgelabel,pos=0.25]{evidenceOf} (run.south);
+  \draw[umlrel] (cppr.north east) -- node[edgelabel,pos=0.6]{records} (run.south west);
+  \draw[umlrel] (cppr) -- node[edgelabel,pos=0.5]{records} (eval);
+  \draw[umlrel] (eval) -- node[edgelabel,pos=0.5]{usesEvaluationContext} (sec);
 \end{tikzpicture}
-\caption{Vista funcional global de DAIMO por agrupaciones conceptuales.}
+}
+\caption{Vista ontológica global de DAIMO: clases puente propias (azul), clases externas reutilizadas (gris), clases de evidencia (ámbar) y el contexto de evaluación compartido (verde), con sus atributos principales y propiedades de objeto.}
 \label{fig:ontology-global}
-\end{figure}
+\end{figure*}
 
-La Figura~\ref{fig:classes} complementa la vista global con el nivel axiomático. El panel superior separa clases puente DAIMO y clases reutilizadas conectadas por \code{rdfs:subClassOf}; el panel inferior retiene sólo las relaciones operativas principales que articulan el perfil.
+La Figura~\ref{fig:classes} complementa la vista global con el nivel axiomático, de modo que ambas figuras se lean juntas: la anterior muestra qué conecta DAIMO y esta muestra cómo se declara esa conexión en OWL. El panel superior separa las clases puente DAIMO de las clases reutilizadas a las que se adhieren mediante \code{rdfs:subClassOf}, haciendo explícita la superficie de alineamiento. El panel inferior retiene sólo las relaciones operativas principales que articulan el perfil, dejando el listado exhaustivo de términos a la Tabla~\ref{tab:classes}. Separar alineamientos y relaciones en dos paneles mantiene cada lectura despejada.
 
-\begin{figure}[H]
+\begin{figure}[tp]
 \centering
 \resizebox{\columnwidth}{!}{%
 \begin{tikzpicture}[x=1cm,y=1cm,
@@ -691,13 +723,13 @@ En términos de LOT, la adecuación al propósito se aborda de forma acotada med
 
 \subsection{Modelado del caso de uso}\label{sec:eval-usecase}
 
-El escenario introducido en §\ref{sec:scenario} se instancia sobre DAIMO como demostrador controlado. El grafo resultante contiene 225 tripletas de datos que ejercen al menos una vez cada clase nativa de la ontología y sobre las que se ejecutan las veintitrés consultas de competencia reportadas en §\ref{sec:eval-cqs}. Todas las organizaciones, nombres de modelo, versiones de dataset, métricas y endpoints son anónimos o sintéticos. El demostrador no es un estudio de despliegue, un \emph{gold standard} ni una validación con catálogos reales de modelos; su función es examinar adecuación representacional y hacer ejecutables los artefactos de validación.
+El escenario PIONERA introducido en §\ref{sec:scenario} se instancia sobre DAIMO como demostrador controlado. El grafo resultante contiene 225 tripletas de datos que ejercen al menos una vez cada clase nativa de la ontología y sobre las que se ejecutan las veintitrés consultas de competencia reportadas en §\ref{sec:eval-cqs}. Todas las organizaciones, nombres de modelo, versiones de dataset, métricas y endpoints son anónimos o sintéticos, de modo que el demostrador instancia el caso PIONERA a nivel conceptual y no refleja ninguna instancia desplegada. El demostrador no es un estudio de despliegue, un \emph{gold standard} ni una validación con catálogos reales de modelos; su función es examinar adecuación representacional y hacer ejecutables los artefactos de validación.
 
-El Proveedor~A publica tres ofertas gobernadas en un catálogo federado: dos versiones de un mismo modelo geoespacial de predicción de riesgo y una variante de sólo lectura con política más estricta. Las ofertas comparten tarea y dominio, pero difieren en las condiciones ODRL asociadas. Esta parte del escenario ejercita la distinción entre el modelo como activo de IA descrito con MLDCAT-AP y la oferta como registro contextual de catálogo con condiciones de uso propias.
+El conector de Empresa publica tres ofertas gobernadas en el catálogo federado de PIONERA: dos versiones de un mismo modelo de Movilidad de predicción de retraso y una variante de sólo lectura con política más estricta. Las ofertas comparten tarea y dominio, pero difieren en las condiciones ODRL asociadas. Esta parte del escenario ejercita la distinción entre el modelo como activo de IA descrito con MLDCAT-AP y la oferta como registro contextual de catálogo con condiciones de uso propias.
 
-El modelo seleccionado se despliega sobre un entorno de cómputo descrito y se expone mediante dos interfaces de servicio: un endpoint REST con entrada JSON y autenticación por bearer token, y un endpoint gRPC con protobuf y autenticación mTLS. El uso multi-endpoint ejercita la decisión de modelado según la cual un mismo despliegue puede exponer varios servicios y contratos, en lugar de forzar un despliegue distinto por endpoint.
+El modelo de Movilidad seleccionado se despliega sobre un entorno de cómputo descrito y se expone mediante dos interfaces de servicio: un endpoint REST con entrada JSON y autenticación por bearer token, y un endpoint gRPC con protobuf y autenticación mTLS. El uso multi-endpoint ejercita la decisión de modelado según la cual un mismo despliegue puede exponer varios servicios y contratos, en lugar de forzar un despliegue distinto por endpoint.
 
-El Consumidor municipal~B obtiene una autorización de ejecución con fechas de vigencia explícitas, invoca el modelo y recibe un artefacto de predicción derivado. La ejecución se vincula con evidencia de auditoría que contiene registro de integridad, firmante y marca temporal, de modo que un actor de gobernanza pueda reconstruir cómo se produjo el artefacto y bajo qué autorización. Un registro de procedencia cruzada agrega la cadena a través de los contextos de proveedor, consumidor y plataforma. El Evaluador~D publica dos resultados sintéticos de evaluación bajo el mismo benchmark, protocolo y semilla aleatoria, permitiendo representar una comparación entre dos versiones del modelo bajo condiciones compartidas.
+El conector de Ayuntamiento obtiene una autorización de ejecución con fechas de vigencia explícitas, invoca el modelo y recibe un artefacto de predicción derivado. La ejecución se vincula con evidencia de auditoría que contiene registro de integridad, firmante y marca temporal, de modo que un actor de gobernanza pueda reconstruir cómo se produjo el artefacto y bajo qué autorización. Un registro de procedencia cruzada agrega la cadena a través de los contextos de Empresa, Ayuntamiento y plataforma. Un servicio de benchmarking de PIONERA publica dos resultados sintéticos de evaluación bajo el mismo benchmark, protocolo y semilla aleatoria, permitiendo representar una comparación entre dos versiones del modelo bajo condiciones compartidas.
 
 La Figura~\ref{fig:scenario} sintetiza el demostrador como flujo por fases. Las fases se leen de arriba abajo, desde publicación hasta evaluación compartida, y cada una conserva sólo los constructos necesarios para explicar el papel representacional de DAIMO. Los detalles finos de propiedades quedan en el texto y en la trazabilidad de consultas.
 
@@ -706,32 +738,32 @@ La Figura~\ref{fig:scenario} sintetiza el demostrador como flujo por fases. Las 
 \begin{tikzpicture}[node distance=0.23cm]
   \node[phasebox, text width=0.86\columnwidth, minimum width=0.92\columnwidth,
     align=left, fill=white] (s1)
-    {\textbf{1. Publicaci\'on} \hfill Proveedor~A\\
+    {\textbf{1. Publicaci\'on} \hfill Conector de Empresa\\
     \code{AIAssetOffering}; \code{dcat:Catalog}; \code{odrl:Offer}.};
 
   \node[phasebox, text width=0.86\columnwidth, minimum width=0.92\columnwidth,
     align=left, fill=white, below=of s1] (s2)
-    {\textbf{2. Descubrimiento y selecci\'on} \hfill Consumidor~B\\
+    {\textbf{2. Descubrimiento y selecci\'on} \hfill Conector de Ayuntamiento\\
     Pol\'itica ODRL, umbral de m\'etrica e \code{it6:MachineLearningModel}.};
 
   \node[phasebox, text width=0.86\columnwidth, minimum width=0.92\columnwidth,
     align=left, fill=white, below=of s2] (s3)
-    {\textbf{3. Despliegue e invocaci\'on} \hfill Plataforma~C\\
+    {\textbf{3. Despliegue e invocaci\'on} \hfill Operador de plataforma\\
     \code{ModelDeployment}; \code{dcat:DataService}; \code{IOContract}.};
 
   \node[phasebox, text width=0.86\columnwidth, minimum width=0.92\columnwidth,
     align=left, fill=white, below=of s3] (s4)
-    {\textbf{4. Ejecuci\'on autorizada} \hfill Consumidor~B\\
+    {\textbf{4. Ejecuci\'on autorizada} \hfill Conector de Ayuntamiento\\
     \code{ExecutionAuthorization}; \code{it6:Run}; \code{DerivedArtifact}.};
 
   \node[phasebox, text width=0.86\columnwidth, minimum width=0.92\columnwidth,
     align=left, fill=daimoEvidenceFill!35, below=of s4] (s5)
-    {\textbf{5. Evidencia y procedencia} \hfill Plataforma~C / Cumplimiento~E\\
+    {\textbf{5. Evidencia y procedencia} \hfill Plataforma / Gobernanza\\
     \code{AuditEvidence}; \code{CrossParticipantProvenanceRecord}; PROV-O/SPDX.};
 
   \node[phasebox, text width=0.86\columnwidth, minimum width=0.92\columnwidth,
     align=left, fill=daimoEvalFill!45, below=of s5] (s6)
-    {\textbf{6. Evaluaci\'on compartida} \hfill Evaluador~D\\
+    {\textbf{6. Evaluaci\'on compartida} \hfill Servicio de benchmarking\\
     \code{SharedEvaluationContext}; \code{it6:Evaluation}; \code{it6:EvaluationMeasure}.};
 
   \draw[flowarrow] (s1.south) -- (s2.north);
@@ -862,7 +894,7 @@ Documentación & Cada término incluye etiquetas y definiciones SKOS; la documen
 \end{tabular}
 \end{table*}
 
-El benchmark se presenta como evidencia acotada de tratabilidad, no como prueba de rendimiento operativo. La Tabla~\ref{tab:scalability} conserva los tiempos y conteos reportados para 100 y 1\,000 unidades sintéticas, y permite identificar que SHACL domina el coste de validación.
+El benchmark se presenta como evidencia acotada de tratabilidad, no como prueba de rendimiento operativo. La Tabla~\ref{tab:scalability} reporta los tiempos y conteos de tripletas obtenidos para grafos de 100 y 1\,000 unidades sintéticas de intercambio, junto con el veredicto de conformidad SHACL en cada caso. Las dos filas pretenden mostrar una tendencia de crecimiento bajo un protocolo controlado, no certificar rendimiento sobre una carga de producción. También aíslan el coste de cada etapa ---parseo, cierre OWL-RL, validación SHACL y respuesta SPARQL--- de modo que el factor dominante quede visible. Las cifras son reproducibles desde la suite de validación publicada bajo la semilla aleatoria fija usada para generar los grafos.
 
 \begin{table*}[t]
 \scriptsize\sf\centering
@@ -877,6 +909,8 @@ El benchmark se presenta como evidencia acotada de tratabilidad, no como prueba 
 \bottomrule
 \end{tabular}
 \end{table*}
+
+Ambas configuraciones se mantienen conformes con SHACL, y la respuesta a consultas permanece muy por debajo de un segundo incluso con 1\,000 unidades, lo que indica que el perfil no introduce un coste patológico de consulta. Como cabía esperar, la validación SHACL es la etapa dominante y crece más rápido que el parseo o el cierre, de modo que es el componente a vigilar cuando los grafos crecen. Una ejecución mayor de 10\,000 unidades se deja deliberadamente como trabajo futuro, porque requeriría ejecución real y no la extrapolación aquí reportada.
 
 % =====================================================================
 \section{Discusión}\label{sec:discussion}
@@ -1024,6 +1058,8 @@ Seguridad y cumplimiento & El núcleo cubre política, autorización, evidencia 
 \end{tabular}
 \end{table*}
 
+La Tabla~\ref{tab:future-profiles} hace auditable la decisión de alcance: la columna central muestra que el núcleo actual ya cubre lo que exigen el descubrimiento y la invocación, mientras que la columna derecha nombra el perfil que alojaría cada preocupación adicional. El patrón constante es que las extensiones se añaden como perfiles separados versionados con SemVer y no como nuevas clases núcleo, lo que mantiene estables las catorce clases nativas. Este es el mecanismo por el que DAIMO puede evolucionar hacia reproducibilidad, linaje, monitorización o cumplimiento sin fragmentar su columna vertebral de gobernanza.
+
 \section{Preguntas de competencia}\label{app:cqs}
 
 \subsection*{R --- Registro y publicación (5)}
@@ -1119,9 +1155,11 @@ G4 & Bundle completo de procedencia & \code{CrossParticipant}\newline\code{Prove
 \end{tabular}
 \end{table*}
 
+La columna \emph{Filas} de la Tabla~\ref{tab:cq-trace} es la evidencia reproducible que respalda la afirmación de que las veintitrés preguntas de competencia se responden: cada conteo esperado de filas corresponde a las instancias declaradas en el grafo del demostrador. Como las preguntas recorren toda la cadena gobernada, desde la publicación hasta la evaluación compartida, la tabla funciona además como verificación de cobertura sobre las clases nativas y sus propiedades principales. Un lector puede así reproducir cualquier consulta individual y confirmar que devuelve resultados y que ejercita los constructos que el perfil dice conectar.
+
 \section{Glosario de abreviaturas}\label{app:glossary}
 
-El glosario final recoge abreviaturas que aparecen en varias secciones del artículo. Se mantiene como tabla de consulta para evitar definiciones repetidas en el cuerpo principal y estabilizar la terminología usada en español e inglés técnico.
+El glosario final recoge las abreviaturas que reaparecen en varias secciones del artículo, desde nombres de vocabularios hasta términos regulatorios y de razonamiento. Se mantiene como una única tabla de consulta para no repetir definiciones en el cuerpo principal y para que la terminología quede alineada entre la versión maestra en español y el inglés técnico. Las entradas se ordenan alfabéticamente para agilizar las búsquedas individuales durante la revisión. Nada en el glosario introduce nuevas afirmaciones; sólo fija las expansiones usadas en el resto del texto.
 
 \begin{table*}[h]
 \small\sf\centering
@@ -1158,6 +1196,8 @@ WIDOCO & Wizard for Documenting Ontologies. \\
 \bottomrule
 \end{tabular}
 \end{table*}
+
+Como la Tabla~\ref{tab:glossary} mezcla nombres de vocabularios, herramientas y referencias regulatorias, también registra el alcance exacto en que se usa cada acrónimo en este artículo. Cuando una abreviatura pudiera ser ambigua fuera del contexto de espacios de datos, la expansión de la tabla es la lectura pretendida a lo largo del texto. Se espera que el glosario permanezca estable entre versiones del perfil, de modo que revisiones posteriores puedan ampliarlo sin redefinir las entradas existentes.
 
 \section{Convenciones de URI}\label{app:uris}
 
