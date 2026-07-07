@@ -1,5 +1,4 @@
 % SAGE / Semantic Web submission version.
-% Working English v4 derived from paper/daimo-paper-es-v4.tex.
 % Template basis: sagej.cls, SAGE LaTeX guidelines V1.20 (14 January 2017).
 % Semantic Web author instructions currently specify LaTeX as the preferred format
 % and SAGE Vancouver as the reference style.
@@ -11,7 +10,22 @@
 \usepackage{array}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{dblfloatfix}
+\usepackage{placeins}
 \usepackage{listings}
+
+% Float placement: keep body text between floats and avoid stacking
+% several tables/figures together without intervening paragraphs.
+\setcounter{topnumber}{1}
+\setcounter{bottomnumber}{1}
+\setcounter{totalnumber}{2}
+\setcounter{dbltopnumber}{1}
+\renewcommand{\topfraction}{0.82}
+\renewcommand{\bottomfraction}{0.45}
+\renewcommand{\dbltopfraction}{0.82}
+\renewcommand{\textfraction}{0.14}
+\renewcommand{\floatpagefraction}{0.72}
+\renewcommand{\dblfloatpagefraction}{0.72}
 \usepackage{xcolor}
 \usepackage{enumitem}
 \usepackage{tikz}
@@ -126,7 +140,7 @@ Existing vocabularies cover important fragments of that lifecycle. MLDCAT-AP~3.0
 
 The gap identified in the reviewed literature is relational. A model described with MLDCAT-AP is not, by that fact alone, connected to the act of being offered in a federated catalogue. An ODRL policy can express permissions without being tied to the deployment it governs. A DSP negotiation does not necessarily make explicit the evaluation context or audit evidence associated with an AI invocation. A PROV bundle can group provenance without distinguishing the chain that crosses several administrative contexts. The problem is therefore not the lack of another model description, but the need to articulate catalogue, policy, deployment, execution, evidence, and evaluation as one queryable and validatable chain.
 
-This article presents DAIMO (\emph{Dataspace AI Model Ontology}), an OWL~2~DL integration profile for governed AI models in dataspaces. DAIMO follows a reuse-first strategy: it preserves \code{it6:MachineLearningModel} as the model class from MLDCAT-AP and uses DCAT, ODRL, PROV-O, DSP/EDC, FOAF, SKOS, and SPDX wherever they already provide the required semantics. It introduces bridge classes only when the relation between vocabularies is not otherwise covered. The requirements and the demonstrator are grounded on the PIONERA dataspace initiative, whose Mobility and FLARES use cases provide a single, coherent application context throughout the article.
+This article presents DAIMO (\emph{Dataspace AI Model Ontology}), an OWL~2~DL integration profile for governed AI models in dataspaces. DAIMO follows a reuse-first strategy: it preserves \code{it6:MachineLearningModel} as the model class from MLDCAT-AP and uses DCAT, ODRL, PROV-O, DSP/EDC, FOAF, SKOS, and SPDX wherever they already provide the required semantics. It introduces bridge classes only when the relation between vocabularies is not otherwise covered. The requirements and the demonstrator are grounded in a bounded flood-risk prediction scenario, inspired by PIONERA-style dataspace exchanges, which provides a single, coherent application context throughout the article.
 
 The contributions are organised in three parts:
 
@@ -160,7 +174,7 @@ The closest and most recent standard-facing work is MLDCAT-AP~3.0.0~\cite{mldcat
 
 Table~\ref{tab:mldcatap-delta} makes the class-by-class relation between DAIMO and MLDCAT-AP explicit. The pattern is intentional: DAIMO adopts MLDCAT-AP classes for the AI-asset plane, adds profile constraints when governed exchange requires operational completeness, and introduces extensions only for bridge relations that MLDCAT-AP does not cover. The evaluated profile version remains on MLDCAT-AP~3.0.0 because alignments, examples, and SHACL tests were built against that specification. MLDCAT-AP~3.1.0, published as a \emph{Candidate Recommendation} in 2026~\cite{mldcatap31}, remains an evolution risk that future alignment versions will need to assess.
 
-\begin{table*}[t]
+\begin{table*}[tb]
 \small\sf\centering
 \caption{Relationship between DAIMO and MLDCAT-AP~3.0.0.\label{tab:mldcatap-delta}}
 \begin{tabular}{@{}p{4.4cm}p{2.5cm}p{7.1cm}@{}}
@@ -215,7 +229,7 @@ Beyond the domain substrate provided by the four families above, a fifth recent 
 
 The comparison is now condensed into a reuse matrix. The table lets the reader see, in one view, which families cover publication, policy, invocation, traceability, and evaluation, and why DAIMO is formulated as an integration profile rather than as a substitute for those vocabularies.
 
-\begin{table*}[t]
+\begin{table*}[tb]
 \small\sf\centering
 \caption{Reuse matrix against the required operational attributes. $\bullet$ = covered natively; $\circ$ = partially covered; --- = not covered.\label{tab:reuse-matrix}}
 \begin{tabular}{@{}lccccc@{}}
@@ -241,11 +255,11 @@ A horizontal reading of Table~\ref{tab:reuse-matrix} shows that no individual ar
 % =====================================================================
 \section{Methodology and requirements}\label{sec:method}
 
-DAIMO adopts the \emph{Linked Open Terms} (LOT) methodology~\cite{lot22} for two reasons. First, its industrial orientation: LOT prescribes a lightweight flow with deliverables in each of its four phases (requirements specification, implementation, publication, and maintenance). Second, LOT treats reuse as a first-class phase rather than a by-product, which fits the reuse-first rule that the problem imposes. The subsections below describe the operational scenario that guided requirements elicitation (§\ref{sec:scenario}), the competency questions and resulting non-functional requirements (§\ref{sec:method-req}), and the three core design decisions that shaped the ontology (§\ref{sec:method-design}).
+DAIMO adopts the \emph{Linked Open Terms} (LOT) methodology~\cite{lot22} for two reasons. First, its industrial orientation: LOT prescribes a lightweight flow with deliverables in each of its four phases (requirements specification, implementation, publication, and maintenance). Second, LOT treats reuse as a first-class phase rather than a by-product, which fits the reuse-first rule that the problem imposes. The subsections below describe the operational scenario that guided requirements elicitation (?\ref{sec:scenario}), the competency questions and resulting non-functional requirements (?\ref{sec:method-req}), and the three core design decisions that shaped the ontology (?\ref{sec:method-design}).
 
 \subsection{Illustrative scenario}\label{sec:scenario}
 
-Requirements specification is grounded on the PIONERA dataspace, a Spanish initiative on enhancing interoperability in data spaces through artificial intelligence, which later acts as the case study (§\ref{sec:eval-usecase}). Within PIONERA, a Company connector acts as the model provider and a City Council connector acts as a municipal consumer, coordinated by a dataspace platform operator that runs the federated catalogue and the connector negotiation. The catalogue exposes two model families that motivate the requirements: Mobility models, which predict public-transport travel time and delay from GTFS-like segment features, and FLARES models, which extract events and classify reliability over Spanish text. The municipal consumer needs to invoke a Mobility delay-prediction model to support operational decisions, but cannot do so without first discovering it under a policy compatible with public use, verifying that it meets a minimum quality threshold under a shared evaluation context, negotiating an agreement that authorises its concrete executions, and invoking it through an authenticated endpoint. A benchmarking service compares the model with a baseline under the same evaluation context, and a governance actor audits executions and archives the corresponding evidence. The organisations, model versions, endpoints, metrics, and dates used in the paper are synthetic by design: the case is not presented as a deployed pilot, but as a reproducible demonstrator of representational adequacy at the artefact level.
+Requirements specification is grounded in a bounded flood-risk prediction scenario, inspired by PIONERA-style dataspace exchanges, which later acts as the case study (?\ref{sec:eval-usecase}). A university research group, acting as model provider, publishes a flood-risk prediction model in a federated catalogue managed by a dataspace platform operator. A municipal consumer needs to invoke the model to support operational decisions after an extreme-weather event, but cannot do so without first discovering it under a policy compatible with public use, verifying that it meets a minimum quality threshold under a shared evaluation context, negotiating an agreement that authorises its concrete executions, and invoking it through an authenticated endpoint. A climate-research evaluator compares the model with a baseline under the same evaluation context, and a compliance-oriented governance actor audits executions and archives the corresponding evidence. The organisations, model versions, endpoints, metrics, and dates used in the paper are illustrative: the case is not presented as a deployed pilot, but as a reproducible demonstrator of representational adequacy at the artefact level.
 
 This scenario synthesises the five operational tasks that a catalogue-dataspace ontology must support simultaneously (publication, discovery, invocation, traceability, and evaluation) and involves five clearly differentiated actor types whose needs are complementary but not identical. It is plausible: it does not depend on hypothetical technology and can be instantiated with the reused vocabularies plus the extensions that DAIMO introduces.
 
@@ -253,9 +267,9 @@ This scenario synthesises the five operational tasks that a catalogue-dataspace 
 
 The requirements were elicited from three complementary sources: the scenario above, the MLDCAT-AP~3.0.0 specification and implementation notes, and the analysis of selected Eclipse EDC extension terms used in dataspace platforms. From them we formulated twenty-three competency questions, organised in five categories by actor and lifecycle stage. Category~R (registration and publication, five questions) covers provider needs; category~D (discovery and selection, four questions), consumer needs; category~E (execution and auditability, five questions), operator and governance needs; category~V (evaluation and reproducibility, five questions), evaluator needs; and category~G (governance bridge, four questions), the multi-actor questions that require DAIMO-native semantics. The full set of twenty-three questions in natural language appears in Appendix~\ref{app:cqs}.
 
-The first synthesis links actors and question families before any technical traceability is introduced. Table~\ref{tab:actors} maps each PIONERA-style role---provider, consumer, platform operator, evaluator, and the multi-actor governance perspective---to the family of competency questions it originates and to the concrete need behind it. Presenting the actors first fixes who formulates each requirement and prevents the competency questions from reading as an abstract list detached from the scenario. It also makes explicit that the governance category is genuinely cross-actor, because no single participant can answer it in isolation.
+The first synthesis links actors and question families before any technical traceability is introduced. Table~\ref{tab:actors} maps each role---provider, consumer, platform operator, evaluator, and the multi-actor governance perspective---to the family of competency questions it originates and to the concrete need behind it. Presenting the actors first fixes who formulates each requirement and prevents the competency questions from reading as an abstract list detached from the scenario. It also makes explicit that the governance category is genuinely cross-actor, because no single participant can answer it in isolation.
 
-\begin{table*}[t]
+\begin{table*}[tb]
 \small\sf\centering
 \caption{Scenario actors and competency-question categories.\label{tab:actors}}
 \begin{tabular}{@{}p{3.5cm}p{2cm}p{7cm}p{2.5cm}@{}}
@@ -273,7 +287,7 @@ Governance (multi-actor) & G & Bridge offer, deployment, authorisation, and cros
 
 The second step traces each requirement family to the modelling commitment that satisfies it and to the evidence that later demonstrates it. Table~\ref{tab:req-trace} is therefore the hinge between the LOT specification phase and the evaluation phase: for every operational requirement it names the ontology construct that carries the semantics and the validation artefact---competency query, SHACL shape, or negative test---that checks it. Reading the table top to bottom justifies why each main ontology block exists, rather than presenting the classes as design preferences. It also anticipates the evaluation section, so that the reader can already see which requirement each later result is meant to support.
 
-\begin{table*}[t]
+\begin{table*}[tb]
 \small\sf\centering
 \caption{Traceability between operational requirements, modelling commitments, and evidence.\label{tab:req-trace}}
 \begin{tabular}{@{}p{3.2cm}p{4.3cm}p{4.2cm}p{2.8cm}@{}}
@@ -294,7 +308,7 @@ The operational flow of federated execution is interpreted in DAIMO as an audita
 
 Term enumeration was treated as an intermediate artefact between competency questions and the TBox. Table~\ref{tab:domain-terms} does not introduce new semantics: it normalises the operational vocabulary used in the scenario, records whether each term is reused or specialised, and prevents broad themes from becoming DAIMO-native classes without need. The full formal definitions remain in the ontology through \code{skos:definition}, \code{skos:example}, domains, ranges, and shapes.
 
-\begin{table*}[t]
+\begin{table*}[tb]
 \scriptsize\sf\centering
 \caption{Initial glossary of core domain terms and their ontological realisation.\label{tab:domain-terms}}
 \begin{tabular}{@{}p{2.8cm}p{4.9cm}p{6.8cm}@{}}
@@ -347,7 +361,7 @@ The separation into three modules is not accidental. The core can be consumed by
 
 The same modular design is summarised as an implementation profile to distinguish ontological decisions from operational conditions. The table connects language, IRIs, validation, and access with the declared scope, and avoids interpreting technical compatibility as evidence of production deployment.
 
-\begin{table*}[t]
+\begin{table*}[tb]
 \scriptsize\sf\centering
 \caption{DAIMO technical implementation profile.\label{tab:implementation-profile}}
 \begin{tabular}{@{}p{3.0cm}p{7.0cm}p{4.8cm}@{}}
@@ -405,9 +419,9 @@ Before turning to the metrics, Figure~\ref{fig:architecture} summarises the orga
 
 \paragraph{Artefact metrics.}\label{sec:metrics}
 
-Before reviewing the individual classes that populate the three modules of §\ref{sec:scope}, we report the size and expressivity of the artefact globally. Table~\ref{tab:metrics} extracts the metrics directly from the Turtle files and from the reports produced by the validation suite (§\ref{sec:eval}). The numbers let an interested reader estimate the weight of the artefact before consuming it and compare it with ontologies previously published in the same family.
+Before reviewing the individual classes that populate the three modules of ?\ref{sec:scope}, we report the size and expressivity of the artefact globally. Table~\ref{tab:metrics} extracts the metrics directly from the Turtle files and from the reports produced by the validation suite (?\ref{sec:eval}). The numbers let an interested reader estimate the weight of the artefact before consuming it and compare it with ontologies previously published in the same family.
 
-\begin{table}[t]
+\begin{table}[tb]
 \small\sf\centering
 \caption{Main DAIMO artefact metrics.\label{tab:metrics}}
 \begin{tabular}{@{}p{4.6cm}r@{}}
@@ -438,7 +452,7 @@ OOPS! pitfalls (Critical/Important/Minor) & 0 / 0 / 2 \\
 
 To make those counts auditable, an OntoMetrics-style breakdown is kept separate from the summary above. The distinction is useful because it avoids inflating the figures with external declarations loaded only for alignment and makes clear what is counted as a DAIMO-native term.
 
-\begin{table}[t]
+\begin{table}[tb]
 \small\sf\centering
 \caption{OntoMetrics breakdown restricted to the DAIMO namespace.\label{tab:ontometrics}}
 \begin{tabular}{@{}p{5.0cm}r@{}}
@@ -468,7 +482,7 @@ The breakdown in Table~\ref{tab:ontometrics} shows that the reported figures cou
 
 The nine top-level native classes, plus the five \code{ParticipantRole} subclasses, constitute the minimal set produced by the three core design decisions. Table~\ref{tab:classes} acts as an exhaustive inventory: class, alignment, role, and associated competency questions. The following figures do not duplicate that inventory; they provide a conceptual reading of the set and an axiomatic reading of the main alignments.
 
-\begin{table*}[t]
+\begin{table*}[tb]
 \scriptsize\sf\centering
 \caption{Native classes, axiomatic alignments, and competency questions.\label{tab:classes}}
 \begin{tabular}{@{}p{4cm}p{3cm}p{6cm}p{2.2cm}@{}}
@@ -490,7 +504,7 @@ The nine top-level native classes, plus the five \code{ParticipantRole} subclass
 
 Figure~\ref{fig:ontology-global} provides a class-level reading of the profile as an ontological diagram: each box shows a class name and, where relevant, its main attributes, and the labelled arrows are the object properties that connect them. Bridge classes appear in blue, reused external classes in grey, evidence classes in amber, and the evaluation context in green, so a reader can see at a glance which concepts DAIMO introduces and which it takes from established vocabularies. The diagram is deliberately restricted to the most important classes and relations of the governed chain---publication, deployment, invocation, authorisation, execution, evidence, and evaluation---rather than reproducing every term. It should be read as the conceptual map that the rest of the section develops group by group.
 
-\begin{figure*}[t]
+\begin{figure*}[tb]
 \centering
 \resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[x=1cm,y=1cm]
@@ -553,7 +567,7 @@ Figure~\ref{fig:ontology-global} provides a class-level reading of the profile a
 
 Figure~\ref{fig:classes} complements the global view at the axiomatic level, so that the two figures can be read together: the previous one shows what DAIMO connects, and this one shows how the connection is declared in OWL. The upper panel separates DAIMO bridge classes from the reused classes to which they attach through \code{rdfs:subClassOf}, making the alignment surface explicit. The lower panel retains only the main operational relations that articulate the profile, leaving the exhaustive term list to Table~\ref{tab:classes}. Splitting alignments and relations into two panels keeps each reading uncluttered.
 
-\begin{figure}[tp]
+\begin{figure}[tbp]
 \centering
 \resizebox{\columnwidth}{!}{%
 \begin{tikzpicture}[x=1cm,y=1cm,
@@ -701,7 +715,7 @@ daimo:TopLevelKindsDisjointness a owl:AllDisjointClasses ;
 \medskip\noindent\emph{Reuse surface.}\label{sec:reuse}
 Table~\ref{tab:reuse} summarises the reused vocabularies and their concrete use. Three observations matter. First, the alignments to DCAT and ODRL target standard vocabularies rather than implementation-internal entities. Second, DAIMO maintains informative mappings to DSP through \code{skos:closeMatch} and \code{skos:related}, not subsumption: DSP is a messaging protocol rather than an asset ontology, and subsuming DAIMO classes under DSP constructs would introduce spurious typings. Third, of the EDC extension only \code{edc:ParticipantContext} appears explicitly, where it anchors aggregated provenance to an administrative context.
 
-\begin{table*}[t]
+\begin{table*}[tb]
 \small\sf\centering
 \caption{Vocabularies reused by DAIMO and the concrete use of each.\label{tab:reuse}}
 \begin{tabular}{@{}p{2.6cm}p{5cm}p{7cm}@{}}
@@ -728,17 +742,17 @@ Three subproperties that might seem natural (\code{authorizesRun} $\sqsubseteq$ 
 
 Evaluation distinguishes two objects: DAIMO as an ontology artefact and the comparative evaluation of models that DAIMO can describe. The former is examined technically through formal consistency, OWL-RL closure, SHACL conformance, absence of critical pitfalls, alignment behaviour, and competency-question answering. The latter appears only inside the demonstrator as represented content under a shared context; it does not constitute an empirical benchmark of real models. The reported evidence is therefore executable over the artefact and over a controlled graph, not external expert validation or production deployment.
 
-In LOT terms, fit-for-purpose adequacy is addressed in a bounded way through a realistic instance graph, executable SPARQL queries, and negative tests. Following the usual distinction between requirements coverage, formal correctness, constraint-based validation, and applied usefulness~\cite{brank05}, we ask whether the profile represents the target exchange, whether the OWL artefact is formally coherent, whether SHACL constraints discriminate valid from invalid graphs, and whether the competency questions are executable over the materialised graph. The analysis follows the five-dimension pattern of RePlanIT~\cite{kurteva}: scenario instantiation (§\ref{sec:eval-usecase}), formal verification through reasoning, entailment checking, and OOPS! scanning (§\ref{sec:eval-engineering}), SHACL instance validation (§\ref{sec:eval-invariants}), execution of the twenty-three competency questions (§\ref{sec:eval-cqs}), and verification of reuse alignments (§\ref{sec:eval-reuse}). All five dimensions are reproducible with the evaluation package that accompanies the artefact.
+In LOT terms, fit-for-purpose adequacy is addressed in a bounded way through a realistic instance graph, executable SPARQL queries, and negative tests. Following the usual distinction between requirements coverage, formal correctness, constraint-based validation, and applied usefulness~\cite{brank05}, we ask whether the profile represents the target exchange, whether the OWL artefact is formally coherent, whether SHACL constraints discriminate valid from invalid graphs, and whether the competency questions are executable over the materialised graph. The analysis follows the five-dimension pattern of RePlanIT~\cite{kurteva}: scenario instantiation (?\ref{sec:eval-usecase}), formal verification through reasoning, entailment checking, and OOPS! scanning (?\ref{sec:eval-engineering}), SHACL instance validation (?\ref{sec:eval-invariants}), execution of the twenty-three competency questions (?\ref{sec:eval-cqs}), and verification of reuse alignments (?\ref{sec:eval-reuse}). All five dimensions are reproducible with the evaluation package that accompanies the artefact.
 
 \subsection{Illustrative demonstrator}\label{sec:eval-usecase}
 
-The PIONERA scenario introduced in §\ref{sec:scenario} is instantiated on DAIMO as a controlled demonstrator. The resulting graph contains 225 data triples that exercise every native class at least once and over which the twenty-three competency queries reported in §\ref{sec:eval-cqs} are executed. All organisations, model names, dataset versions, metrics, and endpoints are anonymised or synthetic, so the demonstrator instantiates the PIONERA case conceptually rather than mirroring any deployed instance. The demonstrator is not a deployment study, a gold standard, or a validation against real model catalogues; its function is to examine representational adequacy and make the validation artefacts executable.
+The flood-risk scenario introduced in ?\ref{sec:scenario} is instantiated on DAIMO as a controlled demonstrator. The resulting graph contains 225 data triples that exercise every native class at least once and over which the twenty-three competency queries reported in ?\ref{sec:eval-cqs} are executed. All organisations, model names, dataset versions, metrics, and endpoints are illustrative, so the demonstrator exercises the profile conceptually rather than mirroring any deployed instance. The demonstrator is not a deployment study, a gold standard, or a validation against real model catalogues; its function is to examine representational adequacy and make the validation artefacts executable.
 
-The Company connector publishes three governed model offerings in the PIONERA federated catalogue: two versions of the same Mobility delay-prediction model and one read-only variant with a stricter policy. The offerings share task and domain descriptions but differ in the permissions attached to them. This part of the scenario exercises the distinction between a model as an AI asset and an offering as a contextual catalogue record with its own usage conditions.
+The model provider publishes three governed model offerings in the federated catalogue: two versions of the same flood-risk prediction model and one research-only variant with a stricter policy. The offerings share task and domain descriptions but differ in the permissions attached to them. This part of the scenario exercises the distinction between a model as an AI asset and an offering as a contextual catalogue record with its own usage conditions.
 
-The selected Mobility model is deployed on a described compute environment and exposed through two service interfaces: a REST endpoint with JSON input and bearer-token authentication, and a gRPC endpoint with protobuf and mutual TLS. The multi-endpoint usage exercises the modelling decision that a single deployment may expose several services and contracts, rather than forcing one endpoint per deployment.
+The selected flood-risk model is deployed on a described compute environment and exposed through two service interfaces: a REST endpoint with JSON input and bearer-token authentication, and a gRPC endpoint with protobuf and mutual TLS. The multi-endpoint usage exercises the modelling decision that a single deployment may expose several services and contracts, rather than forcing one endpoint per deployment.
 
-The City Council connector obtains an execution authorisation with explicit validity dates, invokes the model, and receives a derived prediction artefact. The execution is linked to audit evidence containing an integrity record, signer, and timestamp, so that a governance actor can reconstruct how the artefact was produced and under which authorisation. A cross-participant provenance record aggregates the chain across the Company, City Council, and platform contexts. A PIONERA benchmarking service publishes two synthetic evaluation results under the same benchmark, protocol, and random seed, allowing the two model versions to be compared under shared conditions.
+The municipal consumer obtains an execution authorisation with explicit validity dates, invokes the model, and receives a derived prediction artefact. The execution is linked to audit evidence containing an integrity record, signer, and timestamp, so that a governance actor can reconstruct how the artefact was produced and under which authorisation. A cross-participant provenance record aggregates the chain across the provider, consumer, and platform contexts. A climate-research evaluator publishes two synthetic evaluation results under the same benchmark, protocol, and random seed, allowing the two model versions to be compared under shared conditions.
 
 Figure~\ref{fig:scenario} summarises the demonstrator as a phase flow. The phases are read from top to bottom, from publication to shared evaluation, and each retains only the constructs needed to explain DAIMO's representational role. Fine-grained property detail remains in the text and in the query traceability.
 
@@ -747,12 +761,12 @@ Figure~\ref{fig:scenario} summarises the demonstrator as a phase flow. The phase
 \begin{tikzpicture}[node distance=0.23cm]
   \node[phasebox, text width=0.86\columnwidth, minimum width=0.92\columnwidth,
     align=left, fill=white] (s1)
-    {\textbf{1. Publication} \hfill Company connector\\
+    {\textbf{1. Publication} \hfill Model provider\\
     \code{AIAssetOffering}; \code{dcat:Catalog}; \code{odrl:Offer}.};
 
   \node[phasebox, text width=0.86\columnwidth, minimum width=0.92\columnwidth,
     align=left, fill=white, below=of s1] (s2)
-    {\textbf{2. Discovery and selection} \hfill City Council connector\\
+    {\textbf{2. Discovery and selection} \hfill Municipal consumer\\
     ODRL policy, metric threshold, and \code{it6:MachineLearningModel}.};
 
   \node[phasebox, text width=0.86\columnwidth, minimum width=0.92\columnwidth,
@@ -762,7 +776,7 @@ Figure~\ref{fig:scenario} summarises the demonstrator as a phase flow. The phase
 
   \node[phasebox, text width=0.86\columnwidth, minimum width=0.92\columnwidth,
     align=left, fill=white, below=of s3] (s4)
-    {\textbf{4. Authorised execution} \hfill City Council connector\\
+    {\textbf{4. Authorised execution} \hfill Municipal consumer\\
     \code{ExecutionAuthorization}; \code{it6:Run}; \code{DerivedArtifact}.};
 
   \node[phasebox, text width=0.86\columnwidth, minimum width=0.92\columnwidth,
@@ -772,7 +786,7 @@ Figure~\ref{fig:scenario} summarises the demonstrator as a phase flow. The phase
 
   \node[phasebox, text width=0.86\columnwidth, minimum width=0.92\columnwidth,
     align=left, fill=daimoEvalFill!45, below=of s5] (s6)
-    {\textbf{6. Shared evaluation} \hfill Benchmarking service\\
+    {\textbf{6. Shared evaluation} \hfill Climate-research evaluator\\
     \code{SharedEvaluationContext}; \code{it6:Evaluation}; \code{it6:EvaluationMeasure}.};
 
   \draw[flowarrow] (s1.south) -- (s2.north);
@@ -832,7 +846,7 @@ Shapes that conform on the positive graph are necessary but not sufficient to sh
 
 The twenty-three competency questions are expressed as SPARQL queries and run over the OWL-RL materialised closure of the positive graph. The table below summarises coverage by category and preserves the observed row counts; row-level traceability appears in Table~\ref{tab:cq-trace} in Appendix~\ref{app:sparql}. All 23/23 queries return at least one row, verifying that the demonstration graph contains the information needed to answer every question with the primitives DAIMO declares; it does not evaluate the empirical quality of the models represented.
 
-\begin{table*}[t]
+\begin{table*}[tb]
 \scriptsize\sf\centering
 \caption{Coverage of the 23 competency questions over the positive graph closed with OWL-RL.\label{tab:cqs}}
 \begin{tabular}{@{}p{3.3cm}p{2.6cm}p{0.8cm}p{6.3cm}@{}}
@@ -878,9 +892,9 @@ ORDER BY DESC(?value)
 
 Reuse is verified directly on the alignment module. Eight \code{rdfs:subClassOf} and five \code{rdfs:subPropertyOf} declarations, listed in Table~\ref{tab:classes}, connect DAIMO to its five parent vocabularies (DCAT, MLDCAT-AP, ODRL, PROV-O, and FOAF); class alignments are visualised in Figure~\ref{fig:classes}. The sixth DAIMO subproperty towards an external vocabulary, \code{hasOffering}~$\sqsubseteq$~\code{foaf:isPrimaryTopicOf}, is declared in the core because it implements the inverse navigation of \code{offersModel}. Verification operates in two dimensions.
 
-The first is \emph{structural}: every native class that could have been defined in isolation is placed under an external parent whenever such a parent exists, and every new property extends a reused property whenever the latter already carries the intended meaning. No class is introduced for stylistic reasons, and \code{IOContract} and \code{SharedEvaluationContext} remain without an external parent only because no parent with truthful semantics exists (§\ref{sec:classes}).
+The first is \emph{structural}: every native class that could have been defined in isolation is placed under an external parent whenever such a parent exists, and every new property extends a reused property whenever the latter already carries the intended meaning. No class is introduced for stylistic reasons, and \code{IOContract} and \code{SharedEvaluationContext} remain without an external parent only because no parent with truthful semantics exists (?\ref{sec:classes}).
 
-The second is \emph{semantic}: alignments must not produce unintended inferences. The entailment verification of §\ref{sec:eval-engineering} inspects the OWL-RL closure of each alignment and confirms that none produces a semantically incorrect superclass on any native class. The reasoner reports zero warnings over the fourteen classes. Three subproperty alignments towards PROV-O were deliberately excluded from the module for the same reason: each would have produced a forbidden typing under RDFS closure (§\ref{sec:reuse}).
+The second is \emph{semantic}: alignments must not produce unintended inferences. The entailment verification of ?\ref{sec:eval-engineering} inspects the OWL-RL closure of each alignment and confirms that none produces a semantically incorrect superclass on any native class. The reasoner reports zero warnings over the fourteen classes. Three subproperty alignments towards PROV-O were deliberately excluded from the module for the same reason: each would have produced a forbidden typing under RDFS closure (?\ref{sec:reuse}).
 
 \subsection{Non-functional requirement coverage}\label{sec:eval-nfr}
 
@@ -888,26 +902,26 @@ The non-functional requirements are evaluated over the ontology artefact and its
 
 Non-functional coverage is summarised before the benchmark to separate the kind of evidence available from the risks that remain outside the artefact. Table~\ref{tab:nfr-coverage} maintains this distinction between reproducible validation, potential interoperability, and the absence of production claims.
 
-\begin{table*}[t]
+\begin{table*}[tb]
 \scriptsize\sf\centering
 \caption{Non-functional requirement coverage and residual risk.\label{tab:nfr-coverage}}
 \begin{tabular}{@{}p{2.7cm}p{8.0cm}p{4.0cm}@{}}
 \toprule
 \textbf{Requirement} & \textbf{Reproducible evidence} & \textbf{Status and residual risk} \\
 \midrule
-Logical consistency & HermiT reports consistency and zero unsatisfiable classes; OWL-RL materialises 1,170 triples without \code{owl:Nothing}; entailment verification inspects fourteen native classes with zero warnings. & Strong evidence at artefact level. Consistency is complemented with SHACL negative tests so constraints are not merely trivially satisfiable. \\
-Interoperability & The profile uses RDF/OWL~2~DL, SHACL, and SPARQL; it reuses DCAT, MLDCAT-AP, ODRL, PROV-O, FOAF, SKOS, and SPDX through external IRIs and axiomatic alignments. & Strong evidence at artefact level. Operational interoperability will depend on effective publication and consumption in third-party infrastructures. \\
+Logical consistency & HermiT reports consistency and zero unsatisfiable classes; OWL-RL materialises 1,170 triples without \code{owl:Nothing}; entailment verification inspects fourteen native classes with zero warnings. & Reproducible artefact-level evidence. Consistency is complemented with SHACL negative tests so constraints are not merely trivially satisfiable. \\
+Interoperability & The profile uses RDF/OWL~2~DL, SHACL, and SPARQL; it reuses DCAT, MLDCAT-AP, ODRL, PROV-O, FOAF, SKOS, and SPDX through external IRIs and axiomatic alignments. & Substantial artefact-level evidence. Operational interoperability will depend on effective publication and consumption in third-party infrastructures. \\
 Scalability & The benchmark generates conforming synthetic graphs of 100 and 1,000 exchange units; both are SHACL conformant and answer the control queries. & Measured bounded coverage. SHACL is the dominant cost; no production throughput or 10,000-unit result is claimed without executing it. \\
-Extensibility & The core remains minimal and SemVer-versioned; extensions are expected as complementary profiles, for example \code{daimo-discovery}, without absorbing ranking or runtime-execution logic. & Strong evidence at artefact level for controlled evolution. New concepts must justify that no reused vocabulary already provides them. \\
-Modularity & Core, alignments, shapes, examples, queries, negative tests, and reports are separate artefacts; each module can be executed or reviewed independently. & Strong evidence at artefact level. Modular separation reduces the risk of breaking the core when external profiles are added. \\
-Documentation & Each term includes SKOS labels and definitions; supplementary documentation traces classes, properties, CQs, invariants, and reproduction commands. & Strong evidence at artefact level for local review and reproduction. Public documentation quality should remain synchronised with future profile versions. \\
+Extensibility & The core remains minimal and SemVer-versioned; extensions are expected as complementary profiles, for example \code{daimo-discovery}, without absorbing ranking or runtime-execution logic. & Substantial artefact-level evidence for controlled evolution. New concepts must justify that no reused vocabulary already provides them. \\
+Modularity & Core, alignments, shapes, examples, queries, negative tests, and reports are separate artefacts; each module can be executed or reviewed independently. & Reproducible artefact-level evidence. Modular separation reduces the risk of breaking the core when external profiles are added. \\
+Documentation & Each term includes SKOS labels and definitions; supplementary documentation traces classes, properties, CQs, invariants, and reproduction commands. & Substantial artefact-level evidence for local review and reproduction. Public documentation quality should remain synchronised with future profile versions. \\
 \bottomrule
 \end{tabular}
 \end{table*}
 
 The benchmark is presented as bounded tractability evidence, not as operational performance proof. Table~\ref{tab:scalability} reports the times and triple counts obtained for graphs of 100 and 1,000 synthetic exchange units, together with the SHACL conformance verdict in each case. The two rows are meant to show a growth trend under a controlled protocol rather than to certify throughput on a production workload. They also isolate the cost of each stage---parsing, OWL-RL closure, SHACL validation, and SPARQL answering---so that the dominant factor is visible. The numbers are reproducible from the published validation suite under the fixed random seed used to generate the graphs.
 
-\begin{table*}[t]
+\begin{table*}[tb]
 \scriptsize\sf\centering
 \caption{Bounded synthetic scalability benchmark.\label{tab:scalability}}
 \begin{tabular}{@{}r r r r r r r c@{}}
@@ -946,6 +960,8 @@ Future integration should preserve this boundary. Discovery, ranking, recommenda
 \section{Availability and sustainability}\label{sec:avail}
 
 DAIMO is accompanied by the artefacts needed to inspect and reproduce the evaluation: OWL modules in Turtle, alignments, SHACL shapes, the demonstrator graph, competency queries, a negative test bench, and generated reports. The ontology and its documentation are released under CC-BY~4.0, while validation code is released under Apache~2.0. Reproducibility does not depend on a production endpoint.
+
+The ontology, SHACL shapes, demonstrator graph, SPARQL queries, negative tests, validation reports, and reproduction instructions are organised in a single package under \url{https://github.com/EdmundoMori/Papers-DAIMO} (directory \code{daimo/}), which is the stable source for review; a frozen, immutable release is tagged for the review period, and an archival Zenodo DOI will be registered for the camera-ready version.
 
 Sustainability follows LOT Phase~4 through versioned IRIs, Dublin Core metadata, SemVer policy, and separation between core, alignments, and the SHACL layer. These elements support artefact availability and reuse; they are not presented as evidence of adoption, real deployment, or external validation.
 
@@ -989,7 +1005,7 @@ Future work should concentrate on validating DAIMO outside the controlled enviro
 
 \bibitem{mls} Correa Publio, G. et al. (2018) ML-Schema: Exposing the semantics of machine learning with schemas and ontologies.
 
-\bibitem{mex} Keet, C.M., Fernández, J.D. and Panov, P. (2016) MEX vocabulary: A lightweight interchange format for machine learning experiments. \emph{ISWC}.
+\bibitem{mex} Keet, C.M., Fern?ndez, J.D. and Panov, P. (2016) MEX vocabulary: A lightweight interchange format for machine learning experiments. \emph{ISWC}.
 
 \bibitem{ontodm} Panov, P., Dzeroski, S. and Soldatova, L.N. (2008) OntoDM: An ontology of data mining. \emph{ICDMW}.
 
@@ -1039,7 +1055,7 @@ Future work should concentrate on validating DAIMO outside the controlled enviro
 
 \bibitem{penteado23} Penteado, B.E., Maldonado, J.C. and Isotani, S. (2023) Methodologies for publishing linked open government data on the Web. \emph{Semantic Web}, 14:585--610.
 
-\bibitem{lot22} Poveda-Villalón, M., Fernández-Izquierdo, A., Fernández-López, M. and García-Castro, R. (2022) LOT: An industrial oriented ontology engineering framework. \emph{Engineering Applications of Artificial Intelligence}, 111:104755.
+\bibitem{lot22} Poveda-Villal?n, M., Fern?ndez-Izquierdo, A., Fern?ndez-L?pez, M. and Garc?a-Castro, R. (2022) LOT: An industrial oriented ontology engineering framework. \emph{Engineering Applications of Artificial Intelligence}, 111:104755.
 
 \bibitem{gruninger95} Gr\"uninger, M. and Fox, M.S. (1995) Methodology for the design and evaluation of ontologies. \emph{IJCAI Workshop on Basic Ontological Issues in Knowledge Sharing}.
 
@@ -1059,7 +1075,7 @@ Future work should concentrate on validating DAIMO outside the controlled enviro
 
 \bibitem{shacl} Knublauch, H. and Kontokostas, D. (eds.) (2017) \emph{Shapes Constraint Language (SHACL)}. W3C Recommendation.
 
-\bibitem{oops14} Poveda-Villalón, M., Gómez-Pérez, A. and Suárez-Figueroa, M.C. (2014) OOPS! (OntOlogy Pitfall Scanner!). \emph{International Journal on Semantic Web and Information Systems}, 10(2):7--34.
+\bibitem{oops14} Poveda-Villal?n, M., G?mez-P?rez, A. and Su?rez-Figueroa, M.C. (2014) OOPS! (OntOlogy Pitfall Scanner!). \emph{International Journal on Semantic Web and Information Systems}, 10(2):7--34.
 
 \bibitem{kipoi} Avsec, Z. et al. (2019) The Kipoi repository accelerates community exchange and reuse of predictive models for genomics. \emph{Nature Biotechnology}, 37.
 
@@ -1076,7 +1092,7 @@ Future work should concentrate on validating DAIMO outside the controlled enviro
 
 The main discussion summarises the boundary between the DAIMO core and specialised profiles. The table below preserves the detail of that scoping decision: what the current profile covers, what remains outside the core, and what should be addressed as a future extension without modifying the fourteen native classes.
 
-\begin{table*}[t]
+\begin{table*}[tb]
 \scriptsize\sf\centering
 \caption{Complementary families and controlled evolution path.\label{tab:future-profiles}}
 \begin{tabular}{@{}p{3.2cm}p{5.9cm}p{6.0cm}@{}}
@@ -1156,7 +1172,7 @@ The twenty-three SPARQL queries corresponding to the competency questions in App
 
 Detailed traceability is kept in the appendix so as not to overload the evaluation section. The table below allows inspection of which classes and properties each CQ exercises and preserves in the PDF the minimum evidence needed to reproduce the interpretation of the row counts.
 
-\begin{table*}[t]
+\begin{table*}[tb]
 \scriptsize\sf\centering
 \caption{CQ--class--property--result traceability.\label{tab:cq-trace}}
 \begin{tabular}{@{}p{0.8cm}p{3.8cm}p{4.0cm}p{4.9cm}r@{}}
@@ -1196,7 +1212,7 @@ The \emph{Rows} column in Table~\ref{tab:cq-trace} is the reproducible evidence 
 
 The final glossary collects the abbreviations that recur across several sections of the article, from vocabulary names to regulatory and reasoning terms. It is kept as a single lookup table so that definitions are not repeated in the main body and so that the terminology stays aligned between the Spanish master version and the technical English used here. The entries are ordered alphabetically to make individual look-ups fast during review. Nothing in the glossary introduces new claims; it only fixes the expansions used elsewhere.
 
-\begin{table*}[t]
+\begin{table*}[tb]
 \small\sf\centering
 \caption{Abbreviations used in this article.\label{tab:glossary}}
 \begin{tabular}{@{}p{2.2cm}p{10cm}@{}}
