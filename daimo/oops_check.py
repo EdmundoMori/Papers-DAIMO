@@ -55,6 +55,9 @@ def submit(rdfxml: str) -> str:
 
 def parse_pitfalls(raw_xml: str) -> list[dict]:
     """Extract pitfall records from OOPS!' RDF/XML response."""
+    if "unexpected_error" in raw_xml or "OOPS! something went wrong" in raw_xml:
+        raise RuntimeError("OOPS! service returned unexpected_error")
+
     ns = {
         "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
         "oops": "http://oops.linkeddata.es/def#",
@@ -127,7 +130,19 @@ def main() -> int:
     (REPORTS / "oops-report.xml").write_text(raw)
     print(f"  raw response: {len(raw)} chars -> reports/oops-report.xml")
 
-    pitfalls = parse_pitfalls(raw)
+    try:
+        pitfalls = parse_pitfalls(raw)
+    except RuntimeError as e:
+        (REPORTS / "oops-report.md").write_text(
+            "# DAIMO OOPS! Pitfall Report\n\n"
+            f"- Status: **FAILED**\n"
+            f"- Reason: {e}\n"
+            "- Interpretation: no pitfall count was produced; rerun the check.\n"
+        )
+        print(f"  ERROR: {e}")
+        print("  report written to reports/oops-report.md")
+        return 2
+
     write_markdown(pitfalls)
     print(f"  {len(pitfalls)} pitfalls parsed -> reports/oops-report.md")
 

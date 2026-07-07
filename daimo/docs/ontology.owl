@@ -1,947 +1,809 @@
-<?xml version="1.0"?>
-<rdf:RDF xmlns="https://w3id.org/pionera/daimo#"
-     xml:base="https://w3id.org/pionera/daimo"
-     xmlns:owl="http://www.w3.org/2002/07/owl#"
-     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-     xmlns:xml="http://www.w3.org/XML/1998/namespace"
-     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     xmlns:vann="http://purl.org/vocab/vann/"
-     xmlns:terms="http://purl.org/dc/terms/">
-    <owl:Ontology rdf:about="https://w3id.org/pionera/daimo">
-        <owl:versionIRI rdf:resource="https://w3id.org/pionera/daimo/0.1.1"/>
-        <terms:description xml:lang="en">DAIMO is an integration profile that connects DCAT-AP, MLDCAT-AP, ODRL, PROV-O, and the Dataspace Protocol (DSP, as operationalised by Eclipse EDC) to support publication, discovery, invocation, execution traceability, and contextualised evaluation of AI model assets exchanged in data spaces. The edc: namespace is used only for EDC-specific extensions (e.g., ParticipantContext) not yet standardised in DSP.</terms:description>
-        <terms:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-04-22</terms:issued>
-        <terms:license rdf:resource="https://creativecommons.org/licenses/by/4.0/"/>
-        <terms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-04-22</terms:modified>
-        <terms:title xml:lang="en">DAIMO: an ontology for governed AI model assets in data spaces</terms:title>
-        <vann:preferredNamespacePrefix>daimo</vann:preferredNamespacePrefix>
-        <vann:preferredNamespaceUri>https://w3id.org/pionera/daimo#</vann:preferredNamespaceUri>
-        <rdfs:comment xml:lang="en">See daimo-ontology-design.md for the full design rationale.</rdfs:comment>
-        <owl:versionInfo>0.1.1</owl:versionInfo>
-    </owl:Ontology>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Annotation properties
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-
-    
-
-
-    <!-- http://purl.org/dc/terms/description -->
-
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/description"/>
-    
-
-
-    <!-- http://purl.org/dc/terms/issued -->
-
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/issued"/>
-    
-
-
-    <!-- http://purl.org/dc/terms/license -->
-
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/license"/>
-    
-
-
-    <!-- http://purl.org/dc/terms/modified -->
-
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/modified"/>
-    
-
-
-    <!-- http://purl.org/dc/terms/title -->
-
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/title"/>
-    
-
-
-    <!-- http://purl.org/vocab/vann/preferredNamespacePrefix -->
-
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/vocab/vann/preferredNamespacePrefix"/>
-    
-
-
-    <!-- http://purl.org/vocab/vann/preferredNamespaceUri -->
-
-
-    <owl:AnnotationProperty rdf:about="http://purl.org/vocab/vann/preferredNamespaceUri"/>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Datatypes
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-
-    
-
-
-    <!-- http://www.w3.org/2001/XMLSchema#date -->
-
-
-    <rdfs:Datatype rdf:about="http://www.w3.org/2001/XMLSchema#date"/>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Object Properties
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-
-    
-
-
-    <!-- http://data.europa.eu/it6/hasFlow -->
-
-
-    <owl:ObjectProperty rdf:about="http://data.europa.eu/it6/hasFlow"/>
-    
-
-
-    <!-- http://data.europa.eu/it6/hasTask -->
-
-
-    <owl:ObjectProperty rdf:about="http://data.europa.eu/it6/hasTask"/>
-    
-
-
-    <!-- http://data.europa.eu/it6/trainedOn -->
-
-
-    <owl:ObjectProperty rdf:about="http://data.europa.eu/it6/trainedOn"/>
-    
-
-
-    <!-- http://purl.org/dc/terms/publisher -->
-
-
-    <owl:ObjectProperty rdf:about="http://purl.org/dc/terms/publisher"/>
-    
-
-
-    <!-- http://www.w3.org/ns/odrl/2/assignee -->
-
-
-    <owl:ObjectProperty rdf:about="http://www.w3.org/ns/odrl/2/assignee"/>
-    
-
-
-    <!-- http://www.w3.org/ns/odrl/2/hasPolicy -->
-
-
-    <owl:ObjectProperty rdf:about="http://www.w3.org/ns/odrl/2/hasPolicy"/>
-    
-
-
-    <!-- http://www.w3.org/ns/prov#hadActivity -->
-
-
-    <owl:ObjectProperty rdf:about="http://www.w3.org/ns/prov#hadActivity"/>
-    
-
-
-    <!-- http://www.w3.org/ns/prov#used -->
-
-
-    <owl:ObjectProperty rdf:about="http://www.w3.org/ns/prov#used"/>
-    
-
-
-    <!-- http://www.w3.org/ns/prov#wasGeneratedBy -->
-
-
-    <owl:ObjectProperty rdf:about="http://www.w3.org/ns/prov#wasGeneratedBy"/>
-    
-
-
-    <!-- http://xmlns.com/foaf/0.1/primaryTopic -->
-
-
-    <owl:ObjectProperty rdf:about="http://xmlns.com/foaf/0.1/primaryTopic"/>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#authorizedBy -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#authorizedBy">
-        <owl:inverseOf rdf:resource="https://w3id.org/pionera/daimo#authorizesRun"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="http://data.europa.eu/it6/Run"/>
-        <rdfs:range rdf:resource="https://w3id.org/pionera/daimo#ExecutionAuthorization"/>
-        <rdfs:comment xml:lang="en">Inverse of daimo:authorizesRun. Functional: each run is authorized by exactly one agreement.</rdfs:comment>
-        <rdfs:label xml:lang="en">authorized by</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#authorizesRun -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#authorizesRun">
-        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#used"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#ExecutionAuthorization"/>
-        <rdfs:range rdf:resource="http://data.europa.eu/it6/Run"/>
-        <rdfs:comment xml:lang="en">Links an authorization to a run it permits. Non-functional: a single authorization can cover multiple runs (e.g., subscription-style access).</rdfs:comment>
-        <rdfs:label xml:lang="en">authorizes run</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#contextDataset -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#contextDataset">
-        <rdfs:subPropertyOf rdf:resource="http://data.europa.eu/it6/trainedOn"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#SharedEvaluationContext"/>
-        <rdfs:range rdf:resource="http://www.w3.org/ns/dcat#Dataset"/>
-        <rdfs:label xml:lang="en">context dataset</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#contextFlow -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#contextFlow">
-        <rdfs:subPropertyOf rdf:resource="http://data.europa.eu/it6/hasFlow"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#SharedEvaluationContext"/>
-        <rdfs:range rdf:resource="http://data.europa.eu/it6/Flow"/>
-        <rdfs:label xml:lang="en">context flow</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#contextTask -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#contextTask">
-        <rdfs:subPropertyOf rdf:resource="http://data.europa.eu/it6/hasTask"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#SharedEvaluationContext"/>
-        <rdfs:range rdf:resource="http://data.europa.eu/it6/Task"/>
-        <rdfs:label xml:lang="en">context task</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#deploysModel -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#deploysModel">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#ModelDeployment"/>
-        <rdfs:range rdf:resource="http://data.europa.eu/it6/MachineLearningModel"/>
-        <rdfs:comment xml:lang="en">Links a deployment to the model it serves. Functional: one deployment serves one model.</rdfs:comment>
-        <rdfs:label xml:lang="en">deploys model</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#derivedFromRun -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#derivedFromRun">
-        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#wasGeneratedBy"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#DerivedArtifact"/>
-        <rdfs:range rdf:resource="http://data.europa.eu/it6/Run"/>
-        <rdfs:comment xml:lang="en">Links a derived artifact to the run that produced it. Functional: each derived artifact has exactly one originating run.</rdfs:comment>
-        <rdfs:label xml:lang="en">derived from run</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#evidenceOf -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#evidenceOf">
-        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#hadActivity"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#AuditEvidence"/>
-        <rdfs:range rdf:resource="http://www.w3.org/ns/prov#Activity"/>
-        <rdfs:comment xml:lang="en">Links audit evidence to the activity it attests. Functional.</rdfs:comment>
-        <rdfs:label xml:lang="en">evidence of</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#exposedAs -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#exposedAs">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#ModelDeployment"/>
-        <rdfs:range rdf:resource="http://www.w3.org/ns/dcat#DataService"/>
-        <rdfs:comment xml:lang="en">Links a deployment to the DCAT data service that exposes it. Functional.</rdfs:comment>
-        <rdfs:label xml:lang="en">exposed as</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#grantedTo -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#grantedTo">
-        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/odrl/2/assignee"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#ExecutionAuthorization"/>
-        <rdfs:range rdf:resource="http://xmlns.com/foaf/0.1/Agent"/>
-        <rdfs:comment xml:lang="en">Links an authorization to the grantee agent. Functional.</rdfs:comment>
-        <rdfs:label xml:lang="en">granted to</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#hasIOContract -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#hasIOContract">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#ModelDeployment"/>
-        <rdfs:range rdf:resource="https://w3id.org/pionera/daimo#IOContract"/>
-        <rdfs:comment xml:lang="en">Links a deployment to its invocation contract. Functional: one deployment has exactly one canonical I/O contract.</rdfs:comment>
-        <rdfs:label xml:lang="en">has I/O contract</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#hasOfferPolicy -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#hasOfferPolicy">
-        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/odrl/2/hasPolicy"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#AIAssetOffering"/>
-        <rdfs:range rdf:resource="http://www.w3.org/ns/odrl/2/Offer"/>
-        <rdfs:comment xml:lang="en">Links an offering to the ODRL offer policy that governs the offered model. Functional: each offering carries exactly one canonical offer policy.</rdfs:comment>
-        <rdfs:label xml:lang="en">has offer policy</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#hasRole -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#hasRole">
-        <rdfs:domain rdf:resource="http://xmlns.com/foaf/0.1/Agent"/>
-        <rdfs:range rdf:resource="https://w3id.org/pionera/daimo#ParticipantRole"/>
-        <rdfs:comment xml:lang="en">Links an agent to a dataspace role. Non-functional: agents may hold multiple roles.</rdfs:comment>
-        <rdfs:label xml:lang="en">has role</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#inParticipantContext -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#inParticipantContext">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#ParticipantRole"/>
-        <rdfs:range rdf:resource="https://w3id.org/edc/v0.0.1/ns/ParticipantContext"/>
-        <rdfs:label xml:lang="en">in participant context</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#inputSchema -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#inputSchema">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#IOContract"/>
-        <rdfs:range rdf:resource="http://www.w3.org/ns/dcat#Resource"/>
-        <rdfs:label xml:lang="en">input schema</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#offeredBy -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#offeredBy">
-        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/publisher"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#AIAssetOffering"/>
-        <rdfs:range rdf:resource="http://xmlns.com/foaf/0.1/Agent"/>
-        <rdfs:comment xml:lang="en">Links an offering to its publishing agent. Functional: each offering has exactly one provider.</rdfs:comment>
-        <rdfs:label xml:lang="en">offered by</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#offersModel -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#offersModel">
-        <rdfs:subPropertyOf rdf:resource="http://xmlns.com/foaf/0.1/primaryTopic"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#AIAssetOffering"/>
-        <rdfs:range rdf:resource="http://data.europa.eu/it6/MachineLearningModel"/>
-        <rdfs:comment xml:lang="en">Links a catalog-record offering to the AI model it registers. Functional: one offering registers exactly one model.</rdfs:comment>
-        <rdfs:label xml:lang="en">offers model</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#onInfrastructure -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#onInfrastructure">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#ModelDeployment"/>
-        <rdfs:range rdf:resource="http://data.europa.eu/it6/ComputerInfrastructure"/>
-        <rdfs:comment xml:lang="en">Links a deployment to the MLDCAT-AP computer infrastructure running it. Functional: one deployment runs on one canonical infrastructure instance (redundancy is modelled as multiple deployments).</rdfs:comment>
-        <rdfs:label xml:lang="en">on infrastructure</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#outputSchema -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#outputSchema">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#IOContract"/>
-        <rdfs:range rdf:resource="http://www.w3.org/ns/dcat#Resource"/>
-        <rdfs:label xml:lang="en">output schema</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#records -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#records">
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord"/>
-        <rdfs:range rdf:resource="http://www.w3.org/ns/prov#Activity"/>
-        <rdfs:label xml:lang="en">records</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#signedBy -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#signedBy">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#AuditEvidence"/>
-        <rdfs:range rdf:resource="http://xmlns.com/foaf/0.1/Agent"/>
-        <rdfs:comment xml:lang="en">Functional: one signer per evidence record.</rdfs:comment>
-        <rdfs:label xml:lang="en">signed by</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#spansParticipantContext -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#spansParticipantContext">
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord"/>
-        <rdfs:range rdf:resource="https://w3id.org/edc/v0.0.1/ns/ParticipantContext"/>
-        <rdfs:label xml:lang="en">spans participant context</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#underAuthorization -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#underAuthorization">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#DerivedArtifact"/>
-        <rdfs:range rdf:resource="https://w3id.org/pionera/daimo#ExecutionAuthorization"/>
-        <rdfs:comment xml:lang="en">Links a derived artifact to the authorisation under which it was produced. Functional.</rdfs:comment>
-        <rdfs:label xml:lang="en">under authorization</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#usesEvaluationContext -->
-
-
-    <owl:ObjectProperty rdf:about="https://w3id.org/pionera/daimo#usesEvaluationContext">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="http://data.europa.eu/it6/Evaluation"/>
-        <rdfs:range rdf:resource="https://w3id.org/pionera/daimo#SharedEvaluationContext"/>
-        <rdfs:label xml:lang="en">uses evaluation context</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Data properties
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-
-    
-
-
-    <!-- http://purl.org/dc/terms/hasVersion -->
-
-
-    <owl:DatatypeProperty rdf:about="http://purl.org/dc/terms/hasVersion"/>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#authMethod -->
-
-
-    <owl:DatatypeProperty rdf:about="https://w3id.org/pionera/daimo#authMethod">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#IOContract"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-        <rdfs:label xml:lang="en">authentication method</rdfs:label>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#datasetVersion -->
-
-
-    <owl:DatatypeProperty rdf:about="https://w3id.org/pionera/daimo#datasetVersion">
-        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/hasVersion"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#SharedEvaluationContext"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-        <rdfs:label xml:lang="en">dataset version</rdfs:label>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#expiresAt -->
-
-
-    <owl:DatatypeProperty rdf:about="https://w3id.org/pionera/daimo#expiresAt">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#ExecutionAuthorization"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
-        <rdfs:label xml:lang="en">expires at</rdfs:label>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#inputFormat -->
-
-
-    <owl:DatatypeProperty rdf:about="https://w3id.org/pionera/daimo#inputFormat">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#IOContract"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-        <rdfs:label xml:lang="en">input format</rdfs:label>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#integrityHash -->
-
-
-    <owl:DatatypeProperty rdf:about="https://w3id.org/pionera/daimo#integrityHash">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#AuditEvidence"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-        <rdfs:label xml:lang="en">integrity hash</rdfs:label>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#outputFormat -->
-
-
-    <owl:DatatypeProperty rdf:about="https://w3id.org/pionera/daimo#outputFormat">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#IOContract"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-        <rdfs:label xml:lang="en">output format</rdfs:label>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#protocol -->
-
-
-    <owl:DatatypeProperty rdf:about="https://w3id.org/pionera/daimo#protocol">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#SharedEvaluationContext"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-        <rdfs:label xml:lang="en">evaluation protocol</rdfs:label>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#randomSeed -->
-
-
-    <owl:DatatypeProperty rdf:about="https://w3id.org/pionera/daimo#randomSeed">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#SharedEvaluationContext"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
-        <rdfs:label xml:lang="en">random seed</rdfs:label>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#recordedAt -->
-
-
-    <owl:DatatypeProperty rdf:about="https://w3id.org/pionera/daimo#recordedAt">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#AuditEvidence"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
-        <rdfs:label xml:lang="en">recorded at</rdfs:label>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Classes
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-
-    
-
-
-    <!-- http://data.europa.eu/it6/ComputerInfrastructure -->
-
-
-    <owl:Class rdf:about="http://data.europa.eu/it6/ComputerInfrastructure"/>
-    
-
-
-    <!-- http://data.europa.eu/it6/Evaluation -->
-
-
-    <owl:Class rdf:about="http://data.europa.eu/it6/Evaluation"/>
-    
-
-
-    <!-- http://data.europa.eu/it6/Flow -->
-
-
-    <owl:Class rdf:about="http://data.europa.eu/it6/Flow"/>
-    
-
-
-    <!-- http://data.europa.eu/it6/MachineLearningModel -->
-
-
-    <owl:Class rdf:about="http://data.europa.eu/it6/MachineLearningModel"/>
-    
-
-
-    <!-- http://data.europa.eu/it6/Run -->
-
-
-    <owl:Class rdf:about="http://data.europa.eu/it6/Run"/>
-    
-
-
-    <!-- http://data.europa.eu/it6/Task -->
-
-
-    <owl:Class rdf:about="http://data.europa.eu/it6/Task"/>
-    
-
-
-    <!-- http://www.w3.org/ns/dcat#CatalogRecord -->
-
-
-    <owl:Class rdf:about="http://www.w3.org/ns/dcat#CatalogRecord"/>
-    
-
-
-    <!-- http://www.w3.org/ns/dcat#DataService -->
-
-
-    <owl:Class rdf:about="http://www.w3.org/ns/dcat#DataService"/>
-    
-
-
-    <!-- http://www.w3.org/ns/dcat#Dataset -->
-
-
-    <owl:Class rdf:about="http://www.w3.org/ns/dcat#Dataset"/>
-    
-
-
-    <!-- http://www.w3.org/ns/dcat#Resource -->
-
-
-    <owl:Class rdf:about="http://www.w3.org/ns/dcat#Resource"/>
-    
-
-
-    <!-- http://www.w3.org/ns/odrl/2/Agreement -->
-
-
-    <owl:Class rdf:about="http://www.w3.org/ns/odrl/2/Agreement"/>
-    
-
-
-    <!-- http://www.w3.org/ns/odrl/2/Offer -->
-
-
-    <owl:Class rdf:about="http://www.w3.org/ns/odrl/2/Offer"/>
-    
-
-
-    <!-- http://www.w3.org/ns/prov#Activity -->
-
-
-    <owl:Class rdf:about="http://www.w3.org/ns/prov#Activity"/>
-    
-
-
-    <!-- http://www.w3.org/ns/prov#Bundle -->
-
-
-    <owl:Class rdf:about="http://www.w3.org/ns/prov#Bundle"/>
-    
-
-
-    <!-- http://www.w3.org/ns/prov#Entity -->
-
-
-    <owl:Class rdf:about="http://www.w3.org/ns/prov#Entity"/>
-    
-
-
-    <!-- http://xmlns.com/foaf/0.1/Agent -->
-
-
-    <owl:Class rdf:about="http://xmlns.com/foaf/0.1/Agent"/>
-    
-
-
-    <!-- https://w3id.org/edc/v0.0.1/ns/ParticipantContext -->
-
-
-    <owl:Class rdf:about="https://w3id.org/edc/v0.0.1/ns/ParticipantContext"/>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#AIAssetOffering -->
-
-
-    <owl:Class rdf:about="https://w3id.org/pionera/daimo#AIAssetOffering">
-        <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/dcat#CatalogRecord"/>
-        <rdfs:comment xml:lang="en">A catalog-record entry that registers an AI model in a dataspace catalog, bundling the model reference, the providing agent, and an ODRL offer policy. Specialises dcat:CatalogRecord; carries an odrl:Offer via daimo:hasOfferPolicy. In DSP terms this is the catalog-time artefact that becomes a dspace:ContractOffer during negotiation.</rdfs:comment>
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
-        <rdfs:label xml:lang="en">AI asset offering</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#AuditEvidence -->
-
-
-    <owl:Class rdf:about="https://w3id.org/pionera/daimo#AuditEvidence">
-        <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
-        <rdfs:comment xml:lang="en">A compliance-oriented evidence record attached to a governed event, carrying integrity hash, signer, and timestamp.</rdfs:comment>
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
-        <rdfs:label xml:lang="en">audit evidence</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord -->
-
-
-    <owl:Class rdf:about="https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord">
-        <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Bundle"/>
-        <rdfs:comment xml:lang="en">A reusable semantic bundle that aggregates prov:Activity and prov:Entity across participant contexts to tell one audit-ready story.</rdfs:comment>
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
-        <rdfs:label xml:lang="en">cross-participant provenance record</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#DerivedArtifact -->
-
-
-    <owl:Class rdf:about="https://w3id.org/pionera/daimo#DerivedArtifact">
-        <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/dcat#Resource"/>
-        <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
-        <rdfs:comment xml:lang="en">A governed, catalog-describable output produced by an it6:Run in a dataspace context, bearing its own provenance and policy.</rdfs:comment>
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
-        <rdfs:label xml:lang="en">derived artifact</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#Evaluator -->
-
-
-    <owl:Class rdf:about="https://w3id.org/pionera/daimo#Evaluator">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pionera/daimo#ParticipantRole"/>
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
-        <rdfs:label xml:lang="en">evaluator</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#ExecutionAuthorization -->
-
-
-    <owl:Class rdf:about="https://w3id.org/pionera/daimo#ExecutionAuthorization">
-        <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/odrl/2/Agreement"/>
-        <rdfs:comment xml:lang="en">An ODRL agreement (produced by a DSP contract negotiation) that binds at least one odrl:permission to concrete it6:Run invocations it authorises. Specialises odrl:Agreement; MUST carry at least one odrl:permission per the ODRL policy model.</rdfs:comment>
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
-        <rdfs:label xml:lang="en">execution authorization</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#GovernanceActor -->
-
-
-    <owl:Class rdf:about="https://w3id.org/pionera/daimo#GovernanceActor">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pionera/daimo#ParticipantRole"/>
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
-        <rdfs:label xml:lang="en">governance actor</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#IOContract -->
-
-
-    <owl:Class rdf:about="https://w3id.org/pionera/daimo#IOContract">
-        <rdfs:comment xml:lang="en">The minimum machine-actionable invocation contract for a deployment: input format, output format, authentication method, and optional input/output schemas.</rdfs:comment>
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
-        <rdfs:label xml:lang="en">I/O contract</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#ModelConsumer -->
-
-
-    <owl:Class rdf:about="https://w3id.org/pionera/daimo#ModelConsumer">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pionera/daimo#ParticipantRole"/>
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
-        <rdfs:label xml:lang="en">model consumer</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#ModelDeployment -->
-
-
-    <owl:Class rdf:about="https://w3id.org/pionera/daimo#ModelDeployment">
-        <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
-        <rdfs:comment xml:lang="en">A running or hosted instance of an MLDCAT-AP MachineLearningModel exposed through a dcat:DataService under an operational environment.</rdfs:comment>
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
-        <rdfs:label xml:lang="en">model deployment</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#ModelProvider -->
-
-
-    <owl:Class rdf:about="https://w3id.org/pionera/daimo#ModelProvider">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pionera/daimo#ParticipantRole"/>
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
-        <rdfs:label xml:lang="en">model provider</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#ParticipantRole -->
-
-
-    <owl:Class rdf:about="https://w3id.org/pionera/daimo#ParticipantRole">
-        <rdfs:comment xml:lang="en">A dataspace-scoped role taken by a participant with respect to AI assets. Anti-rigid: an agent can gain and lose roles over time. Subclasses are intentionally NOT mutually disjoint — one agent can hold several roles simultaneously (e.g., a research group may be both Evaluator and Model Provider).</rdfs:comment>
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
-        <rdfs:label xml:lang="en">participant role</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#PlatformOperator -->
-
-
-    <owl:Class rdf:about="https://w3id.org/pionera/daimo#PlatformOperator">
-        <rdfs:subClassOf rdf:resource="https://w3id.org/pionera/daimo#ParticipantRole"/>
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
-        <rdfs:label xml:lang="en">platform operator</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- https://w3id.org/pionera/daimo#SharedEvaluationContext -->
-
-
-    <owl:Class rdf:about="https://w3id.org/pionera/daimo#SharedEvaluationContext">
-        <rdfs:comment xml:lang="en">A reified grouping of the conditions under which model results are comparable: task, dataset, dataset version, protocol, and random seed. Does not claim to cover every facet that affects comparability (metric, split strategy, hyperparameters); it is the minimum grouping required by CQ-V1..CQ-V3.</rdfs:comment>
-        <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
-        <rdfs:label xml:lang="en">shared evaluation context</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // General axioms
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-
-    <rdf:Description>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="https://w3id.org/pionera/daimo#AIAssetOffering"/>
-            <rdf:Description rdf:about="https://w3id.org/pionera/daimo#AuditEvidence"/>
-            <rdf:Description rdf:about="https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord"/>
-            <rdf:Description rdf:about="https://w3id.org/pionera/daimo#DerivedArtifact"/>
-            <rdf:Description rdf:about="https://w3id.org/pionera/daimo#ExecutionAuthorization"/>
-            <rdf:Description rdf:about="https://w3id.org/pionera/daimo#IOContract"/>
-            <rdf:Description rdf:about="https://w3id.org/pionera/daimo#ModelDeployment"/>
-            <rdf:Description rdf:about="https://w3id.org/pionera/daimo#ParticipantRole"/>
-            <rdf:Description rdf:about="https://w3id.org/pionera/daimo#SharedEvaluationContext"/>
-        </owl:members>
-    </rdf:Description>
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+   xmlns:dct="http://purl.org/dc/terms/"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+   xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+   xmlns:vann="http://purl.org/vocab/vann/"
+>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#hasAuditEvidence">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <owl:inverseOf rdf:resource="https://w3id.org/pionera/daimo#evidenceOf"/>
+    <rdfs:label xml:lang="en">has audit evidence</rdfs:label>
+    <rdfs:domain rdf:resource="http://www.w3.org/ns/prov#Activity"/>
+    <rdfs:range rdf:resource="https://w3id.org/pionera/daimo#AuditEvidence"/>
+    <rdfs:comment xml:lang="en">Inverse of daimo:evidenceOf: from an activity, retrieve every audit-evidence record attesting it. Non-functional (multiple auditors can independently attest the same activity).</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/ns/odrl/2/Agreement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.w3.org/ns/odrl/2/"/>
+    <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/odrl-model/#policy-agreement"/>
+    <rdfs:label xml:lang="en">Agreement</rdfs:label>
+    <rdfs:comment xml:lang="en">ODRL: a policy asserting an agreement between assigner and assignee over a target asset.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#protocol">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">evaluation protocol</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#SharedEvaluationContext"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:comment xml:lang="en">Name of the evaluation protocol (e.g. "holdout", "5-fold-cv", "bootstrap-1000").</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#expiresAt">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">expires at</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#ExecutionAuthorization"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:comment xml:lang="en">Expiry timestamp of the execution authorisation.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#contextDataset">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">context dataset</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#SharedEvaluationContext"/>
+    <rdfs:range rdf:resource="http://www.w3.org/ns/dcat#Dataset"/>
+    <rdfs:comment xml:lang="en">The dcat:Dataset the evaluation context is defined over. Functional. Not declared a subproperty of it6:trainedOn because an evaluation-context dataset is an evaluation dataset, not necessarily a training dataset.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/ns/odrl/2/Permission">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.w3.org/ns/odrl/2/"/>
+    <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/odrl-model/#rule-permission"/>
+    <rdfs:label xml:lang="en">Permission</rdfs:label>
+    <rdfs:comment xml:lang="en">ODRL: a rule permitting an action on an asset, optionally subject to constraints and duties.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://data.europa.eu/it6/Task">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://data.europa.eu/it6/"/>
+    <rdfs:seeAlso rdf:resource="https://semiceu.github.io/MLDCAT-AP/releases/3.0.0/#Task"/>
+    <rdfs:label xml:lang="en">Task</rdfs:label>
+    <rdfs:comment xml:lang="en">MLDCAT-AP: the problem definition over source data, linking datasets, features, estimation procedure, and evaluation measures.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/ns/prov#qualifiedAssociation">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.w3.org/ns/prov-o#"/>
+    <rdfs:label xml:lang="en">qualified association</rdfs:label>
+    <rdfs:comment xml:lang="en">PROV-O: a qualified association between an activity and an agent.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.w3.org/ns/prov#Activity"/>
+    <rdfs:range rdf:resource="http://www.w3.org/ns/prov#Association"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/ns/prov#wasGeneratedBy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.w3.org/ns/prov-o#"/>
+    <rdfs:label xml:lang="en">was generated by</rdfs:label>
+    <rdfs:comment xml:lang="en">PROV-O: an entity was generated by an activity.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.w3.org/ns/prov#Entity"/>
+    <rdfs:range rdf:resource="http://www.w3.org/ns/prov#Activity"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://data.europa.eu/it6/Flow">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://data.europa.eu/it6/"/>
+    <rdfs:seeAlso rdf:resource="https://semiceu.github.io/MLDCAT-AP/releases/3.0.0/#Flow"/>
+    <rdfs:label xml:lang="en">Flow</rdfs:label>
+    <rdfs:comment xml:lang="en">MLDCAT-AP: a reproducible pipeline description (software, dependencies, structure) for building or executing a model.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#derivedFromRun">
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#wasGeneratedBy"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+    <rdfs:label xml:lang="en">derived from run</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#DerivedArtifact"/>
+    <rdfs:range rdf:resource="http://data.europa.eu/it6/Run"/>
+    <rdfs:comment xml:lang="en">Links a derived artifact to the run that produced it. Functional: each derived artifact has exactly one originating run. Asymmetric: an artifact and its generating run are distinct.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#usesEvaluationContext">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">uses evaluation context</rdfs:label>
+    <rdfs:domain rdf:resource="http://data.europa.eu/it6/Evaluation"/>
+    <rdfs:range rdf:resource="https://w3id.org/pionera/daimo#SharedEvaluationContext"/>
+    <rdfs:comment xml:lang="en">Links an it6:Evaluation to the shared evaluation context under which its results are comparable to other evaluations. Functional.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#ParticipantRole">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Role"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="en">participant role</rdfs:label>
+    <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
+    <skos:definition xml:lang="en">A dataspace-scoped role played by a participant with respect to AI assets (anti-rigid; an agent gains and loses roles over time).</skos:definition>
+    <skos:example xml:lang="en">An agent acting as a Model Provider within a given EDC participant context has a ParticipantRole instance of type ModelProvider connected via daimo:hasRole and scoped by daimo:inParticipantContext.</skos:example>
+    <rdfs:comment xml:lang="en">A dataspace-scoped role taken by a participant with respect to AI assets. Anti-rigid: an agent can gain and lose roles over time. Subclasses are intentionally NOT mutually disjoint — one agent can hold several roles simultaneously (e.g., a research group may be both Evaluator and Model Provider).</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/ns/prov#Role">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.w3.org/ns/prov-o#"/>
+    <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/prov-o/#Role"/>
+    <rdfs:label xml:lang="en">Role</rdfs:label>
+    <rdfs:comment xml:lang="en">PROV-O: a description of the part played by an entity or agent in an activity.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#evidenceOf">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+    <rdfs:label xml:lang="en">evidence of</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#AuditEvidence"/>
+    <rdfs:range rdf:resource="http://www.w3.org/ns/prov#Activity"/>
+    <rdfs:comment xml:lang="en">Links audit evidence to the activity it attests. Functional. Asymmetric: audit evidence is distinct from the activity it records. Deliberately NOT declared a subproperty of prov:hadActivity: that property is used on reified influence/generation/usage objects, not on entities — an AuditEvidence is a prov:Entity that is ABOUT an activity, which PROV-O does not provide a direct property for.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#offeredBy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">offered by</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#AIAssetOffering"/>
+    <rdfs:range rdf:resource="http://xmlns.com/foaf/0.1/Agent"/>
+    <rdfs:comment xml:lang="en">Links an offering to the agent that authored the offered AI model (i.e., the model provider). Functional: each offering has exactly one offering agent. Deliberately NOT declared rdfs:subPropertyOf dct:publisher: on a dcat:CatalogRecord, dct:publisher denotes the catalog maintainer (the platform registering the record), not the author of the asset being registered. Conflating them would entail that the catalog-time publisher is the model creator — semantically wrong in a real dataspace where e.g. INESData publishes records authored by UPM.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n7d55d1d7bba94891a7c52991b176d239b8">
+    <rdf:first rdf:resource="https://w3id.org/pionera/daimo#SharedEvaluationContext"/>
+    <rdf:rest rdf:nodeID="n7d55d1d7bba94891a7c52991b176d239b9"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n7d55d1d7bba94891a7c52991b176d239b6">
+    <rdf:first rdf:resource="https://w3id.org/pionera/daimo#DerivedArtifact"/>
+    <rdf:rest rdf:nodeID="n7d55d1d7bba94891a7c52991b176d239b7"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#hasDerivedArtifact">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <owl:inverseOf rdf:resource="https://w3id.org/pionera/daimo#derivedFromRun"/>
+    <rdfs:label xml:lang="en">has derived artifact</rdfs:label>
+    <rdfs:domain rdf:resource="http://data.europa.eu/it6/Run"/>
+    <rdfs:range rdf:resource="https://w3id.org/pionera/daimo#DerivedArtifact"/>
+    <rdfs:comment xml:lang="en">Inverse of daimo:derivedFromRun: from a run, retrieve every derived artifact it produced. Non-functional (a run may produce multiple governed outputs).</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/ns/odrl/2/Offer">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.w3.org/ns/odrl/2/"/>
+    <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/odrl-model/#policy-offer"/>
+    <rdfs:label xml:lang="en">Offer</rdfs:label>
+    <rdfs:comment xml:lang="en">ODRL: a policy asserting offer terms over a target asset, by an assigner, comprising permissions, prohibitions, and duties.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/ns/prov#used">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.w3.org/ns/prov-o#"/>
+    <rdfs:label xml:lang="en">used</rdfs:label>
+    <rdfs:comment xml:lang="en">PROV-O: an activity used an entity.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.w3.org/ns/prov#Activity"/>
+    <rdfs:range rdf:resource="http://www.w3.org/ns/prov#Entity"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#ExecutionAuthorization">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/odrl/2/Agreement"/>
+    <skos:related rdf:resource="https://w3id.org/dspace/v0.8/ContractNegotiation"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="en">execution authorization</rdfs:label>
+    <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
+    <skos:definition xml:lang="en">An ODRL agreement, produced by a Dataspace-Protocol contract negotiation, that binds specific ODRL permissions to concrete MLDCAT-AP run invocations it authorises, with an expiry timestamp and a grantee agent.</skos:definition>
+    <skos:example xml:lang="en">After a successful DSP contract negotiation, the resulting agreement is represented as an ExecutionAuthorization granting odrl:use to the consumer (daimo:grantedTo), covering one or more runs via daimo:authorizesRun, expiring at a specified daimo:expiresAt timestamp.</skos:example>
+    <rdfs:comment xml:lang="en">An ODRL agreement (produced by a DSP contract negotiation) that binds at least one odrl:permission to concrete it6:Run invocations it authorises. Specialises odrl:Agreement; MUST carry at least one odrl:permission per the ODRL policy model.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/ns/odrl/2/assignee">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.w3.org/ns/odrl/2/"/>
+    <rdfs:label xml:lang="en">assignee</rdfs:label>
+    <rdfs:comment xml:lang="en">ODRL: the party receiving the policy rules.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.w3.org/ns/odrl/2/Policy"/>
+    <rdfs:range rdf:resource="http://www.w3.org/ns/odrl/2/Party"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#authMethod">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">authentication method</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#IOContract"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:comment xml:lang="en">Authentication-method token (e.g. "oauth2-bearer", "api-key", "mtls").</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#recordedAt">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">recorded at</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#AuditEvidence"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+    <rdfs:comment xml:lang="en">Timestamp at which the audit evidence was sealed.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/edc/v0.0.1/ns/ParticipantContext">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="https://w3id.org/edc/v0.0.1/ns/"/>
+    <rdfs:label xml:lang="en">Participant Context</rdfs:label>
+    <rdfs:comment xml:lang="en">EDC-specific extension: a multi-tenant runtime context identifying a participant within an EDC connector. Not yet standardised in DSP.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/ns/prov#Activity">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.w3.org/ns/prov-o#"/>
+    <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/prov-o/#Activity"/>
+    <rdfs:label xml:lang="en">Activity</rdfs:label>
+    <rdfs:comment xml:lang="en">PROV-O: something that occurs over a period of time and acts on or with entities.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
+    <dct:title xml:lang="en">DAIMO: an ontology for governed AI model assets in data spaces</dct:title>
+    <dct:description xml:lang="en">DAIMO is an integration profile that connects DCAT-AP, MLDCAT-AP, ODRL, PROV-O, and the Dataspace Protocol (DSP, as operationalised by Eclipse EDC) to support publication, discovery, invocation, execution traceability, and contextualised evaluation of AI model assets exchanged in data spaces. The edc: namespace is used only for EDC-specific extensions (e.g., ParticipantContext) not yet standardised in DSP.</dct:description>
+    <dct:creator rdf:resource="https://orcid.org/0000-0000-0000-0000"/>
+    <dct:creator rdf:resource="https://orcid.org/0000-0000-0000-0001"/>
+    <dct:contributor rdf:resource="https://ror.org/03n6nwv02"/>
+    <dct:publisher rdf:resource="https://w3id.org/pionera"/>
+    <dct:license rdf:resource="https://creativecommons.org/licenses/by/4.0/"/>
+    <dct:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-04-22</dct:issued>
+    <dct:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-07-06</dct:modified>
+    <owl:versionIRI rdf:resource="https://w3id.org/pionera/daimo/0.1.6"/>
+    <owl:versionInfo>0.1.6</owl:versionInfo>
+    <owl:priorVersion rdf:resource="https://w3id.org/pionera/daimo/0.1.5"/>
+    <dct:conformsTo rdf:resource="https://www.w3.org/TR/owl2-overview/"/>
+    <vann:preferredNamespacePrefix>daimo</vann:preferredNamespacePrefix>
+    <vann:preferredNamespaceUri>https://w3id.org/pionera/daimo#</vann:preferredNamespaceUri>
+    <rdfs:seeAlso rdf:resource="https://w3id.org/pionera/daimo/docs"/>
+    <rdfs:seeAlso rdf:resource="https://w3id.org/pionera/daimo/shapes"/>
+    <rdfs:seeAlso rdf:resource="https://w3id.org/pionera/daimo/align"/>
+    <rdfs:comment xml:lang="en">See the companion documents ONTOLOGY-REFERENCE.md (class-by-class reference), VALIDATION-MATRIX.md (traceability), and daimo-ontology-design.md (design rationale) in the source repository.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#inParticipantContext">
+    <skos:related rdf:resource="https://w3id.org/edc/v0.0.1/ns/ParticipantContext"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">in participant context</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#ParticipantRole"/>
+    <rdfs:range rdf:resource="https://w3id.org/edc/v0.0.1/ns/ParticipantContext"/>
+    <rdfs:comment xml:lang="en">Scopes a role assignment to a specific EDC participant context. Functional: a role instance is held within exactly one context.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#grantedTo">
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/odrl/2/assignee"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">granted to</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#ExecutionAuthorization"/>
+    <rdfs:range rdf:resource="http://xmlns.com/foaf/0.1/Agent"/>
+    <rdfs:comment xml:lang="en">Links an authorization to the grantee agent. Functional. Specialises odrl:assignee (the ODRL party receiving an agreement's terms). Deliberately NOT aligned to prov:qualifiedAssociation: that property points to a reified prov:Association object, not to the agent itself; using it here would incorrectly type every grantee Agent as a prov:Association.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#hasIOContract">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label xml:lang="en">has I/O contract</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#ModelDeployment"/>
+    <rdfs:range rdf:resource="https://w3id.org/pionera/daimo#IOContract"/>
+    <rdfs:comment xml:lang="en">Links a deployment to its invocation contract(s). Non-functional: a deployment exposing multiple services (see daimo:exposedAs) may carry a distinct IOContract per protocol (e.g., JSON+OAuth2 for REST and protobuf+mTLS for gRPC).</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#hasRole">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label xml:lang="en">has role</rdfs:label>
+    <rdfs:domain rdf:resource="http://xmlns.com/foaf/0.1/Agent"/>
+    <rdfs:range rdf:resource="https://w3id.org/pionera/daimo#ParticipantRole"/>
+    <rdfs:comment xml:lang="en">Links an agent to a dataspace role. Non-functional: agents may hold multiple roles.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#AIAssetOffering">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/dcat#CatalogRecord"/>
+    <skos:related rdf:resource="https://w3id.org/dspace/v0.8/ContractOffer"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="en">AI asset offering</rdfs:label>
+    <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
+    <skos:definition xml:lang="en">A catalog-record entry registering an AI model in a dataspace catalog as a governed offer, bundling the model, the issuing agent, and an ODRL offer policy.</skos:definition>
+    <skos:example xml:lang="en">A research organisation publishing one of its machine-learning models into a dataspace catalog declares an AIAssetOffering that references the model (via offersModel), the organisation itself (via offeredBy), and an ODRL offer policy (via hasOfferPolicy) permitting use and distribution under a specific licence.</skos:example>
+    <rdfs:comment xml:lang="en">A catalog-record entry that registers an AI model in a dataspace catalog, bundling the model reference, the providing agent, and an ODRL offer policy. Specialises dcat:CatalogRecord; carries an odrl:Offer via daimo:hasOfferPolicy. In DSP terms this is the catalog-time artefact that becomes a dspace:ContractOffer during negotiation.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/ns/odrl/2/Party">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.w3.org/ns/odrl/2/"/>
+    <rdfs:label xml:lang="en">Party</rdfs:label>
+    <rdfs:comment xml:lang="en">ODRL: an entity that plays a role (assigner, assignee) in a policy.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n7d55d1d7bba94891a7c52991b176d239b3">
+    <rdf:first rdf:resource="https://w3id.org/pionera/daimo#ModelDeployment"/>
+    <rdf:rest rdf:nodeID="n7d55d1d7bba94891a7c52991b176d239b4"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#ModelDeployment">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
+    <skos:related rdf:resource="http://data.europa.eu/it6/MachineLearningModel"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="en">model deployment</rdfs:label>
+    <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
+    <skos:definition xml:lang="en">A running or hosted instance of a machine-learning model exposed through one or more DCAT data services over a named compute infrastructure, under a per-service I/O contract.</skos:definition>
+    <skos:example xml:lang="en">A PlatformOperator that stands up a live inference endpoint for a given model creates a ModelDeployment that (i) deploys the model, (ii) is exposed as one or more dcat:DataServices (e.g., REST + gRPC), (iii) runs on a specific it6:ComputerInfrastructure, and (iv) declares an IOContract per exposed service.</skos:example>
+    <rdfs:comment xml:lang="en">A running or hosted instance of an MLDCAT-AP MachineLearningModel exposed through a dcat:DataService under an operational environment.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://xmlns.com/foaf/0.1/isPrimaryTopicOf">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:isDefinedBy rdf:resource="http://xmlns.com/foaf/0.1/"/>
+    <rdfs:seeAlso rdf:resource="http://xmlns.com/foaf/spec/#term_isPrimaryTopicOf"/>
+    <rdfs:label xml:lang="en">is primary topic of</rdfs:label>
+    <rdfs:comment xml:lang="en">FOAF: inverse of foaf:primaryTopic. Links a resource to a document whose primary topic it is.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#outputSchema">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">output schema</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#IOContract"/>
+    <rdfs:range rdf:resource="http://www.w3.org/ns/dcat#Resource"/>
+    <rdfs:comment xml:lang="en">Optional link to a resource describing the output payload schema.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#offersModel">
+    <rdfs:subPropertyOf rdf:resource="http://xmlns.com/foaf/0.1/primaryTopic"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+    <rdfs:label xml:lang="en">offers model</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#AIAssetOffering"/>
+    <rdfs:range rdf:resource="http://data.europa.eu/it6/MachineLearningModel"/>
+    <rdfs:comment xml:lang="en">Links a catalog-record offering to the AI model it registers. Functional: one offering registers exactly one model. Asymmetric: an offering is distinct from the model it offers.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/ns/prov#hadActivity">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.w3.org/ns/prov-o#"/>
+    <rdfs:label xml:lang="en">had activity</rdfs:label>
+    <rdfs:comment xml:lang="en">PROV-O: links a qualified influence, association, or similar to an activity.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/ns/prov#Activity"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#datasetVersion">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">dataset version</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#SharedEvaluationContext"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:comment xml:lang="en">Literal version identifier of the evaluation dataset used by the context. Deliberately not aligned to dct:hasVersion because dct:hasVersion relates a resource to another version resource, whereas DAIMO records the dataset-version token as a literal for reproducible benchmarking.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://xmlns.com/foaf/0.1/primaryTopic">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:isDefinedBy rdf:resource="http://xmlns.com/foaf/0.1/"/>
+    <rdfs:seeAlso rdf:resource="http://xmlns.com/foaf/spec/#term_primaryTopic"/>
+    <rdfs:label xml:lang="en">primary topic</rdfs:label>
+    <rdfs:comment xml:lang="en">FOAF: the primary topic of some document.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://spdx.org/rdf/terms#checksumValue">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:isDefinedBy rdf:resource="http://spdx.org/rdf/terms#"/>
+    <rdfs:label xml:lang="en">checksum value</rdfs:label>
+    <rdfs:comment xml:lang="en">SPDX: the hexadecimal digest computed by the algorithm.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://spdx.org/rdf/terms#Checksum"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://data.europa.eu/it6/MachineLearningModel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://data.europa.eu/it6/"/>
+    <rdfs:seeAlso rdf:resource="https://semiceu.github.io/MLDCAT-AP/releases/3.0.0/#MachineLearningModel"/>
+    <rdfs:label xml:lang="en">Machine Learning Model</rdfs:label>
+    <rdfs:comment xml:lang="en">MLDCAT-AP: a file or set of artefacts that has been trained to recognise patterns; the central ML asset class, itself a subclass of dcat:Dataset.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#contextTask">
+    <rdfs:subPropertyOf rdf:resource="http://data.europa.eu/it6/hasTask"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">context task</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#SharedEvaluationContext"/>
+    <rdfs:range rdf:resource="http://data.europa.eu/it6/Task"/>
+    <rdfs:comment xml:lang="en">The it6:Task the evaluation context is defined over. Functional.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://xmlns.com/foaf/0.1/Agent">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://xmlns.com/foaf/0.1/"/>
+    <rdfs:seeAlso rdf:resource="http://xmlns.com/foaf/spec/#term_Agent"/>
+    <rdfs:label xml:lang="en">Agent</rdfs:label>
+    <rdfs:comment xml:lang="en">FOAF: a thing that does stuff; a person, group, organisation, or software entity.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#IOContract">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="en">I/O contract</rdfs:label>
+    <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
+    <skos:definition xml:lang="en">The minimum machine-actionable invocation contract for a deployment endpoint: input media type, output media type, authentication method, and optional input/output schemas.</skos:definition>
+    <skos:example xml:lang="en">A REST inference endpoint might declare an IOContract with inputFormat "application/json", outputFormat "application/geo+json", and authMethod "oauth2-bearer"; a parallel gRPC endpoint on the same deployment can declare a second IOContract with inputFormat "application/x-protobuf" and authMethod "mtls".</skos:example>
+    <rdfs:comment xml:lang="en">The minimum machine-actionable invocation contract for a deployment: input format, output format, authentication method, and optional input/output schemas.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#DerivedArtifact">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/dcat#Resource"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="en">derived artifact</rdfs:label>
+    <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
+    <skos:definition xml:lang="en">A governed, catalog-describable output produced by a run in a dataspace context, carrying its own provenance pointer and authorisation pointer.</skos:definition>
+    <skos:example xml:lang="en">When a consumer invokes a deployed model, the run's output (a prediction dataset, a classification result, a generated artefact) is typed as a DerivedArtifact that points back to the producing run (daimo:derivedFromRun) and to the authorisation under which it was produced (daimo:underAuthorization).</skos:example>
+    <rdfs:comment xml:lang="en">A governed, catalog-describable output produced by an it6:Run in a dataspace context, bearing its own provenance and policy.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#authorizedBy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <owl:inverseOf rdf:resource="https://w3id.org/pionera/daimo#authorizesRun"/>
+    <rdfs:label xml:lang="en">authorized by</rdfs:label>
+    <rdfs:domain rdf:resource="http://data.europa.eu/it6/Run"/>
+    <rdfs:range rdf:resource="https://w3id.org/pionera/daimo#ExecutionAuthorization"/>
+    <rdfs:comment xml:lang="en">Inverse of daimo:authorizesRun. Functional: each run is authorized by exactly one agreement.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#Evaluator">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://w3id.org/pionera/daimo#ParticipantRole"/>
+    <rdfs:label xml:lang="en">evaluator</rdfs:label>
+    <skos:definition xml:lang="en">Role of an agent that evaluates or compares AI models under a shared evaluation context.</skos:definition>
+    <skos:example xml:lang="en">Any agent that produces it6:Evaluation instances linked to a shared SharedEvaluationContext (via daimo:usesEvaluationContext) holds an Evaluator role — for example, a benchmarking team comparing candidate models on the same dataset version and seed.</skos:example>
+    <rdfs:comment xml:lang="en">Role of an agent that evaluates or compares AI models under a shared evaluation context.</rdfs:comment>
+    <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/ns/dcat#Distribution">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.w3.org/ns/dcat"/>
+    <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/vocab-dcat-2/#Class:Distribution"/>
+    <rdfs:label xml:lang="en">Distribution</rdfs:label>
+    <rdfs:comment xml:lang="en">DCAT: a specific representation of a dataset (e.g., a file, feed, or API).</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/ns/prov#Bundle">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.w3.org/ns/prov-o#"/>
+    <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/prov-o/#Bundle"/>
+    <rdfs:label xml:lang="en">Bundle</rdfs:label>
+    <rdfs:comment xml:lang="en">PROV-O: a named set of provenance descriptions that is itself an entity.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#TopLevelKindsDisjointness">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+    <rdfs:label xml:lang="en">DAIMO top-level kinds pairwise disjointness</rdfs:label>
+    <rdfs:comment xml:lang="en">Asserts that the nine top-level DAIMO-native kinds are pairwise disjoint. ParticipantRole subclasses are deliberately excluded so that a single agent may simultaneously hold several roles (e.g., a research group acting as both Evaluator and Model Provider).</rdfs:comment>
+    <owl:members rdf:nodeID="n7d55d1d7bba94891a7c52991b176d239b1"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/ns/dcat#DataService">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.w3.org/ns/dcat"/>
+    <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/vocab-dcat-2/#Class:Data_Service"/>
+    <rdfs:label xml:lang="en">Data Service</rdfs:label>
+    <rdfs:comment xml:lang="en">DCAT: a site or end-point providing operations related to the discovery of, access to, or processing functions on, data or related resources.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/ns/prov#Entity">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.w3.org/ns/prov-o#"/>
+    <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/prov-o/#Entity"/>
+    <rdfs:label xml:lang="en">Entity</rdfs:label>
+    <rdfs:comment xml:lang="en">PROV-O: a physical, digital, or conceptual thing with fixed aspects; entities may be real or imaginary.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#hasDeployment">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <owl:inverseOf rdf:resource="https://w3id.org/pionera/daimo#deploysModel"/>
+    <rdfs:label xml:lang="en">has deployment</rdfs:label>
+    <rdfs:domain rdf:resource="http://data.europa.eu/it6/MachineLearningModel"/>
+    <rdfs:range rdf:resource="https://w3id.org/pionera/daimo#ModelDeployment"/>
+    <rdfs:comment xml:lang="en">Inverse of daimo:deploysModel: from a model, retrieve every deployment that serves it. Non-functional (a model can have multiple deployments across contexts).</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://data.europa.eu/it6/ComputerInfrastructure">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://data.europa.eu/it6/"/>
+    <rdfs:seeAlso rdf:resource="https://semiceu.github.io/MLDCAT-AP/releases/3.0.0/#ComputerInfrastructure"/>
+    <rdfs:label xml:lang="en">Computer Infrastructure</rdfs:label>
+    <rdfs:comment xml:lang="en">MLDCAT-AP: a named environment bundling hardware and libraries used to run a model.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://data.europa.eu/it6/hasFlow">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:isDefinedBy rdf:resource="http://data.europa.eu/it6/"/>
+    <rdfs:label xml:lang="en">has flow</rdfs:label>
+    <rdfs:comment xml:lang="en">MLDCAT-AP: links a run to the flow (pipeline) that defines it.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://data.europa.eu/it6/Run"/>
+    <rdfs:range rdf:resource="http://data.europa.eu/it6/Flow"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://data.europa.eu/it6/Run">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://data.europa.eu/it6/"/>
+    <rdfs:seeAlso rdf:resource="https://semiceu.github.io/MLDCAT-AP/releases/3.0.0/#Run"/>
+    <rdfs:label xml:lang="en">Run</rdfs:label>
+    <rdfs:comment xml:lang="en">MLDCAT-AP: a concrete execution of an algorithm over data, producing outputs and evaluations. Specialises mls:Run.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/ns/prov#Association">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.w3.org/ns/prov-o#"/>
+    <rdfs:label xml:lang="en">Association</rdfs:label>
+    <rdfs:comment xml:lang="en">PROV-O: an assignment of responsibility to an agent for an activity, indicating that the agent had a role in the activity.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#underAuthorization">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">under authorization</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#DerivedArtifact"/>
+    <rdfs:range rdf:resource="https://w3id.org/pionera/daimo#ExecutionAuthorization"/>
+    <rdfs:comment xml:lang="en">Links a derived artifact to the authorisation under which it was produced. Functional.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#integrityHash">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">integrity hash</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#AuditEvidence"/>
+    <rdfs:range rdf:resource="http://spdx.org/rdf/terms#Checksum"/>
+    <rdfs:comment xml:lang="en">Links audit evidence to an spdx:Checksum that bundles the algorithm (spdx:algorithm) and the digest value (spdx:checksumValue). Functional: exactly one canonical checksum per evidence record. A plain-string digest without its algorithm cannot be verified, so a structured spdx:Checksum is required rather than an xsd:string.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#contextFlow">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">context flow</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#SharedEvaluationContext"/>
+    <rdfs:range rdf:resource="http://data.europa.eu/it6/Flow"/>
+    <rdfs:comment xml:lang="en">The it6:Flow (pipeline / reproducibility artefact) referenced by the evaluation context. Functional. Not declared a subproperty of it6:hasFlow because the evaluation context is not itself a run.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo/align">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
+    <rdfs:comment xml:lang="en">Alignment axioms linking DAIMO classes and properties to DCAT, MLDCAT-AP, ODRL, PROV-O, and the Dataspace Protocol (DSP).</rdfs:comment>
+    <owl:versionIRI rdf:resource="https://w3id.org/pionera/daimo/align/0.1.6"/>
+    <owl:versionInfo>0.1.6</owl:versionInfo>
+    <owl:imports rdf:resource="https://w3id.org/pionera/daimo"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#records">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label xml:lang="en">records</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord"/>
+    <rdfs:range rdf:resource="http://www.w3.org/ns/prov#Activity"/>
+    <rdfs:comment xml:lang="en">Links a cross-participant provenance bundle to each prov:Activity that forms part of the audit-ready narrative.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://data.europa.eu/it6/Evaluation">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://data.europa.eu/it6/"/>
+    <rdfs:seeAlso rdf:resource="https://semiceu.github.io/MLDCAT-AP/releases/3.0.0/#Evaluation"/>
+    <rdfs:label xml:lang="en">Evaluation</rdfs:label>
+    <rdfs:comment xml:lang="en">MLDCAT-AP: an evaluation of a model, carrying one or more evaluation measures.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/dc/terms/publisher">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/dc/terms/"/>
+    <rdfs:label xml:lang="en">publisher</rdfs:label>
+    <rdfs:comment xml:lang="en">Dublin Core: entity responsible for making the resource available.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:range rdf:resource="http://xmlns.com/foaf/0.1/Agent"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#exposedAs">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label xml:lang="en">exposed as</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#ModelDeployment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/ns/dcat#DataService"/>
+    <rdfs:comment xml:lang="en">Links a deployment to the DCAT data service(s) that expose it. Non-functional: one deployment may expose multiple endpoints (e.g., a REST service plus a gRPC service, or regional load-balanced endpoints). Each service's I/O contract can differ (see daimo:hasIOContract, also non-functional).</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://spdx.org/rdf/terms#Checksum">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://spdx.org/rdf/terms#"/>
+    <rdfs:seeAlso rdf:resource="https://spdx.github.io/spdx-spec/v2.3/file-information/#84-file-checksum"/>
+    <rdfs:label xml:lang="en">Checksum</rdfs:label>
+    <rdfs:comment xml:lang="en">SPDX: the result of applying a cryptographic hash function over a file's content, bundling the algorithm (spdx:algorithm) and the hexadecimal digest (spdx:checksumValue).</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/ns/dcat#Catalog">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.w3.org/ns/dcat"/>
+    <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/vocab-dcat-2/#Class:Catalog"/>
+    <rdfs:label xml:lang="en">Catalog</rdfs:label>
+    <rdfs:comment xml:lang="en">DCAT: a curated collection of metadata about resources.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/ns/dcat#Resource">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.w3.org/ns/dcat"/>
+    <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/vocab-dcat-2/#Class:Resource"/>
+    <rdfs:label xml:lang="en">Resource</rdfs:label>
+    <rdfs:comment xml:lang="en">DCAT: any resource published or curated by a single agent; the common supertype of Dataset, DataService, Distribution, and CatalogRecord.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#AuditEvidence">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="en">audit evidence</rdfs:label>
+    <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
+    <skos:definition xml:lang="en">A compliance-oriented evidence record attached to a governed activity, carrying a structured SPDX checksum (algorithm + digest), a signer, and a timestamp.</skos:definition>
+    <skos:example xml:lang="en">For each run of a deployed model, the PlatformOperator produces an AuditEvidence record that references the run (daimo:evidenceOf), carries a structured spdx:Checksum (algorithm + digest) over the run's outputs (daimo:integrityHash), identifies the signer (daimo:signedBy), and timestamps the sealing (daimo:recordedAt).</skos:example>
+    <rdfs:comment xml:lang="en">A compliance-oriented evidence record attached to a governed event, carrying integrity hash, signer, and timestamp.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#hasOffering">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <owl:inverseOf rdf:resource="https://w3id.org/pionera/daimo#offersModel"/>
+    <rdfs:subPropertyOf rdf:resource="http://xmlns.com/foaf/0.1/isPrimaryTopicOf"/>
+    <rdfs:label xml:lang="en">has offering</rdfs:label>
+    <rdfs:domain rdf:resource="http://data.europa.eu/it6/MachineLearningModel"/>
+    <rdfs:range rdf:resource="https://w3id.org/pionera/daimo#AIAssetOffering"/>
+    <rdfs:comment xml:lang="en">Inverse of daimo:offersModel: from a model, retrieve every catalog offering that registers it. Non-functional (the same model may be offered by different providers in different catalogs). Declared rdfs:subPropertyOf foaf:isPrimaryTopicOf for symmetry with daimo:offersModel ⊑ foaf:primaryTopic.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/ns/odrl/2/Policy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.w3.org/ns/odrl/2/"/>
+    <rdfs:label xml:lang="en">Policy</rdfs:label>
+    <rdfs:comment xml:lang="en">ODRL: the common superclass of Offer, Agreement, Set, etc.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#authorizesRun">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+    <rdfs:label xml:lang="en">authorizes run</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#ExecutionAuthorization"/>
+    <rdfs:range rdf:resource="http://data.europa.eu/it6/Run"/>
+    <rdfs:comment xml:lang="en">Links an authorization to a run it permits. Non-functional: a single authorization can cover multiple runs (e.g., subscription-style access). Asymmetric: an authorization is distinct from any run it authorises. Deliberately NOT declared a subproperty of prov:used: an odrl:Agreement is a policy artefact (an Entity), not a prov:Activity; the prov:used domain would incorrectly force ExecutionAuthorization ⊑ prov:Activity.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/ns/dcat#CatalogRecord">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.w3.org/ns/dcat"/>
+    <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/vocab-dcat-2/#Class:Catalog_Record"/>
+    <rdfs:label xml:lang="en">Catalog Record</rdfs:label>
+    <rdfs:comment xml:lang="en">DCAT: a record in a data catalog describing the registration of a single dataset or data service.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n7d55d1d7bba94891a7c52991b176d239b9">
+    <rdf:first rdf:resource="https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#deploysModel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+    <rdfs:label xml:lang="en">deploys model</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#ModelDeployment"/>
+    <rdfs:range rdf:resource="http://data.europa.eu/it6/MachineLearningModel"/>
+    <rdfs:comment xml:lang="en">Links a deployment to the model it serves. Functional: one deployment serves one model. Asymmetric: a deployment and its model are distinct individuals.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Bundle"/>
+    <skos:related rdf:resource="https://w3id.org/dspace/v0.8/TransferProcess"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="en">cross-participant provenance record</rdfs:label>
+    <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
+    <skos:definition xml:lang="en">A PROV bundle that aggregates activities and entities spanning at least two EDC participant contexts, forming an audit-ready cross-participant provenance narrative.</skos:definition>
+    <skos:example xml:lang="en">When a derived artefact is produced by a consumer invoking a provider's model hosted by a third-party operator, a CrossParticipantProvenanceRecord aggregates the relevant activities across the provider, consumer, and operator participant contexts into one bundle for audit.</skos:example>
+    <rdfs:comment xml:lang="en">A reusable semantic bundle that aggregates prov:Activity and prov:Entity across participant contexts to tell one audit-ready story.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#signedBy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">signed by</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#AuditEvidence"/>
+    <rdfs:range rdf:resource="http://xmlns.com/foaf/0.1/Agent"/>
+    <rdfs:comment xml:lang="en">Functional: one signer per evidence record.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#ModelConsumer">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://w3id.org/pionera/daimo#ParticipantRole"/>
+    <rdfs:label xml:lang="en">model consumer</rdfs:label>
+    <skos:definition xml:lang="en">Role of an agent that discovers, negotiates access to, and invokes AI models offered by a Model Provider.</skos:definition>
+    <skos:example xml:lang="en">Any agent that receives an ExecutionAuthorization (via daimo:grantedTo) and uses it to invoke runs of a deployed model holds a ModelConsumer role within the corresponding participant context.</skos:example>
+    <rdfs:comment xml:lang="en">Role of an agent that discovers, negotiates, and invokes AI models offered by a Model Provider.</rdfs:comment>
+    <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n7d55d1d7bba94891a7c52991b176d239b4">
+    <rdf:first rdf:resource="https://w3id.org/pionera/daimo#IOContract"/>
+    <rdf:rest rdf:nodeID="n7d55d1d7bba94891a7c52991b176d239b5"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/ns/odrl/2/hasPolicy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.w3.org/ns/odrl/2/"/>
+    <rdfs:label xml:lang="en">has policy</rdfs:label>
+    <rdfs:comment xml:lang="en">ODRL: attaches an ODRL policy to a resource. Range restricted to odrl:Policy.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/ns/odrl/2/Policy"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#hasOfferPolicy">
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/odrl/2/hasPolicy"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">has offer policy</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#AIAssetOffering"/>
+    <rdfs:range rdf:resource="http://www.w3.org/ns/odrl/2/Offer"/>
+    <rdfs:comment xml:lang="en">Links an offering to the ODRL offer policy that governs the offered model. Functional: each offering carries exactly one canonical offer policy.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#GovernanceActor">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://w3id.org/pionera/daimo#ParticipantRole"/>
+    <rdfs:label xml:lang="en">governance actor</rdfs:label>
+    <skos:definition xml:lang="en">Role of an agent that audits execution evidence, enforces compliance obligations, and validates governance across the dataspace.</skos:definition>
+    <skos:example xml:lang="en">An external compliance body that reads CrossParticipantProvenanceRecord bundles and AuditEvidence records to verify lawful execution holds a GovernanceActor role — for example, a regulator or a conformance-labelling body.</skos:example>
+    <rdfs:comment xml:lang="en">Role of an agent that audits execution evidence, enforces compliance obligations, and validates governance across the dataspace.</rdfs:comment>
+    <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#randomSeed">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">random seed</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#SharedEvaluationContext"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:comment xml:lang="en">Random seed fixing stochastic components of the protocol, required for reproducibility.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#outputFormat">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">output format</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#IOContract"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:comment xml:lang="en">IANA media type of the produced output payload (e.g. "application/geo+json").</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#inputFormat">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">input format</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#IOContract"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:comment xml:lang="en">IANA media type of the expected input payload (e.g. "application/json").</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n7d55d1d7bba94891a7c52991b176d239b5">
+    <rdf:first rdf:resource="https://w3id.org/pionera/daimo#ExecutionAuthorization"/>
+    <rdf:rest rdf:nodeID="n7d55d1d7bba94891a7c52991b176d239b6"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n7d55d1d7bba94891a7c52991b176d239b1">
+    <rdf:first rdf:resource="https://w3id.org/pionera/daimo#AIAssetOffering"/>
+    <rdf:rest rdf:nodeID="n7d55d1d7bba94891a7c52991b176d239b2"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#spansParticipantContext">
+    <skos:related rdf:resource="https://w3id.org/edc/v0.0.1/ns/ParticipantContext"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label xml:lang="en">spans participant context</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord"/>
+    <rdfs:range rdf:resource="https://w3id.org/edc/v0.0.1/ns/ParticipantContext"/>
+    <rdfs:comment xml:lang="en">Links a cross-participant provenance bundle to each participant context whose activities or entities it records. A record must span at least two contexts (enforced by SHACL).</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://data.europa.eu/it6/trainedOn">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:isDefinedBy rdf:resource="http://data.europa.eu/it6/"/>
+    <rdfs:label xml:lang="en">trained on</rdfs:label>
+    <rdfs:comment xml:lang="en">MLDCAT-AP: links a machine-learning model to the dataset it was trained on.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://data.europa.eu/it6/MachineLearningModel"/>
+    <rdfs:range rdf:resource="http://www.w3.org/ns/dcat#Dataset"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://purl.org/dc/terms/hasVersion">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:isDefinedBy rdf:resource="http://purl.org/dc/terms/"/>
+    <rdfs:label xml:lang="en">has version</rdfs:label>
+    <rdfs:comment xml:lang="en">Dublin Core: a related resource that is a version, edition, or adaptation of the described resource.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://spdx.org/rdf/terms#algorithm">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:isDefinedBy rdf:resource="http://spdx.org/rdf/terms#"/>
+    <rdfs:label xml:lang="en">checksum algorithm</rdfs:label>
+    <rdfs:comment xml:lang="en">SPDX: identifies the algorithm used to compute a checksum (e.g., spdx:checksumAlgorithm_sha256).</rdfs:comment>
+    <rdfs:domain rdf:resource="http://spdx.org/rdf/terms#Checksum"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/ns/dcat#Dataset">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.w3.org/ns/dcat"/>
+    <rdfs:seeAlso rdf:resource="https://www.w3.org/TR/vocab-dcat-2/#Class:Dataset"/>
+    <rdfs:label xml:lang="en">Dataset</rdfs:label>
+    <rdfs:comment xml:lang="en">DCAT: a collection of data, published or curated by a single source, available for access or download.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#onInfrastructure">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">on infrastructure</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#ModelDeployment"/>
+    <rdfs:range rdf:resource="http://data.europa.eu/it6/ComputerInfrastructure"/>
+    <rdfs:comment xml:lang="en">Links a deployment to the MLDCAT-AP computer infrastructure running it. Functional: one deployment runs on one canonical infrastructure instance (redundancy is modelled as multiple deployments).</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#inputSchema">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:label xml:lang="en">input schema</rdfs:label>
+    <rdfs:domain rdf:resource="https://w3id.org/pionera/daimo#IOContract"/>
+    <rdfs:range rdf:resource="http://www.w3.org/ns/dcat#Resource"/>
+    <rdfs:comment xml:lang="en">Optional link to a resource describing the input payload schema (JSON Schema, SHACL shape, etc.).</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n7d55d1d7bba94891a7c52991b176d239b7">
+    <rdf:first rdf:resource="https://w3id.org/pionera/daimo#AuditEvidence"/>
+    <rdf:rest rdf:nodeID="n7d55d1d7bba94891a7c52991b176d239b8"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#PlatformOperator">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://w3id.org/pionera/daimo#ParticipantRole"/>
+    <rdfs:label xml:lang="en">platform operator</rdfs:label>
+    <skos:definition xml:lang="en">Role of an agent responsible for operating the dataspace runtime, hosting model deployments, and enforcing policy at runtime.</skos:definition>
+    <skos:example xml:lang="en">A dataspace platform provider hosting one or more ModelDeployments, signing AuditEvidence records, and running the EDC connector acts as a PlatformOperator in each participant context it administers.</skos:example>
+    <rdfs:comment xml:lang="en">Role of an agent responsible for operating the dataspace runtime, hosting model deployments, and enforcing policy.</rdfs:comment>
+    <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#SharedEvaluationContext">
+    <skos:related rdf:resource="http://data.europa.eu/it6/Task"/>
+    <skos:related rdf:resource="http://data.europa.eu/it6/EstimationProcedure"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="en">shared evaluation context</rdfs:label>
+    <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
+    <skos:definition xml:lang="en">A reified grouping of the conditions under which model evaluations are comparable: task, dataset, dataset version, evaluation protocol, and random seed.</skos:definition>
+    <skos:example xml:lang="en">Two candidate models evaluated on the same SharedEvaluationContext (identical it6:Task, dcat:Dataset, daimo:datasetVersion, daimo:protocol, and daimo:randomSeed) yield metric values that are directly comparable; changing any of the five facets breaks comparability.</skos:example>
+    <rdfs:comment xml:lang="en">A reified grouping of the conditions under which model results are comparable: task, dataset, dataset version, protocol, and random seed. Does not claim to cover every facet that affects comparability (metric, split strategy, hyperparameters); it is the minimum grouping required by CQ-V1..CQ-V3.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://data.europa.eu/it6/hasTask">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:isDefinedBy rdf:resource="http://data.europa.eu/it6/"/>
+    <rdfs:label xml:lang="en">has task</rdfs:label>
+    <rdfs:comment xml:lang="en">MLDCAT-AP: links a model or evaluation to the task it addresses.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:range rdf:resource="http://data.europa.eu/it6/Task"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n7d55d1d7bba94891a7c52991b176d239b2">
+    <rdf:first rdf:resource="https://w3id.org/pionera/daimo#ParticipantRole"/>
+    <rdf:rest rdf:nodeID="n7d55d1d7bba94891a7c52991b176d239b3"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://w3id.org/pionera/daimo#ModelProvider">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="https://w3id.org/pionera/daimo#ParticipantRole"/>
+    <rdfs:label xml:lang="en">model provider</rdfs:label>
+    <skos:definition xml:lang="en">Role of an agent that publishes AI models as governed offerings in a dataspace catalog.</skos:definition>
+    <skos:example xml:lang="en">Any organisation that declares one or more AIAssetOfferings under its own authorship and policy holds a ModelProvider role in the dataspace contexts where those offerings are listed.</skos:example>
+    <rdfs:comment xml:lang="en">Role of an agent that publishes one or more AI models as governed offerings in a dataspace catalog.</rdfs:comment>
+    <rdfs:isDefinedBy rdf:resource="https://w3id.org/pionera/daimo"/>
+  </rdf:Description>
 </rdf:RDF>
-
-
-
-<!-- Generated by the OWL API (version 5.1.18) https://github.com/owlcs/owlapi/ -->
-
-

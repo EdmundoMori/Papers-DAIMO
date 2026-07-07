@@ -43,8 +43,27 @@ one week.
    ```
    All four must exit zero.
 4. Add a `CHANGELOG.md` entry under `## Unreleased`.
-5. Open a PR with a short description and a link to the issue being
+5. Include the change-impact note described below.
+6. Open a PR with a short description and a link to the issue being
    addressed.
+
+## Change-impact analysis
+
+Maintenance follows LOT Phase 4 without reopening the whole ontology unless
+the requested change requires it. Each non-trivial issue or pull request must
+state which LOT activities are affected: requirement analysis, conceptual
+model, formalisation, publication artefacts, or maintenance metadata.
+
+The impact note must identify affected competency questions, SHACL shapes,
+alignment axioms, example data, and downstream RDF graphs. It must also state
+whether the change is PATCH, MINOR, or MAJOR under the versioning policy below.
+Changes that affect alignments, property domains or ranges, cross-class
+invariants, or mandatory SHACL constraints must explain the expected effect on
+existing instantiated data and on interoperability between dataspace nodes.
+
+The validators are the release gate for this analysis: SHACL/CQ validation,
+reasoning, OOPS!, and negative tests must be rerun whenever the corresponding
+artefact is touched.
 
 ## Versioning
 

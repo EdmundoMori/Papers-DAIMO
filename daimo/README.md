@@ -1,6 +1,6 @@
 # DAIMO — Ontology for Governed AI Model Assets in Data Spaces
 
-Version: **0.1.1**
+Version: **0.1.6**
 Namespace: `https://w3id.org/pionera/daimo#` *(redirect registration pending — see [DEPLOYMENT.md](DEPLOYMENT.md))*
 Licence: CC-BY 4.0 (ontology and docs), Apache-2.0 (validation code)
 Methodology: [LOT (Linked Open Terms)](https://lot.linkeddata.es/)
@@ -8,23 +8,23 @@ DOI: *pending — will be assigned after Zenodo archival; see [DEPLOYMENT.md](DE
 
 DAIMO is an integration profile connecting DCAT-AP, MLDCAT-AP 3.0.0, ODRL, PROV-O, and Eclipse EDC to support publication, discovery, invocation, execution traceability, and contextualised evaluation of AI model assets exchanged in data spaces.
 
-Design principle: **reuse what already exists, add only the dataspace-bridge layer.** DAIMO does not redefine the AI model, the dataset, the policy, or the catalog — it adds the seven classes that neither MLDCAT-AP nor EDC covers (Offering, Role, Deployment, IOContract, ExecutionAuthorization, DerivedArtifact, CrossParticipantProvenanceRecord, AuditEvidence, SharedEvaluationContext).
+Design principle: **reuse what already exists, add only the dataspace-bridge layer.** DAIMO does not redefine the AI model, the dataset, the policy, or the catalog. It adds nine top-level bridge classes plus five participant-role subclasses that neither MLDCAT-AP nor EDC covers.
 
 ## Repository layout
 
 ```
 daimo/
 ├── ontology/
-│   ├── daimo-core.ttl          - 14 classes, 31 properties, disjointness, functional props
+│   ├── daimo-core.ttl          - 14 classes, 37 DAIMO properties, disjointness, functional props
 │   └── alignment.ttl           - alignment to DCAT, MLDCAT-AP, ODRL, PROV-O, DSP + external term declarations
 ├── shapes/
-│   └── daimo-shapes.ttl        - 10 completeness shapes + 4 cross-class invariants (SHACL-SPARQL)
+│   └── daimo-shapes.ttl        - 9 completeness shapes + 3 conformance shapes + 6 cross-class invariants
 ├── examples/
 │   └── flood-risk-scenario.ttl - UPM / Leganés / INESData running scenario KG
 ├── queries/
 │   └── queries.md              - 23 SPARQL CQ queries
 ├── tests/
-│   ├── negative-examples.ttl   - 4-case deliberately-violating KG
+│   ├── negative-examples.ttl   - 6-case deliberately-violating KG
 │   └── negative_test.py        - harness that asserts invariants fire on violations
 ├── ORSD/
 │   └── daimo-cqs.md            - 23 natural-language CQs with actor / inference / source
@@ -33,16 +33,22 @@ daimo/
 │   ├── validation-results.md   - SHACL + CQ SPARQL run
 │   ├── reasoner-report.md      - HermiT + OWL-RL + entailment check
 │   ├── oops-report.md          - OOPS! pitfall scan
-│   └── negative-test-results.md - negative-test harness run
+│   ├── negative-test-results.md - negative-test harness run
+│   └── scalability-benchmark.md - bounded scalability benchmark
 ├── w3id-redirect/
 │   └── .htaccess               - redirect config for w3id.org PR (see DEPLOYMENT.md)
 ├── validate.py                 - SHACL + CQ SPARQL with OWL-RL materialisation
 ├── reasoner_check.py           - HermiT + OWL-RL + entailment-verification check
 ├── oops_check.py               - OOPS! REST-API client
 ├── tests/negative_test.py      - cross-class invariant negative tests
+├── scalability_benchmark.py    - synthetic growth benchmark for 100/1000+ exchange units
 ├── CITATION.cff                - citation metadata
 ├── .zenodo.json                - Zenodo deposit metadata
 ├── CHANGELOG.md                - version history
+├── REPRODUCIBILITY.md          - exact local replay procedure for reviewers
+├── FAIR-PUBLICATION-CHECKLIST.md - w3id / GitHub Pages / Zenodo closure list
+├── EXPERT-VALIDATION-PROTOCOL.md - protocol for the required human expert review
+├── STANDARD-IMPACT-NOTE.md     - MLDCAT-AP 3.1.0 / DSP 2025-1 final checks
 ├── CONTRIBUTING.md             - contribution guidelines (LOT Phase 4)
 ├── DEPLOYMENT.md               - step-by-step deploy runbook for w3id / Pages / Zenodo
 └── README.md
@@ -87,6 +93,7 @@ python3 -m venv .venv
 .venv/bin/python reasoner_check.py             # HermiT + OWL-RL + entailment verification
 .venv/bin/python oops_check.py                 # OOPS! pitfall scan (POSTs to oops.linkeddata.es)
 .venv/bin/python tests/negative_test.py        # cross-class invariant negative tests
+.venv/bin/python scalability_benchmark.py --sizes 100 1000
 ```
 
 Reports are written to [reports/](reports/). Latest status:
@@ -96,7 +103,8 @@ Reports are written to [reports/](reports/). Latest status:
 | SHACL + CQ SPARQL | `conforms=True`, **23/23 CQs pass** ([reports/validation-results.md](reports/validation-results.md)) |
 | Reasoner + entailment | HermiT consistent, 0 unsatisfiable, **0 forbidden-entailment warnings** ([reports/reasoner-report.md](reports/reasoner-report.md)) |
 | OOPS! pitfalls | **0 Critical, 0 Important**, 2 Minor ([reports/oops-report.md](reports/oops-report.md)) |
-| Negative invariant tests | **4/4 invariants fire on designated focus nodes** ([reports/negative-test-results.md](reports/negative-test-results.md)) |
+| Negative invariant tests | **6/6 invariants fire on designated focus nodes** ([reports/negative-test-results.md](reports/negative-test-results.md)) |
+| Bounded scalability | **100/1000 synthetic exchange units conform**; 80,053 data triples at 1,000 units; SPARQL suite 0.363s ([reports/scalability-benchmark.md](reports/scalability-benchmark.md)) |
 
 ## Competency questions
 
@@ -124,8 +132,8 @@ The Spanish draft paper (`../daimo-paper-es.pdf`) claims 19 CQs and validates
   reasoning rather than pure property retrieval,
 - runs all 23 as executable SPARQL over a conforming example KG (with
   OWL-RL materialised closure so entailed triples are reachable),
-- enforces minimum completeness with 10 SHACL shapes **and** four
-  cross-class governance invariants (INV-1..INV-4, all tested positively
+- enforces minimum completeness with 9 structural shapes, 3 conformance
+  shapes **and** six cross-class governance invariants (INV-1..INV-6, all tested positively
   and negatively).
 
 ## Publication status
@@ -147,11 +155,18 @@ The Spanish draft paper (`../daimo-paper-es.pdf`) claims 19 CQs and validates
 
 The design rationale and realignment from the current paper are in `../daimo-ontology-design.md`.
 
+Submission-preparation documents:
+
+- [REPRODUCIBILITY.md](REPRODUCIBILITY.md) — exact local replay procedure.
+- [FAIR-PUBLICATION-CHECKLIST.md](FAIR-PUBLICATION-CHECKLIST.md) — public release closure.
+- [EXPERT-VALIDATION-PROTOCOL.md](EXPERT-VALIDATION-PROTOCOL.md) — human expert review package.
+- [STANDARD-IMPACT-NOTE.md](STANDARD-IMPACT-NOTE.md) — MLDCAT-AP 3.1.0 and DSP 2025-1 checks.
+
 ## Open items
 
 - Replace placeholder ORCIDs in the ontology header with the authors' real identifiers.
 - Register the `w3id.org/pionera/daimo` redirect.
-- Generate HTML documentation with WIDOCO.
+- Regenerate HTML documentation with WIDOCO after the v0.1.6 ontology cleanup.
 - Deposit a tagged release on Zenodo for a DOI.
-- Run OOPS! pitfall scan and save the report.
+- Re-run OOPS! pitfall scan immediately before final submission and save the report.
 - Conduct light expert interviews with one EDC / MLOps / data-space governance stakeholder (LOT phase 1 requirement validation).

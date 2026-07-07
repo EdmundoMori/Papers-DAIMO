@@ -31,9 +31,9 @@ Presentation pattern: hybrid of RePlanIT (category/lifecycle) + Explanation Onto
 | Code | Actor | Question | SPARQL | Inference | Source |
 |---|---|---|---|---|---|
 | CQ-R1 | MP | Which AI models has a given provider published as governed catalog assets? | `CQ-R1.rq` | N | paper §3.1 Table 2 |
-| CQ-R2 | MP | For a given model, which catalog offering registered it, by which provider, and when was the registration issued? | `CQ-R2.rq` | **Y (subPropertyOf chain: daimo:offersModel ⊑ foaf:primaryTopic; daimo:offeredBy remains direct by design)** | paper §3.1 Table 2 |
+| CQ-R2 | MP | For a given model, which catalog offering registered it, by which publisher, and when was the registration issued? | `CQ-R2.rq` | **Y (subPropertyOf chain: daimo:offersModel ⊑ foaf:primaryTopic, daimo:offeredBy ⊑ dct:publisher)** | paper §3.1 Table 2 |
 | CQ-R3 | MP | Which licence and usage policy apply to a published model? | `CQ-R3.rq` | N | paper §3.1 |
-| CQ-R4 | MP | What I/O contract is declared for the invocation interface of a published model? | `CQ-R4.rq` | N | paper §3.1 |
+| CQ-R4 | MP | What I/O contract is declared for the invocation interface of a published model? | `CQ-R4.rq` | N | paper §3.1 (unimplemented in current artefact, Table 7 lists 4 R-queries) |
 | CQ-R5 | MP | For each offering, what concrete ParticipantRole subclass does the providing agent hold? | `CQ-R5.rq` | **Y (rdfs:subClassOf+ path)** | paper §3.1 |
 
 ### D — Discovery and Selection (4)
@@ -45,11 +45,6 @@ Presentation pattern: hybrid of RePlanIT (category/lifecycle) + Explanation Onto
 | CQ-D3 | MC | Which models expose a service endpoint, and what authentication method does each require? | `CQ-D3.rq` | N (parametrised — auth method is returned, not hard-coded) | paper §3.1 |
 | CQ-D4 | MC | Which of those models reach a minimum metric threshold under a shared evaluation context? | `CQ-D4.rq` | N | paper §5.1 |
 
-Scope note: the discovery questions concern AI model assets, not discovery of
-data models, payload schemas, or sector vocabularies. Schema-level compatibility
-can be linked through `IOContract` schema references or future
-`daimo-discovery` profiles, but it is not a core DAIMO competency question.
-
 ### E — Execution and Auditability (5)
 
 | Code | Actor | Question | SPARQL | Inference | Source |
@@ -59,17 +54,6 @@ can be linked through `IOContract` schema references or future
 | CQ-E3 | PO | For a given run, what implementation, algorithm, flow, and compute infrastructure were used? | `CQ-E3.rq` | N | paper §5.2 |
 | CQ-E4 | GA | What audit evidence (hash, signer, timestamp) supports a given run? | `CQ-E4.rq` | N | paper §5.2 |
 | CQ-E5 | PO | What derived artefacts were produced by a given run and under which execution authorisation? | `CQ-E5.rq` | N | new, enabled by `daimo:DerivedArtifact` |
-
-Scope note: the execution questions describe governed invocations and their
-evidence chain. They do not require DAIMO to implement a federated execution
-engine, container orchestrator, connector runtime, or TEE model. Such runtime
-properties can be attached through infrastructure metadata, ODRL duties, or
-dataspace-specific profiles when required by a deployment.
-Invocation is intentionally reconstructed through offering, deployment, service,
-I/O contract, execution authorisation, and `it6:Run`; no direct `isInvokedBy`
-property or `AIModelEntity` service class is required in the core. Deep
-alignment of input/output schemas, units, and sector-specific data types belongs
-to `IOContract`-based profiles or dataspace-specific SHACL shapes.
 
 ### V — Evaluation and Reproducibility (5)
 
@@ -81,20 +65,6 @@ to `IOContract`-based profiles or dataspace-specific SHACL shapes.
 | CQ-V4 | EV | For a given model, which benchmark suites has it been evaluated on? | `CQ-V4.rq` | N (parametrised on a specific model) | paper §3.1 |
 | CQ-V5 | EV | What reproducibility artefacts (flow, notebook, result table, checksum) back a given evaluation? | `CQ-V5.rq` | N | paper §5.3 |
 
-Bias/fairness note: bias scores, fairness metrics, subgroup-performance
-disparity, and last-audit measurements can be represented as evaluation
-measures under a `SharedEvaluationContext` when the scenario supplies them.
-Protected attributes, mitigation techniques, and formal bias-audit workflows
-are not mandatory DAIMO core terms; they belong to compliance or domain
-profiles.
-
-Benchmarking scope note: CQs V2 and V3 assume that compared evaluations use the
-same metric definition, unit, and calculation procedure. DAIMO represents the
-shared task, dataset version, protocol, seed, and referenced metric; it does not
-normalise metric formulae or prove mathematical equivalence between results
-computed by different benchmark protocols. Such definitions belong to metric or
-protocol profiles.
-
 ### G — Governance Bridge (4, new)
 
 Enabled by the dataspace-bridge classes introduced in [daimo-ontology-design.md](../../daimo-ontology-design.md). These CQs are the ones that justify DAIMO being more than MLDCAT-AP.
@@ -103,15 +73,8 @@ Enabled by the dataspace-bridge classes introduced in [daimo-ontology-design.md]
 |---|---|---|---|---|---|
 | CQ-G1 | MC | Which offerings in the federated catalog include a given model? | `CQ-G1.rq` | N | new, enabled by `daimo:AIAssetOffering` |
 | CQ-G2 | PO | Which deployments serve a given model, on what infrastructure, and with what I/O contract? | `CQ-G2.rq` | N | new, enabled by `daimo:ModelDeployment` |
-| CQ-G3 | GA | Which execution authorisation (and the agreement it derives from) authorised a specific run? | `CQ-G3.rq` | N (direct DAIMO query; the class alignment makes the result interpretable as ODRL) | new, enabled by `daimo:ExecutionAuthorization` |
+| CQ-G3 | GA | Which execution authorisation (and the agreement it derives from) authorised a specific run? | `CQ-G3.rq` | Y (subClass reasoning) | new, enabled by `daimo:ExecutionAuthorization` |
 | CQ-G4 | GA | Across participant contexts, what is the full provenance bundle for a derived artefact? | `CQ-G4.rq` | Y (aggregation via GROUP_CONCAT) | new, enabled by `daimo:CrossParticipantProvenanceRecord` |
-
-Governance scope note: legal ownership, developer identity, licences, deployed
-versions, training or validation datasets, consumers of derived artefacts, and
-regulatory conformance are covered through the R/E/V/G questions plus reused
-MLDCAT-AP, DCAT, ODRL, and PROV-O constructs. Authority to modify
-hyperparameters, certification workflows, and detailed compliance controls are
-policy-profile concerns rather than additional core CQs.
 
 ## CQ count recap
 

@@ -1,7 +1,7 @@
 ========================================================================
 DAIMO negative-test harness (cross-class invariants)
 ========================================================================
-Ontology triples: 592
+Ontology triples: 593
 Shape triples   : 342
 Negative triples: 118
 

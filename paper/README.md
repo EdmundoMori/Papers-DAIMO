@@ -9,6 +9,10 @@ from [`../daimo-paper-es.pdf`](../daimo-paper-es.pdf) on 2026-04-22.
 |---|---|
 | `daimo-paper-es.txt` | Raw text extracted by `pdftotext -layout` from the PDF (reference only, do not edit) |
 | `daimo-paper-es.tex` | **The editable LaTeX source** |
+| `daimo-paper-es-v4.tex` | Spanish master version for internal scientific review |
+| `daimo-paper-en-swj-v4.tex` | English SWJ working version derived from the Spanish v4 master |
+| `SWJ-SUBMISSION-CHECKLIST.md` | Submission checklist based on SWJ/Sage author instructions |
+| `SWJ-COVER-LETTER-DRAFT.md` | Draft cover letter with placeholders for author-only information |
 | `Makefile` | Build targets (`make`, `make clean`, `make distclean`) |
 
 ## What this file currently is

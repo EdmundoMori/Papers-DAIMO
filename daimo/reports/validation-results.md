@@ -7,7 +7,7 @@ Shape files    : ['daimo-shapes.ttl']
 Example files  : ['flood-risk-scenario.ttl']
 
 [1/3] Parsing Turtle files ...
-  ontology triples : 592
+  ontology triples : 593
   shape triples    : 342
   data triples     : 225
 

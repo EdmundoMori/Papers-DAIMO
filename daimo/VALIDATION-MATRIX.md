@@ -1,7 +1,7 @@
 # DAIMO Validation Matrix
 
-Version: **0.1.5**
-Date: 2026-04-23
+Version: **0.1.6**
+Date: 2026-07-07
 Latest run: [reports/](reports/)
 
 This matrix is the **requirements-to-evidence traceability** for DAIMO. Every
@@ -37,7 +37,7 @@ outcome.
 | C1 | Scope explicit and bounded | **Pass** | [ONTOLOGY-REFERENCE.md](ONTOLOGY-REFERENCE.md) — five lifecycle stages, nine native classes, explicit non-goals |
 | C2 | Methodology named and followed | **Pass** | [LOT](https://lot.linkeddata.es/) + phase mapping in [../daimo-lot-methodology-mapping.md](../daimo-lot-methodology-mapping.md) |
 | C3 | CQs stated in natural language, numbered, grouped | **Pass** | [ORSD/daimo-cqs.md](ORSD/daimo-cqs.md) — 23 CQs, 5 categories |
-| C4 | Reuse axiomatised | **Pass** | [ontology/alignment.ttl](ontology/alignment.ttl) — 7 class subsumptions, 6 property subsumptions, with three intentionally dropped alignments documented |
+| C4 | Reuse axiomatised | **Pass** | [ontology/alignment.ttl](ontology/alignment.ttl) — 8 external class subsumptions and 5 external property subsumptions; the combined source modules expose 6 DAIMO-to-external subproperty declarations because `hasOffering ⊑ foaf:isPrimaryTopicOf` is declared in the core |
 | C5 | Reasoner consistency | **Pass** | [reports/reasoner-report.md](reports/reasoner-report.md) — HermiT 0 unsat, OWL-RL 0 forbidden entailments |
 | C6 | OOPS! scan | **Pass** | [reports/oops-report.md](reports/oops-report.md) — 0 Critical, 0 Important |
 | C7 | SHACL structural conformance | **Pass** | [reports/validation-results.md](reports/validation-results.md) — **9 per-class shapes + 3 conformance shapes + 6 cross-class SHACL-SPARQL invariants** (all conform on the positive KG); SHACL module itself declared as `owl:Ontology` at `https://w3id.org/pionera/daimo/shapes` since v0.1.4 |
@@ -51,7 +51,7 @@ outcome.
 
 ## 2. Validation layers
 
-Nine independent checks. Each has a single script or tool, a known input set, a known output format, and a pass criterion.
+Ten independent checks. Each has a single script or tool, a known input set, a known output format, and a pass criterion.
 
 | Layer | Checks | Script / tool | Report | Pass criterion |
 |---|---|---|---|---|
@@ -61,9 +61,10 @@ Nine independent checks. Each has a single script or tool, a known input set, a 
 | L4 | **Entailment verification** | Custom check in [reasoner_check.py](reasoner_check.py) | same | 0 forbidden-superclass entailments for 14 DAIMO classes |
 | L5 | Pitfall scan | OOPS! REST API in [oops_check.py](oops_check.py) | [reports/oops-report.md](reports/oops-report.md) | 0 Critical, 0 Important |
 | L6 | SHACL structural conformance | `pyshacl` in [validate.py](validate.py) | [reports/validation-results.md](reports/validation-results.md) | `conforms=True` on the positive KG |
-| L7 | SHACL-SPARQL cross-class invariants | same run | same | all 4 invariants satisfied on the positive KG |
-| L8 | **Negative-test harness** | [tests/negative_test.py](tests/negative_test.py) | [reports/negative-test-results.md](reports/negative-test-results.md) | all 4 invariants fire on the designated negative focus nodes |
+| L7 | SHACL-SPARQL cross-class invariants | same run | same | all 6 invariants satisfied on the positive KG |
+| L8 | **Negative-test harness** | [tests/negative_test.py](tests/negative_test.py) | [reports/negative-test-results.md](reports/negative-test-results.md) | all 6 invariants fire on the designated negative focus nodes |
 | L9 | CQ-answering SPARQL | [validate.py](validate.py) post OWL-RL closure | [reports/validation-results.md](reports/validation-results.md) | 23/23 queries return ≥1 row |
+| L10 | **Bounded scalability** | [scalability_benchmark.py](scalability_benchmark.py) | [reports/scalability-benchmark.md](reports/scalability-benchmark.md) | 100 and 1,000 synthetic exchange units conform; SPARQL suite remains below 1s at 1,000 units |
 
 ---
 
@@ -79,9 +80,10 @@ python3 -m venv .venv
 .venv/bin/python reasoner_check.py   # L2 + L3 + L4
 .venv/bin/python oops_check.py       # L5
 .venv/bin/python tests/negative_test.py   # L8
+.venv/bin/python scalability_benchmark.py --sizes 100 1000   # L10
 ```
 
-All four scripts exit 0 iff their layer passes. Exit-code composition is a clean gate: if all four return 0, the ontology passes every layer.
+All five scripts exit 0 iff their layer passes. Exit-code composition is a clean gate: if all five return 0, the ontology passes every layer.
 
 Latest run timestamps are in the respective report files under `reports/`.
 
@@ -100,6 +102,8 @@ Non-functional requirements declared in [ORSD/daimo-cqs.md](ORSD/daimo-cqs.md).
 | Every DAIMO term reuse-first-justified | Every class comment in the TTL explains the gap being filled | [ontology/daimo-core.ttl](ontology/daimo-core.ttl) + [ONTOLOGY-REFERENCE.md](ONTOLOGY-REFERENCE.md) §2 |
 | Machine-readable metadata completeness | WIDOCO HTML renders `dct:title`, `dct:description`, `dct:license`, `dct:issued`, `dct:modified`, `owl:versionIRI` | [docs/index-en.html](docs/index-en.html) header block |
 | Axiomatic alignment (not just prefix listing) | Every external subsumption is a triple in [alignment.ttl](ontology/alignment.ttl), reachable by reasoning | L2+L3+L4 reports; all alignments survived the entailment-verification check after v0.1.1 fixes |
+| Bounded scalability | Synthetic conforming graphs scale the number of governed exchange instances while keeping the core ontology fixed | L10 report: 1,000 units, 80,053 data triples, SHACL conforms, OWL-RL 53.672s, SHACL 135.010s, SPARQL suite 0.356s |
+| Modularity and extensibility | Core, alignment, shapes, examples, queries, and tests are separate artefacts; SemVer and deprecation policy are documented | [CHANGELOG.md](CHANGELOG.md), [CONTRIBUTING.md](CONTRIBUTING.md), [ONTOLOGY-REFERENCE.md](ONTOLOGY-REFERENCE.md), [DEPLOYMENT.md](DEPLOYMENT.md) |
 
 ---
 
@@ -135,7 +139,7 @@ These three shapes are the reason DAIMO is called a *profile*: they specify obli
 
 ## 6. Property × Evidence matrix
 
-Every DAIMO-native property (21 object + 10 datatype) is exercised by at least one SPARQL CQ query. The table below lists the CQ that is the *primary* exercise of each property (many properties are traversed by multiple CQs; see [ONTOLOGY-REFERENCE.md](ONTOLOGY-REFERENCE.md) §9 for the complete map).
+The core declares 29 object properties and 8 datatype properties. The table below lists the CQ that is the *primary* exercise of each property when the current CQ suite traverses it; inverse-navigation helpers and optional schema links are documented explicitly instead of being counted as CQ-critical evidence (see [ONTOLOGY-REFERENCE.md](ONTOLOGY-REFERENCE.md) §9 for the complete map).
 
 ### 6.1 Object properties
 
@@ -147,6 +151,7 @@ Every DAIMO-native property (21 object + 10 datatype) is exercised by at least o
 | `daimo:hasRole` | R5 | — |
 | `daimo:inParticipantContext` | R5 | G4 (via spansParticipantContext) |
 | `daimo:deploysModel` | E1 | E2, D3, G2 |
+| `daimo:hasDeployment` | inverse helper | inverse of `deploysModel`; not required by current CQ set |
 | `daimo:exposedAs` | E1 | D3, G2 |
 | `daimo:onInfrastructure` | E3 | G2 |
 | `daimo:hasIOContract` | E1 | R4, D3, G2 |
@@ -154,16 +159,21 @@ Every DAIMO-native property (21 object + 10 datatype) is exercised by at least o
 | `daimo:authorizedBy` | E2 (inverse path) | — |
 | `daimo:grantedTo` | E2 | G3 |
 | `daimo:derivedFromRun` | E5 | G4 |
+| `daimo:hasDerivedArtifact` | inverse helper | inverse of `derivedFromRun`; not required by current CQ set |
 | `daimo:underAuthorization` | E5 | — |
 | `daimo:spansParticipantContext` | G4 | — |
 | `daimo:records` | G4 | — |
 | `daimo:evidenceOf` | E4 | — |
+| `daimo:hasAuditEvidence` | inverse helper | inverse of `evidenceOf`; not required by current CQ set |
 | `daimo:signedBy` | E4 | — |
 | `daimo:integrityHash` | E4 | — |
+| `daimo:hasOffering` | inverse helper | inverse of `offersModel` and subproperty of `foaf:isPrimaryTopicOf` |
 | `daimo:usesEvaluationContext` | V1 | V2, V3 |
 | `daimo:contextTask` | V1 | — |
 | `daimo:contextDataset` | V1 | — |
 | `daimo:contextFlow` | V5 | — |
+| `daimo:inputSchema` | optional schema link | object property to `dcat:Resource`; unused in current example KG |
+| `daimo:outputSchema` | optional schema link | object property to `dcat:Resource`; unused in current example KG |
 
 ### 6.2 Datatype properties
 
@@ -172,8 +182,6 @@ Every DAIMO-native property (21 object + 10 datatype) is exercised by at least o
 | `daimo:inputFormat` | R4, E1, D3 | `"application/json"` |
 | `daimo:outputFormat` | R4, E1, D3 | `"application/geo+json"` |
 | `daimo:authMethod` | R4, E1, D3 | `"oauth2-bearer"` |
-| `daimo:inputSchema` | — (optional) | *(unused in example KG)* |
-| `daimo:outputSchema` | — (optional) | *(unused in example KG)* |
 | `daimo:recordedAt` | E4 | `"2026-04-20T08:03:00Z"^^xsd:dateTime` |
 | `daimo:expiresAt` | G3 | `"2027-04-20T00:00:00Z"^^xsd:dateTime` |
 | `daimo:protocol` | V1 | `"holdout"` |
@@ -189,9 +197,9 @@ Every DAIMO-native property (21 object + 10 datatype) is exercised by at least o
 | `AllDisjointClasses(9 top-level DAIMO classes)` | HermiT accepts (no contradictions); entailment check shows none of the 9 classes is inferred to be an instance of another | L2 + L4 |
 | 27 `owl:FunctionalProperty` declarations (19 object, 8 datatype) | Functional object properties whose domain is a DAIMO class with a node shape (e.g., `AIAssetOffering`, `ModelDeployment`, `DerivedArtifact`) are paired with `sh:maxCount 1` in that shape; functionality of external-domain DAIMO properties (e.g., `daimo:usesEvaluationContext` on `it6:Evaluation`) is enforced only via the OWL `owl:FunctionalProperty` declaration, since no DAIMO shape targets the external class. SHACL passes on the positive KG. | L6 + L2 |
 | `daimo:authorizedBy owl:inverseOf daimo:authorizesRun` | Round-trip: given a run in the example KG, `SELECT ?auth WHERE { ?run daimo:authorizedBy ?auth }` returns the same agreement as `SELECT ?auth WHERE { ?auth daimo:authorizesRun ?run }` | Manual query verification; CQ-E2 uses the direct direction |
-| 7 `rdfs:subClassOf` alignments | Entailment-verification check: each DAIMO class resolves to exactly its expected superclass set; 0 forbidden entailments | L4 |
-| 6 `rdfs:subPropertyOf` alignments | SubPropertyOf chains materialised by OWL-RL; CQ-R2 and CQ-E1 specifically exercise `offersModel ⊑ foaf:primaryTopic` | L3 + L9 |
-| 3 deliberately-dropped alignments (authorizesRun, grantedTo, evidenceOf, contextDataset, contextFlow) | Each documented with `rdfs:comment` in [daimo-core.ttl](ontology/daimo-core.ttl) explaining the semantic reason; entailment check confirms no unintended inferences | L4 |
+| 8 external `rdfs:subClassOf` alignments in `alignment.ttl` | Entailment-verification check: each DAIMO class resolves to exactly its expected superclass set; 0 forbidden entailments | L4 |
+| 5 external `rdfs:subPropertyOf` alignments in `alignment.ttl` plus 1 inverse-side alignment in `daimo-core.ttl` | SubPropertyOf chains materialised by OWL-RL; CQ-R2 and CQ-E1 specifically exercise `offersModel ⊑ foaf:primaryTopic` | L3 + L9 |
+| 7 documented non-alignments (`offeredBy`, `authorizesRun`, `grantedTo` to PROV, `evidenceOf`, `contextDataset`, `contextFlow`, `datasetVersion`) | Each documented with `rdfs:comment` or alignment-module rationale explaining the semantic reason; entailment check confirms no unintended inferences | L4 |
 | 3 SKOS informative mappings to DSP | Not intended to entail; verified by visual inspection of alignment.ttl | N/A |
 
 ---
@@ -205,13 +213,13 @@ All 23 CQs validated by L9. Each CQ has a natural-language statement, a SPARQL b
 | R1 | Registration | Model Provider | no | 1 | PASS rows=3 |
 | R2 | Registration | Model Provider | subPropertyOf chain | 1 | PASS rows=1 |
 | R3 | Registration | Model Provider | no | 1 | PASS rows=1 |
-| R4 | Registration | Model Provider | no | 1 | PASS rows=1 |
+| R4 | Registration | Model Provider | no | 1 | PASS rows=2 |
 | R5 | Registration | Model Provider | subClassOf path | 1 | PASS rows=2 |
 | D1 | Discovery | Model Consumer | no | 1 | PASS rows=3 |
 | D2 | Discovery | Model Consumer | no (negation-as-failure) | 1 | PASS rows=2 |
-| D3 | Discovery | Model Consumer | no | 1 | PASS rows=1 |
+| D3 | Discovery | Model Consumer | no | 1 | PASS rows=4 |
 | D4 | Discovery | Model Consumer | numeric filter | 1 | PASS rows=1 |
-| E1 | Execution | Platform Operator | subPropertyOf chain | 1 | PASS rows=1 |
+| E1 | Execution | Platform Operator | subPropertyOf chain | 1 | PASS rows=4 |
 | E2 | Execution | Platform Operator | join | 1 | PASS rows=1 |
 | E3 | Execution | Platform Operator | no | 1 | PASS rows=2 |
 | E4 | Execution | Governance Actor | no | 1 | PASS rows=1 |
@@ -222,8 +230,8 @@ All 23 CQs validated by L9. Each CQ has a natural-language statement, a SPARQL b
 | V4 | Evaluation | Evaluator | no | 1 | PASS rows=1 |
 | V5 | Evaluation | Evaluator | no | 1 | PASS rows=4 |
 | G1 | Governance | Model Consumer | no | 1 | PASS rows=1 |
-| G2 | Governance | Platform Operator | no | 1 | PASS rows=1 |
-| G3 | Governance | Governance Actor | subClassOf | 1 | PASS rows=1 |
+| G2 | Governance | Platform Operator | no | 1 | PASS rows=2 |
+| G3 | Governance | Governance Actor | direct DAIMO--ODRL bridge | 1 | PASS rows=1 |
 | G4 | Governance | Governance Actor | aggregation (GROUP_CONCAT) | 1 | PASS rows=1 |
 
 **Totals**: 23 CQs defined, 23 with SPARQL bindings, 23/23 return ≥1 row on the current example KG.
@@ -272,7 +280,7 @@ Open each file in [reports/](reports/) and cross-check against the pass criteria
 
 ### Step 4 — verify a specific claim
 - *"The three bug-fix alignments are correct"* → open [reports/reasoner-report.md](reports/reasoner-report.md) §Entailment-verification, confirm `daimo:ExecutionAuthorization` is inferred as `odrl:Agreement` and NOT as `prov:Activity`.
-- *"Four invariants actually catch violations"* → open [reports/negative-test-results.md](reports/negative-test-results.md), confirm four focus-node-matched violations.
+- *"Six invariants actually catch violations"* → open [reports/negative-test-results.md](reports/negative-test-results.md), confirm six focus-node-matched violations.
 - *"CQ-G4 does not combinatorially explode"* → open [queries/queries.md](queries/queries.md) §CQ-G4, confirm `GROUP BY ?bundle`; run and confirm 1 row returned.
 - *"Integrity hashes carry their algorithm"* → open [examples/flood-risk-scenario.ttl](examples/flood-risk-scenario.ttl), search for `ex:audit-run-legs`, confirm the `daimo:integrityHash` points to a blank-node `spdx:Checksum` with `spdx:algorithm` and `spdx:checksumValue`.
 - *"ODRL offers carry a target"* → search the same file for `ex:flood-risk-policy`, confirm `odrl:target` and `odrl:assigner` are present.
@@ -284,9 +292,9 @@ Compare:
 - Paper §6.3 says "HermiT consistent, 0.58 s, 0 unsatisfiable" → [reports/reasoner-report.md](reports/reasoner-report.md) HermiT section.
 - Paper §6.4 says "0 forbidden-entailment warnings" → same report, Entailment section.
 - Paper §6.5 says "OOPS! 0 Critical, 0 Important" → [reports/oops-report.md](reports/oops-report.md).
-- Paper §6.7 says "4/4 invariants fire on designated focus nodes" → [reports/negative-test-results.md](reports/negative-test-results.md).
+- Paper §6.7 says "6/6 invariants fire on designated focus nodes" → [reports/negative-test-results.md](reports/negative-test-results.md).
 
-Every numeric claim in the paper is traceable to a line in a report produced by one of the four scripts.
+Every numeric claim in the paper is traceable to a line in a report produced by one of the five scripts.
 
 ---
 

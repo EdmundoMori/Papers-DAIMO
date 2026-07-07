@@ -131,6 +131,7 @@ Nine top-level classes plus five ParticipantRole subclasses, total **fourteen DA
 - **Deliberate design choices**:
   - **Subclass of `prov:Entity`** rather than `prov:Activity`. A deployment is both the *instance* (an entity with identity) and a *process* (serving requests). The Entity view enables identification; the Activity view is not modelled. Trade-off acknowledged.
   - **`daimo:exposedAs` and `daimo:hasIOContract` are non-functional** so multi-endpoint deployments (REST + gRPC) can be expressed with one deployment instance.
+  - **Runtime enforcement is out of core scope**. `ModelDeployment` records where a model is invocable and how it is exposed, but it does not prescribe connector runtime, container orchestration, neutral-node placement, or TEE implementation. Those details can be attached to `it6:ComputerInfrastructure`, `dcat:DataService`, ODRL duties, or deployment-specific profiles.
 
 ---
 
@@ -146,7 +147,7 @@ Nine top-level classes plus five ParticipantRole subclasses, total **fourteen DA
 - **Answers CQs**: CQ-R4, CQ-D3, CQ-E1, CQ-G2.
 - **Deliberate design choices**:
   - **No external alignment**. No reused vocabulary covers "machine-actionable invocation contract". OpenAPI/JSON-Schema are out-of-band; DCAT's `endpointURL` is too shallow. Stand-alone class is justified.
-  - **Intentionally shallow** (four properties). Rich semantic compatibility is future work (see §7.3 of the design rationale).
+  - **Intentionally shallow**. `IOContract` records media formats, authentication, and optional schema links; it does not validate semantic data alignment, units of measurement, sector-specific datatypes, or output semantics by itself. Those constraints belong in `IOContract`-based profiles or dataspace-specific SHACL shapes.
 
 ---
 
@@ -221,7 +222,7 @@ Nine top-level classes plus five ParticipantRole subclasses, total **fourteen DA
 - **Answers CQs**: CQ-V1, CQ-V2, CQ-V3, CQ-V5.
 - **Deliberate design choices**:
   - **No external alignment**. MLDCAT-AP has `it6:Task`, `it6:EstimationProcedure`, `it6:Split`, but no single reified grouping. `SharedEvaluationContext` is a genuine DAIMO-native primitive.
-  - **Intentionally does not cover every facet** of comparability. Metric, split strategy, hyperparameter settings could also affect comparability; current set is the minimum required by CQ-V1..CQ-V3. Documented limitation.
+  - **Intentionally does not cover every facet** of comparability. Metric definitions, units, calculation procedures, split strategy, hyperparameter settings, and hardware can also affect comparability; the current set is the minimum required by CQ-V1..CQ-V3. Metric or protocol profiles should carry stricter mathematical definitions when a dataspace requires them.
 
 ---
 
@@ -264,13 +265,15 @@ non-functional.
 | `daimo:hasAuditEvidence` | prov:Activity | daimo:AuditEvidence | | | `owl:inverseOf daimo:evidenceOf`. Added v0.1.4. |
 | `daimo:hasOffering` | it6:MachineLearningModel | daimo:AIAssetOffering | | | `owl:inverseOf daimo:offersModel`. Added v0.1.4. |
 
-### Why three subPropertyOf alignments were deliberately dropped
+### Documented non-alignments
 
-- **`daimo:authorizesRun` ⊄ `prov:used`** — prov:used has domain `prov:Activity`, which would wrongly type ExecutionAuthorization (an odrl:Agreement, i.e., Entity) as an Activity.
-- **`daimo:evidenceOf` ⊄ `prov:hadActivity`** — prov:hadActivity is used on reified influence objects, not on Entities. AuditEvidence is an Entity *about* an Activity; PROV has no direct property for this.
-- **`daimo:grantedTo` ⊄ `prov:qualifiedAssociation`** — qualifiedAssociation ranges over a reified Association object, not the agent. Correct alignment is `odrl:assignee` only.
+- **`daimo:offeredBy` ⊄ `dct:publisher`** — on a `dcat:CatalogRecord`, `dct:publisher` denotes the catalog or record maintainer, not necessarily the model provider.
+- **`daimo:authorizesRun` ⊄ `prov:used`** — `prov:used` has domain `prov:Activity`, which would wrongly type ExecutionAuthorization (an `odrl:Agreement`, i.e., Entity) as an Activity.
+- **`daimo:evidenceOf` ⊄ `prov:hadActivity`** — `prov:hadActivity` is used on reified influence objects, not on Entities. AuditEvidence is an Entity *about* an Activity; PROV has no direct property for this.
+- **`daimo:grantedTo` ⊄ `prov:qualifiedAssociation`** — `qualifiedAssociation` ranges over a reified Association object, not the agent. Correct alignment is `odrl:assignee` only.
+- **`daimo:contextDataset` ⊄ `it6:hasDataset`**, **`daimo:contextFlow` ⊄ `it6:hasFlow`**, and **`daimo:datasetVersion`** has no external subproperty — the evaluation context fixes comparison conditions, not the internal structure of an MLDCAT-AP flow.
 
-All three were removed after the entailment-verification check detected silent class-pollution in v0.1.0.
+The PROV-oriented candidates were removed after the entailment-verification check detected silent class pollution in v0.1.0. The remaining non-alignments are documented to avoid attribution errors and over-committing DAIMO's evaluation context to implementation-specific ML workflow semantics.
 
 ---
 
@@ -289,7 +292,7 @@ All three were removed after the entailment-verification check detected silent c
 | `daimo:expiresAt` | daimo:ExecutionAuthorization | xsd:dateTime | | Expiry timestamp. Compared to run `prov:startedAtTime` by INV-4. |
 | `daimo:protocol` | daimo:SharedEvaluationContext | xsd:string | | Protocol name: `holdout`, `5-fold-cv`, `bootstrap-1000`. |
 | `daimo:randomSeed` | daimo:SharedEvaluationContext | xsd:integer | | Seed value. |
-| `daimo:datasetVersion` | daimo:SharedEvaluationContext | xsd:string | dct:hasVersion | Version identifier of the evaluation dataset. |
+| `daimo:datasetVersion` | daimo:SharedEvaluationContext | xsd:string | *(none)* | Literal version identifier of the evaluation dataset. Not aligned to `dct:hasVersion`, which links resources rather than literal version tokens. |
 
 ---
 
@@ -347,8 +350,13 @@ daimo:hasOfferPolicy  rdfs:subPropertyOf odrl:hasPolicy .
 daimo:grantedTo       rdfs:subPropertyOf odrl:assignee .
 daimo:derivedFromRun  rdfs:subPropertyOf prov:wasGeneratedBy .
 daimo:contextTask     rdfs:subPropertyOf it6:hasTask .
-daimo:datasetVersion  rdfs:subPropertyOf dct:hasVersion .
 ```
+
+`daimo:hasOffering rdfs:subPropertyOf foaf:isPrimaryTopicOf` is declared in
+`daimo-core.ttl`, not in `alignment.ttl`, because it is the inverse-side
+accessor for `daimo:offersModel`. Therefore `alignment.ttl` contains five
+property-level alignments, while the combined source modules contain six
+DAIMO-subject `rdfs:subPropertyOf` declarations to external vocabularies.
 
 ### 6.3 Informative `skos:related` / `skos:closeMatch` mappings
 
@@ -491,7 +499,7 @@ For each of the 23 CQs, which DAIMO classes and properties does the SPARQL exerc
 | V5 | it6:Evaluation, SharedEvaluationContext, it6:Flow, it6:Run | contextFlow, mls:realizes, prov:startedAtTime | no |
 | G1 | AIAssetOffering | offersModel, offeredBy | no |
 | G2 | ModelDeployment, IOContract | deploysModel, onInfrastructure, hasIOContract | no |
-| G3 | ExecutionAuthorization | authorizesRun, grantedTo, expiresAt | subclass reasoning |
+| G3 | ExecutionAuthorization | authorizesRun, grantedTo, expiresAt | direct DAIMO--ODRL bridge |
 | G4 | CrossParticipantProvenanceRecord, DerivedArtifact | derivedFromRun, records, spansParticipantContext | aggregation (GROUP_CONCAT) |
 
 ---

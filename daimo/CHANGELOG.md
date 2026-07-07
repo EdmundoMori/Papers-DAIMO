@@ -4,6 +4,23 @@ All notable changes to DAIMO are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and DAIMO adheres
 to semantic versioning (`owl:versionInfo` mirrors this file).
 
+## [0.1.6] — 2026-07-06
+
+### Fixed
+- Removed the invalid `daimo:datasetVersion rdfs:subPropertyOf dct:hasVersion`
+  alignment. `daimo:datasetVersion` is a datatype property carrying a literal
+  dataset-version token, while `dct:hasVersion` relates one resource to another
+  version resource. Keeping the alignment caused `owlready2` to warn about mixed
+  object/datatype-property typing.
+- Documented the non-alignment rationale in `alignment.ttl` and the property
+  comment in `daimo-core.ttl`.
+
+### Changed
+- Version bumped from 0.1.5 to 0.1.6.
+- Updated the core and SHACL module metadata to version 0.1.6.
+- Added an explicit `owl:versionIRI` and `owl:versionInfo` to the alignment
+  module.
+
 ## [0.1.5] — 2026-04-23
 
 ### Fixed — sixth-pass final audit

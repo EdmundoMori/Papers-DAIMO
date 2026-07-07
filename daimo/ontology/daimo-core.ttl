@@ -29,10 +29,10 @@
     dct:publisher <https://w3id.org/pionera> ;
     dct:license <https://creativecommons.org/licenses/by/4.0/> ;
     dct:issued "2026-04-22"^^xsd:date ;
-    dct:modified "2026-04-23"^^xsd:date ;
-    owl:versionIRI <https://w3id.org/pionera/daimo/0.1.5> ;
-    owl:versionInfo "0.1.5" ;
-    owl:priorVersion <https://w3id.org/pionera/daimo/0.1.4> ;
+    dct:modified "2026-07-06"^^xsd:date ;
+    owl:versionIRI <https://w3id.org/pionera/daimo/0.1.6> ;
+    owl:versionInfo "0.1.6" ;
+    owl:priorVersion <https://w3id.org/pionera/daimo/0.1.5> ;
     dct:conformsTo <https://www.w3.org/TR/owl2-overview/> ;  # OWL 2 DL profile
     vann:preferredNamespacePrefix "daimo" ;
     vann:preferredNamespaceUri "https://w3id.org/pionera/daimo#" ;
@@ -416,8 +416,7 @@ daimo:randomSeed a owl:DatatypeProperty , owl:FunctionalProperty ;
     rdfs:comment "Random seed fixing stochastic components of the protocol, required for reproducibility."@en .
 
 daimo:datasetVersion a owl:DatatypeProperty , owl:FunctionalProperty ;
-    rdfs:subPropertyOf dct:hasVersion ;
     rdfs:label "dataset version"@en ;
     rdfs:domain daimo:SharedEvaluationContext ;
     rdfs:range  xsd:string ;
-    rdfs:comment "Version identifier of the evaluation dataset used by the context."@en .
+    rdfs:comment "Literal version identifier of the evaluation dataset used by the context. Deliberately not aligned to dct:hasVersion because dct:hasVersion relates a resource to another version resource, whereas DAIMO records the dataset-version token as a literal for reproducible benchmarking."@en .

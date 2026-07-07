@@ -49,6 +49,8 @@ RewriteRule ^daimo/?$ https://<GITHUB_OWNER>.github.io/daimo/index-en.html [R=30
 # version-specific serialisations can be hosted by tagging per-release
 # copies at /versions/<version>/ on GitHub Pages when needed.
 
+RewriteRule ^daimo/0\.1\.6/?$ https://<GITHUB_OWNER>.github.io/daimo/index-en.html [R=303,L]
+RewriteRule ^daimo/0\.1\.5/?$ https://<GITHUB_OWNER>.github.io/daimo/index-en.html [R=303,L]
 RewriteRule ^daimo/0\.1\.1/?$ https://<GITHUB_OWNER>.github.io/daimo/index-en.html [R=303,L]
 RewriteRule ^daimo/0\.1\.0/?$ https://<GITHUB_OWNER>.github.io/daimo/index-en.html [R=303,L]
 

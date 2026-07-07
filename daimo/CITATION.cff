@@ -3,8 +3,8 @@ title: "DAIMO: An Ontology for Governed AI Model Assets in Data Spaces"
 message: >-
   If you use DAIMO in your work, please cite it as below.
 type: software
-version: 0.1.1
-date-released: "2026-04-22"
+version: 0.1.6
+date-released: "2026-07-06"
 license: CC-BY-4.0
 url: "https://w3id.org/pionera/daimo"
 repository-code: "https://github.com/<GITHUB_OWNER>/daimo"
@@ -18,7 +18,7 @@ abstract: >-
   IOContract, ExecutionAuthorization, DerivedArtifact,
   CrossParticipantProvenanceRecord, AuditEvidence, SharedEvaluationContext)
   with axiomatised alignment to the reused vocabularies, SHACL shapes
-  including four cross-class invariants, and an executable validation
+  including six cross-class invariants, and an executable validation
   package with 23 SPARQL-bound competency questions.
 keywords:
   - ontology

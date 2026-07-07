@@ -34,7 +34,7 @@ git add .
 # Verify .venv, widoco.jar, and __pycache__ are excluded:
 cat .gitignore
 
-git commit -m "Initial public release of DAIMO v0.1.1"
+git commit -m "Initial public release of DAIMO v0.1.6"
 
 # Create an empty repo on GitHub called 'daimo' under your account
 # (https://github.com/new). Do NOT initialise it with README/LICENSE —
@@ -48,8 +48,8 @@ git push -u origin main
 ### Tag the release
 
 ```bash
-git tag -a v0.1.1 -m "DAIMO v0.1.1 — first fully-validated public release"
-git push origin v0.1.1
+git tag -a v0.1.6 -m "DAIMO v0.1.6 — first fully-validated public release candidate"
+git push origin v0.1.6
 ```
 
 ---
@@ -138,15 +138,15 @@ Pages URLs.
 1. Sign in at `https://zenodo.org` with your ORCID or GitHub account.
 2. Go to `https://zenodo.org/account/settings/github/`. Enable the
    toggle for `<GITHUB_OWNER>/<REPO_NAME>`.
-3. On GitHub, create a new Release from the tag `v0.1.1`:
-   `https://github.com/<GITHUB_OWNER>/<REPO_NAME>/releases/new?tag=v0.1.1`
-   - Title: *"DAIMO v0.1.1 — first fully-validated public release"*
-   - Description: paste the `## [0.1.1]` section from `CHANGELOG.md`.
+3. On GitHub, create a new Release from the tag `v0.1.6`:
+   `https://github.com/<GITHUB_OWNER>/<REPO_NAME>/releases/new?tag=v0.1.6`
+   - Title: *"DAIMO v0.1.6 — first fully-validated public release candidate"*
+   - Description: paste the `## [0.1.6]` section from `CHANGELOG.md`.
    - Publish release.
 4. Zenodo auto-deposits within a minute. Open the deposit, confirm the
    metadata (pulled from `.zenodo.json`), and publish.
 5. Zenodo returns a **concept DOI** (same across all versions) and a
-   **versioned DOI** (specific to v0.1.1). Paste the versioned DOI into:
+   **versioned DOI** (specific to v0.1.6). Paste the versioned DOI into:
    - `CITATION.cff` → `identifiers[0].value`
    - `README.md` — add a "DOI badge" at the top using
      `https://zenodo.org/badge/DOI/<DOI>.svg`
