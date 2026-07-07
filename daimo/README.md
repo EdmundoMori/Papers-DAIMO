@@ -1,4 +1,4 @@
-# DAIMO — Ontology for Governed AI Model Assets in Data Spaces
+# DAIMO — Ontology for Governed AI Model Assets in Dataspaces
 
 Version: **0.1.6**
 Namespace: `https://w3id.org/pionera/daimo#` *(redirect registration pending — see [DEPLOYMENT.md](DEPLOYMENT.md))*

@@ -11,7 +11,7 @@ Recruit three independent reviewers:
 | Profile | Required expertise | Focus |
 |---|---|---|
 | E1 | Ontology engineering / Semantic Web | Modelling quality, reuse, OWL/SHACL choices, publication quality. |
-| E2 | Data spaces / EDC / DSP | Dataspace realism, contract and participant-context assumptions. |
+| E2 | Dataspaces / EDC / DSP | Dataspace realism, contract and participant-context assumptions. |
 | E3 | ML / MLOps / model governance | Model lifecycle, deployment, evaluation, auditability, comparability. |
 
 ## Materials Sent to Experts
@@ -41,7 +41,7 @@ Ask every expert to answer:
 | Expert | Profile | Observation | Severity | Action | Impact on DAIMO | Status |
 |---|---|---|---|---|---|---|
 | E1 | Ontology/SW |  | Major/Minor/Editorial | Accepted/Rejected/Future work |  | Open |
-| E2 | Data spaces/EDC |  | Major/Minor/Editorial | Accepted/Rejected/Future work |  | Open |
+| E2 | Dataspaces/EDC |  | Major/Minor/Editorial | Accepted/Rejected/Future work |  | Open |
 | E3 | ML/MLOps |  | Major/Minor/Editorial | Accepted/Rejected/Future work |  | Open |
 
 ## Paper Integration Rule
