@@ -1,7 +1,7 @@
 # DAIMO Ontology Reference
 
-Version: **0.1.5**
-Date: 2026-04-23
+Version: **0.1.6**
+Date: 2026-07-07
 Namespace: `https://w3id.org/pionera/daimo#`
 Licence: CC-BY 4.0
 
@@ -559,6 +559,10 @@ literally the CC-BY-4.0 licence.
 ---
 
 ## Change log versus earlier revisions
+
+- **v0.1.5 → v0.1.6** (2026-07-07):
+  - Synchronized the human-readable reference version with the validation matrix.
+  - No class, property, SHACL shape, validation result, or empirical count is changed by this metadata update.
 
 - **v0.1.4 → v0.1.5** (2026-04-23):
   - Rewrote 14 `skos:example` annotations to describe generic patterns instead of referencing specific IRIs from the example KG (R-1 from the sixth-pass audit).
