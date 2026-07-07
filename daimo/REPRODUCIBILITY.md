@@ -42,7 +42,7 @@ Expected results:
 | Entailment verification | 14 DAIMO classes inspected; 0 forbidden-entailment warnings |
 | Negative tests | all 6 invariants fire on designated focus nodes |
 | OOPS! | 0 Critical, 0 Important, 2 Minor |
-| Bounded scalability | 100 and 1,000 synthetic exchange units conform; 80,053 data triples at 1,000 units; OWL-RL 49.403s, SHACL 126.164s, SPARQL suite 0.363s |
+| Bounded scalability | 100 and 1,000 synthetic exchange units conform; 80,053 data triples (147,648 OWL-RL closure triples) at 1,000 units; OWL-RL 53.672s, SHACL 135.010s, SPARQL suite 0.356s |
 
 OOPS! can intermittently return an `unexpected_error` response. The script now
 treats that as a failed external service call rather than as a zero-pitfall

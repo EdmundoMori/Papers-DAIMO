@@ -104,7 +104,7 @@ Reports are written to [reports/](reports/). Latest status:
 | Reasoner + entailment | HermiT consistent, 0 unsatisfiable, **0 forbidden-entailment warnings** ([reports/reasoner-report.md](reports/reasoner-report.md)) |
 | OOPS! pitfalls | **0 Critical, 0 Important**, 2 Minor ([reports/oops-report.md](reports/oops-report.md)) |
 | Negative invariant tests | **6/6 invariants fire on designated focus nodes** ([reports/negative-test-results.md](reports/negative-test-results.md)) |
-| Bounded scalability | **100/1000 synthetic exchange units conform**; 80,053 data triples at 1,000 units; SPARQL suite 0.363s ([reports/scalability-benchmark.md](reports/scalability-benchmark.md)) |
+| Bounded scalability | **100/1000 synthetic exchange units conform**; 80,053 data triples (147,648 OWL-RL closure triples) at 1,000 units; OWL-RL 53.672s, SHACL 135.010s, SPARQL suite 0.356s ([reports/scalability-benchmark.md](reports/scalability-benchmark.md)) |
 
 ## Competency questions
 
@@ -123,15 +123,15 @@ SPARQL bindings: [queries/queries.md](queries/queries.md).
 
 ## How this relates to the paper
 
-The Spanish draft paper (`../daimo-paper-es.pdf`) claims 19 CQs and validates
-14. This artefact:
+The current paper (Spanish master `../daimo-paper-es-v4.pdf` and English SWJ
+version `../daimo-paper-en-swj-v4.pdf`) and this validation package are aligned
+around 23 competency questions organised in five categories. This artefact:
 
-- lifts all 19 into natural-language form (the paper only had codes),
-- adds 4 new CQs (CQ-G1..G4) enabled by the dataspace-bridge vocabulary,
-- deepens 7 of the 23 CQs so a proper share exercises subclass / subproperty
-  reasoning rather than pure property retrieval,
-- runs all 23 as executable SPARQL over a conforming example KG (with
-  OWL-RL materialised closure so entailed triples are reachable),
+- provides all 23 CQs in natural-language form and as executable SPARQL,
+- runs the full SPARQL suite over the OWL-RL materialised demonstration graph so
+  entailed triples are reachable,
+- includes 4 dataspace-bridge CQs (CQ-G1..G4) that MLDCAT-AP alone cannot
+  answer, which carry the novelty argument,
 - enforces minimum completeness with 9 structural shapes, 3 conformance
   shapes **and** six cross-class governance invariants (INV-1..INV-6, all tested positively
   and negatively).

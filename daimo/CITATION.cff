@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: "DAIMO: An Ontology for Governed AI Model Assets in Data Spaces"
+title: "DAIMO: An Ontology for Governed AI Model Assets in Dataspaces"
 message: >-
   If you use DAIMO in your work, please cite it as below.
 type: software
@@ -7,11 +7,11 @@ version: 0.1.6
 date-released: "2026-07-06"
 license: CC-BY-4.0
 url: "https://w3id.org/pionera/daimo"
-repository-code: "https://github.com/<GITHUB_OWNER>/daimo"
+repository-code: "https://github.com/EdmundoMori/Papers-DAIMO/tree/main/daimo"
 abstract: >-
   DAIMO is an OWL 2 DL integration profile connecting DCAT-AP, MLDCAT-AP 3.0.0,
   ODRL 2.2, PROV-O, and the Dataspace Protocol to make AI models first-class
-  governed assets in data spaces. It covers publication, discovery, invocation,
+  governed assets in dataspaces. It covers publication, discovery, invocation,
   execution traceability, and contextualised evaluation across participant
   boundaries. The ontology adds nine dataspace-bridge classes
   (AIAssetOffering, ParticipantRole with five subclasses, ModelDeployment,
@@ -22,7 +22,7 @@ abstract: >-
   package with 23 SPARQL-bound competency questions.
 keywords:
   - ontology
-  - data spaces
+  - dataspaces
   - AI governance
   - MLDCAT-AP
   - DCAT
