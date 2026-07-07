@@ -1,0 +1,1668 @@
+<h2 id="crossreference" class="list">Cross-reference for DAIMO: an ontology for governed AI model assets in dataspaces classes, object properties and data properties <span class="backlink"> back to <a href="#toc">ToC</a></span></h2>
+This section provides details for each class and property defined by DAIMO: an ontology for governed AI model assets in dataspaces.
+<div xmlns:widoco="https://w3id.org/widoco/vocab#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="classes">
+ <h3 id="classes-headline" class="list">Classes</h3>
+ <ul class="hlist">
+  <li><a href="#AIAssetOffering" title="https://w3id.org/pionera/daimo#AIAssetOffering">AI asset offering</a></li>
+  <li><a href="#AuditEvidence" title="https://w3id.org/pionera/daimo#AuditEvidence">audit evidence</a></li>
+  <li><a href="#CrossParticipantProvenanceRecord" title="https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord">cross-participant provenance record</a></li>
+  <li><a href="#DerivedArtifact" title="https://w3id.org/pionera/daimo#DerivedArtifact">derived artifact</a></li>
+  <li><a href="#Evaluator" title="https://w3id.org/pionera/daimo#Evaluator">evaluator</a></li>
+  <li><a href="#ExecutionAuthorization" title="https://w3id.org/pionera/daimo#ExecutionAuthorization">execution authorization</a></li>
+  <li><a href="#GovernanceActor" title="https://w3id.org/pionera/daimo#GovernanceActor">governance actor</a></li>
+  <li><a href="#IOContract" title="https://w3id.org/pionera/daimo#IOContract">I/O contract</a></li>
+  <li><a href="#ModelConsumer" title="https://w3id.org/pionera/daimo#ModelConsumer">model consumer</a></li>
+  <li><a href="#ModelDeployment" title="https://w3id.org/pionera/daimo#ModelDeployment">model deployment</a></li>
+  <li><a href="#ModelProvider" title="https://w3id.org/pionera/daimo#ModelProvider">model provider</a></li>
+  <li><a href="#ParticipantRole" title="https://w3id.org/pionera/daimo#ParticipantRole">participant role</a></li>
+  <li><a href="#PlatformOperator" title="https://w3id.org/pionera/daimo#PlatformOperator">platform operator</a></li>
+  <li><a href="#SharedEvaluationContext" title="https://w3id.org/pionera/daimo#SharedEvaluationContext">shared evaluation context</a></li>
+ </ul>
+ <div class="entity" id="AIAssetOffering">
+  <h3>AI asset offering<sup class="type-c" title="class">c</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#classes">Class ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#AIAssetOffering</p>
+  <div class="comment">
+   <span class="markdown">A catalog-record entry that registers an AI model in a dataspace catalog, bundling the model reference, the providing agent, and an ODRL offer policy. Specialises dcat:CatalogRecord; carries an odrl:Offer via daimo:hasOfferPolicy. In DSP terms this is the catalog-time artefact that becomes a dspace:ContractOffer during negotiation.</span>
+  </div>
+  <div class="comment">
+   <span class="markdown">A catalog-record entry registering an AI model in a dataspace catalog as a governed offer, bundling the model, the issuing agent, and an ODRL offer policy.</span>
+  </div>
+  <dl class="definedBy">
+   <dt>
+    Is defined by
+   </dt>
+   <dd>
+    <a href="https://w3id.org/pionera/daimo">https://w3id.org/pionera/daimo</a>
+   </dd>
+  </dl>
+  <dl>
+   <dt>
+    Example
+   </dt>
+   <dd>
+    <pre>A research organisation publishing one of its machine-learning models into a dataspace catalog declares an AIAssetOffering that references the model (via offersModel), the organisation itself (via offeredBy), and an ODRL offer policy (via hasOfferPolicy) permitting use and distribution under a specific licence.</pre>
+   </dd>
+  </dl>
+  <dl class="description">
+   <dt>
+    has super-classes
+   </dt>
+   <dd>
+    <a href="http://www.w3.org/ns/dcat#CatalogRecord" target="_blank" title="http://www.w3.org/ns/dcat#CatalogRecord">Catalog Record</a> <sup class="type-c" title="class">c</sup>
+   </dd>
+   <dt>
+    is in domain of
+   </dt>
+   <dd>
+    <a href="#hasOfferPolicy" title="https://w3id.org/pionera/daimo#hasOfferPolicy">has offer policy</a> <sup class="type-op" title="object property">op</sup>, <a href="#offeredBy" title="https://w3id.org/pionera/daimo#offeredBy">offered by</a> <sup class="type-op" title="object property">op</sup>, <a href="#offersModel" title="https://w3id.org/pionera/daimo#offersModel">offers model</a> <sup class="type-op" title="object property">op</sup>
+   </dd>
+   <dt>
+    is in range of
+   </dt>
+   <dd>
+    <a href="#hasOffering" title="https://w3id.org/pionera/daimo#hasOffering">has offering</a> <sup class="type-op" title="object property">op</sup>
+   </dd>
+   <dt>
+    is disjoint with
+   </dt>
+   <dd>
+    <a href="#AuditEvidence" title="https://w3id.org/pionera/daimo#AuditEvidence">audit evidence</a> <sup class="type-c" title="class">c</sup>, <a href="#CrossParticipantProvenanceRecord" title="https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord">cross-participant provenance record</a> <sup class="type-c" title="class">c</sup>, <a href="#DerivedArtifact" title="https://w3id.org/pionera/daimo#DerivedArtifact">derived artifact</a> <sup class="type-c" title="class">c</sup>, <a href="#ExecutionAuthorization" title="https://w3id.org/pionera/daimo#ExecutionAuthorization">execution authorization</a> <sup class="type-c" title="class">c</sup>, <a href="#IOContract" title="https://w3id.org/pionera/daimo#IOContract">I/O contract</a> <sup class="type-c" title="class">c</sup>, <a href="#ModelDeployment" title="https://w3id.org/pionera/daimo#ModelDeployment">model deployment</a> <sup class="type-c" title="class">c</sup>, <a href="#ParticipantRole" title="https://w3id.org/pionera/daimo#ParticipantRole">participant role</a> <sup class="type-c" title="class">c</sup>, <a href="#SharedEvaluationContext" title="https://w3id.org/pionera/daimo#SharedEvaluationContext">shared evaluation context</a> <sup class="type-c" title="class">c</sup>
+   </dd>
+  </dl>
+ </div>
+ <div class="entity" id="AuditEvidence">
+  <h3>audit evidence<sup class="type-c" title="class">c</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#classes">Class ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#AuditEvidence</p>
+  <div class="comment">
+   <span class="markdown">A compliance-oriented evidence record attached to a governed event, carrying integrity hash, signer, and timestamp.</span>
+  </div>
+  <div class="comment">
+   <span class="markdown">A compliance-oriented evidence record attached to a governed activity, carrying a structured SPDX checksum (algorithm + digest), a signer, and a timestamp.</span>
+  </div>
+  <dl class="definedBy">
+   <dt>
+    Is defined by
+   </dt>
+   <dd>
+    <a href="https://w3id.org/pionera/daimo">https://w3id.org/pionera/daimo</a>
+   </dd>
+  </dl>
+  <dl>
+   <dt>
+    Example
+   </dt>
+   <dd>
+    <pre>For each run of a deployed model, the PlatformOperator produces an AuditEvidence record that references the run (daimo:evidenceOf), carries a structured spdx:Checksum (algorithm + digest) over the run's outputs (daimo:integrityHash), identifies the signer (daimo:signedBy), and timestamps the sealing (daimo:recordedAt).</pre>
+   </dd>
+  </dl>
+  <dl class="description">
+   <dt>
+    has super-classes
+   </dt>
+   <dd>
+    <a href="http://www.w3.org/ns/prov#Entity" target="_blank" title="http://www.w3.org/ns/prov#Entity">Entity</a> <sup class="type-c" title="class">c</sup>
+   </dd>
+   <dt>
+    is in domain of
+   </dt>
+   <dd>
+    <a href="#evidenceOf" title="https://w3id.org/pionera/daimo#evidenceOf">evidence of</a> <sup class="type-op" title="object property">op</sup>, <a href="#integrityHash" title="https://w3id.org/pionera/daimo#integrityHash">integrity hash</a> <sup class="type-op" title="object property">op</sup>, <a href="#recordedAt" title="https://w3id.org/pionera/daimo#recordedAt">recorded at</a> <sup class="type-dp" title="data property">dp</sup>, <a href="#signedBy" title="https://w3id.org/pionera/daimo#signedBy">signed by</a> <sup class="type-op" title="object property">op</sup>
+   </dd>
+   <dt>
+    is in range of
+   </dt>
+   <dd>
+    <a href="#hasAuditEvidence" title="https://w3id.org/pionera/daimo#hasAuditEvidence">has audit evidence</a> <sup class="type-op" title="object property">op</sup>
+   </dd>
+   <dt>
+    is disjoint with
+   </dt>
+   <dd>
+    <a href="#AIAssetOffering" title="https://w3id.org/pionera/daimo#AIAssetOffering">AI asset offering</a> <sup class="type-c" title="class">c</sup>, <a href="#CrossParticipantProvenanceRecord" title="https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord">cross-participant provenance record</a> <sup class="type-c" title="class">c</sup>, <a href="#DerivedArtifact" title="https://w3id.org/pionera/daimo#DerivedArtifact">derived artifact</a> <sup class="type-c" title="class">c</sup>, <a href="#ExecutionAuthorization" title="https://w3id.org/pionera/daimo#ExecutionAuthorization">execution authorization</a> <sup class="type-c" title="class">c</sup>, <a href="#IOContract" title="https://w3id.org/pionera/daimo#IOContract">I/O contract</a> <sup class="type-c" title="class">c</sup>, <a href="#ModelDeployment" title="https://w3id.org/pionera/daimo#ModelDeployment">model deployment</a> <sup class="type-c" title="class">c</sup>, <a href="#ParticipantRole" title="https://w3id.org/pionera/daimo#ParticipantRole">participant role</a> <sup class="type-c" title="class">c</sup>, <a href="#SharedEvaluationContext" title="https://w3id.org/pionera/daimo#SharedEvaluationContext">shared evaluation context</a> <sup class="type-c" title="class">c</sup>
+   </dd>
+  </dl>
+ </div>
+ <div class="entity" id="CrossParticipantProvenanceRecord">
+  <h3>cross-participant provenance record<sup class="type-c" title="class">c</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#classes">Class ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord</p>
+  <div class="comment">
+   <span class="markdown">A reusable semantic bundle that aggregates prov:Activity and prov:Entity across participant contexts to tell one audit-ready story.</span>
+  </div>
+  <div class="comment">
+   <span class="markdown">A PROV bundle that aggregates activities and entities spanning at least two EDC participant contexts, forming an audit-ready cross-participant provenance narrative.</span>
+  </div>
+  <dl class="definedBy">
+   <dt>
+    Is defined by
+   </dt>
+   <dd>
+    <a href="https://w3id.org/pionera/daimo">https://w3id.org/pionera/daimo</a>
+   </dd>
+  </dl>
+  <dl>
+   <dt>
+    Example
+   </dt>
+   <dd>
+    <pre>When a derived artefact is produced by a consumer invoking a provider's model hosted by a third-party operator, a CrossParticipantProvenanceRecord aggregates the relevant activities across the provider, consumer, and operator participant contexts into one bundle for audit.</pre>
+   </dd>
+  </dl>
+  <dl class="description">
+   <dt>
+    has super-classes
+   </dt>
+   <dd>
+    <a href="http://www.w3.org/ns/prov#Bundle" target="_blank" title="http://www.w3.org/ns/prov#Bundle">Bundle</a> <sup class="type-c" title="class">c</sup>
+   </dd>
+   <dt>
+    is in domain of
+   </dt>
+   <dd>
+    <a href="#records" title="https://w3id.org/pionera/daimo#records">records</a> <sup class="type-op" title="object property">op</sup>, <a href="#spansParticipantContext" title="https://w3id.org/pionera/daimo#spansParticipantContext">spans participant context</a> <sup class="type-op" title="object property">op</sup>
+   </dd>
+   <dt>
+    is disjoint with
+   </dt>
+   <dd>
+    <a href="#AIAssetOffering" title="https://w3id.org/pionera/daimo#AIAssetOffering">AI asset offering</a> <sup class="type-c" title="class">c</sup>, <a href="#AuditEvidence" title="https://w3id.org/pionera/daimo#AuditEvidence">audit evidence</a> <sup class="type-c" title="class">c</sup>, <a href="#DerivedArtifact" title="https://w3id.org/pionera/daimo#DerivedArtifact">derived artifact</a> <sup class="type-c" title="class">c</sup>, <a href="#ExecutionAuthorization" title="https://w3id.org/pionera/daimo#ExecutionAuthorization">execution authorization</a> <sup class="type-c" title="class">c</sup>, <a href="#IOContract" title="https://w3id.org/pionera/daimo#IOContract">I/O contract</a> <sup class="type-c" title="class">c</sup>, <a href="#ModelDeployment" title="https://w3id.org/pionera/daimo#ModelDeployment">model deployment</a> <sup class="type-c" title="class">c</sup>, <a href="#ParticipantRole" title="https://w3id.org/pionera/daimo#ParticipantRole">participant role</a> <sup class="type-c" title="class">c</sup>, <a href="#SharedEvaluationContext" title="https://w3id.org/pionera/daimo#SharedEvaluationContext">shared evaluation context</a> <sup class="type-c" title="class">c</sup>
+   </dd>
+  </dl>
+ </div>
+ <div class="entity" id="DerivedArtifact">
+  <h3>derived artifact<sup class="type-c" title="class">c</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#classes">Class ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#DerivedArtifact</p>
+  <div class="comment">
+   <span class="markdown">A governed, catalog-describable output produced by an it6:Run in a dataspace context, bearing its own provenance and policy.</span>
+  </div>
+  <div class="comment">
+   <span class="markdown">A governed, catalog-describable output produced by a run in a dataspace context, carrying its own provenance pointer and authorisation pointer.</span>
+  </div>
+  <dl class="definedBy">
+   <dt>
+    Is defined by
+   </dt>
+   <dd>
+    <a href="https://w3id.org/pionera/daimo">https://w3id.org/pionera/daimo</a>
+   </dd>
+  </dl>
+  <dl>
+   <dt>
+    Example
+   </dt>
+   <dd>
+    <pre>When a consumer invokes a deployed model, the run's output (a prediction dataset, a classification result, a generated artefact) is typed as a DerivedArtifact that points back to the producing run (daimo:derivedFromRun) and to the authorisation under which it was produced (daimo:underAuthorization).</pre>
+   </dd>
+  </dl>
+  <dl class="description">
+   <dt>
+    has super-classes
+   </dt>
+   <dd>
+    <a href="http://www.w3.org/ns/prov#Entity" target="_blank" title="http://www.w3.org/ns/prov#Entity">Entity</a> <sup class="type-c" title="class">c</sup>, <a href="http://www.w3.org/ns/dcat#Resource" target="_blank" title="http://www.w3.org/ns/dcat#Resource">Resource</a> <sup class="type-c" title="class">c</sup>
+   </dd>
+   <dt>
+    is in domain of
+   </dt>
+   <dd>
+    <a href="#derivedFromRun" title="https://w3id.org/pionera/daimo#derivedFromRun">derived from run</a> <sup class="type-op" title="object property">op</sup>, <a href="#underAuthorization" title="https://w3id.org/pionera/daimo#underAuthorization">under authorization</a> <sup class="type-op" title="object property">op</sup>
+   </dd>
+   <dt>
+    is in range of
+   </dt>
+   <dd>
+    <a href="#hasDerivedArtifact" title="https://w3id.org/pionera/daimo#hasDerivedArtifact">has derived artifact</a> <sup class="type-op" title="object property">op</sup>
+   </dd>
+   <dt>
+    is disjoint with
+   </dt>
+   <dd>
+    <a href="#AIAssetOffering" title="https://w3id.org/pionera/daimo#AIAssetOffering">AI asset offering</a> <sup class="type-c" title="class">c</sup>, <a href="#AuditEvidence" title="https://w3id.org/pionera/daimo#AuditEvidence">audit evidence</a> <sup class="type-c" title="class">c</sup>, <a href="#CrossParticipantProvenanceRecord" title="https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord">cross-participant provenance record</a> <sup class="type-c" title="class">c</sup>, <a href="#ExecutionAuthorization" title="https://w3id.org/pionera/daimo#ExecutionAuthorization">execution authorization</a> <sup class="type-c" title="class">c</sup>, <a href="#IOContract" title="https://w3id.org/pionera/daimo#IOContract">I/O contract</a> <sup class="type-c" title="class">c</sup>, <a href="#ModelDeployment" title="https://w3id.org/pionera/daimo#ModelDeployment">model deployment</a> <sup class="type-c" title="class">c</sup>, <a href="#ParticipantRole" title="https://w3id.org/pionera/daimo#ParticipantRole">participant role</a> <sup class="type-c" title="class">c</sup>, <a href="#SharedEvaluationContext" title="https://w3id.org/pionera/daimo#SharedEvaluationContext">shared evaluation context</a> <sup class="type-c" title="class">c</sup>
+   </dd>
+  </dl>
+ </div>
+ <div class="entity" id="Evaluator">
+  <h3>evaluator<sup class="type-c" title="class">c</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#classes">Class ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#Evaluator</p>
+  <div class="comment">
+   <span class="markdown">Role of an agent that evaluates or compares AI models under a shared evaluation context.</span>
+  </div>
+  <div class="comment">
+   <span class="markdown">Role of an agent that evaluates or compares AI models under a shared evaluation context.</span>
+  </div>
+  <dl class="definedBy">
+   <dt>
+    Is defined by
+   </dt>
+   <dd>
+    <a href="https://w3id.org/pionera/daimo">https://w3id.org/pionera/daimo</a>
+   </dd>
+  </dl>
+  <dl>
+   <dt>
+    Example
+   </dt>
+   <dd>
+    <pre>Any agent that produces it6:Evaluation instances linked to a shared SharedEvaluationContext (via daimo:usesEvaluationContext) holds an Evaluator role — for example, a benchmarking team comparing candidate models on the same dataset version and seed.</pre>
+   </dd>
+  </dl>
+  <dl class="description">
+   <dt>
+    has super-classes
+   </dt>
+   <dd>
+    <a href="#ParticipantRole" title="https://w3id.org/pionera/daimo#ParticipantRole">participant role</a> <sup class="type-c" title="class">c</sup>
+   </dd>
+  </dl>
+ </div>
+ <div class="entity" id="ExecutionAuthorization">
+  <h3>execution authorization<sup class="type-c" title="class">c</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#classes">Class ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#ExecutionAuthorization</p>
+  <div class="comment">
+   <span class="markdown">An ODRL agreement (produced by a DSP contract negotiation) that binds at least one odrl:permission to concrete it6:Run invocations it authorises. Specialises odrl:Agreement; MUST carry at least one odrl:permission per the ODRL policy model.</span>
+  </div>
+  <div class="comment">
+   <span class="markdown">An ODRL agreement, produced by a Dataspace-Protocol contract negotiation, that binds specific ODRL permissions to concrete MLDCAT-AP run invocations it authorises, with an expiry timestamp and a grantee agent.</span>
+  </div>
+  <dl class="definedBy">
+   <dt>
+    Is defined by
+   </dt>
+   <dd>
+    <a href="https://w3id.org/pionera/daimo">https://w3id.org/pionera/daimo</a>
+   </dd>
+  </dl>
+  <dl>
+   <dt>
+    Example
+   </dt>
+   <dd>
+    <pre>After a successful DSP contract negotiation, the resulting agreement is represented as an ExecutionAuthorization granting odrl:use to the consumer (daimo:grantedTo), covering one or more runs via daimo:authorizesRun, expiring at a specified daimo:expiresAt timestamp.</pre>
+   </dd>
+  </dl>
+  <dl class="description">
+   <dt>
+    has super-classes
+   </dt>
+   <dd>
+    <a href="http://www.w3.org/ns/odrl/2/Agreement" target="_blank" title="http://www.w3.org/ns/odrl/2/Agreement">Agreement</a> <sup class="type-c" title="class">c</sup>
+   </dd>
+   <dt>
+    is in domain of
+   </dt>
+   <dd>
+    <a href="#authorizesRun" title="https://w3id.org/pionera/daimo#authorizesRun">authorizes run</a> <sup class="type-op" title="object property">op</sup>, <a href="#expiresAt" title="https://w3id.org/pionera/daimo#expiresAt">expires at</a> <sup class="type-dp" title="data property">dp</sup>, <a href="#grantedTo" title="https://w3id.org/pionera/daimo#grantedTo">granted to</a> <sup class="type-op" title="object property">op</sup>
+   </dd>
+   <dt>
+    is in range of
+   </dt>
+   <dd>
+    <a href="#authorizedBy" title="https://w3id.org/pionera/daimo#authorizedBy">authorized by</a> <sup class="type-op" title="object property">op</sup>, <a href="#underAuthorization" title="https://w3id.org/pionera/daimo#underAuthorization">under authorization</a> <sup class="type-op" title="object property">op</sup>
+   </dd>
+   <dt>
+    is disjoint with
+   </dt>
+   <dd>
+    <a href="#AIAssetOffering" title="https://w3id.org/pionera/daimo#AIAssetOffering">AI asset offering</a> <sup class="type-c" title="class">c</sup>, <a href="#AuditEvidence" title="https://w3id.org/pionera/daimo#AuditEvidence">audit evidence</a> <sup class="type-c" title="class">c</sup>, <a href="#CrossParticipantProvenanceRecord" title="https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord">cross-participant provenance record</a> <sup class="type-c" title="class">c</sup>, <a href="#DerivedArtifact" title="https://w3id.org/pionera/daimo#DerivedArtifact">derived artifact</a> <sup class="type-c" title="class">c</sup>, <a href="#IOContract" title="https://w3id.org/pionera/daimo#IOContract">I/O contract</a> <sup class="type-c" title="class">c</sup>, <a href="#ModelDeployment" title="https://w3id.org/pionera/daimo#ModelDeployment">model deployment</a> <sup class="type-c" title="class">c</sup>, <a href="#ParticipantRole" title="https://w3id.org/pionera/daimo#ParticipantRole">participant role</a> <sup class="type-c" title="class">c</sup>, <a href="#SharedEvaluationContext" title="https://w3id.org/pionera/daimo#SharedEvaluationContext">shared evaluation context</a> <sup class="type-c" title="class">c</sup>
+   </dd>
+  </dl>
+ </div>
+ <div class="entity" id="GovernanceActor">
+  <h3>governance actor<sup class="type-c" title="class">c</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#classes">Class ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#GovernanceActor</p>
+  <div class="comment">
+   <span class="markdown">Role of an agent that audits execution evidence, enforces compliance obligations, and validates governance across the dataspace.</span>
+  </div>
+  <div class="comment">
+   <span class="markdown">Role of an agent that audits execution evidence, enforces compliance obligations, and validates governance across the dataspace.</span>
+  </div>
+  <dl class="definedBy">
+   <dt>
+    Is defined by
+   </dt>
+   <dd>
+    <a href="https://w3id.org/pionera/daimo">https://w3id.org/pionera/daimo</a>
+   </dd>
+  </dl>
+  <dl>
+   <dt>
+    Example
+   </dt>
+   <dd>
+    <pre>An external compliance body that reads CrossParticipantProvenanceRecord bundles and AuditEvidence records to verify lawful execution holds a GovernanceActor role — for example, a regulator or a conformance-labelling body.</pre>
+   </dd>
+  </dl>
+  <dl class="description">
+   <dt>
+    has super-classes
+   </dt>
+   <dd>
+    <a href="#ParticipantRole" title="https://w3id.org/pionera/daimo#ParticipantRole">participant role</a> <sup class="type-c" title="class">c</sup>
+   </dd>
+  </dl>
+ </div>
+ <div class="entity" id="IOContract">
+  <h3>I/O contract<sup class="type-c" title="class">c</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#classes">Class ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#IOContract</p>
+  <div class="comment">
+   <span class="markdown">The minimum machine-actionable invocation contract for a deployment: input format, output format, authentication method, and optional input/output schemas.</span>
+  </div>
+  <div class="comment">
+   <span class="markdown">The minimum machine-actionable invocation contract for a deployment endpoint: input media type, output media type, authentication method, and optional input/output schemas.</span>
+  </div>
+  <dl class="definedBy">
+   <dt>
+    Is defined by
+   </dt>
+   <dd>
+    <a href="https://w3id.org/pionera/daimo">https://w3id.org/pionera/daimo</a>
+   </dd>
+  </dl>
+  <dl>
+   <dt>
+    Example
+   </dt>
+   <dd>
+    <pre>A REST inference endpoint might declare an IOContract with inputFormat "application/json", outputFormat "application/geo+json", and authMethod "oauth2-bearer"; a parallel gRPC endpoint on the same deployment can declare a second IOContract with inputFormat "application/x-protobuf" and authMethod "mtls".</pre>
+   </dd>
+  </dl>
+  <dl class="description">
+   <dt>
+    is in domain of
+   </dt>
+   <dd>
+    <a href="#authMethod" title="https://w3id.org/pionera/daimo#authMethod">authentication method</a> <sup class="type-dp" title="data property">dp</sup>, <a href="#inputFormat" title="https://w3id.org/pionera/daimo#inputFormat">input format</a> <sup class="type-dp" title="data property">dp</sup>, <a href="#inputSchema" title="https://w3id.org/pionera/daimo#inputSchema">input schema</a> <sup class="type-op" title="object property">op</sup>, <a href="#outputFormat" title="https://w3id.org/pionera/daimo#outputFormat">output format</a> <sup class="type-dp" title="data property">dp</sup>, <a href="#outputSchema" title="https://w3id.org/pionera/daimo#outputSchema">output schema</a> <sup class="type-op" title="object property">op</sup>
+   </dd>
+   <dt>
+    is in range of
+   </dt>
+   <dd>
+    <a href="#hasIOContract" title="https://w3id.org/pionera/daimo#hasIOContract">has I/O contract</a> <sup class="type-op" title="object property">op</sup>
+   </dd>
+   <dt>
+    is disjoint with
+   </dt>
+   <dd>
+    <a href="#AIAssetOffering" title="https://w3id.org/pionera/daimo#AIAssetOffering">AI asset offering</a> <sup class="type-c" title="class">c</sup>, <a href="#AuditEvidence" title="https://w3id.org/pionera/daimo#AuditEvidence">audit evidence</a> <sup class="type-c" title="class">c</sup>, <a href="#CrossParticipantProvenanceRecord" title="https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord">cross-participant provenance record</a> <sup class="type-c" title="class">c</sup>, <a href="#DerivedArtifact" title="https://w3id.org/pionera/daimo#DerivedArtifact">derived artifact</a> <sup class="type-c" title="class">c</sup>, <a href="#ExecutionAuthorization" title="https://w3id.org/pionera/daimo#ExecutionAuthorization">execution authorization</a> <sup class="type-c" title="class">c</sup>, <a href="#ModelDeployment" title="https://w3id.org/pionera/daimo#ModelDeployment">model deployment</a> <sup class="type-c" title="class">c</sup>, <a href="#ParticipantRole" title="https://w3id.org/pionera/daimo#ParticipantRole">participant role</a> <sup class="type-c" title="class">c</sup>, <a href="#SharedEvaluationContext" title="https://w3id.org/pionera/daimo#SharedEvaluationContext">shared evaluation context</a> <sup class="type-c" title="class">c</sup>
+   </dd>
+  </dl>
+ </div>
+ <div class="entity" id="ModelConsumer">
+  <h3>model consumer<sup class="type-c" title="class">c</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#classes">Class ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#ModelConsumer</p>
+  <div class="comment">
+   <span class="markdown">Role of an agent that discovers, negotiates, and invokes AI models offered by a Model Provider.</span>
+  </div>
+  <div class="comment">
+   <span class="markdown">Role of an agent that discovers, negotiates access to, and invokes AI models offered by a Model Provider.</span>
+  </div>
+  <dl class="definedBy">
+   <dt>
+    Is defined by
+   </dt>
+   <dd>
+    <a href="https://w3id.org/pionera/daimo">https://w3id.org/pionera/daimo</a>
+   </dd>
+  </dl>
+  <dl>
+   <dt>
+    Example
+   </dt>
+   <dd>
+    <pre>Any agent that receives an ExecutionAuthorization (via daimo:grantedTo) and uses it to invoke runs of a deployed model holds a ModelConsumer role within the corresponding participant context.</pre>
+   </dd>
+  </dl>
+  <dl class="description">
+   <dt>
+    has super-classes
+   </dt>
+   <dd>
+    <a href="#ParticipantRole" title="https://w3id.org/pionera/daimo#ParticipantRole">participant role</a> <sup class="type-c" title="class">c</sup>
+   </dd>
+  </dl>
+ </div>
+ <div class="entity" id="ModelDeployment">
+  <h3>model deployment<sup class="type-c" title="class">c</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#classes">Class ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#ModelDeployment</p>
+  <div class="comment">
+   <span class="markdown">A running or hosted instance of an MLDCAT-AP MachineLearningModel exposed through a dcat:DataService under an operational environment.</span>
+  </div>
+  <div class="comment">
+   <span class="markdown">A running or hosted instance of a machine-learning model exposed through one or more DCAT data services over a named compute infrastructure, under a per-service I/O contract.</span>
+  </div>
+  <dl class="definedBy">
+   <dt>
+    Is defined by
+   </dt>
+   <dd>
+    <a href="https://w3id.org/pionera/daimo">https://w3id.org/pionera/daimo</a>
+   </dd>
+  </dl>
+  <dl>
+   <dt>
+    Example
+   </dt>
+   <dd>
+    <pre>A PlatformOperator that stands up a live inference endpoint for a given model creates a ModelDeployment that (i) deploys the model, (ii) is exposed as one or more dcat:DataServices (e.g., REST + gRPC), (iii) runs on a specific it6:ComputerInfrastructure, and (iv) declares an IOContract per exposed service.</pre>
+   </dd>
+  </dl>
+  <dl class="description">
+   <dt>
+    has super-classes
+   </dt>
+   <dd>
+    <a href="http://www.w3.org/ns/prov#Entity" target="_blank" title="http://www.w3.org/ns/prov#Entity">Entity</a> <sup class="type-c" title="class">c</sup>
+   </dd>
+   <dt>
+    is in domain of
+   </dt>
+   <dd>
+    <a href="#deploysModel" title="https://w3id.org/pionera/daimo#deploysModel">deploys model</a> <sup class="type-op" title="object property">op</sup>, <a href="#exposedAs" title="https://w3id.org/pionera/daimo#exposedAs">exposed as</a> <sup class="type-op" title="object property">op</sup>, <a href="#hasIOContract" title="https://w3id.org/pionera/daimo#hasIOContract">has I/O contract</a> <sup class="type-op" title="object property">op</sup>, <a href="#onInfrastructure" title="https://w3id.org/pionera/daimo#onInfrastructure">on infrastructure</a> <sup class="type-op" title="object property">op</sup>
+   </dd>
+   <dt>
+    is in range of
+   </dt>
+   <dd>
+    <a href="#hasDeployment" title="https://w3id.org/pionera/daimo#hasDeployment">has deployment</a> <sup class="type-op" title="object property">op</sup>
+   </dd>
+   <dt>
+    is disjoint with
+   </dt>
+   <dd>
+    <a href="#AIAssetOffering" title="https://w3id.org/pionera/daimo#AIAssetOffering">AI asset offering</a> <sup class="type-c" title="class">c</sup>, <a href="#AuditEvidence" title="https://w3id.org/pionera/daimo#AuditEvidence">audit evidence</a> <sup class="type-c" title="class">c</sup>, <a href="#CrossParticipantProvenanceRecord" title="https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord">cross-participant provenance record</a> <sup class="type-c" title="class">c</sup>, <a href="#DerivedArtifact" title="https://w3id.org/pionera/daimo#DerivedArtifact">derived artifact</a> <sup class="type-c" title="class">c</sup>, <a href="#ExecutionAuthorization" title="https://w3id.org/pionera/daimo#ExecutionAuthorization">execution authorization</a> <sup class="type-c" title="class">c</sup>, <a href="#IOContract" title="https://w3id.org/pionera/daimo#IOContract">I/O contract</a> <sup class="type-c" title="class">c</sup>, <a href="#ParticipantRole" title="https://w3id.org/pionera/daimo#ParticipantRole">participant role</a> <sup class="type-c" title="class">c</sup>, <a href="#SharedEvaluationContext" title="https://w3id.org/pionera/daimo#SharedEvaluationContext">shared evaluation context</a> <sup class="type-c" title="class">c</sup>
+   </dd>
+  </dl>
+ </div>
+ <div class="entity" id="ModelProvider">
+  <h3>model provider<sup class="type-c" title="class">c</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#classes">Class ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#ModelProvider</p>
+  <div class="comment">
+   <span class="markdown">Role of an agent that publishes one or more AI models as governed offerings in a dataspace catalog.</span>
+  </div>
+  <div class="comment">
+   <span class="markdown">Role of an agent that publishes AI models as governed offerings in a dataspace catalog.</span>
+  </div>
+  <dl class="definedBy">
+   <dt>
+    Is defined by
+   </dt>
+   <dd>
+    <a href="https://w3id.org/pionera/daimo">https://w3id.org/pionera/daimo</a>
+   </dd>
+  </dl>
+  <dl>
+   <dt>
+    Example
+   </dt>
+   <dd>
+    <pre>Any organisation that declares one or more AIAssetOfferings under its own authorship and policy holds a ModelProvider role in the dataspace contexts where those offerings are listed.</pre>
+   </dd>
+  </dl>
+  <dl class="description">
+   <dt>
+    has super-classes
+   </dt>
+   <dd>
+    <a href="#ParticipantRole" title="https://w3id.org/pionera/daimo#ParticipantRole">participant role</a> <sup class="type-c" title="class">c</sup>
+   </dd>
+  </dl>
+ </div>
+ <div class="entity" id="ParticipantRole">
+  <h3>participant role<sup class="type-c" title="class">c</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#classes">Class ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#ParticipantRole</p>
+  <div class="comment">
+   <span class="markdown">A dataspace-scoped role taken by a participant with respect to AI assets. Anti-rigid: an agent can gain and lose roles over time. Subclasses are intentionally NOT mutually disjoint — one agent can hold several roles simultaneously (e.g., a research group may be both Evaluator and Model Provider).</span>
+  </div>
+  <div class="comment">
+   <span class="markdown">A dataspace-scoped role played by a participant with respect to AI assets (anti-rigid; an agent gains and loses roles over time).</span>
+  </div>
+  <dl class="definedBy">
+   <dt>
+    Is defined by
+   </dt>
+   <dd>
+    <a href="https://w3id.org/pionera/daimo">https://w3id.org/pionera/daimo</a>
+   </dd>
+  </dl>
+  <dl>
+   <dt>
+    Example
+   </dt>
+   <dd>
+    <pre>An agent acting as a Model Provider within a given EDC participant context has a ParticipantRole instance of type ModelProvider connected via daimo:hasRole and scoped by daimo:inParticipantContext.</pre>
+   </dd>
+  </dl>
+  <dl class="description">
+   <dt>
+    has sub-classes
+   </dt>
+   <dd>
+    <a href="#Evaluator" title="https://w3id.org/pionera/daimo#Evaluator">evaluator</a> <sup class="type-c" title="class">c</sup>, <a href="#GovernanceActor" title="https://w3id.org/pionera/daimo#GovernanceActor">governance actor</a> <sup class="type-c" title="class">c</sup>, <a href="#ModelConsumer" title="https://w3id.org/pionera/daimo#ModelConsumer">model consumer</a> <sup class="type-c" title="class">c</sup>, <a href="#ModelProvider" title="https://w3id.org/pionera/daimo#ModelProvider">model provider</a> <sup class="type-c" title="class">c</sup>, <a href="#PlatformOperator" title="https://w3id.org/pionera/daimo#PlatformOperator">platform operator</a> <sup class="type-c" title="class">c</sup>
+   </dd>
+   <dt>
+    is in domain of
+   </dt>
+   <dd>
+    <a href="#inParticipantContext" title="https://w3id.org/pionera/daimo#inParticipantContext">in participant context</a> <sup class="type-op" title="object property">op</sup>
+   </dd>
+   <dt>
+    is in range of
+   </dt>
+   <dd>
+    <a href="#hasRole" title="https://w3id.org/pionera/daimo#hasRole">has role</a> <sup class="type-op" title="object property">op</sup>
+   </dd>
+   <dt>
+    is disjoint with
+   </dt>
+   <dd>
+    <a href="#AIAssetOffering" title="https://w3id.org/pionera/daimo#AIAssetOffering">AI asset offering</a> <sup class="type-c" title="class">c</sup>, <a href="#AuditEvidence" title="https://w3id.org/pionera/daimo#AuditEvidence">audit evidence</a> <sup class="type-c" title="class">c</sup>, <a href="#CrossParticipantProvenanceRecord" title="https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord">cross-participant provenance record</a> <sup class="type-c" title="class">c</sup>, <a href="#DerivedArtifact" title="https://w3id.org/pionera/daimo#DerivedArtifact">derived artifact</a> <sup class="type-c" title="class">c</sup>, <a href="#ExecutionAuthorization" title="https://w3id.org/pionera/daimo#ExecutionAuthorization">execution authorization</a> <sup class="type-c" title="class">c</sup>, <a href="#IOContract" title="https://w3id.org/pionera/daimo#IOContract">I/O contract</a> <sup class="type-c" title="class">c</sup>, <a href="#ModelDeployment" title="https://w3id.org/pionera/daimo#ModelDeployment">model deployment</a> <sup class="type-c" title="class">c</sup>, <a href="#SharedEvaluationContext" title="https://w3id.org/pionera/daimo#SharedEvaluationContext">shared evaluation context</a> <sup class="type-c" title="class">c</sup>
+   </dd>
+  </dl>
+ </div>
+ <div class="entity" id="PlatformOperator">
+  <h3>platform operator<sup class="type-c" title="class">c</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#classes">Class ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#PlatformOperator</p>
+  <div class="comment">
+   <span class="markdown">Role of an agent responsible for operating the dataspace runtime, hosting model deployments, and enforcing policy.</span>
+  </div>
+  <div class="comment">
+   <span class="markdown">Role of an agent responsible for operating the dataspace runtime, hosting model deployments, and enforcing policy at runtime.</span>
+  </div>
+  <dl class="definedBy">
+   <dt>
+    Is defined by
+   </dt>
+   <dd>
+    <a href="https://w3id.org/pionera/daimo">https://w3id.org/pionera/daimo</a>
+   </dd>
+  </dl>
+  <dl>
+   <dt>
+    Example
+   </dt>
+   <dd>
+    <pre>A dataspace platform provider hosting one or more ModelDeployments, signing AuditEvidence records, and running the EDC connector acts as a PlatformOperator in each participant context it administers.</pre>
+   </dd>
+  </dl>
+  <dl class="description">
+   <dt>
+    has super-classes
+   </dt>
+   <dd>
+    <a href="#ParticipantRole" title="https://w3id.org/pionera/daimo#ParticipantRole">participant role</a> <sup class="type-c" title="class">c</sup>
+   </dd>
+  </dl>
+ </div>
+ <div class="entity" id="SharedEvaluationContext">
+  <h3>shared evaluation context<sup class="type-c" title="class">c</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#classes">Class ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#SharedEvaluationContext</p>
+  <div class="comment">
+   <span class="markdown">A reified grouping of the conditions under which model results are comparable: task, dataset, dataset version, protocol, and random seed. Does not claim to cover every facet that affects comparability (metric, split strategy, hyperparameters); it is the minimum grouping required by CQ-V1..CQ-V3.</span>
+  </div>
+  <div class="comment">
+   <span class="markdown">A reified grouping of the conditions under which model evaluations are comparable: task, dataset, dataset version, evaluation protocol, and random seed.</span>
+  </div>
+  <dl class="definedBy">
+   <dt>
+    Is defined by
+   </dt>
+   <dd>
+    <a href="https://w3id.org/pionera/daimo">https://w3id.org/pionera/daimo</a>
+   </dd>
+  </dl>
+  <dl>
+   <dt>
+    Example
+   </dt>
+   <dd>
+    <pre>Two candidate models evaluated on the same SharedEvaluationContext (identical it6:Task, dcat:Dataset, daimo:datasetVersion, daimo:protocol, and daimo:randomSeed) yield metric values that are directly comparable; changing any of the five facets breaks comparability.</pre>
+   </dd>
+  </dl>
+  <dl class="description">
+   <dt>
+    is in domain of
+   </dt>
+   <dd>
+    <a href="#contextDataset" title="https://w3id.org/pionera/daimo#contextDataset">context dataset</a> <sup class="type-op" title="object property">op</sup>, <a href="#contextFlow" title="https://w3id.org/pionera/daimo#contextFlow">context flow</a> <sup class="type-op" title="object property">op</sup>, <a href="#contextTask" title="https://w3id.org/pionera/daimo#contextTask">context task</a> <sup class="type-op" title="object property">op</sup>, <a href="#datasetVersion" title="https://w3id.org/pionera/daimo#datasetVersion">dataset version</a> <sup class="type-dp" title="data property">dp</sup>, <a href="#protocol" title="https://w3id.org/pionera/daimo#protocol">evaluation protocol</a> <sup class="type-dp" title="data property">dp</sup>, <a href="#randomSeed" title="https://w3id.org/pionera/daimo#randomSeed">random seed</a> <sup class="type-dp" title="data property">dp</sup>
+   </dd>
+   <dt>
+    is in range of
+   </dt>
+   <dd>
+    <a href="#usesEvaluationContext" title="https://w3id.org/pionera/daimo#usesEvaluationContext">uses evaluation context</a> <sup class="type-op" title="object property">op</sup>
+   </dd>
+   <dt>
+    is disjoint with
+   </dt>
+   <dd>
+    <a href="#AIAssetOffering" title="https://w3id.org/pionera/daimo#AIAssetOffering">AI asset offering</a> <sup class="type-c" title="class">c</sup>, <a href="#AuditEvidence" title="https://w3id.org/pionera/daimo#AuditEvidence">audit evidence</a> <sup class="type-c" title="class">c</sup>, <a href="#CrossParticipantProvenanceRecord" title="https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord">cross-participant provenance record</a> <sup class="type-c" title="class">c</sup>, <a href="#DerivedArtifact" title="https://w3id.org/pionera/daimo#DerivedArtifact">derived artifact</a> <sup class="type-c" title="class">c</sup>, <a href="#ExecutionAuthorization" title="https://w3id.org/pionera/daimo#ExecutionAuthorization">execution authorization</a> <sup class="type-c" title="class">c</sup>, <a href="#IOContract" title="https://w3id.org/pionera/daimo#IOContract">I/O contract</a> <sup class="type-c" title="class">c</sup>, <a href="#ModelDeployment" title="https://w3id.org/pionera/daimo#ModelDeployment">model deployment</a> <sup class="type-c" title="class">c</sup>, <a href="#ParticipantRole" title="https://w3id.org/pionera/daimo#ParticipantRole">participant role</a> <sup class="type-c" title="class">c</sup>
+   </dd>
+  </dl>
+ </div>
+</div><div xmlns:widoco="https://w3id.org/widoco/vocab#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="objectproperties">
+ <h3 id="properties" class="list">Object Properties</h3>
+ <ul class="hlist">
+  <li><a href="#authorizedBy" title="https://w3id.org/pionera/daimo#authorizedBy">authorized by</a></li>
+  <li><a href="#authorizesRun" title="https://w3id.org/pionera/daimo#authorizesRun">authorizes run</a></li>
+  <li><a href="#contextDataset" title="https://w3id.org/pionera/daimo#contextDataset">context dataset</a></li>
+  <li><a href="#contextFlow" title="https://w3id.org/pionera/daimo#contextFlow">context flow</a></li>
+  <li><a href="#contextTask" title="https://w3id.org/pionera/daimo#contextTask">context task</a></li>
+  <li><a href="#deploysModel" title="https://w3id.org/pionera/daimo#deploysModel">deploys model</a></li>
+  <li><a href="#derivedFromRun" title="https://w3id.org/pionera/daimo#derivedFromRun">derived from run</a></li>
+  <li><a href="#evidenceOf" title="https://w3id.org/pionera/daimo#evidenceOf">evidence of</a></li>
+  <li><a href="#exposedAs" title="https://w3id.org/pionera/daimo#exposedAs">exposed as</a></li>
+  <li><a href="#grantedTo" title="https://w3id.org/pionera/daimo#grantedTo">granted to</a></li>
+  <li><a href="#hasAuditEvidence" title="https://w3id.org/pionera/daimo#hasAuditEvidence">has audit evidence</a></li>
+  <li><a href="#hasDeployment" title="https://w3id.org/pionera/daimo#hasDeployment">has deployment</a></li>
+  <li><a href="#hasDerivedArtifact" title="https://w3id.org/pionera/daimo#hasDerivedArtifact">has derived artifact</a></li>
+  <li><a href="#hasIOContract" title="https://w3id.org/pionera/daimo#hasIOContract">has I/O contract</a></li>
+  <li><a href="#hasOfferPolicy" title="https://w3id.org/pionera/daimo#hasOfferPolicy">has offer policy</a></li>
+  <li><a href="#hasOffering" title="https://w3id.org/pionera/daimo#hasOffering">has offering</a></li>
+  <li><a href="#hasRole" title="https://w3id.org/pionera/daimo#hasRole">has role</a></li>
+  <li><a href="#inParticipantContext" title="https://w3id.org/pionera/daimo#inParticipantContext">in participant context</a></li>
+  <li><a href="#inputSchema" title="https://w3id.org/pionera/daimo#inputSchema">input schema</a></li>
+  <li><a href="#integrityHash" title="https://w3id.org/pionera/daimo#integrityHash">integrity hash</a></li>
+  <li><a href="#offeredBy" title="https://w3id.org/pionera/daimo#offeredBy">offered by</a></li>
+  <li><a href="#offersModel" title="https://w3id.org/pionera/daimo#offersModel">offers model</a></li>
+  <li><a href="#onInfrastructure" title="https://w3id.org/pionera/daimo#onInfrastructure">on infrastructure</a></li>
+  <li><a href="#outputSchema" title="https://w3id.org/pionera/daimo#outputSchema">output schema</a></li>
+  <li><a href="#records" title="https://w3id.org/pionera/daimo#records">records</a></li>
+  <li><a href="#signedBy" title="https://w3id.org/pionera/daimo#signedBy">signed by</a></li>
+  <li><a href="#spansParticipantContext" title="https://w3id.org/pionera/daimo#spansParticipantContext">spans participant context</a></li>
+  <li><a href="#underAuthorization" title="https://w3id.org/pionera/daimo#underAuthorization">under authorization</a></li>
+  <li><a href="#usesEvaluationContext" title="https://w3id.org/pionera/daimo#usesEvaluationContext">uses evaluation context</a></li>
+ </ul>
+ <div class="entity" id="authorizedBy">
+  <h3>authorized by<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#authorizedBy</p>
+  <div class="comment">
+   <span class="markdown">Inverse of daimo:authorizesRun. Functional: each run is authorized by exactly one agreement.</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="http://data.europa.eu/it6/Run" target="_blank" title="http://data.europa.eu/it6/Run">Run</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="#ExecutionAuthorization" title="https://w3id.org/pionera/daimo#ExecutionAuthorization">execution authorization</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     is inverse of
+    </dt>
+    <dd>
+     <a href="#authorizesRun" title="https://w3id.org/pionera/daimo#authorizesRun">authorizes run</a> <sup class="type-op" title="object property">op</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="authorizesRun">
+  <h3>authorizes run<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#authorizesRun</p>
+  <div class="comment">
+   <span class="markdown">Links an authorization to a run it permits. Non-functional: a single authorization can cover multiple runs (e.g., subscription-style access). Asymmetric: an authorization is distinct from any run it authorises. Deliberately NOT declared a subproperty of prov:used: an odrl:Agreement is a policy artefact (an Entity), not a prov:Activity; the prov:used domain would incorrectly force ExecutionAuthorization ⊑ prov:Activity.</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> asymmetric</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#ExecutionAuthorization" title="https://w3id.org/pionera/daimo#ExecutionAuthorization">execution authorization</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://data.europa.eu/it6/Run" target="_blank" title="http://data.europa.eu/it6/Run">Run</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     is inverse of
+    </dt>
+    <dd>
+     <a href="#authorizedBy" title="https://w3id.org/pionera/daimo#authorizedBy">authorized by</a> <sup class="type-op" title="object property">op</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="contextDataset">
+  <h3>context dataset<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#contextDataset</p>
+  <div class="comment">
+   <span class="markdown">The dcat:Dataset the evaluation context is defined over. Functional. Not declared a subproperty of it6:trainedOn because an evaluation-context dataset is an evaluation dataset, not necessarily a training dataset.</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#SharedEvaluationContext" title="https://w3id.org/pionera/daimo#SharedEvaluationContext">shared evaluation context</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://www.w3.org/ns/dcat#Dataset" target="_blank" title="http://www.w3.org/ns/dcat#Dataset">Dataset</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="contextFlow">
+  <h3>context flow<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#contextFlow</p>
+  <div class="comment">
+   <span class="markdown">The it6:Flow (pipeline / reproducibility artefact) referenced by the evaluation context. Functional. Not declared a subproperty of it6:hasFlow because the evaluation context is not itself a run.</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#SharedEvaluationContext" title="https://w3id.org/pionera/daimo#SharedEvaluationContext">shared evaluation context</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://data.europa.eu/it6/Flow" target="_blank" title="http://data.europa.eu/it6/Flow">Flow</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="contextTask">
+  <h3>context task<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#contextTask</p>
+  <div class="comment">
+   <span class="markdown">The it6:Task the evaluation context is defined over. Functional.</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has super-properties
+    </dt>
+    <dd>
+     <a href="http://data.europa.eu/it6/hasTask" target="_blank" title="http://data.europa.eu/it6/hasTask">has Task</a> <sup class="type-op" title="object property">op</sup>
+    </dd>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#SharedEvaluationContext" title="https://w3id.org/pionera/daimo#SharedEvaluationContext">shared evaluation context</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://data.europa.eu/it6/Task" target="_blank" title="http://data.europa.eu/it6/Task">Task</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="deploysModel">
+  <h3>deploys model<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#deploysModel</p>
+  <div class="comment">
+   <span class="markdown">Links a deployment to the model it serves. Functional: one deployment serves one model. Asymmetric: a deployment and its model are distinct individuals.</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional, asymmetric</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#ModelDeployment" title="https://w3id.org/pionera/daimo#ModelDeployment">model deployment</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://data.europa.eu/it6/MachineLearningModel" target="_blank" title="http://data.europa.eu/it6/MachineLearningModel">Machine Learning Model</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     is inverse of
+    </dt>
+    <dd>
+     <a href="#hasDeployment" title="https://w3id.org/pionera/daimo#hasDeployment">has deployment</a> <sup class="type-op" title="object property">op</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="derivedFromRun">
+  <h3>derived from run<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#derivedFromRun</p>
+  <div class="comment">
+   <span class="markdown">Links a derived artifact to the run that produced it. Functional: each derived artifact has exactly one originating run. Asymmetric: an artifact and its generating run are distinct.</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional, asymmetric</p>
+   <dl>
+    <dt>
+     has super-properties
+    </dt>
+    <dd>
+     <a href="http://www.w3.org/ns/prov#wasGeneratedBy" target="_blank" title="http://www.w3.org/ns/prov#wasGeneratedBy">was Generated By</a> <sup class="type-op" title="object property">op</sup>
+    </dd>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#DerivedArtifact" title="https://w3id.org/pionera/daimo#DerivedArtifact">derived artifact</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://data.europa.eu/it6/Run" target="_blank" title="http://data.europa.eu/it6/Run">Run</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     is inverse of
+    </dt>
+    <dd>
+     <a href="#hasDerivedArtifact" title="https://w3id.org/pionera/daimo#hasDerivedArtifact">has derived artifact</a> <sup class="type-op" title="object property">op</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="evidenceOf">
+  <h3>evidence of<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#evidenceOf</p>
+  <div class="comment">
+   <span class="markdown">Links audit evidence to the activity it attests. Functional. Asymmetric: audit evidence is distinct from the activity it records. Deliberately NOT declared a subproperty of prov:hadActivity: that property is used on reified influence/generation/usage objects, not on entities — an AuditEvidence is a prov:Entity that is ABOUT an activity, which PROV-O does not provide a direct property for.</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional, asymmetric</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#AuditEvidence" title="https://w3id.org/pionera/daimo#AuditEvidence">audit evidence</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://www.w3.org/ns/prov#Activity" target="_blank" title="http://www.w3.org/ns/prov#Activity">Activity</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     is inverse of
+    </dt>
+    <dd>
+     <a href="#hasAuditEvidence" title="https://w3id.org/pionera/daimo#hasAuditEvidence">has audit evidence</a> <sup class="type-op" title="object property">op</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="exposedAs">
+  <h3>exposed as<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#exposedAs</p>
+  <div class="comment">
+   <span class="markdown">Links a deployment to the DCAT data service(s) that expose it. Non-functional: one deployment may expose multiple endpoints (e.g., a REST service plus a gRPC service, or regional load-balanced endpoints). Each service's I/O contract can differ (see daimo:hasIOContract, also non-functional).</span>
+  </div>
+  <div class="description">
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#ModelDeployment" title="https://w3id.org/pionera/daimo#ModelDeployment">model deployment</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://www.w3.org/ns/dcat#DataService" target="_blank" title="http://www.w3.org/ns/dcat#DataService">Data Service</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="grantedTo">
+  <h3>granted to<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#grantedTo</p>
+  <div class="comment">
+   <span class="markdown">Links an authorization to the grantee agent. Functional. Specialises odrl:assignee (the ODRL party receiving an agreement's terms). Deliberately NOT aligned to prov:qualifiedAssociation: that property points to a reified prov:Association object, not to the agent itself; using it here would incorrectly type every grantee Agent as a prov:Association.</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has super-properties
+    </dt>
+    <dd>
+     <a href="http://www.w3.org/ns/odrl/2/assignee" target="_blank" title="http://www.w3.org/ns/odrl/2/assignee">assignee</a> <sup class="type-op" title="object property">op</sup>
+    </dd>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#ExecutionAuthorization" title="https://w3id.org/pionera/daimo#ExecutionAuthorization">execution authorization</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://xmlns.com/foaf/0.1/Agent" target="_blank" title="http://xmlns.com/foaf/0.1/Agent">Agent</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="hasAuditEvidence">
+  <h3>has audit evidence<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#hasAuditEvidence</p>
+  <div class="comment">
+   <span class="markdown">Inverse of daimo:evidenceOf: from an activity, retrieve every audit-evidence record attesting it. Non-functional (multiple auditors can independently attest the same activity).</span>
+  </div>
+  <div class="description">
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="http://www.w3.org/ns/prov#Activity" target="_blank" title="http://www.w3.org/ns/prov#Activity">Activity</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="#AuditEvidence" title="https://w3id.org/pionera/daimo#AuditEvidence">audit evidence</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     is inverse of
+    </dt>
+    <dd>
+     <a href="#evidenceOf" title="https://w3id.org/pionera/daimo#evidenceOf">evidence of</a> <sup class="type-op" title="object property">op</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="hasDeployment">
+  <h3>has deployment<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#hasDeployment</p>
+  <div class="comment">
+   <span class="markdown">Inverse of daimo:deploysModel: from a model, retrieve every deployment that serves it. Non-functional (a model can have multiple deployments across contexts).</span>
+  </div>
+  <div class="description">
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="http://data.europa.eu/it6/MachineLearningModel" target="_blank" title="http://data.europa.eu/it6/MachineLearningModel">Machine Learning Model</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="#ModelDeployment" title="https://w3id.org/pionera/daimo#ModelDeployment">model deployment</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     is inverse of
+    </dt>
+    <dd>
+     <a href="#deploysModel" title="https://w3id.org/pionera/daimo#deploysModel">deploys model</a> <sup class="type-op" title="object property">op</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="hasDerivedArtifact">
+  <h3>has derived artifact<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#hasDerivedArtifact</p>
+  <div class="comment">
+   <span class="markdown">Inverse of daimo:derivedFromRun: from a run, retrieve every derived artifact it produced. Non-functional (a run may produce multiple governed outputs).</span>
+  </div>
+  <div class="description">
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="http://data.europa.eu/it6/Run" target="_blank" title="http://data.europa.eu/it6/Run">Run</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="#DerivedArtifact" title="https://w3id.org/pionera/daimo#DerivedArtifact">derived artifact</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     is inverse of
+    </dt>
+    <dd>
+     <a href="#derivedFromRun" title="https://w3id.org/pionera/daimo#derivedFromRun">derived from run</a> <sup class="type-op" title="object property">op</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="hasIOContract">
+  <h3>has I/O contract<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#hasIOContract</p>
+  <div class="comment">
+   <span class="markdown">Links a deployment to its invocation contract(s). Non-functional: a deployment exposing multiple services (see daimo:exposedAs) may carry a distinct IOContract per protocol (e.g., JSON+OAuth2 for REST and protobuf+mTLS for gRPC).</span>
+  </div>
+  <div class="description">
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#ModelDeployment" title="https://w3id.org/pionera/daimo#ModelDeployment">model deployment</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="#IOContract" title="https://w3id.org/pionera/daimo#IOContract">I/O contract</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="hasOfferPolicy">
+  <h3>has offer policy<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#hasOfferPolicy</p>
+  <div class="comment">
+   <span class="markdown">Links an offering to the ODRL offer policy that governs the offered model. Functional: each offering carries exactly one canonical offer policy.</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has super-properties
+    </dt>
+    <dd>
+     <a href="http://www.w3.org/ns/odrl/2/hasPolicy" target="_blank" title="http://www.w3.org/ns/odrl/2/hasPolicy">has Policy</a> <sup class="type-op" title="object property">op</sup>
+    </dd>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#AIAssetOffering" title="https://w3id.org/pionera/daimo#AIAssetOffering">AI asset offering</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://www.w3.org/ns/odrl/2/Offer" target="_blank" title="http://www.w3.org/ns/odrl/2/Offer">Offer</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="hasOffering">
+  <h3>has offering<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#hasOffering</p>
+  <div class="comment">
+   <span class="markdown">Inverse of daimo:offersModel: from a model, retrieve every catalog offering that registers it. Non-functional (the same model may be offered by different providers in different catalogs). Declared rdfs:subPropertyOf foaf:isPrimaryTopicOf for symmetry with daimo:offersModel ⊑ foaf:primaryTopic.</span>
+  </div>
+  <div class="description">
+   <dl>
+    <dt>
+     has super-properties
+    </dt>
+    <dd>
+     <a href="http://xmlns.com/foaf/0.1/isPrimaryTopicOf" target="_blank" title="http://xmlns.com/foaf/0.1/isPrimaryTopicOf">is Primary Topic Of</a> <sup class="type-op" title="object property">op</sup>
+    </dd>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="http://data.europa.eu/it6/MachineLearningModel" target="_blank" title="http://data.europa.eu/it6/MachineLearningModel">Machine Learning Model</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="#AIAssetOffering" title="https://w3id.org/pionera/daimo#AIAssetOffering">AI asset offering</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     is inverse of
+    </dt>
+    <dd>
+     <a href="#offersModel" title="https://w3id.org/pionera/daimo#offersModel">offers model</a> <sup class="type-op" title="object property">op</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="hasRole">
+  <h3>has role<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#hasRole</p>
+  <div class="comment">
+   <span class="markdown">Links an agent to a dataspace role. Non-functional: agents may hold multiple roles.</span>
+  </div>
+  <div class="description">
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="http://xmlns.com/foaf/0.1/Agent" target="_blank" title="http://xmlns.com/foaf/0.1/Agent">Agent</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="#ParticipantRole" title="https://w3id.org/pionera/daimo#ParticipantRole">participant role</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="inParticipantContext">
+  <h3>in participant context<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#inParticipantContext</p>
+  <div class="comment">
+   <span class="markdown">Scopes a role assignment to a specific EDC participant context. Functional: a role instance is held within exactly one context.</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#ParticipantRole" title="https://w3id.org/pionera/daimo#ParticipantRole">participant role</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="https://w3id.org/edc/v0.0.1/ns/ParticipantContext" target="_blank" title="https://w3id.org/edc/v0.0.1/ns/ParticipantContext">Participant Context</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="inputSchema">
+  <h3>input schema<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#inputSchema</p>
+  <div class="comment">
+   <span class="markdown">Optional link to a resource describing the input payload schema (JSON Schema, SHACL shape, etc.).</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#IOContract" title="https://w3id.org/pionera/daimo#IOContract">I/O contract</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://www.w3.org/ns/dcat#Resource" target="_blank" title="http://www.w3.org/ns/dcat#Resource">Resource</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="integrityHash">
+  <h3>integrity hash<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#integrityHash</p>
+  <div class="comment">
+   <span class="markdown">Links audit evidence to an spdx:Checksum that bundles the algorithm (spdx:algorithm) and the digest value (spdx:checksumValue). Functional: exactly one canonical checksum per evidence record. A plain-string digest without its algorithm cannot be verified, so a structured spdx:Checksum is required rather than an xsd:string.</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#AuditEvidence" title="https://w3id.org/pionera/daimo#AuditEvidence">audit evidence</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://spdx.org/rdf/terms#Checksum" target="_blank" title="http://spdx.org/rdf/terms#Checksum">Checksum</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="offeredBy">
+  <h3>offered by<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#offeredBy</p>
+  <div class="comment">
+   <span class="markdown">Links an offering to the agent that authored the offered AI model (i.e., the model provider). Functional: each offering has exactly one offering agent. Deliberately NOT declared rdfs:subPropertyOf dct:publisher: on a dcat:CatalogRecord, dct:publisher denotes the catalog maintainer (the platform registering the record), not the author of the asset being registered. Conflating them would entail that the catalog-time publisher is the model creator — semantically wrong in a real dataspace where e.g. INESData publishes records authored by UPM.</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#AIAssetOffering" title="https://w3id.org/pionera/daimo#AIAssetOffering">AI asset offering</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://xmlns.com/foaf/0.1/Agent" target="_blank" title="http://xmlns.com/foaf/0.1/Agent">Agent</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="offersModel">
+  <h3>offers model<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#offersModel</p>
+  <div class="comment">
+   <span class="markdown">Links a catalog-record offering to the AI model it registers. Functional: one offering registers exactly one model. Asymmetric: an offering is distinct from the model it offers.</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional, asymmetric</p>
+   <dl>
+    <dt>
+     has super-properties
+    </dt>
+    <dd>
+     <a href="http://xmlns.com/foaf/0.1/primaryTopic" target="_blank" title="http://xmlns.com/foaf/0.1/primaryTopic">primary Topic</a> <sup class="type-op" title="object property">op</sup>
+    </dd>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#AIAssetOffering" title="https://w3id.org/pionera/daimo#AIAssetOffering">AI asset offering</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://data.europa.eu/it6/MachineLearningModel" target="_blank" title="http://data.europa.eu/it6/MachineLearningModel">Machine Learning Model</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     is inverse of
+    </dt>
+    <dd>
+     <a href="#hasOffering" title="https://w3id.org/pionera/daimo#hasOffering">has offering</a> <sup class="type-op" title="object property">op</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="onInfrastructure">
+  <h3>on infrastructure<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#onInfrastructure</p>
+  <div class="comment">
+   <span class="markdown">Links a deployment to the MLDCAT-AP computer infrastructure running it. Functional: one deployment runs on one canonical infrastructure instance (redundancy is modelled as multiple deployments).</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#ModelDeployment" title="https://w3id.org/pionera/daimo#ModelDeployment">model deployment</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://data.europa.eu/it6/ComputerInfrastructure" target="_blank" title="http://data.europa.eu/it6/ComputerInfrastructure">Computer Infrastructure</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="outputSchema">
+  <h3>output schema<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#outputSchema</p>
+  <div class="comment">
+   <span class="markdown">Optional link to a resource describing the output payload schema.</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#IOContract" title="https://w3id.org/pionera/daimo#IOContract">I/O contract</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://www.w3.org/ns/dcat#Resource" target="_blank" title="http://www.w3.org/ns/dcat#Resource">Resource</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="records">
+  <h3>records<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#records</p>
+  <div class="comment">
+   <span class="markdown">Links a cross-participant provenance bundle to each prov:Activity that forms part of the audit-ready narrative.</span>
+  </div>
+  <div class="description">
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#CrossParticipantProvenanceRecord" title="https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord">cross-participant provenance record</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://www.w3.org/ns/prov#Activity" target="_blank" title="http://www.w3.org/ns/prov#Activity">Activity</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="signedBy">
+  <h3>signed by<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#signedBy</p>
+  <div class="comment">
+   <span class="markdown">Functional: one signer per evidence record.</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#AuditEvidence" title="https://w3id.org/pionera/daimo#AuditEvidence">audit evidence</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://xmlns.com/foaf/0.1/Agent" target="_blank" title="http://xmlns.com/foaf/0.1/Agent">Agent</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="spansParticipantContext">
+  <h3>spans participant context<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#spansParticipantContext</p>
+  <div class="comment">
+   <span class="markdown">Links a cross-participant provenance bundle to each participant context whose activities or entities it records. A record must span at least two contexts (enforced by SHACL).</span>
+  </div>
+  <div class="description">
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#CrossParticipantProvenanceRecord" title="https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord">cross-participant provenance record</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="https://w3id.org/edc/v0.0.1/ns/ParticipantContext" target="_blank" title="https://w3id.org/edc/v0.0.1/ns/ParticipantContext">Participant Context</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="underAuthorization">
+  <h3>under authorization<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#underAuthorization</p>
+  <div class="comment">
+   <span class="markdown">Links a derived artifact to the authorisation under which it was produced. Functional.</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#DerivedArtifact" title="https://w3id.org/pionera/daimo#DerivedArtifact">derived artifact</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="#ExecutionAuthorization" title="https://w3id.org/pionera/daimo#ExecutionAuthorization">execution authorization</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="usesEvaluationContext">
+  <h3>uses evaluation context<sup class="type-op" title="object property">op</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#objectproperties">Object Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#usesEvaluationContext</p>
+  <div class="comment">
+   <span class="markdown">Links an it6:Evaluation to the shared evaluation context under which its results are comparable to other evaluations. Functional.</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="http://data.europa.eu/it6/Evaluation" target="_blank" title="http://data.europa.eu/it6/Evaluation">Evaluation</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="#SharedEvaluationContext" title="https://w3id.org/pionera/daimo#SharedEvaluationContext">shared evaluation context</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+   </dl>
+  </div>
+ </div>
+</div><div xmlns:widoco="https://w3id.org/widoco/vocab#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="dataproperties">
+ <h3 id="dataproperties-headline" class="list">Data Properties</h3>
+ <ul class="hlist">
+  <li><a href="#authMethod" title="https://w3id.org/pionera/daimo#authMethod">authentication method</a></li>
+  <li><a href="#datasetVersion" title="https://w3id.org/pionera/daimo#datasetVersion">dataset version</a></li>
+  <li><a href="#protocol" title="https://w3id.org/pionera/daimo#protocol">evaluation protocol</a></li>
+  <li><a href="#expiresAt" title="https://w3id.org/pionera/daimo#expiresAt">expires at</a></li>
+  <li><a href="#inputFormat" title="https://w3id.org/pionera/daimo#inputFormat">input format</a></li>
+  <li><a href="#outputFormat" title="https://w3id.org/pionera/daimo#outputFormat">output format</a></li>
+  <li><a href="#randomSeed" title="https://w3id.org/pionera/daimo#randomSeed">random seed</a></li>
+  <li><a href="#recordedAt" title="https://w3id.org/pionera/daimo#recordedAt">recorded at</a></li>
+ </ul>
+ <div class="entity" id="authMethod">
+  <h3>authentication method<sup class="type-dp" title="data property">dp</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#dataproperties">Data Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#authMethod</p>
+  <div class="comment">
+   <span class="markdown">Authentication-method token (e.g. "oauth2-bearer", "api-key", "mtls").</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#IOContract" title="https://w3id.org/pionera/daimo#IOContract">I/O contract</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://www.w3.org/2001/XMLSchema#string" target="_blank" title="http://www.w3.org/2001/XMLSchema#string">string</a>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="datasetVersion">
+  <h3>dataset version<sup class="type-dp" title="data property">dp</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#dataproperties">Data Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#datasetVersion</p>
+  <div class="comment">
+   <span class="markdown">Literal version identifier of the evaluation dataset used by the context. Deliberately not aligned to dct:hasVersion because dct:hasVersion relates a resource to another version resource, whereas DAIMO records the dataset-version token as a literal for reproducible benchmarking.</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#SharedEvaluationContext" title="https://w3id.org/pionera/daimo#SharedEvaluationContext">shared evaluation context</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://www.w3.org/2001/XMLSchema#string" target="_blank" title="http://www.w3.org/2001/XMLSchema#string">string</a>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="protocol">
+  <h3>evaluation protocol<sup class="type-dp" title="data property">dp</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#dataproperties">Data Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#protocol</p>
+  <div class="comment">
+   <span class="markdown">Name of the evaluation protocol (e.g. "holdout", "5-fold-cv", "bootstrap-1000").</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#SharedEvaluationContext" title="https://w3id.org/pionera/daimo#SharedEvaluationContext">shared evaluation context</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://www.w3.org/2001/XMLSchema#string" target="_blank" title="http://www.w3.org/2001/XMLSchema#string">string</a>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="expiresAt">
+  <h3>expires at<sup class="type-dp" title="data property">dp</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#dataproperties">Data Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#expiresAt</p>
+  <div class="comment">
+   <span class="markdown">Expiry timestamp of the execution authorisation.</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#ExecutionAuthorization" title="https://w3id.org/pionera/daimo#ExecutionAuthorization">execution authorization</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://www.w3.org/2001/XMLSchema#dateTime" target="_blank" title="http://www.w3.org/2001/XMLSchema#dateTime">date Time</a>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="inputFormat">
+  <h3>input format<sup class="type-dp" title="data property">dp</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#dataproperties">Data Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#inputFormat</p>
+  <div class="comment">
+   <span class="markdown">IANA media type of the expected input payload (e.g. "application/json").</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#IOContract" title="https://w3id.org/pionera/daimo#IOContract">I/O contract</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://www.w3.org/2001/XMLSchema#string" target="_blank" title="http://www.w3.org/2001/XMLSchema#string">string</a>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="outputFormat">
+  <h3>output format<sup class="type-dp" title="data property">dp</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#dataproperties">Data Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#outputFormat</p>
+  <div class="comment">
+   <span class="markdown">IANA media type of the produced output payload (e.g. "application/geo+json").</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#IOContract" title="https://w3id.org/pionera/daimo#IOContract">I/O contract</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://www.w3.org/2001/XMLSchema#string" target="_blank" title="http://www.w3.org/2001/XMLSchema#string">string</a>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="randomSeed">
+  <h3>random seed<sup class="type-dp" title="data property">dp</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#dataproperties">Data Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#randomSeed</p>
+  <div class="comment">
+   <span class="markdown">Random seed fixing stochastic components of the protocol, required for reproducibility.</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#SharedEvaluationContext" title="https://w3id.org/pionera/daimo#SharedEvaluationContext">shared evaluation context</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://www.w3.org/2001/XMLSchema#integer" target="_blank" title="http://www.w3.org/2001/XMLSchema#integer">integer</a>
+    </dd>
+   </dl>
+  </div>
+ </div>
+ <div class="entity" id="recordedAt">
+  <h3>recorded at<sup class="type-dp" title="data property">dp</sup> <span class="backlink"> back to <a href="#toc">ToC</a> or <a href="#dataproperties">Data Property ToC</a> </span></h3>
+  <p><strong>IRI:</strong> https://w3id.org/pionera/daimo#recordedAt</p>
+  <div class="comment">
+   <span class="markdown">Timestamp at which the audit evidence was sealed.</span>
+  </div>
+  <div class="description">
+   <p><strong>has characteristics: </strong> functional</p>
+   <dl>
+    <dt>
+     has domain
+    </dt>
+    <dd>
+     <a href="#AuditEvidence" title="https://w3id.org/pionera/daimo#AuditEvidence">audit evidence</a> <sup class="type-c" title="class">c</sup>
+    </dd>
+    <dt>
+     has range
+    </dt>
+    <dd>
+     <a href="http://www.w3.org/2001/XMLSchema#dateTime" target="_blank" title="http://www.w3.org/2001/XMLSchema#dateTime">date Time</a>
+    </dd>
+   </dl>
+  </div>
+ </div>
+</div><div id="legend">
+<h2>Legend <span class="backlink"> back to <a href="#toc">ToC</a></span></h2>
+<div   class="entity">
+<sup class="type-c" title="Classes">c</sup>: Classes <br/>
+<sup class="type-op" title="Object Properties">op</sup>: Object Properties <br/>
+<sup class="type-dp" title="Data Properties">dp</sup>: Data Properties <br/>
+</div>
+</div>

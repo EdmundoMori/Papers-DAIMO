@@ -93,5 +93,11 @@ g.serialize(destination=docs / "ontology.nt", format="nt")
 PY
 ```
 
-The WIDOCO HTML page must still be regenerated before final public release,
-because no WIDOCO JAR is bundled in this repository.
+WIDOCO HTML documentation is bundled in `docs/index-en.html` (regenerated on
+2026-07-08 from v0.1.6 sources). To regenerate locally, use a WIDOCO JAR
+outside the repository:
+
+```bash
+java -jar widoco.jar -ontFile ontology/daimo-core.ttl -outFolder docs \
+  -webVowl -noPlaceHolderText -lang en -rewriteAll -includeImportedOntologies
+```

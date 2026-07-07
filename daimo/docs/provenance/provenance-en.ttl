@@ -2,7 +2,14 @@
 @prefix dc: <http://purl.org/dc/terms/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix : <> .
-<https://w3id.org/pionera/daimo/0.1.1> a prov:Entity;
-	 dc:title "DAIMO: an ontology for governed AI model assets in data spaces";
+<https://w3id.org/pionera/daimo/0.1.6> a prov:Entity;
+	 dc:title "DAIMO: an ontology for governed AI model assets in dataspaces";
+	 prov:wasAttributedTo :agent0;
+	 prov:wasAttributedTo :agent1;
+	 prov:wasAttributedTo <https://ror.org/03n6nwv02>;
+	 dc:contributor <https://ror.org/03n6nwv02>;
 	 prov:wasAttributedTo <https://github.com/dgarijo/Widoco/>,<http://www.essepuntato.it/lode/>;
+	 prov:wasRevisionOf <https://w3id.org/pionera/daimo/0.1.5>;
 .
+:agent0 a prov:Agent; foaf:name "Edmundo de Elvira Mori Orrillo".
+:agent1 a prov:Agent; foaf:name "Jiayun Liu".
