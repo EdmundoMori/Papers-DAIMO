@@ -1,17 +1,17 @@
 cff-version: 1.2.0
-title: "DAIMO: An Ontology for Governed AI Model Assets in Data Spaces"
+title: "DAIMO: An Ontology for Governed AI Model Assets in Dataspaces"
 message: >-
   If you use DAIMO in your work, please cite it as below.
 type: software
 version: 0.1.6
-date-released: "2026-07-06"
+date-released: "2026-07-08"
 license: CC-BY-4.0
-url: "https://w3id.org/pionera/daimo"
-repository-code: "https://github.com/<GITHUB_OWNER>/daimo"
+url: "https://github.com/EdmundoMori/Papers-DAIMO/releases/tag/v0.1.6-swj-submission"
+repository-code: "https://github.com/EdmundoMori/Papers-DAIMO"
 abstract: >-
   DAIMO is an OWL 2 DL integration profile connecting DCAT-AP, MLDCAT-AP 3.0.0,
   ODRL 2.2, PROV-O, and the Dataspace Protocol to make AI models first-class
-  governed assets in data spaces. It covers publication, discovery, invocation,
+  governed assets in dataspaces. It covers publication, discovery, invocation,
   execution traceability, and contextualised evaluation across participant
   boundaries. The ontology adds nine dataspace-bridge classes
   (AIAssetOffering, ParticipantRole with five subclasses, ModelDeployment,
@@ -22,7 +22,7 @@ abstract: >-
   package with 23 SPARQL-bound competency questions.
 keywords:
   - ontology
-  - data spaces
+  - dataspaces
   - AI governance
   - MLDCAT-AP
   - DCAT
@@ -35,18 +35,19 @@ authors:
   - family-names: "de Elvira Mori Orrillo"
     given-names: "Edmundo"
     affiliation: "Universidad Politécnica de Madrid"
-    # orcid: "https://orcid.org/0000-0000-0000-0000"
   - family-names: "Liu"
     given-names: "Jiayun"
     affiliation: "Universidad Politécnica de Madrid"
-    # orcid: "https://orcid.org/0000-0000-0000-0000"
 identifiers:
-  - type: doi
-    value: "10.5281/zenodo.XXXXXXXX"   # filled after Zenodo deposit
-    description: "Zenodo archival DOI"
+  - type: url
+    value: "https://github.com/EdmundoMori/Papers-DAIMO/releases/tag/v0.1.6-swj-submission"
+    description: "Frozen SWJ submission release (immutable review snapshot)"
+  - type: url
+    value: "https://github.com/EdmundoMori/Papers-DAIMO/tree/v0.1.6-swj-submission/daimo"
+    description: "Ontology package directory at the frozen release"
   - type: url
     value: "https://w3id.org/pionera/daimo"
-    description: "Persistent namespace (resolvable via content negotiation)"
+    description: "Canonical namespace (w3id redirect registration pending)"
 references:
   - type: conference-paper
     authors:

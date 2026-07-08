@@ -1,10 +1,10 @@
-# DAIMO — Ontology for Governed AI Model Assets in Data Spaces
+# DAIMO — Ontology for Governed AI Model Assets in Dataspaces
 
-Version: **0.1.6**
+Version: **0.1.6** (frozen review release: [`v0.1.6-swj-submission`](https://github.com/EdmundoMori/Papers-DAIMO/releases/tag/v0.1.6-swj-submission))
 Namespace: `https://w3id.org/pionera/daimo#` *(redirect registration pending — see [DEPLOYMENT.md](DEPLOYMENT.md))*
 Licence: CC-BY 4.0 (ontology and docs), Apache-2.0 (validation code)
 Methodology: [LOT (Linked Open Terms)](https://lot.linkeddata.es/)
-DOI: *pending — will be assigned after Zenodo archival; see [DEPLOYMENT.md](DEPLOYMENT.md) §5*
+DOI: *pending Zenodo archival after GitHub release publication — see [DEPLOYMENT.md](DEPLOYMENT.md) §5*
 
 DAIMO is an integration profile connecting DCAT-AP, MLDCAT-AP 3.0.0, ODRL, PROV-O, and Eclipse EDC to support publication, discovery, invocation, execution traceability, and contextualised evaluation of AI model assets exchanged in data spaces.
 
@@ -104,7 +104,7 @@ Reports are written to [reports/](reports/). Latest status:
 | Reasoner + entailment | HermiT consistent, 0 unsatisfiable, **0 forbidden-entailment warnings** ([reports/reasoner-report.md](reports/reasoner-report.md)) |
 | OOPS! pitfalls | **0 Critical, 0 Important**, 2 Minor ([reports/oops-report.md](reports/oops-report.md)) |
 | Negative invariant tests | **6/6 invariants fire on designated focus nodes** ([reports/negative-test-results.md](reports/negative-test-results.md)) |
-| Bounded scalability | **100/1000 synthetic exchange units conform**; 80,053 data triples at 1,000 units; SPARQL suite 0.363s ([reports/scalability-benchmark.md](reports/scalability-benchmark.md)) |
+| Bounded scalability | **100/1000 synthetic exchange units conform**; 80,053 data triples (147,648 OWL-RL closure triples) at 1,000 units; OWL-RL 53.672s, SHACL 135.010s, SPARQL suite 0.356s ([reports/scalability-benchmark.md](reports/scalability-benchmark.md)) |
 
 ## Competency questions
 
@@ -123,15 +123,15 @@ SPARQL bindings: [queries/queries.md](queries/queries.md).
 
 ## How this relates to the paper
 
-The Spanish draft paper (`../daimo-paper-es.pdf`) claims 19 CQs and validates
-14. This artefact:
+The current paper (Spanish master `../daimo-paper-es-v4.pdf` and English SWJ
+version `../daimo-paper-en-swj-v4.pdf`) and this validation package are aligned
+around 23 competency questions organised in five categories. This artefact:
 
-- lifts all 19 into natural-language form (the paper only had codes),
-- adds 4 new CQs (CQ-G1..G4) enabled by the dataspace-bridge vocabulary,
-- deepens 7 of the 23 CQs so a proper share exercises subclass / subproperty
-  reasoning rather than pure property retrieval,
-- runs all 23 as executable SPARQL over a conforming example KG (with
-  OWL-RL materialised closure so entailed triples are reachable),
+- provides all 23 CQs in natural-language form and as executable SPARQL,
+- runs the full SPARQL suite over the OWL-RL materialised demonstration graph so
+  entailed triples are reachable,
+- includes 4 dataspace-bridge CQs (CQ-G1..G4) that MLDCAT-AP alone cannot
+  answer, which carry the novelty argument,
 - enforces minimum completeness with 9 structural shapes, 3 conformance
   shapes **and** six cross-class governance invariants (INV-1..INV-6, all tested positively
   and negatively).
@@ -149,7 +149,7 @@ The Spanish draft paper (`../daimo-paper-es.pdf`) claims 19 CQs and validates
 | C7 SHACL conformance + invariants | Pass |
 | C8 CQ SPARQL | Pass |
 | C9 External validation | **Partial** — expert interviews pending |
-| C10 FAIR publication | **Partial** — w3id redirect, Zenodo DOI, GitHub Pages pending — see [DEPLOYMENT.md](DEPLOYMENT.md) |
+| C10 FAIR publication | **Partial** — frozen GitHub release ready; w3id PR and Zenodo DOI pending author credentials — see [DEPLOYMENT.md](DEPLOYMENT.md) |
 
 **8 Pass, 2 Partial, 0 Open.** See [../daimo-design-rationale.md](../daimo-design-rationale.md) for the full critique and [DEPLOYMENT.md](DEPLOYMENT.md) for the deployment runbook.
 
@@ -162,11 +162,19 @@ Submission-preparation documents:
 - [EXPERT-VALIDATION-PROTOCOL.md](EXPERT-VALIDATION-PROTOCOL.md) — human expert review package.
 - [STANDARD-IMPACT-NOTE.md](STANDARD-IMPACT-NOTE.md) — MLDCAT-AP 3.1.0 and DSP 2025-1 checks.
 
-## Open items
+## Open items (manual closure)
 
-- Replace placeholder ORCIDs in the ontology header with the authors' real identifiers.
-- Register the `w3id.org/pionera/daimo` redirect.
-- Regenerate HTML documentation with WIDOCO after the v0.1.6 ontology cleanup.
-- Deposit a tagged release on Zenodo for a DOI.
-- Re-run OOPS! pitfall scan immediately before final submission and save the report.
-- Conduct light expert interviews with one EDC / MLOps / data-space governance stakeholder (LOT phase 1 requirement validation).
+| Item | Status | Action |
+|---|---|---|
+| ORCIDs | Optional | Add real ORCID IRIs to `ontology/daimo-core.ttl` and `CITATION.cff` when available. |
+| `w3id` redirect | Prepared | Submit PR to `perma-id/w3id.org` using `w3id-redirect/.htaccess`. |
+| GitHub Pages | Prepared | Enable Pages with source **GitHub Actions**; workflow `.github/workflows/daimo-pages.yml` publishes `daimo/docs/`. |
+| Zenodo DOI | Pending credentials | Publish GitHub release `v0.1.6-swj-submission`, enable Zenodo integration, deposit, insert versioned DOI. |
+| Expert interviews | Pending scheduling | Conduct light expert review per [EXPERT-VALIDATION-PROTOCOL.md](EXPERT-VALIDATION-PROTOCOL.md) (SWJ C9). |
+
+Completed in this release candidate:
+
+- WIDOCO HTML regenerated from v0.1.6 sources (`docs/index-en.html`, version 0.1.6).
+- OOPS! re-run on 2026-07-08: **0 Critical, 0 Important, 2 Minor** ([reports/oops-report.md](reports/oops-report.md)).
+- Citation metadata cleaned (`CITATION.cff` without placeholder DOI/ORCID).
+- Frozen review tag prepared: `v0.1.6-swj-submission`.

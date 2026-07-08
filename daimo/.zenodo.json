@@ -1,6 +1,6 @@
 {
-  "title": "DAIMO: An Ontology for Governed AI Model Assets in Data Spaces",
-  "description": "DAIMO is an OWL 2 DL integration profile connecting DCAT-AP, MLDCAT-AP 3.0.0, ODRL 2.2, PROV-O, and the Dataspace Protocol. It treats AI models as first-class governed assets in data spaces, covering publication, discovery, invocation, execution traceability, and contextualised evaluation across participant boundaries. This release bundles the ontology specification (Turtle, OWL/XML, JSON-LD, N-Triples), SHACL shapes (including six cross-class invariants), a running-scenario example knowledge graph, 23 SPARQL-bound competency questions, a positive validator and a negative-test harness, WIDOCO-generated HTML documentation, and the ORSD. Validation reports from SHACL, HermiT, OWL-RL, OOPS!, and the entailment-verification check are included.",
+  "title": "DAIMO: An Ontology for Governed AI Model Assets in Dataspaces",
+  "description": "DAIMO is an OWL 2 DL integration profile connecting DCAT-AP, MLDCAT-AP 3.0.0, ODRL 2.2, PROV-O, and the Dataspace Protocol. It treats AI models as first-class governed assets in dataspaces, covering publication, discovery, invocation, execution traceability, and contextualised evaluation across participant boundaries. This release bundles the ontology specification (Turtle, OWL/XML, JSON-LD, N-Triples), SHACL shapes (including six cross-class invariants), a running-scenario example knowledge graph, 23 SPARQL-bound competency questions, a positive validator and a negative-test harness, WIDOCO-generated HTML documentation, and the ORSD. Validation reports from SHACL, HermiT, OWL-RL, OOPS!, and the entailment-verification check are included. Release tag: v0.1.6-swj-submission.",
   "creators": [
     {
       "name": "de Elvira Mori Orrillo, Edmundo",
@@ -14,9 +14,10 @@
   "access_right": "open",
   "license": "CC-BY-4.0",
   "upload_type": "software",
+  "version": "0.1.6-swj-submission",
   "keywords": [
     "ontology",
-    "data spaces",
+    "dataspaces",
     "AI governance",
     "MLDCAT-AP",
     "DCAT",
@@ -28,6 +29,11 @@
     "governed AI"
   ],
   "related_identifiers": [
+    {
+      "relation": "isSupplementTo",
+      "identifier": "https://github.com/EdmundoMori/Papers-DAIMO/releases/tag/v0.1.6-swj-submission",
+      "resource_type": "software"
+    },
     {
       "relation": "isIdentifiedBy",
       "identifier": "https://w3id.org/pionera/daimo",

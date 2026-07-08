@@ -21,10 +21,16 @@
 #################################################################
 
 <https://w3id.org/pionera/daimo> a owl:Ontology ;
-    dct:title "DAIMO: an ontology for governed AI model assets in data spaces"@en ;
-    dct:description "DAIMO is an integration profile that connects DCAT-AP, MLDCAT-AP, ODRL, PROV-O, and the Dataspace Protocol (DSP, as operationalised by Eclipse EDC) to support publication, discovery, invocation, execution traceability, and contextualised evaluation of AI model assets exchanged in data spaces. The edc: namespace is used only for EDC-specific extensions (e.g., ParticipantContext) not yet standardised in DSP."@en ;
-    dct:creator <https://orcid.org/0000-0000-0000-0000> ,   # REPLACE: Edmundo de Elvira Mori Orrillo ORCID
-                <https://orcid.org/0000-0000-0000-0001> ;   # REPLACE: Jiayun Liu ORCID
+    dct:title "DAIMO: an ontology for governed AI model assets in dataspaces"@en ;
+    dct:description "DAIMO is an integration profile that connects DCAT-AP, MLDCAT-AP, ODRL, PROV-O, and the Dataspace Protocol (DSP, as operationalised by Eclipse EDC) to support publication, discovery, invocation, execution traceability, and contextualised evaluation of AI model assets exchanged in dataspaces. The edc: namespace is used only for EDC-specific extensions (e.g., ParticipantContext) not yet standardised in DSP."@en ;
+    dct:creator [
+        a foaf:Person ;
+        foaf:name "Edmundo de Elvira Mori Orrillo"@en ;
+        rdfs:seeAlso <https://github.com/EdmundoMori> ;
+    ] , [
+        a foaf:Person ;
+        foaf:name "Jiayun Liu"@en ;
+    ] ;
     dct:contributor <https://ror.org/03n6nwv02> ;           # Universidad Politécnica de Madrid (ROR)
     dct:publisher <https://w3id.org/pionera> ;
     dct:license <https://creativecommons.org/licenses/by/4.0/> ;

@@ -8,9 +8,8 @@
 # Namespace managed       : https://w3id.org/pionera/daimo
 # Canonical term pattern  : https://w3id.org/pionera/daimo#<TermName>
 # Versioned IRIs          : https://w3id.org/pionera/daimo/<version>
-# Redirect target         : https://<GITHUB_OWNER>.github.io/daimo/
-#
-# Replace <GITHUB_OWNER> with the real account name BEFORE submitting.
+# Redirect target         : https://edmundomori.github.io/Papers-DAIMO/
+#   (GitHub Pages served from daimo/docs via .github/workflows/daimo-pages.yml)
 # ======================================================================
 
 Options +FollowSymLinks
@@ -23,53 +22,38 @@ RewriteEngine On
 
 # --- Namespace root: content negotiation ------------------------------
 
-# Bare-URL requests to https://w3id.org/pionera/daimo (with or without
-# trailing slash, with or without URI fragment) are redirected based on
-# the Accept header. 303 See Other is the RDF-recommended status for
-# namespace-to-document redirection.
-
 RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
-RewriteRule ^daimo/?$ https://<GITHUB_OWNER>.github.io/daimo/ontology.ttl [R=303,L]
+RewriteRule ^daimo/?$ https://edmundomori.github.io/Papers-DAIMO/ontology.ttl [R=303,L]
 
 RewriteCond %{HTTP_ACCEPT} application/rdf\+xml [NC]
-RewriteRule ^daimo/?$ https://<GITHUB_OWNER>.github.io/daimo/ontology.owl [R=303,L]
+RewriteRule ^daimo/?$ https://edmundomori.github.io/Papers-DAIMO/ontology.owl [R=303,L]
 
 RewriteCond %{HTTP_ACCEPT} application/ld\+json [NC]
-RewriteRule ^daimo/?$ https://<GITHUB_OWNER>.github.io/daimo/ontology.jsonld [R=303,L]
+RewriteRule ^daimo/?$ https://edmundomori.github.io/Papers-DAIMO/ontology.jsonld [R=303,L]
 
 RewriteCond %{HTTP_ACCEPT} application/n-triples [NC]
-RewriteRule ^daimo/?$ https://<GITHUB_OWNER>.github.io/daimo/ontology.nt [R=303,L]
+RewriteRule ^daimo/?$ https://edmundomori.github.io/Papers-DAIMO/ontology.nt [R=303,L]
 
 # Default: HTML documentation
-RewriteRule ^daimo/?$ https://<GITHUB_OWNER>.github.io/daimo/index-en.html [R=303,L]
+RewriteRule ^daimo/?$ https://edmundomori.github.io/Papers-DAIMO/index-en.html [R=303,L]
 
 # --- Versioned IRIs ---------------------------------------------------
 
-# Each tagged release should resolve to the same documentation. The
-# version-specific serialisations can be hosted by tagging per-release
-# copies at /versions/<version>/ on GitHub Pages when needed.
-
-RewriteRule ^daimo/0\.1\.6/?$ https://<GITHUB_OWNER>.github.io/daimo/index-en.html [R=303,L]
-RewriteRule ^daimo/0\.1\.5/?$ https://<GITHUB_OWNER>.github.io/daimo/index-en.html [R=303,L]
-RewriteRule ^daimo/0\.1\.1/?$ https://<GITHUB_OWNER>.github.io/daimo/index-en.html [R=303,L]
-RewriteRule ^daimo/0\.1\.0/?$ https://<GITHUB_OWNER>.github.io/daimo/index-en.html [R=303,L]
+RewriteRule ^daimo/0\.1\.6/?$ https://edmundomori.github.io/Papers-DAIMO/index-en.html [R=303,L]
+RewriteRule ^daimo/0\.1\.6-swj-submission/?$ https://edmundomori.github.io/Papers-DAIMO/index-en.html [R=303,L]
+RewriteRule ^daimo/0\.1\.5/?$ https://edmundomori.github.io/Papers-DAIMO/index-en.html [R=303,L]
+RewriteRule ^daimo/0\.1\.1/?$ https://edmundomori.github.io/Papers-DAIMO/index-en.html [R=303,L]
+RewriteRule ^daimo/0\.1\.0/?$ https://edmundomori.github.io/Papers-DAIMO/index-en.html [R=303,L]
 
 # --- Direct serialisation access --------------------------------------
 
-# Allow users to bypass content negotiation by asking for a specific
-# extension: https://w3id.org/pionera/daimo.ttl etc.
-
-RewriteRule ^daimo\.ttl$     https://<GITHUB_OWNER>.github.io/daimo/ontology.ttl     [R=303,L]
-RewriteRule ^daimo\.owl$     https://<GITHUB_OWNER>.github.io/daimo/ontology.owl     [R=303,L]
-RewriteRule ^daimo\.jsonld$  https://<GITHUB_OWNER>.github.io/daimo/ontology.jsonld  [R=303,L]
-RewriteRule ^daimo\.nt$      https://<GITHUB_OWNER>.github.io/daimo/ontology.nt      [R=303,L]
+RewriteRule ^daimo\.ttl$     https://edmundomori.github.io/Papers-DAIMO/ontology.ttl     [R=303,L]
+RewriteRule ^daimo\.owl$     https://edmundomori.github.io/Papers-DAIMO/ontology.owl     [R=303,L]
+RewriteRule ^daimo\.jsonld$  https://edmundomori.github.io/Papers-DAIMO/ontology.jsonld  [R=303,L]
+RewriteRule ^daimo\.nt$      https://edmundomori.github.io/Papers-DAIMO/ontology.nt      [R=303,L]
 
 # --- Submodule documents (optional) -----------------------------------
 
-# Alignment axioms, shapes, queries.md, and the ORSD can be retrieved
-# via stable IRIs for reviewers and reasoners that want only part of
-# the package.
-
-RewriteRule ^daimo/alignment\.ttl$  https://<GITHUB_OWNER>.github.io/daimo/alignment.ttl  [R=303,L]
-RewriteRule ^daimo/shapes\.ttl$     https://<GITHUB_OWNER>.github.io/daimo/daimo-shapes.ttl [R=303,L]
-RewriteRule ^daimo/cqs\.md$         https://<GITHUB_OWNER>.github.io/daimo/daimo-cqs.md   [R=303,L]
+RewriteRule ^daimo/alignment\.ttl$  https://edmundomori.github.io/Papers-DAIMO/alignment.ttl  [R=303,L]
+RewriteRule ^daimo/shapes\.ttl$     https://edmundomori.github.io/Papers-DAIMO/daimo-shapes.ttl [R=303,L]
+RewriteRule ^daimo/cqs\.md$         https://edmundomori.github.io/Papers-DAIMO/daimo-cqs.md   [R=303,L]
