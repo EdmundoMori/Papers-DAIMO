@@ -1,13 +1,10 @@
 name: Deploy DAIMO documentation
 
 on:
-  push:
-    branches:
-      - editorial/swj-structural-map
-      - main
-    paths:
-      - 'daimo/docs/**'
-      - '.github/workflows/daimo-pages.yml'
+  # Manual-only: enable GitHub Pages (Settings > Pages > Source: GitHub Actions)
+  # and then run this workflow from the Actions tab to publish daimo/docs.
+  # Automatic push triggers were removed so routine commits do not fail CI
+  # while Pages deployment is not configured.
   workflow_dispatch:
 
 permissions:
