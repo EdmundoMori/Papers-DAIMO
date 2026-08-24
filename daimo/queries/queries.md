@@ -188,7 +188,10 @@ SELECT ?endpoint ?auth ?in ?out WHERE {
 ### CQ-E2 — For a given model deployment, which runs have been executed, by which agents, and under which execution authorization?
 
 Parametrised on a specific deployment. Traverses deployment → model → run, plus joins to
-the authorization that permitted each run.
+the authorization that permitted each run. Unaffected by DAIMO-ISSUE-02: the query
+reaches the authorization through `daimo:authorizesRun`/`daimo:grantedTo`, which still
+live on `daimo:ExecutionAuthorization`; the accepted `odrl:Agreement` is now a separate
+individual reachable via `daimo:derivedFromAgreement` (see CQ-G3) when needed.
 
 ```sparql
 SELECT ?run ?agent ?auth WHERE {
@@ -228,6 +231,10 @@ SELECT ?run ?hash ?signer ?ts WHERE {
 
 ### CQ-E5 — Derived artifacts produced by a run, and under which authorization.
 
+Unaffected by DAIMO-ISSUE-02: `daimo:underAuthorization` still points to a
+`daimo:ExecutionAuthorization`; the accepted `odrl:Agreement` behind it is reachable
+via `?auth daimo:derivedFromAgreement ?agreement` if the agreement is also required.
+
 ```sparql
 SELECT ?artifact ?title ?auth WHERE {
   ?artifact a daimo:DerivedArtifact ;
@@ -243,6 +250,11 @@ SELECT ?artifact ?title ?auth WHERE {
 
 ### CQ-V1 — Shared evaluation context of a given evaluation.
 
+Returns task, dataset, version, protocol and, when applicable, random seed.
+`daimo:randomSeed` is `OPTIONAL`: a valid deterministic context (no seed) still
+answers the question; `?seed` is then unbound. Presence of a seed is a property
+of the evaluation procedure, not a DAIMO-wide obligation (DAIMO-ISSUE-03).
+
 ```sparql
 SELECT ?task ?dataset ?version ?protocol ?seed WHERE {
   <https://example.org/daimo-scenario/eval-flood-v2>
@@ -250,12 +262,18 @@ SELECT ?task ?dataset ?version ?protocol ?seed WHERE {
   ?ctx daimo:contextTask    ?task ;
        daimo:contextDataset ?dataset ;
        daimo:datasetVersion ?version ;
-       daimo:protocol       ?protocol ;
-       daimo:randomSeed     ?seed .
+       daimo:protocol       ?protocol .
+  OPTIONAL { ?ctx daimo:randomSeed ?seed }
 }
 ```
 
 ### CQ-V2 — Under a shared evaluation context, highest-scoring model for a metric.
+
+Joins evaluations that share the **same context individual** and a metric value.
+Does **not** require `daimo:randomSeed`: a seedless (deterministic) context is
+still a valid grouping for ranking. Comparability also requires the same metric
+and compatible conditions; sharing a context IRI is not by itself a complete
+reproducibility claim.
 
 ```sparql
 SELECT ?model ?value WHERE {
@@ -270,6 +288,9 @@ LIMIT 1
 ```
 
 ### CQ-V3 — Ranking of models under the same evaluation context and metric.
+
+Same join as CQ-V2 without `LIMIT 1`. Seed is not in the pattern, so evaluations
+under a seedless context are not excluded.
 
 ```sparql
 SELECT ?model ?value WHERE {
@@ -346,14 +367,25 @@ SELECT ?deployment ?infra ?service ?in ?out ?auth WHERE {
 }
 ```
 
-### CQ-G3 — Authorization (and agreement) that authorised a specific run.
+### CQ-G3 — Which execution authorization, and the ODRL agreement it derives from, authorised a specific run?
+
+DAIMO keeps the accepted `odrl:Agreement` and the `daimo:ExecutionAuthorization`
+as two **distinct individuals** (DAIMO-ISSUE-02). The authorization records which
+runs an accepted agreement covers, for which grantee, and until when. This query
+returns **both** resources, proves they are different (`FILTER(?auth != ?agreement)`),
+retrieves the grantee and expiry, and confirms the grantee is the agreement's
+`odrl:assignee` — the coherence SHACL invariant INV-9 enforces.
 
 ```sparql
-SELECT ?auth ?grantee ?expires WHERE {
+SELECT ?auth ?agreement ?grantee ?expires WHERE {
   ?auth a daimo:ExecutionAuthorization ;
         daimo:authorizesRun <https://example.org/daimo-scenario/run-2026-04-20-legs> ;
+        daimo:derivedFromAgreement ?agreement ;
         daimo:grantedTo ?grantee ;
         daimo:expiresAt ?expires .
+  ?agreement a odrl:Agreement ;
+             odrl:assignee ?grantee .
+  FILTER (?auth != ?agreement)
 }
 ```
 

@@ -175,7 +175,7 @@ El color es **puramente decorativo para agrupar módulos**; Chowlk no le asigna 
 | `daimo:DerivedArtifact` | Rectángulo | `daimo:DerivedArtifact` | amarillo |
 | `daimo:CrossParticipantProvenanceRecord` | Rectángulo | `daimo:CrossPart.ProvenanceRecord` (nombre abreviado por espacio) | amarillo |
 | `daimo:AuditEvidence` | Rectángulo | `daimo:AuditEvidence` + `daimo:signer: xsd:string`, `daimo:timestamp: xsd:dateTime` | amarillo |
-| `daimo:SharedEvaluationContext` | Rectángulo | `daimo:SharedEvaluationContext` + `daimo:protocol: xsd:string`, `daimo:randomSeed: xsd:integer` | amarillo |
+| `daimo:SharedEvaluationContext` | Rectángulo | `daimo:SharedEvaluationContext` + `daimo:protocol: xsd:string`, `daimo:randomSeed: xsd:integer (0..1)` | amarillo |
 | `daimo:ParticipantRole` | Rectángulo | `daimo:ParticipantRole` | amarillo |
 | **Subclases de ParticipantRole (5)**: `ModelProvider`, `ModelConsumer`, `PlatformOperator`, `Evaluator`, `GovernanceActor` | Cada una un rectángulo | Su nombre `daimo:<Name>` | amarillo, más pequeñas |
 
@@ -196,7 +196,7 @@ Dibuja como **línea sólida + triángulo hueco** desde la clase DAIMO al padre:
 
 ```
 daimo:AIAssetOffering             ▷──>  dcat:CatalogRecord
-daimo:ExecutionAuthorization      ▷──>  odrl:Agreement
+daimo:ExecutionAuthorization      ▷──>  prov:Entity
 daimo:ModelDeployment             ▷──>  prov:Entity
 daimo:DerivedArtifact             ▷──>  prov:Entity
 daimo:DerivedArtifact             ▷──>  dcat:Resource       (doble parent)
@@ -219,8 +219,9 @@ Las 8 más representativas para la figura. Para las 21 restantes basta con docum
 | `daimo:deploysModel` | ModelDeployment | it6:MachineLearningModel | F, A | `(F) (A) daimo:deploysModel` |
 | `daimo:exposedAs` | ModelDeployment | dcat:DataService | — | `daimo:exposedAs` |
 | `daimo:hasIOContract` | ModelDeployment | IOContract | — | `daimo:hasIOContract` |
+| `daimo:derivedFromAgreement` | ExecutionAuthorization | odrl:Agreement | F, A | `(F) (A) daimo:derivedFromAgreement` |
 | `daimo:authorizesRun` | ExecutionAuthorization | it6:Run | A | `(A) daimo:authorizesRun` |
-| `daimo:grantedTo` | ExecutionAuthorization | ParticipantRole | F | `(F) daimo:grantedTo` |
+| `daimo:grantedTo` | ExecutionAuthorization | foaf:Agent | F | `(F) daimo:grantedTo` |
 | `daimo:underAuthorization` | DerivedArtifact | ExecutionAuthorization | F | `(F) daimo:underAuthorization` |
 | `daimo:derivedFromRun` | DerivedArtifact | it6:Run | F, A | `(F) (A) daimo:derivedFromRun` |
 | `daimo:hasAuditEvidence` | DerivedArtifact | AuditEvidence | — | `daimo:hasAuditEvidence` |

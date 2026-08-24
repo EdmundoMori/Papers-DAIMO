@@ -7,16 +7,16 @@ Shape files    : ['daimo-shapes.ttl']
 Example files  : ['flood-risk-scenario.ttl']
 
 [1/3] Parsing Turtle files ...
-  ontology triples : 608
-  shape triples    : 364
-  data triples     : 227
+  ontology triples : 620
+  shape triples    : 386
+  data triples     : 233
 
 [2/3] Running SHACL validation ...
   conforms         : True
 
 [3/3] Running CQ SPARQL queries ...
   found 23 CQ queries in queries.md
-  materialised closure: 2018 triples
+  materialised closure: 2048 triples
   PASS  CQ-R1     rows=3
   PASS  CQ-R2     rows=1
   PASS  CQ-R3     rows=1
@@ -41,6 +41,9 @@ Example files  : ['flood-risk-scenario.ttl']
   PASS  CQ-G3     rows=1
   PASS  CQ-G4     rows=1
 
+[extra] DAIMO-ISSUE-02 authorization/agreement separation ...
+  PASS  auths=1 distinct-pairs=1 collapsed=0 unlinked=0
+
 ======================================================================
-Summary: 23/23 CQ queries return >=1 row; SHACL conforms=True
+Summary: 23/23 CQ queries return >=1 row; SHACL conforms=True; auth≠agreement separation=True
 ======================================================================

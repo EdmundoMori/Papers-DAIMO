@@ -13,11 +13,14 @@
 
 #################################################################
 # Negative-test KG: deliberately violates each cross-class invariant
-# (INV-1 through INV-8). Expected SHACL result: conforms=False, with a
+# (INV-1 through INV-9) plus the per-class ExecutionAuthorization
+# completeness rules for the authorization/agreement separation
+# (DAIMO-ISSUE-02). Expected SHACL result: conforms=False, with a
 # dedicated focus node firing each invariant.
 #
 # Every focus node that violates an invariant is named bad:INV1-foo,
-# bad:INV2-foo, etc., so the negative-test script can assert which
+# bad:INV2-foo, etc. (and bad:AUTH-* for the authorization/agreement
+# per-class rules), so the negative-test script can assert which
 # invariants fired.
 #################################################################
 
@@ -28,6 +31,19 @@ bad:ctx-b a edc:ParticipantContext .
 
 bad:agent-alice a foaf:Agent .
 bad:agent-bob   a foaf:Agent .
+
+# Well-formed ODRL agreements the authorizations below derive from, so that the
+# INV-1/INV-2/INV-4 authorizations fire ONLY their intended invariant and not the
+# derivedFromAgreement/INV-9 rules.
+bad:agreement-alice a odrl:Agreement ;
+    odrl:assigner bad:agent-bob ;
+    odrl:assignee bad:agent-alice ;
+    odrl:permission [ a odrl:Permission ; odrl:action odrl:use ] .
+
+bad:agreement-bob a odrl:Agreement ;
+    odrl:assigner bad:agent-alice ;
+    odrl:assignee bad:agent-bob ;
+    odrl:permission [ a odrl:Permission ; odrl:action odrl:use ] .
 
 bad:some-model a it6:MachineLearningModel ;
     dct:title "Some model"@en ;
@@ -63,10 +79,10 @@ bad:INV1-other-run a it6:Run ;
 
 bad:INV1-auth a daimo:ExecutionAuthorization ;
     rdfs:label "INV-1 authorization (covers the wrong run)"@en ;
+    daimo:derivedFromAgreement bad:agreement-alice ;
     daimo:grantedTo bad:agent-alice ;
     daimo:authorizesRun bad:INV1-other-run ;       # authorizes a DIFFERENT run
-    daimo:expiresAt "2027-01-01T00:00:00Z"^^xsd:dateTime ;
-    odrl:permission [ a odrl:Permission ; odrl:action odrl:use ] .
+    daimo:expiresAt "2027-01-01T00:00:00Z"^^xsd:dateTime .
 
 bad:INV1-artifact a daimo:DerivedArtifact ;
     dct:title "INV-1 violation: unauthorized derivation"@en ;
@@ -86,10 +102,10 @@ bad:INV2-run a it6:Run ;
 
 bad:INV2-auth a daimo:ExecutionAuthorization ;
     rdfs:label "INV-2 authorization (granted to the wrong agent)"@en ;
+    daimo:derivedFromAgreement bad:agreement-bob ; # agreement assignee = Bob (matches grantee)
     daimo:grantedTo bad:agent-bob ;                # granted to Bob, not Alice
     daimo:authorizesRun bad:INV2-run ;
-    daimo:expiresAt "2027-01-01T00:00:00Z"^^xsd:dateTime ;
-    odrl:permission [ a odrl:Permission ; odrl:action odrl:use ] .
+    daimo:expiresAt "2027-01-01T00:00:00Z"^^xsd:dateTime .
 
 #################################################################
 # INV-3 violation: deployment's service does NOT servesModel the same
@@ -124,10 +140,10 @@ bad:INV4-run a it6:Run ;
 
 bad:INV4-auth a daimo:ExecutionAuthorization ;
     rdfs:label "INV-4 authorization (expired before run started)"@en ;
+    daimo:derivedFromAgreement bad:agreement-alice ;
     daimo:grantedTo bad:agent-alice ;
     daimo:authorizesRun bad:INV4-run ;
-    daimo:expiresAt "2025-01-01T00:00:00Z"^^xsd:dateTime ;       # expired January 2025
-    odrl:permission [ a odrl:Permission ; odrl:action odrl:use ] .
+    daimo:expiresAt "2025-01-01T00:00:00Z"^^xsd:dateTime .       # expired January 2025
 
 #################################################################
 # INV-5 violation: Offering's offersModel is NOT a target of its
@@ -238,3 +254,75 @@ bad:INV8-deployment a daimo:ModelDeployment ;
     daimo:exposedAs bad:INV8-svc-with-contract , bad:INV8-svc-orphan ;
     daimo:onInfrastructure bad:infra ;
     daimo:hasIOContract bad:INV8-contract .
+
+#################################################################
+# INV-9 violation: the authorization's grantee (daimo:grantedTo) is NOT an
+# odrl:assignee of the odrl:Agreement it derives from. The run is associated
+# with the grantee, so INV-2 does not fire — only INV-9.
+#################################################################
+
+bad:INV9-agreement a odrl:Agreement ;
+    odrl:assigner bad:agent-bob ;
+    odrl:assignee bad:agent-bob ;                  # agreement assigns terms to Bob
+    odrl:permission [ a odrl:Permission ; odrl:action odrl:use ] .
+
+bad:INV9-run a it6:Run ;
+    mls:realizes bad:algo ;
+    it6:hasFlow bad:flow ;
+    prov:wasAssociatedWith bad:agent-alice ;       # run associated with Alice (= grantee)
+    prov:startedAtTime "2026-05-20T08:00:00Z"^^xsd:dateTime .
+
+bad:INV9-auth a daimo:ExecutionAuthorization ;
+    rdfs:label "INV-9 authorization (grantee is not the agreement assignee)"@en ;
+    daimo:derivedFromAgreement bad:INV9-agreement ; # agreement assignee = Bob
+    daimo:grantedTo bad:agent-alice ;               # but grantee = Alice
+    daimo:authorizesRun bad:INV9-run ;
+    daimo:expiresAt "2027-01-01T00:00:00Z"^^xsd:dateTime .
+
+#################################################################
+# AUTH-no-agreement: an ExecutionAuthorization with no
+# daimo:derivedFromAgreement at all — violates the ExecutionAuthorizationShape
+# minCount rule (authorization must derive from exactly one odrl:Agreement).
+#################################################################
+
+bad:AUTH-no-agreement-run a it6:Run ;
+    mls:realizes bad:algo ;
+    it6:hasFlow bad:flow ;
+    prov:wasAssociatedWith bad:agent-alice ;
+    prov:startedAtTime "2026-05-21T08:00:00Z"^^xsd:dateTime .
+
+bad:AUTH-no-agreement a daimo:ExecutionAuthorization ;
+    rdfs:label "authorization without a source agreement"@en ;
+    daimo:grantedTo bad:agent-alice ;
+    daimo:authorizesRun bad:AUTH-no-agreement-run ;
+    daimo:expiresAt "2027-01-01T00:00:00Z"^^xsd:dateTime .
+    # no daimo:derivedFromAgreement -> ExecutionAuthorizationShape violation
+
+#################################################################
+# AUTH-bad-agreement: an ExecutionAuthorization whose
+# daimo:derivedFromAgreement points to a resource that is NOT a well-formed
+# odrl:Agreement. Because daimo:derivedFromAgreement has rdfs:range
+# odrl:Agreement, RDFS inference always entails the odrl:Agreement type on the
+# target, so a bare sh:class check can never fire. The malformed-agreement smell
+# is therefore caught by the conformance shape AgreementInDAIMOShape: this target
+# lacks odrl:permission (required by the ODRL policy model for any agreement).
+# It DOES declare odrl:assignee = Alice (= the grantee) so INV-9 stays quiet and
+# the missing-permission rule is the sole violation on this node.
+#################################################################
+
+bad:AUTH-bad-agreement-notagreement
+    dct:title "A resource wrongly used as the source agreement (no odrl:permission)"@en ;
+    odrl:assignee bad:agent-alice .        # assignee present, but NO odrl:permission
+
+bad:AUTH-bad-agreement-run a it6:Run ;
+    mls:realizes bad:algo ;
+    it6:hasFlow bad:flow ;
+    prov:wasAssociatedWith bad:agent-alice ;
+    prov:startedAtTime "2026-05-22T08:00:00Z"^^xsd:dateTime .
+
+bad:AUTH-bad-agreement a daimo:ExecutionAuthorization ;
+    rdfs:label "authorization whose source agreement is malformed (no permission)"@en ;
+    daimo:derivedFromAgreement bad:AUTH-bad-agreement-notagreement ;  # not a well-formed Agreement
+    daimo:grantedTo bad:agent-alice ;
+    daimo:authorizesRun bad:AUTH-bad-agreement-run ;
+    daimo:expiresAt "2027-01-01T00:00:00Z"^^xsd:dateTime .

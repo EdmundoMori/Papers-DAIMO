@@ -17,15 +17,15 @@ should not be cited unless executed on the target machine.
 
 | Units | Data triples | Merged triples | OWL-RL closure triples | Parse (s) | OWL-RL (s) | SHACL (s) | SPARQL suite (s) | SHACL conforms |
 |---:|---:|---:|---:|---:|---:|---:|---:|:---:|
-| 100 | 8153 | 8761 | 16376 | 0.383 | 5.157 | 11.220 | 0.080 | True |
-| 1000 | 81053 | 81661 | 148676 | 4.686 | 55.313 | 159.033 | 1.937 | True |
+| 100 | 8753 | 9373 | 17198 | 0.462 | 5.997 | 13.516 | 0.276 | True |
+| 1000 | 87053 | 87673 | 156698 | 5.351 | 58.816 | 170.883 | 20.041 | True |
 
 ## Query Counts
 
-| Units | Offerings | Invocation contracts | Authorised outputs | Ranking rows |
-|---:|---:|---:|---:|---:|
-| 100 | 100 | 100 | 100 | 10 |
-| 1000 | 1000 | 1000 | 1000 | 10 |
+| Units | Offerings | Invocation contracts | Authorised outputs | Auth→Agreement pairs | Ranking rows |
+|---:|---:|---:|---:|---:|---:|
+| 100 | 100 | 100 | 100 | 100 | 10 |
+| 1000 | 1000 | 1000 | 1000 | 1000 | 10 |
 
 ## Machine-Readable Result
 
@@ -38,35 +38,37 @@ should not be cited unless executed on the target machine.
   "results": [
     {
       "units": 100,
-      "data_triples": 8153,
-      "merged_triples": 8761,
-      "closure_triples": 16376,
-      "parse_s": 0.383,
-      "owlrl_s": 5.157,
-      "shacl_s": 11.22,
-      "sparql_s": 0.08,
+      "data_triples": 8753,
+      "merged_triples": 9373,
+      "closure_triples": 17198,
+      "parse_s": 0.462,
+      "owlrl_s": 5.997,
+      "shacl_s": 13.516,
+      "sparql_s": 0.276,
       "shacl_conforms": true,
       "query_counts": {
         "offerings": 100,
         "invocation_contracts": 100,
         "authorised_outputs": 100,
+        "auth_agreements": 100,
         "evaluation_ranking": 10
       }
     },
     {
       "units": 1000,
-      "data_triples": 81053,
-      "merged_triples": 81661,
-      "closure_triples": 148676,
-      "parse_s": 4.686,
-      "owlrl_s": 55.313,
-      "shacl_s": 159.033,
-      "sparql_s": 1.937,
+      "data_triples": 87053,
+      "merged_triples": 87673,
+      "closure_triples": 156698,
+      "parse_s": 5.351,
+      "owlrl_s": 58.816,
+      "shacl_s": 170.883,
+      "sparql_s": 20.041,
       "shacl_conforms": true,
       "query_counts": {
         "offerings": 1000,
         "invocation_contracts": 1000,
         "authorised_outputs": 1000,
+        "auth_agreements": 1000,
         "evaluation_ranking": 10
       }
     }

@@ -1,0 +1,59 @@
+@prefix sc:    <https://example.org/daimo-scope/> .
+@prefix daimo: <https://w3id.org/pionera/daimo#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix it6:   <http://data.europa.eu/it6/> .
+@prefix mls:   <http://www.w3.org/ns/mls#> .
+@prefix odrl:  <http://www.w3.org/ns/odrl/2/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix prov:  <http://www.w3.org/ns/prov#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+
+# In-scope complete Offer, Model and Run (used for the three "conforme" rows).
+sc:agent a foaf:Agent ; rdfs:label "Scope-test provider"@en .
+
+sc:model a it6:MachineLearningModel ;
+    dct:title "Scope-test model"@en ;
+    dct:identifier "scope-model" ;
+    odrl:hasPolicy sc:offer .
+
+sc:offer a odrl:Offer ;
+    odrl:assigner sc:agent ;
+    odrl:target sc:model ;
+    odrl:permission [ a odrl:Permission ; odrl:action odrl:use ; odrl:target sc:model ] .
+
+sc:offering a daimo:AIAssetOffering ;
+    dct:title "Scope offering (complete)"@en ;
+    daimo:offersModel sc:model ;
+    daimo:offeredBy sc:agent ;
+    daimo:hasOfferPolicy sc:offer .
+
+sc:flow a it6:Flow ; rdfs:label "Scope flow"@en .
+sc:algo a mls:Algorithm ; rdfs:label "Scope algorithm"@en .
+
+sc:run a it6:Run ;
+    mls:realizes sc:algo ;
+    it6:hasFlow sc:flow ;
+    prov:wasAssociatedWith sc:agent ;
+    prov:startedAtTime "2026-06-01T08:00:00Z"^^xsd:dateTime .
+
+sc:agreement a odrl:Agreement ;
+    odrl:assignee sc:agent ;
+    odrl:permission [ a odrl:Permission ; odrl:action odrl:use ] .
+
+sc:auth a daimo:ExecutionAuthorization ;
+    daimo:derivedFromAgreement sc:agreement ;
+    daimo:grantedTo sc:agent ;
+    daimo:authorizesRun sc:run ;
+    daimo:expiresAt "2027-01-01T00:00:00Z"^^xsd:dateTime .
+
+# Mixed-graph isolation: incomplete reused individuals with NO DAIMO link
+# must still be ignored when complete DAIMO resources are present.
+sc:external-offer a odrl:Offer ;
+    rdfs:label "Foreign ODRL offer mixed into a complete DAIMO graph"@en .
+
+sc:external-model a it6:MachineLearningModel ;
+    rdfs:label "Foreign MLDCAT-AP model mixed into a complete DAIMO graph"@en .
+
+sc:external-run a it6:Run ;
+    rdfs:label "Foreign MLDCAT-AP run mixed into a complete DAIMO graph"@en .

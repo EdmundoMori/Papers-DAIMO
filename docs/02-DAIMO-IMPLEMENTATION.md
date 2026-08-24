@@ -3,7 +3,7 @@
 Companion to [`01-DAIMO-DESIGN.md`](01-DAIMO-DESIGN.md). This document describes
 **how** the design is realised in Turtle: the module layout, the OWL 2 DL
 constructs, the full class/property reference, the SHACL shapes (completeness,
-conformance, and the eight cross-class invariants), the example graph, the query
+conformance, and the nine cross-class invariants), the example graph, the query
 suite, and how to reproduce every check.
 
 ---
@@ -12,9 +12,9 @@ suite, and how to reproduce every check.
 
 | Module | File | Ontology IRI | Contents |
 |---|---|---|---|
-| Core | `daimo/ontology/daimo-core.ttl` | `https://w3id.org/pionera/daimo` | 14 classes, 38 properties, disjointness, functional/asymmetric/inverse axioms |
+| Core | `daimo/ontology/daimo-core.ttl` | `https://w3id.org/pionera/daimo` | 14 classes, 39 properties, disjointness, functional/asymmetric/inverse axioms |
 | Alignment | `daimo/ontology/alignment.ttl` | `https://w3id.org/pionera/daimo/align` | `owl:imports` core; external term stubs + alignment axioms + SKOS mappings |
-| Shapes | `daimo/shapes/daimo-shapes.ttl` | `https://w3id.org/pionera/daimo/shapes` | 9 completeness + 3 conformance shapes + 8 SHACL-SPARQL invariants |
+| Shapes | `daimo/shapes/daimo-shapes.ttl` | `https://w3id.org/pionera/daimo/shapes` | 9 completeness + 4 conformance shapes + 9 SHACL-SPARQL invariants |
 
 All three carry `owl:versionInfo "0.1.6"` and versioned `owl:versionIRI`.
 
@@ -68,13 +68,13 @@ The profile is **OWL 2 DL** (`dct:conformsTo <https://www.w3.org/TR/owl2-overvie
 | `ModelProvider` / `ModelConsumer` / `PlatformOperator` / `Evaluator` / `GovernanceActor` | `daimo:ParticipantRole` |
 | `ModelDeployment` | `prov:Entity` |
 | `IOContract` | — (stand-alone) |
-| `ExecutionAuthorization` | `odrl:Agreement` |
+| `ExecutionAuthorization` | `prov:Entity` (NOT `odrl:Agreement` — DAIMO-ISSUE-02) |
 | `DerivedArtifact` | `prov:Entity`, `dcat:Resource` |
 | `CrossParticipantProvenanceRecord` | `prov:Bundle` |
 | `AuditEvidence` | `prov:Entity` |
 | `SharedEvaluationContext` | — (stand-alone) |
 
-### 3.2 Object properties (30)
+### 3.2 Object properties (31)
 
 | Property | Domain → Range | Characteristics / alignment |
 |---|---|---|
@@ -94,7 +94,8 @@ The profile is **OWL 2 DL** (`dct:conformsTo <https://www.w3.org/TR/owl2-overvie
 | `outputSchema` | `IOContract` → `dcat:Resource` | Functional (optional) |
 | `authorizesRun` | `ExecutionAuthorization` → `it6:Run` | Asymmetric, non-functional; **NOT** `⊑ prov:used` |
 | `authorizedBy` | `it6:Run` → `ExecutionAuthorization` | Functional; inv. `authorizesRun` |
-| `grantedTo` | `ExecutionAuthorization` → `foaf:Agent` | Functional; `⊑ odrl:assignee` |
+| `derivedFromAgreement` | `ExecutionAuthorization` → `odrl:Agreement` | Functional, Asymmetric; native (no external alignment — see design §5.2) |
+| `grantedTo` | `ExecutionAuthorization` → `foaf:Agent` | Functional; **NOT** `⊑ odrl:assignee` (DAIMO-ISSUE-02; enforced by INV-9) |
 | `derivedFromRun` | `DerivedArtifact` → `it6:Run` | Functional, Asymmetric; `⊑ prov:wasGeneratedBy` |
 | `hasDerivedArtifact` | `it6:Run` → `DerivedArtifact` | inv. `derivedFromRun` |
 | `underAuthorization` | `DerivedArtifact` → `ExecutionAuthorization` | Functional |
@@ -122,7 +123,7 @@ other schema/format fields below are datatype properties.)*
 | `recordedAt` | `AuditEvidence` → `xsd:dateTime` | evidence seal time |
 | `expiresAt` | `ExecutionAuthorization` → `xsd:dateTime` | authorization expiry |
 | `protocol` | `SharedEvaluationContext` → `xsd:string` | pattern-constrained (see §4.2) |
-| `randomSeed` | `SharedEvaluationContext` → `xsd:integer` | reproducibility seed |
+| `randomSeed` | `SharedEvaluationContext` → `xsd:integer` | optional (0..1) reproducibility seed when the procedure is stochastic |
 | `datasetVersion` | `SharedEvaluationContext` → `xsd:string` | literal version token; **NOT** `⊑ dct:hasVersion` |
 
 ---
@@ -144,13 +145,16 @@ Minimum required properties (with cardinalities) per class:
   `dcat:DataService`), `hasIOContract` (≥1), `onInfrastructure` (1..1).
 - **`IOContractShape`** — `inputFormat`, `outputFormat`, `authMethod` (each
   1..1), `forService` (1..1, `dcat:DataService`).
-- **`ExecutionAuthorizationShape`** — `odrl:permission` (≥1),
-  `authorizesRun` (≥1 `it6:Run`), `grantedTo` (1..1), `expiresAt` (1..1).
+- **`ExecutionAuthorizationShape`** — `derivedFromAgreement` (1..1,
+  `odrl:Agreement`), `authorizesRun` (≥1 `it6:Run`), `grantedTo` (1..1),
+  `expiresAt` (1..1). The ODRL permissions themselves live on the derived
+  agreement, not on the authorization (DAIMO-ISSUE-02).
 - **`DerivedArtifactShape`** — `derivedFromRun` (1..1), `underAuthorization`
   (1..1).
 - **`SharedEvaluationContextShape`** — `contextTask` (1..1),
   `contextDataset` (1..1), `datasetVersion` (1..1), `protocol` (1..1,
-  pattern), `randomSeed` (1..1).
+  pattern), `randomSeed` (0..1, `xsd:integer`; omit when the evaluation
+  procedure has no stochastic component — DAIMO-ISSUE-03).
 - **`AuditEvidenceShape`** — `evidenceOf` (1..1), `integrityHash` (1..1
   `spdx:Checksum`) with `spdx:algorithm` (≥1) and `spdx:checksumValue` (≥1,
   minLength 32), `signedBy` (1..1), `recordedAt` (1..1).
@@ -167,19 +171,28 @@ Minimum required properties (with cardinalities) per class:
 - **`integrityHash` value** must be ≥ 32 hex characters (SHA-128-bit-or-stronger
   equivalent).
 
-### 4.3 Conformance shapes for reused classes (3)
+### 4.3 Conformance shapes for reused classes (4)
 
-These enforce DAIMO-context obligations on **reused** classes:
+These are **profile obligations** on reused ODRL / MLDCAT-AP resources that
+**participate in DAIMO relations**. They do not redefine those vocabularies,
+and they do not apply to every `odrl:Offer` / `it6:MachineLearningModel` /
+`it6:Run` / `odrl:Agreement` in a graph. Targets are SHACL Core
+`sh:targetObjectsOf` (DAIMO-ISSUE-04). SHACL checks RDF graphs; it does not
+apply ODRL policies or control access.
 
-- **`OfferInDAIMOShape`** (`odrl:Offer`) — must declare `odrl:assigner`, and
-  `odrl:target` at Policy level **or** on each Permission (`sh:or`).
-- **`MachineLearningModelInDAIMOShape`** (`it6:MachineLearningModel`) — must
-  carry `odrl:hasPolicy` (≥1) plus `dct:title` and `dct:identifier`.
-- **`RunInDAIMOShape`** (`it6:Run`) — must reference `it6:hasFlow`,
-  `mls:realizes`, `prov:wasAssociatedWith`, and `prov:startedAtTime` (for
-  reproducibility and auditability).
+- **`OfferInDAIMOShape`** — objects of `daimo:hasOfferPolicy`. Must declare
+  `odrl:assigner`, and `odrl:target` at Policy level **or** on each Permission
+  (`sh:or`).
+- **`AgreementInDAIMOShape`** — objects of `daimo:derivedFromAgreement`. Must
+  carry `odrl:permission` (≥1) and `odrl:assignee` (≥1).
+- **`MachineLearningModelInDAIMOShape`** — objects of `daimo:offersModel` **or**
+  `daimo:deploysModel`. Must carry `odrl:hasPolicy` (≥1) plus `dct:title` and
+  `dct:identifier`.
+- **`RunInDAIMOShape`** — objects of `daimo:authorizesRun` **or**
+  `daimo:derivedFromRun`. Must reference `it6:hasFlow`, `mls:realizes`,
+  `prov:wasAssociatedWith`, and `prov:startedAtTime`.
 
-### 4.4 Cross-class invariants (8 SHACL-SPARQL rules, INV-1..INV-8)
+### 4.4 Cross-class invariants (9 SHACL-SPARQL rules, INV-1..INV-9)
 
 These are the **governance business rules** that make DAIMO active rather than
 passive. All share the prefix declaration `daimo:_invariantPrefixes`.
@@ -189,11 +202,12 @@ passive. All share the prefix declaration `daimo:_invariantPrefixes`.
 | **INV-1** | `DerivedArtifact` | its `underAuthorization` does **not** `authorizesRun` the run it `derivedFromRun` → broken authorization chain. |
 | **INV-2** | `it6:Run` | the agent `prov:wasAssociatedWith` the run is **not** the `grantedTo` grantee of any authorization covering that run. |
 | **INV-3** | `ModelDeployment` | an `exposedAs` service does **not** `it6:servesModel` the same model the deployment `deploysModel`. |
-| **INV-4** | `ExecutionAuthorization` | `expiresAt` is **not strictly after** the `prov:startedAtTime` of a run it authorizes (run under expired agreement). |
+| **INV-4** | `ExecutionAuthorization` | `expiresAt` is **not strictly after** the `prov:startedAtTime` of a run it authorizes (run under expired authorization). |
 | **INV-5** | `AIAssetOffering` | the `offersModel` model is **not** an `odrl:target` of the attached offer policy (Policy level or any Permission). |
 | **INV-6** | `AIAssetOffering` | `offeredBy` ≠ the `odrl:assigner` of the attached policy → catalog record and ODRL offer attribute publication to different agents. |
 | **INV-7** | `ModelDeployment` | a `hasIOContract` contract `forService` a service the deployment does **not** `exposedAs` → contract describes an endpoint the deployment does not offer. |
 | **INV-8** | `ModelDeployment` | an `exposedAs` service has **no** `hasIOContract` contract pointing to it via `forService` → advertised endpoint without an invocation contract. |
+| **INV-9** | `ExecutionAuthorization` | its `grantedTo` grantee is **not** an `odrl:assignee` of the `odrl:Agreement` it `derivedFromAgreement` → the authorization grants execution to a party the accepted agreement never named (DAIMO-ISSUE-02). |
 
 Each invariant is validated **positively** (holds on the example graph) and
 **negatively** (fires on the deliberately-broken graph) — see
@@ -204,7 +218,7 @@ Each invariant is validated **positively** (holds on the example graph) and
 ## 5. Example knowledge graph
 
 `daimo/examples/flood-risk-scenario.ttl` is the running UPM / Leganés / INESData
-scenario (≈ **227 data triples**). It instantiates every DAIMO class at least
+scenario (≈ **233 data triples**). It instantiates every DAIMO class at least
 once and is the graph over which SHACL conformance and the 23 CQ SPARQL queries
 are checked. It is designed to be **fully SHACL-conformant** and to make all 23
 CQs return ≥ 1 row after OWL-RL materialisation.
@@ -234,6 +248,8 @@ python3 -m venv .venv
 .venv/bin/python reasoner_check.py           # HermiT + OWL-RL + entailment verification
 .venv/bin/python oops_check.py               # OOPS! pitfall scan (POSTs to oops.linkeddata.es)
 .venv/bin/python tests/negative_test.py      # cross-class invariant negative tests
+.venv/bin/python tests/random_seed_test.py   # DAIMO-ISSUE-03: optional randomSeed 0..1
+.venv/bin/python tests/reused_class_scope_test.py  # DAIMO-ISSUE-04: reused-class target scope
 .venv/bin/python scalability_benchmark.py --sizes 100 1000
 ```
 

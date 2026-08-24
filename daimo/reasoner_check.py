@@ -32,6 +32,16 @@ FORBIDDEN_SUPERS = {
         "DAIMO classes are artefacts/entities/roles, not activities; "
         "inference into prov:Activity indicates a wrong subproperty "
         "alignment (historical bug: authorizesRun ⊑ prov:used).",
+    "http://www.w3.org/ns/odrl/2/Agreement":
+        "ExecutionAuthorization must NOT be an odrl:Agreement (DAIMO-ISSUE-02): "
+        "the authorization is a distinct governance entity derived from an "
+        "agreement (daimo:derivedFromAgreement), not the agreement itself. "
+        "Inference into odrl:Agreement means the subClassOf axiom crept back.",
+    "http://www.w3.org/ns/odrl/2/Policy":
+        "ExecutionAuthorization must NOT be inferred as odrl:Policy "
+        "(DAIMO-ISSUE-02): it is not an ODRL policy. This guards the historical "
+        "bug where grantedTo ⊑ odrl:assignee (domain odrl:Policy) re-typed the "
+        "authorization as a policy.",
     "http://www.w3.org/ns/prov#Association":
         "prov:Association is the reified association OBJECT, not an agent; "
         "inference into it indicates a wrong alignment (historical bug: "

@@ -325,18 +325,25 @@ prov:Association a owl:Class ;
 # informatively rather than subsuming.
 daimo:AIAssetOffering rdfs:subClassOf dcat:CatalogRecord .
 
-# Execution authorization: an ODRL agreement produced by a DSP contract
-# negotiation. DSP defines dspace:ContractNegotiation as the process and
-# reuses odrl:Agreement for the artefact. Every ExecutionAuthorization is a
-# valid odrl:Agreement; SHACL enforces that it carries at least one
-# odrl:permission (required by the ODRL model).
-daimo:ExecutionAuthorization rdfs:subClassOf odrl:Agreement .
+# Execution authorization: a governed provenance entity, NOT an odrl:Agreement.
+# DSP defines dspace:ContractNegotiation as the process whose contractual result
+# is reused as an odrl:Agreement. DAIMO models that agreement as a separate
+# individual (an odrl:Agreement that carries the ODRL permissions and parties)
+# and models daimo:ExecutionAuthorization as the DERIVED resource that ties one
+# accepted agreement to concrete it6:Run invocations (daimo:derivedFromAgreement,
+# daimo:authorizesRun, daimo:grantedTo, daimo:expiresAt). Making the authorization
+# an odrl:Agreement (as in DAIMO ≤0.1.6) conflated two distinct things and, once
+# grantedTo ⊑ odrl:assignee is present, could type the authorization as an
+# odrl:Policy. It is therefore aligned to prov:Entity (a fixed digital/conceptual
+# artefact, consistent with ModelDeployment, DerivedArtifact and AuditEvidence)
+# and NOT to any ODRL class. See DAIMO-ISSUE-02.
 
 # Provenance-aligned classes.
 daimo:ModelDeployment rdfs:subClassOf prov:Entity .
 daimo:DerivedArtifact rdfs:subClassOf prov:Entity , dcat:Resource .
 daimo:CrossParticipantProvenanceRecord rdfs:subClassOf prov:Bundle .
 daimo:AuditEvidence rdfs:subClassOf prov:Entity .
+daimo:ExecutionAuthorization rdfs:subClassOf prov:Entity .
 
 # Participant roles are role-reifications taken by agents, not agent subtypes.
 daimo:ParticipantRole rdfs:subClassOf prov:Role .
@@ -353,21 +360,39 @@ daimo:hasOfferPolicy rdfs:subPropertyOf odrl:hasPolicy .
 # (the platform registering the record), not the author of the asset
 # being registered. The model's own author is expressed via dct:creator
 # on the it6:MachineLearningModel.
-daimo:grantedTo      rdfs:subPropertyOf odrl:assignee .
 daimo:derivedFromRun rdfs:subPropertyOf prov:wasGeneratedBy .
 daimo:contextTask    rdfs:subPropertyOf it6:hasTask .
 
 # Intentionally NOT aligned (rationale in each property's rdfs:comment):
 #
 # - daimo:authorizesRun NOT ⊑ prov:used.
-#   prov:used has domain prov:Activity. An odrl:Agreement is a policy
-#   artefact (Entity-like), not an Activity. Forcing the alignment would
-#   silently type every ExecutionAuthorization as prov:Activity.
+#   prov:used has domain prov:Activity. A daimo:ExecutionAuthorization is a
+#   governed artefact (a prov:Entity), not an Activity. Forcing the alignment
+#   would silently type every ExecutionAuthorization as prov:Activity.
+#
+# - daimo:grantedTo NOT ⊑ odrl:assignee (changed in DAIMO-ISSUE-02).
+#   odrl:assignee has domain odrl:Policy. Until v0.1.6 daimo:grantedTo was a
+#   subproperty of odrl:assignee, which was harmless only because
+#   ExecutionAuthorization was itself an odrl:Agreement (⊑ odrl:Policy). Now that
+#   the authorization is separated from the agreement and is a prov:Entity,
+#   keeping the alignment would let the odrl:assignee domain re-type every
+#   authorization individual as odrl:Policy — exactly the conflation the issue
+#   removes. The intended equivalence (authorization grantee = odrl:assignee of
+#   the derived agreement) is enforced by SHACL invariant INV-9 instead of by
+#   OWL subsumption.
 #
 # - daimo:grantedTo NOT ⊑ prov:qualifiedAssociation.
 #   prov:qualifiedAssociation has range prov:Association (a reified
-#   association object), not the agent itself. The correct agent-side
-#   alignment is odrl:assignee (declared above).
+#   association object), not the agent itself.
+#
+# - daimo:derivedFromAgreement has NO external superproperty.
+#   No property in ODRL, DCAT, MLDCAT-AP, PROV-O or DSP means "the accepted
+#   odrl:Agreement that this execution authorization enforces". prov:wasDerivedFrom
+#   was considered and rejected: it has domain and range prov:Entity and expresses
+#   generic entity-to-entity data lineage; adopting it would (i) force every
+#   odrl:Agreement into prov:Entity and (ii) lose the specific governance meaning.
+#   daimo:derivedFromAgreement therefore stays native and unaligned, with range the
+#   reused odrl:Agreement class.
 #
 # - daimo:evidenceOf NOT ⊑ prov:hadActivity.
 #   prov:hadActivity is used on reified influence/generation/usage
@@ -405,7 +430,12 @@ daimo:contextTask    rdfs:subPropertyOf it6:hasTask .
 # different concepts.
 daimo:AIAssetOffering skos:related dspace:ContractOffer .
 
-# DAIMO's execution authorization is produced by a DSP contract negotiation.
+# A DSP dspace:ContractNegotiation yields an accepted contractual result that DAIMO
+# reuses as an odrl:Agreement (the negotiated terms). DAIMO's execution authorization
+# is NOT that negotiation nor that agreement: it is the derived resource that binds
+# one accepted agreement (daimo:derivedFromAgreement) to concrete it6:Run executions.
+# The informative link therefore relates the authorization to the negotiation only as
+# the process context in which its underlying agreement was produced.
 daimo:ExecutionAuthorization skos:related dspace:ContractNegotiation .
 
 # DAIMO's cross-participant provenance may span multiple DSP transfer processes.

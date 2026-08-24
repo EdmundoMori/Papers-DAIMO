@@ -1,0 +1,52 @@
+@prefix seed:  <https://example.org/daimo-seedless/> .
+@prefix daimo: <https://w3id.org/pionera/daimo#> .
+@prefix dcat:  <http://www.w3.org/ns/dcat#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix it6:   <http://data.europa.eu/it6/> .
+@prefix odrl:  <http://www.w3.org/ns/odrl/2/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+# DAIMO-ISSUE-03 — positive regression graph: a SharedEvaluationContext
+# for a deterministic protocol (leave-one-out) with NO daimo:randomSeed.
+# Must SHACL-conform. CQ-V1-style OPTIONAL query must return the context
+# with ?seed unbound.
+#################################################################
+
+seed:provider a foaf:Agent ;
+    rdfs:label "Seedless-graph provider"@en .
+
+seed:task a it6:Task ;
+    rdfs:label "Deterministic flood-risk leave-one-out task"@en .
+
+seed:dataset a dcat:Dataset ;
+    dct:title "Deterministic evaluation dataset"@en .
+
+seed:ctx a daimo:SharedEvaluationContext ;
+    rdfs:label "Leave-one-out context without a random seed"@en ;
+    daimo:contextTask    seed:task ;
+    daimo:contextDataset seed:dataset ;
+    daimo:datasetVersion "2026.1" ;
+    daimo:protocol       "leave-one-out" .
+    # no daimo:randomSeed — the procedure does not use one
+
+seed:offer a odrl:Offer ;
+    odrl:target seed:model ;
+    odrl:assigner seed:provider ;
+    odrl:permission [ a odrl:Permission ; odrl:action odrl:use ; odrl:target seed:model ] .
+
+seed:model a it6:MachineLearningModel ;
+    dct:title "Seedless-context candidate model"@en ;
+    dct:identifier "seedless-candidate" ;
+    odrl:hasPolicy seed:offer .
+
+seed:eval a it6:Evaluation ;
+    rdfs:label "Evaluation under the seedless leave-one-out context"@en ;
+    it6:evaluates seed:model ;
+    daimo:usesEvaluationContext seed:ctx ;
+    it6:hasEvaluationMeasure seed:measure .
+
+seed:measure a it6:EvaluationMeasure ;
+    it6:hasValue 0.81 .

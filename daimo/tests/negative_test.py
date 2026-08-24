@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-Negative-test harness for DAIMO cross-class invariants (INV-1..INV-8).
+Negative-test harness for DAIMO cross-class invariants (INV-1..INV-9) plus the
+per-class ExecutionAuthorization/agreement completeness rules (DAIMO-ISSUE-02).
 
 Loads the ontology + shapes + a deliberately-bad example KG
 (`tests/negative-examples.ttl`) and asserts:
@@ -39,6 +40,10 @@ EXPECTED = {
     "INV-6": "INV6-offering",   # Offering whose offeredBy != policy.assigner
     "INV-7": "INV7-deployment", # Contract forService a service not exposed by the deployment
     "INV-8": "INV8-deployment", # Exposed service with no forService contract
+    "INV-9": "INV9-auth",       # Authorization grantee != odrl:assignee of derived agreement
+    # Per-class ExecutionAuthorization/agreement completeness (DAIMO-ISSUE-02):
+    "AUTH-no-agreement": "AUTH-no-agreement",   # authorization without derivedFromAgreement
+    "AUTH-bad-agreement": "AUTH-bad-agreement", # derivedFromAgreement target not an odrl:Agreement
 }
 
 

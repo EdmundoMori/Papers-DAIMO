@@ -71,6 +71,15 @@ property or `AIModelEntity` service class is required in the core. Deep
 alignment of input/output schemas, units, and sector-specific data types belongs
 to `IOContract`-based profiles or dataspace-specific SHACL shapes.
 
+Authorization/agreement-separation note (DAIMO-ISSUE-02): the accepted
+`odrl:Agreement` and the `daimo:ExecutionAuthorization` are two distinct
+individuals. The agreement carries the negotiated ODRL permissions and parties;
+the authorization derives from it (`daimo:derivedFromAgreement`, functional) and
+binds it to concrete `it6:Run` invocations, a grantee (`daimo:grantedTo`) and an
+expiry (`daimo:expiresAt`). CQ-G3 returns both resources; SHACL invariant INV-9
+checks that the authorization grantee is the agreement's `odrl:assignee`. CQ-E2
+and CQ-E5 are unaffected because they traverse the authorization directly.
+
 Endpoint-disambiguation note: when a deployment exposes several services
 (e.g. REST + gRPC), each `daimo:IOContract` identifies the concrete
 `dcat:DataService` it applies to via `daimo:forService`. This lets CQ-D3 and
@@ -82,7 +91,7 @@ invariants INV-7/INV-8 keep the service/contract pairing consistent.
 
 | Code | Actor | Question | SPARQL | Inference | Source |
 |---|---|---|---|---|---|
-| CQ-V1 | EV | What shared evaluation context (dataset, version, protocol, seed) applies to a given evaluation? | `CQ-V1.rq` | N | paper §5.3 |
+| CQ-V1 | EV | What shared evaluation context (dataset, version, protocol and, when applicable, seed) applies to a given evaluation? | `CQ-V1.rq` | N (`OPTIONAL` on `daimo:randomSeed`; unbound when the procedure does not use a seed) | paper §5.3 |
 | CQ-V2 | EV | Under a shared evaluation context, which model achieves the highest value of a given metric? | `CQ-V2.rq` | N | paper §5.3 |
 | CQ-V3 | EV | How do two or more models rank under the same evaluation context and metric? | `CQ-V3.rq` | N | paper §5.3 |
 | CQ-V4 | EV | For a given model, which benchmark suites has it been evaluated on? | `CQ-V4.rq` | N (parametrised on a specific model) | paper §3.1 |
@@ -97,10 +106,13 @@ profiles.
 
 Benchmarking scope note: CQs V2 and V3 assume that compared evaluations use the
 same metric definition, unit, and calculation procedure. DAIMO represents the
-shared task, dataset version, protocol, seed, and referenced metric; it does not
-normalise metric formulae or prove mathematical equivalence between results
-computed by different benchmark protocols. Such definitions belong to metric or
-protocol profiles.
+shared task, dataset version, protocol and, when applicable, random seed, plus
+the referenced metric; it does not normalise metric formulae or prove
+mathematical equivalence between results computed by different benchmark
+protocols. Sharing those facets is not by itself a complete reproducibility
+claim. Such definitions belong to metric or protocol profiles. `randomSeed` is
+optional (DAIMO-ISSUE-03): CQ-V1 binds it with `OPTIONAL`; CQ-V2 and CQ-V3 join
+on the context individual and do not exclude seedless (deterministic) contexts.
 
 ### G — Governance Bridge (4, new)
 
@@ -110,7 +122,7 @@ Enabled by the dataspace-bridge classes introduced in [daimo-ontology-design.md]
 |---|---|---|---|---|---|
 | CQ-G1 | MC | Which offerings in the federated catalog include a given model? | `CQ-G1.rq` | N | new, enabled by `daimo:AIAssetOffering` |
 | CQ-G2 | PO | Which deployments serve a given model, on what infrastructure, and with what I/O contract per exposed service? | `CQ-G2.rq` | N (contract linked to its `dcat:DataService` via `daimo:forService`) | new, enabled by `daimo:ModelDeployment` |
-| CQ-G3 | GA | Which execution authorisation (and the agreement it derives from) authorised a specific run? | `CQ-G3.rq` | N (direct DAIMO query; the class alignment makes the result interpretable as ODRL) | new, enabled by `daimo:ExecutionAuthorization` |
+| CQ-G3 | GA | Which execution authorisation, and the distinct `odrl:Agreement` it derives from, authorised a specific run (with grantee and expiry)? | `CQ-G3.rq` | N (direct DAIMO query; returns both individuals via `daimo:derivedFromAgreement`, `FILTER(?auth != ?agreement)`, grantee = agreement `odrl:assignee`) | new, enabled by `daimo:ExecutionAuthorization` + `daimo:derivedFromAgreement` |
 | CQ-G4 | GA | Across participant contexts, what is the full provenance bundle for a derived artefact? | `CQ-G4.rq` | Y (aggregation via GROUP_CONCAT) | new, enabled by `daimo:CrossParticipantProvenanceRecord` |
 
 Governance scope note: legal ownership, developer identity, licences, deployed

@@ -116,6 +116,17 @@ SPARQL_QUERIES = [
         """,
     ),
     (
+        "auth_agreements",
+        """
+        SELECT (COUNT(?auth) AS ?count) WHERE {
+          ?auth a daimo:ExecutionAuthorization ;
+                daimo:derivedFromAgreement ?agreement .
+          ?agreement a odrl:Agreement .
+          FILTER (?auth != ?agreement)
+        }
+        """,
+    ),
+    (
         "evaluation_ranking",
         """
         SELECT ?model ?value WHERE {
@@ -215,6 +226,10 @@ def add_common(g: Graph) -> None:
     g.add((EX["eval-context"], DAIMO.contextDataset, EX.dataset))
     g.add((EX["eval-context"], DAIMO.datasetVersion, Literal("2026.1")))
     g.add((EX["eval-context"], DAIMO.protocol, Literal("holdout")))
+    # Seed is optional (DAIMO-ISSUE-03). The synthetic holdout protocol *does*
+    # shuffle, so the shared context keeps a seed; units remain conformant
+    # without treating the property as mandatory. Seedless-context coverage is
+    # the dedicated harness tests/random_seed_test.py, not a protocol change.
     g.add((EX["eval-context"], DAIMO.randomSeed, Literal(42, datatype=XSD.integer)))
     g.add((EX["eval-context"], DAIMO.contextFlow, EX.flow))
 
@@ -231,6 +246,7 @@ def add_unit(g: Graph, i: int) -> None:
     deployment = EX[f"deployment-{i}"]
     service = EX[f"service-{i}"]
     contract = EX[f"io-contract-{i}"]
+    agreement = EX[f"agreement-{i}"]
     auth = EX[f"authorization-{i}"]
     run = EX[f"run-{i}"]
     artifact = EX[f"artifact-{i}"]
@@ -293,17 +309,26 @@ def add_unit(g: Graph, i: int) -> None:
     g.add((run, PROV.startedAtTime, Literal("2026-07-06T10:00:00Z", datatype=XSD.dateTime)))
     g.add((run, PROV.endedAtTime, Literal("2026-07-06T10:01:00Z", datatype=XSD.dateTime)))
 
+    # Accepted ODRL agreement (carries the ODRL permissions and parties).
+    g.add((agreement, RDF.type, ODRL.Agreement))
+    g.add((agreement, RDFS.label, Literal(f"Synthetic ODRL agreement {i}")))
+    g.add((agreement, ODRL.target, model))
+    g.add((agreement, ODRL.assigner, EX.provider))
+    g.add((agreement, ODRL.assignee, EX.consumer))
+    g.add((agreement, ODRL.permission, EX[f"agreement-permission-{i}"]))
+    g.add((EX[f"agreement-permission-{i}"], RDF.type, ODRL.Permission))
+    g.add((EX[f"agreement-permission-{i}"], ODRL.target, model))
+    g.add((EX[f"agreement-permission-{i}"], ODRL.assigner, EX.provider))
+    g.add((EX[f"agreement-permission-{i}"], ODRL.assignee, EX.consumer))
+    g.add((EX[f"agreement-permission-{i}"], ODRL.action, ODRL.use))
+
+    # Execution authorization (a distinct resource) derived from the agreement.
     g.add((auth, RDF.type, DAIMO.ExecutionAuthorization))
     g.add((auth, RDFS.label, Literal(f"Synthetic execution authorization {i}")))
+    g.add((auth, DAIMO.derivedFromAgreement, agreement))
     g.add((auth, DAIMO.grantedTo, EX.consumer))
     g.add((auth, DAIMO.authorizesRun, run))
     g.add((auth, DAIMO.expiresAt, Literal("2027-07-06T00:00:00Z", datatype=XSD.dateTime)))
-    g.add((auth, ODRL.permission, EX[f"auth-permission-{i}"]))
-    g.add((EX[f"auth-permission-{i}"], RDF.type, ODRL.Permission))
-    g.add((EX[f"auth-permission-{i}"], ODRL.target, model))
-    g.add((EX[f"auth-permission-{i}"], ODRL.assigner, EX.provider))
-    g.add((EX[f"auth-permission-{i}"], ODRL.assignee, EX.consumer))
-    g.add((EX[f"auth-permission-{i}"], ODRL.action, ODRL.use))
 
     g.add((artifact, RDF.type, DAIMO.DerivedArtifact))
     g.add((artifact, DCTERMS.title, Literal(f"Synthetic derived artifact {i}")))
@@ -460,14 +485,15 @@ def results_to_markdown(results: list[BenchmarkResult], sizes: list[int]) -> str
         "",
         "## Query Counts",
         "",
-        "| Units | Offerings | Invocation contracts | Authorised outputs | Ranking rows |",
-        "|---:|---:|---:|---:|---:|",
+        "| Units | Offerings | Invocation contracts | Authorised outputs | Auth→Agreement pairs | Ranking rows |",
+        "|---:|---:|---:|---:|---:|---:|",
     ]
     for r in results:
         qc = r.query_counts
         lines.append(
             f"| {r.units} | {qc['offerings']} | {qc['invocation_contracts']} | "
-            f"{qc['authorised_outputs']} | {qc['evaluation_ranking']} |"
+            f"{qc['authorised_outputs']} | {qc['auth_agreements']} | "
+            f"{qc['evaluation_ranking']} |"
         )
     lines += [
         "",

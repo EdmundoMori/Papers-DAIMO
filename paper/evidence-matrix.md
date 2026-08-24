@@ -14,15 +14,15 @@ Esta matriz acopla cada afirmación del paper (`paper/daimo-paper-es-v3.tex`) a 
 
 | Artefacto | Ubicación | Líneas | Contenido verificado |
 |---|---|---|---|
-| Ontología núcleo | `daimo/ontology/daimo-core.ttl` | 439 | 14 clases nativas, 30 `owl:ObjectProperty`, 8 `owl:DatatypeProperty`, 29 `owl:FunctionalProperty`, 6 `owl:AsymmetricProperty`, 5 `owl:inverseOf` |
-| Alineamientos | `daimo/ontology/alignment.ttl` | 418 | 7 `rdfs:subClassOf`, 6 `rdfs:subPropertyOf` (`daimo:forService` documentado como NO alineado) |
-| Shapes SHACL | `daimo/shapes/daimo-shapes.ttl` | — | 20 `sh:NodeShape` (9 completitud + 3 conformidad + 8 invariantes), 8 `sh:SPARQLConstraint` |
-| Grafo positivo | `daimo/examples/flood-risk-scenario.ttl` | 324 | 227 tripletas de datos; cada clase nativa instanciada al menos una vez |
-| Grafo negativo | `daimo/tests/negative-examples.ttl` | — | 163 tripletas; 8 nodos focalizados (`bad:INV1-artifact`…`bad:INV8-deployment`) |
+| Ontología núcleo | `daimo/ontology/daimo-core.ttl` | — | 14 clases nativas, 31 `owl:ObjectProperty`, 8 `owl:DatatypeProperty`, 29 `owl:FunctionalProperty`, 7 `owl:AsymmetricProperty`, 5 `owl:inverseOf` |
+| Alineamientos | `daimo/ontology/alignment.ttl` | — | 7 `rdfs:subClassOf` (`ExecutionAuthorization ⊑ prov:Entity`, no `odrl:Agreement`); 4 `rdfs:subPropertyOf` en el módulo (`grantedTo` ya no ⊑ `odrl:assignee`; `forService` y `derivedFromAgreement` NO alineados) |
+| Shapes SHACL | `daimo/shapes/daimo-shapes.ttl` | — | 22 `sh:NodeShape` (9 completitud + 4 conformidad + 9 invariantes), 9 `sh:SPARQLConstraint`; conformidad vía `sh:targetObjectsOf` (DAIMO-ISSUE-04), no `sh:targetClass` global sobre Offer/Model/Run |
+| Grafo positivo | `daimo/examples/flood-risk-scenario.ttl` | — | 233 tripletas de datos; acuerdo y autorización son individuos distintos |
+| Grafo negativo | `daimo/tests/negative-examples.ttl` | — | 209 tripletas; INV-1..INV-9 + AUTH-no-agreement + AUTH-bad-agreement |
 | Consultas CQ | `daimo/queries/queries.md` | 358 | 23 consultas SPARQL organizadas en 5 categorías (R, D, E, V, G) |
 | Reporte razonador | `daimo/reports/reasoner-report.md` | — | HermiT consistent=True 1.5s, OWL-RL 835→2018 (1183 materialised) 0.74s, 14 clases inspeccionadas, 0 advertencias entailment |
 | Reporte validación | `daimo/reports/validation-results.md` | — | SHACL conforms=True sobre positivo; 23/23 CQs con conteos por consulta |
-| Reporte negativo | `daimo/reports/negative-test-results.md` | — | 8/8 invariantes disparadas |
+| Reporte negativo | `daimo/reports/negative-test-results.md` | — | 9/9 invariantes + 2 reglas per-class disparadas |
 | Reporte OOPS! | `daimo/reports/oops-report.md` | — | 0 Críticos, 0 Importantes, 2 Menores (P13 afecta 34 elementos, P04 afecta 7) |
 | Scripts | `daimo/validate.py`, `reasoner_check.py`, `oops_check.py`, `tests/negative_test.py` | — | Suite reproducible |
 | Referencia humana | `daimo/ONTOLOGY-REFERENCE.md` | 850+ | Clase por clase con OntoClean tags, identity criteria, design choices |
@@ -36,28 +36,28 @@ Esta matriz acopla cada afirmación del paper (`paper/daimo-paper-es-v3.tex`) a 
 |---|---|---|
 | Perfil DL declarado | OWL 2 DL | `daimo-core.ttl` cabecera |
 | Clases nativas totales | 14 (9 top-level + 5 `ParticipantRole` subclases) | grep `^daimo:[A-Z][a-zA-Z]+\s+a\s+owl:Class` en `daimo-core.ttl` |
-| `owl:ObjectProperty` | 30 | grep |
+| `owl:ObjectProperty` | 31 | grep |
 | `owl:DatatypeProperty` | 8 | grep |
-| `owl:FunctionalProperty` | 29 | grep |
-| `owl:AsymmetricProperty` | 6 | grep |
+| `owl:FunctionalProperty` | 29 | rdflib count of typed properties (a comment mentioning the term inflates grep to 30) |
+| `owl:AsymmetricProperty` | 7 | grep |
 | Pares `owl:inverseOf` | 5 | grep |
-| `rdfs:subClassOf` a vocabularios externos | 7 | grep `alignment.ttl` |
-| `rdfs:subPropertyOf` a vocabularios externos | 6 | grep `alignment.ttl` |
-| `sh:NodeShape` totales | 20 | grep `daimo-shapes.ttl` |
+| `rdfs:subClassOf` a vocabularios externos | 7 | grep `alignment.ttl` (`ExecutionAuthorization ⊑ prov:Entity`) |
+| `rdfs:subPropertyOf` a vocabularios externos | 4 en `alignment.ttl` (+ `hasOffering ⊑ foaf:isPrimaryTopicOf` en el núcleo) | grep; `grantedTo` ya no ⊑ `odrl:assignee` |
+| `sh:NodeShape` totales | 22 | grep `daimo-shapes.ttl` |
 | Shapes de completitud | 9 (una por clase DAIMO) | `daimo-shapes.ttl` |
-| Shapes de conformidad | 3 (`OfferInDAIMOShape`, `MachineLearningModelInDAIMOShape`, `RunInDAIMOShape`) | `daimo-shapes.ttl` |
-| Invariantes `sh:SPARQLConstraint` | 8 (INV-1…INV-8) | `daimo-shapes.ttl` |
+| Shapes de conformidad | 4 (`OfferInDAIMOShape`, `AgreementInDAIMOShape`, `MachineLearningModelInDAIMOShape`, `RunInDAIMOShape`) | `daimo-shapes.ttl` |
+| Invariantes `sh:SPARQLConstraint` | 9 (INV-1…INV-9) | `daimo-shapes.ttl` |
 | Preguntas de competencia | 23 | `queries/queries.md` |
-| Tripletas del grafo positivo | 227 | `validate.py` output |
-| Tripletas del grafo negativo | 163 | `negative_test.py` output |
-| HermiT consistencia | True, 1.5s, 0 insatisfactibles | `reasoner-report.md` |
-| OWL-RL materialización | 835 pre → 2018 post (1183 derivadas), 0.74s, 0 `owl:Nothing` | `reasoner-report.md` |
-| Entailment check | 14 clases inspeccionadas, 0 advertencias | `reasoner-report.md` |
-| OOPS! Críticos / Importantes / Menores | 0 / 0 / 2 | `oops-report.md` |
+| Tripletas del grafo positivo | 233 | `validate.py` output |
+| Tripletas del grafo negativo | 209 | `negative_test.py` output |
+| HermiT consistencia | True, 1.71s, 0 insatisfactibles | `reasoner-report.md` |
+| OWL-RL materialización | 850 pre → 2043 post (1193 derivadas), 0 `owl:Nothing` | `reasoner-report.md` |
+| Entailment check | 14 clases inspeccionadas, 0 advertencias (incl. no `odrl:Agreement`/`odrl:Policy` sobre `ExecutionAuthorization`) | `reasoner-report.md` |
+| OOPS! Críticos / Importantes / Menores | 0 / 0 / 2 | `oops-report.md` (scan anterior a `forService`/`derivedFromAgreement`) |
 | OOPS! Menor P13 | 34 elementos afectados (sin inversa semánticamente útil) | `oops-report.md` |
 | OOPS! Menor P04 | 7 elementos (clases externas declaradas localmente) | `oops-report.md` |
-| SHACL conformidad positivo | conforms=True, 227 tripletas | `validation-results.md` |
-| SHACL conformidad negativo | conforms=False, 8/8 invariantes disparadas | `negative-test-results.md` |
+| SHACL conformidad positivo | conforms=True, 233 tripletas | `validation-results.md` |
+| SHACL conformidad negativo | conforms=False, 9/9 invariantes + 2 reglas per-class disparadas | `negative-test-results.md` |
 | CQ ejecución | 23/23 devuelven ≥ 1 fila | `validation-results.md` |
 
 ### Conteos por CQ (verificados)
@@ -84,30 +84,31 @@ Esta matriz acopla cada afirmación del paper (`paper/daimo-paper-es-v3.tex`) a 
 | Clase DAIMO | Padre | Evidencia |
 |---|---|---|
 | `daimo:AIAssetOffering` | `dcat:CatalogRecord` | `alignment.ttl:~40`; defensa en `ONTOLOGY-REFERENCE.md §2.1` |
-| `daimo:ExecutionAuthorization` | `odrl:Agreement` | `alignment.ttl`; defensa pendiente en §4.4 del paper |
+| `daimo:ExecutionAuthorization` | `prov:Entity` | `alignment.ttl`; deliberadamente **no** ⊑ `odrl:Agreement` (DAIMO-ISSUE-02); el acuerdo se reutiliza como individuo distinto vía `daimo:derivedFromAgreement` |
 | `daimo:ModelDeployment` | `prov:Entity` | `alignment.ttl` |
 | `daimo:DerivedArtifact` | `prov:Entity`, `dcat:Resource` | `alignment.ttl` (alineamiento doble) |
 | `daimo:CrossParticipantProvenanceRecord` | `prov:Bundle` | `alignment.ttl` |
 | `daimo:AuditEvidence` | `prov:Entity` | `alignment.ttl` |
 | `daimo:ParticipantRole` | `prov:Role` | `alignment.ttl`; caveat en `ONTOLOGY-REFERENCE.md §2.2` (PROV-O Role es activity-scoped, DAIMO dataspace-scoped) |
 
-### 2.2 `rdfs:subPropertyOf` (6)
+### 2.2 `rdfs:subPropertyOf` (4 en `alignment.ttl`; + `hasOffering` en el núcleo)
 
 | Propiedad DAIMO | Padre | Justificación |
 |---|---|---|
 | `daimo:offersModel` | `foaf:primaryTopic` | Convención DCAT CatalogRecord → recurso descrito |
 | `daimo:hasOfferPolicy` | `odrl:hasPolicy` | Herencia directa |
-| `daimo:grantedTo` | `odrl:assignee` | Parte destinataria de la autorización |
 | `daimo:derivedFromRun` | `prov:wasGeneratedBy` | Generación PROV |
 | `daimo:contextTask` | `it6:hasTask` | Especialización sobre `SharedEvaluationContext` |
-| `daimo:datasetVersion` | `dct:hasVersion` | Versionado de dataset en el contexto |
+| `daimo:hasOffering` | `foaf:isPrimaryTopicOf` | Simetría con `offersModel ⊑ foaf:primaryTopic` (declarada en el núcleo) |
 
-### 2.3 Subpropiedades deliberadamente NO declaradas (3)
+### 2.3 Subpropiedades deliberadamente NO declaradas
 
 Todas documentadas en `alignment.ttl` (y `ONTOLOGY-REFERENCE.md` en el historial) con razón:
 
 - `daimo:authorizesRun` ⊄ `prov:used` — tiparía la autorización como actividad PROV
+- `daimo:grantedTo` ⊄ `odrl:assignee` — **retirado en DAIMO-ISSUE-02**: el dominio `odrl:Policy` re-tiparía la autorización como política; equivalencia grantee = assignee del acuerdo vía SHACL INV-9
 - `daimo:grantedTo` ⊄ `prov:qualifiedAssociation` — tiparía al agente como asociación reificada
+- `daimo:derivedFromAgreement` sin superpropiedad externa — se consideró y descartó `prov:wasDerivedFrom` (linaje genérico Entity→Entity que forzaría cada `odrl:Agreement` a `prov:Entity`)
 - `daimo:evidenceOf` ⊄ `prov:hadActivity` — tiparía la evidencia como objeto de influencia
 - `daimo:forService` sin superpropiedad externa — se consideró y descartó `dcat:endpointDescription` (dirección opuesta y apunta a un documento de descripción de API, no a un `IOContract` estructurado)
 
@@ -157,7 +158,7 @@ Todas documentadas en `alignment.ttl` (y `ONTOLOGY-REFERENCE.md` en el historial
 | §4.1 ¶1 | DAIMO modela publicación, descubrimiento, invocación, trazabilidad, evaluación | factual | 9 clases nativas del `daimo-core.ttl` cubren estas cinco tareas | verified |
 | §4.1 ¶2 | Tres módulos: núcleo, alineamientos, shapes | factual | `daimo/ontology/daimo-core.ttl`, `alignment.ttl`, `shapes/daimo-shapes.ttl` existen separados | verified |
 | §4.1 Fig 1 | Arquitectura modular Chowlk | pending | a generar | pending-external |
-| Tabla métricas §4.2 | 14 clases, 30 OP, 8 DP, 29 Func, 6 Asym, 5 Inv, 7 subClassOf, 6 subPropertyOf, 9+3 shapes, 8 invariantes | factual | Sección 1 de esta matriz (todos verificados por grep o reporte) | verified |
+| Tabla métricas §4.2 | 14 clases, 31 OP, 8 DP, 29 Func, 7 Asym, 5 Inv, 7 subClassOf, 4+1 subPropertyOf, 9+4 shapes, 9 invariantes | factual | Sección 1 de esta matriz (todos verificados por grep o reporte); DAIMO-ISSUE-02 | verified |
 | §4.3.1 | `AIAssetOffering` alineada a `dcat:CatalogRecord` | factual | `alignment.ttl` | verified |
 | §4.3.1 | `AIAssetOffering` responde CQ-R1, R2, R5, G1 | factual | `ONTOLOGY-REFERENCE.md §2.1` + `queries.md` | verified |
 | §4.3.2 | `ParticipantRole` con 5 subclases no disjuntas | factual | `daimo-core.ttl` (grep subClassOf) | verified |
@@ -165,16 +166,16 @@ Todas documentadas en `alignment.ttl` (y `ONTOLOGY-REFERENCE.md` en el historial
 | §4.3.3 | `ModelDeployment` expone `dcat:DataService` sobre `it6:ComputerInfrastructure` | factual | `daimo-core.ttl` + ejemplo `flood-risk-scenario.ttl` | verified |
 | §4.3.4 | `IOContract` sin alineamiento externo | factual | `alignment.ttl` no tiene entrada para IOContract; `daimo:forService` documentado como NO alineado | verified |
 | §4.3.4 | IOContract captura formato E/S, método de autenticación y el servicio al que aplica | factual | `daimo-core.ttl` propiedades `inputFormat`, `outputFormat`, `authMethod`, `forService` | verified |
-| §4.3.5 | `ExecutionAuthorization` ⊑ `odrl:Agreement` | factual | `alignment.ttl` | verified |
+| §4.3.5 | `ExecutionAuthorization` ⊑ `prov:Entity` (NO ⊑ `odrl:Agreement`); `derivedFromAgreement` al `odrl:Agreement` distinto | factual | `alignment.ttl` + `daimo-core.ttl` + ejemplo `ex:agreement-municipality-flood-v2` ≠ `ex:authorization-municipality-flood-v2` | verified |
 | §4.3.6 | `DerivedArtifact` alineada doble (`prov:Entity`, `dcat:Resource`) | factual | `alignment.ttl` | verified |
 | §4.3.7 | `CrossParticipantProvenanceRecord` ⊑ `prov:Bundle` | factual | `alignment.ttl` | verified |
 | §4.3.8 | `AuditEvidence` enlaza `spdx:Checksum` estructurado | factual | `daimo-core.ttl` + ejemplo `ex:audit-run-legs-checksum` | verified |
-| §4.3.9 | `SharedEvaluationContext` reifica (tarea, dataset, versión, protocolo, semilla) | factual | `daimo-core.ttl` propiedades `contextTask`, `contextDataset`, `datasetVersion`, `protocol`, `randomSeed` | verified |
+| §4.3.9 | `SharedEvaluationContext` reifica tarea, dataset, versión, protocolo y, cuando corresponda, semilla | factual | `daimo-core.ttl`; `randomSeed` 0..1 en `SharedEvaluationContextShape`; `tests/random_seed_test.py` | verified |
 | §4.4 ¶1 | Defensa `AIAssetOffering ⊑ dcat:CatalogRecord` vs `dcat:Dataset` | interpretive | razonamiento DCAT spec + `ONTOLOGY-REFERENCE.md §2.1 design choices` | verified |
-| §4.4 ¶2 | Defensa `ExecutionAuthorization ⊑ odrl:Agreement` vs `prov:wasDerivedFrom` | interpretive | ODRL 2.2 Agreement semantics; `ONTOLOGY-REFERENCE.md §2.5` | verified |
+| §4.4 ¶2 | Defensa de separar `ExecutionAuthorization` del `odrl:Agreement` y de no alinear `derivedFromAgreement` a `prov:wasDerivedFrom` | interpretive | DAIMO-ISSUE-02; `docs/01-DAIMO-DESIGN.md` §5.2; `alignment.ttl` | verified |
 | §4.5 ¶1 | Axioma nombrado `daimo:TopLevelKindsDisjointness` | factual | `daimo-core.ttl` (grep `AllDisjointClasses`) | verified |
-| §4.5 ¶2 | 29 propiedades funcionales, 6 asimétricas, 5 pares inversos | factual | matriz §1 | verified |
-| §4.5 ¶3 | 3 subpropiedades deliberadamente NO declaradas | interpretive | `ONTOLOGY-REFERENCE.md` + `alignment.ttl` (su ausencia) | verified |
+| §4.5 ¶2 | 29 propiedades funcionales, 7 asimétricas, 5 pares inversos | factual | matriz §1 | verified |
+| §4.5 ¶3 | Subpropiedades deliberadamente NO declaradas (incl. `grantedTo` ⊄ `odrl:assignee`, `derivedFromAgreement` ⊄ `prov:wasDerivedFrom`) | interpretive | `docs/01-DAIMO-DESIGN.md` §5.2 + `alignment.ttl` | verified |
 | §4.6 | Tabla de reuso de vocabularios | factual | `ONTOLOGY-REFERENCE.md §1` (tabla de prefijos) | verified |
 
 ### §5 Evaluación
@@ -182,21 +183,21 @@ Todas documentadas en `alignment.ttl` (y `ONTOLOGY-REFERENCE.md` en el historial
 | § ¶ | Afirmación | Tipo | Evidencia | Estado |
 |---|---|---|---|---|
 | §5.1 | Escenario instancia UPM/Leganés/INESData/CSIC/Gaia-X | factual | `flood-risk-scenario.ttl` (grep instancias) | verified |
-| §5.1 | Grafo de 227 tripletas | factual | `validate.py` output | verified |
+| §5.1 | Grafo de 233 tripletas; autorización y acuerdo son individuos distintos | factual | `validate.py` output; `flood-risk-scenario.ttl` | verified |
 | §5.1 | 3 `AIAssetOffering`s, uno con política comercial prohibida | factual | `flood-risk-scenario.ttl` | verified |
 | §5.1 | Despliegue multi-endpoint REST + gRPC, cada contrato ligado a su servicio (`daimo:forService`) | factual | `flood-risk-scenario.ttl`; CQ-G2/D3/E1 devuelven 2 filas correctas | verified |
 | §5.1 | `spdx:Checksum` estructurado SHA-256 con digest explícito | factual | `flood-risk-scenario.ttl` `ex:audit-run-legs-checksum` | verified |
-| §5.2 ¶1 | HermiT consistente 1.5s, 0 insatisfactibles | factual | `reasoner-report.md` | verified |
-| §5.2 ¶1 | OWL-RL materializa 1183 tripletas, 0 `owl:Nothing` | factual | `reasoner-report.md` | verified |
+| §5.2 ¶1 | HermiT consistente ~1.6s, 0 insatisfactibles | factual | `reasoner-report.md` | verified |
+| §5.2 ¶1 | OWL-RL materializa 1193 tripletas (850→2043), 0 `owl:Nothing` | factual | `reasoner-report.md` | verified |
 | §5.2 ¶2 | Verificación implicación sobre 14 clases, 0 advertencias | factual | `reasoner-report.md` §entailment-verification | verified |
 | §5.2 ¶3 | OOPS! 0/0/2, P13 afecta 34, P04 afecta 7 | factual | `oops-report.md` | verified |
 | §5.3 ¶1 | SHACL conforma sobre grafo positivo | factual | `validation-results.md` | verified |
-| §5.3 ¶2 | 8 invariantes INV-1…INV-8 detalladas | factual | `daimo-shapes.ttl` (grep SPARQLConstraint) | verified |
+| §5.3 ¶2 | 9 invariantes INV-1…INV-9 detalladas | factual | `daimo-shapes.ttl` (grep SPARQLConstraint) | verified |
 | §5.3 ¶3 | Listado INV-5 como `sh:SPARQLConstraint` | factual | `daimo-shapes.ttl` líneas de `OfferingPolicyTargetInvariant` | verified |
-| §5.3 ¶4 | 8/8 invariantes disparadas sobre banco negativo | factual | `negative-test-results.md` | verified |
+| §5.3 ¶4 | 9/9 invariantes + 2 reglas per-class disparadas sobre banco negativo | factual | `negative-test-results.md` | verified |
 | §5.4 | 23/23 CQs devuelven filas, conteos específicos | factual | `validation-results.md` | verified |
 | §5.4 | CQ-R2 y CQ-E1 dependen de `subPropertyOf` entailment | factual | `queries.md` consultas; razonamiento | verified |
-| §5.5 | Reuso verificado: 7 subClassOf, 6 subPropertyOf a vocabularios externos | factual | sección §2 de esta matriz | verified |
+| §5.5 | Reuso verificado: 7 subClassOf, 4 subPropertyOf en `alignment.ttl` (`grantedTo` ya no ⊑ `odrl:assignee`) | factual | sección §2 de esta matriz | verified |
 | §5.6 | Validación con expertos pendiente | pending | —; 3 perfiles identificados | pending-external |
 
 ### §6 Discusión

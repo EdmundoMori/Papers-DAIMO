@@ -150,10 +150,71 @@ def main() -> int:
             failures.append((code, str(e)))
             print(f"  ERR   {code:8s}  {e}")
 
+    # 4. Structural check (DAIMO-ISSUE-02): EVERY ExecutionAuthorization must
+    #    derive from a DISTINCT typed odrl:Agreement (not merely "at least one
+    #    pair exists"). Collapse, missing links, or auth==agreement all fail.
+    print("\n[extra] DAIMO-ISSUE-02 authorization/agreement separation ...")
+    _pfx = (
+        "PREFIX daimo: <https://w3id.org/pionera/daimo#>\n"
+        "PREFIX odrl: <http://www.w3.org/ns/odrl/2/>\n"
+    )
+    try:
+        n_auth = len(list(query_graph.query(
+            _pfx + "SELECT ?auth WHERE { ?auth a daimo:ExecutionAuthorization }"
+        )))
+        n_distinct = len(list(query_graph.query(
+            _pfx +
+            "SELECT ?auth ?agreement WHERE {\n"
+            "  ?auth a daimo:ExecutionAuthorization ;\n"
+            "        daimo:derivedFromAgreement ?agreement .\n"
+            "  ?agreement a odrl:Agreement .\n"
+            "  FILTER (?auth != ?agreement)\n"
+            "}"
+        )))
+        n_collapsed = len(list(query_graph.query(
+            _pfx +
+            "SELECT ?auth WHERE {\n"
+            "  ?auth a daimo:ExecutionAuthorization ;\n"
+            "        daimo:derivedFromAgreement ?auth .\n"
+            "}"
+        )))
+        n_unlinked = len(list(query_graph.query(
+            _pfx +
+            "SELECT ?auth WHERE {\n"
+            "  ?auth a daimo:ExecutionAuthorization .\n"
+            "  FILTER NOT EXISTS {\n"
+            "    ?auth daimo:derivedFromAgreement ?agreement .\n"
+            "    ?agreement a odrl:Agreement .\n"
+            "    FILTER (?auth != ?agreement)\n"
+            "  }\n"
+            "}"
+        )))
+        sep_ok = (
+            n_auth >= 1
+            and n_distinct == n_auth
+            and n_collapsed == 0
+            and n_unlinked == 0
+        )
+        print(
+            f"  {'PASS' if sep_ok else 'FAIL'}  "
+            f"auths={n_auth} distinct-pairs={n_distinct} "
+            f"collapsed={n_collapsed} unlinked={n_unlinked}"
+        )
+        if not sep_ok:
+            failures.append((
+                "ISSUE-02-separation",
+                f"auths={n_auth} distinct={n_distinct} "
+                f"collapsed={n_collapsed} unlinked={n_unlinked}",
+            ))
+    except Exception as e:
+        sep_ok = False
+        print(f"  ERR   {e}")
+        failures.append(("ISSUE-02-separation", str(e)))
+
     print()
     print("=" * 70)
     print(f"Summary: {passes}/{len(cqs)} CQ queries return >=1 row; "
-          f"SHACL conforms={conforms}")
+          f"SHACL conforms={conforms}; auth≠agreement separation={sep_ok}")
     print("=" * 70)
 
     if failures:
@@ -161,7 +222,7 @@ def main() -> int:
         for code, reason in failures:
             print(f"  - {code}: {reason}")
 
-    return 0 if (conforms and passes == len(cqs)) else 1
+    return 0 if (conforms and passes == len(cqs) and sep_ok) else 1
 
 
 if __name__ == "__main__":

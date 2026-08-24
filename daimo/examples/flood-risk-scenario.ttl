@@ -218,13 +218,23 @@ ex:cuda-12-2  a it6:Library ; rdfs:label "CUDA 12.2"@en .
 
 #################################################################
 # Agreement and execution authorization
+#
+# DAIMO-ISSUE-02: the accepted ODRL agreement and the execution authorization
+# are two DISTINCT individuals. The agreement (odrl:Agreement) carries the
+# negotiated ODRL permissions and parties; the authorization
+# (daimo:ExecutionAuthorization) derives from that agreement
+# (daimo:derivedFromAgreement) and binds it to concrete runs, a grantee, and an
+# expiry. The authorization's grantee equals the agreement's odrl:assignee
+# (checked by SHACL invariant INV-9).
 #################################################################
 
-ex:agreement-municipality-flood-v2 a daimo:ExecutionAuthorization ;
-    rdfs:label "Leganés-UPM execution authorization for flood-risk-v2"@en ;
-    daimo:grantedTo ex:municipality ;
-    daimo:authorizesRun ex:run-2026-04-20-legs ;
-    daimo:expiresAt "2027-04-20T00:00:00Z"^^xsd:dateTime ;
+# The negotiated ODRL agreement (result of the UPM–Leganés DSP contract
+# negotiation) — carries the ODRL permissions and the assignee/assigner parties.
+ex:agreement-municipality-flood-v2 a odrl:Agreement ;
+    rdfs:label "Leganés-UPM ODRL agreement for flood-risk-v2"@en ;
+    odrl:target ex:flood-risk-v2 ;
+    odrl:assigner ex:upm ;
+    odrl:assignee ex:municipality ;
     odrl:permission [
         a odrl:Permission ;
         odrl:target ex:flood-risk-v2 ;
@@ -232,6 +242,15 @@ ex:agreement-municipality-flood-v2 a daimo:ExecutionAuthorization ;
         odrl:assignee ex:municipality ;
         odrl:action odrl:use
     ] .
+
+# The execution authorization — a distinct resource that derives from the
+# agreement above and ties it to the concrete run, grantee, and expiry.
+ex:authorization-municipality-flood-v2 a daimo:ExecutionAuthorization ;
+    rdfs:label "Leganés-UPM execution authorization for flood-risk-v2"@en ;
+    daimo:derivedFromAgreement ex:agreement-municipality-flood-v2 ;
+    daimo:grantedTo ex:municipality ;
+    daimo:authorizesRun ex:run-2026-04-20-legs ;
+    daimo:expiresAt "2027-04-20T00:00:00Z"^^xsd:dateTime .
 
 #################################################################
 # Execution: Flow, Run, Evaluation
@@ -269,7 +288,7 @@ ex:run-baseline a it6:Run ;
 ex:prediction-legs-2026-04-20 a daimo:DerivedArtifact ;
     dct:title "Flood risk prediction for Leganés, 2026-04-20"@en ;
     daimo:derivedFromRun ex:run-2026-04-20-legs ;
-    daimo:underAuthorization ex:agreement-municipality-flood-v2 .
+    daimo:underAuthorization ex:authorization-municipality-flood-v2 .
 
 #################################################################
 # Shared evaluation context and evaluation instances

@@ -6,6 +6,107 @@ to semantic versioning (`owl:versionInfo` mirrors this file).
 
 ## [Unreleased]
 
+### Fixed — DAIMO-ISSUE-04: SHACL targets for reused classes
+- `OfferInDAIMOShape`, `MachineLearningModelInDAIMOShape` and `RunInDAIMOShape`
+  used `sh:targetClass` on `odrl:Offer`, `it6:MachineLearningModel` and
+  `it6:Run`, so **every** instance in a graph received DAIMO profile
+  obligations, including resources not linked by DAIMO. Documentation claimed
+  the rules applied "in DAIMO's context"; the targets did not.
+
+### Changed — DAIMO-ISSUE-04
+- Replaced the three global `sh:targetClass` with SHACL Core
+  `sh:targetObjectsOf`: `hasOfferPolicy` (Offer); `offersModel` **or**
+  `deploysModel` (Model); `authorizesRun` **or** `derivedFromRun` (Run).
+- The same leak applied to `AgreementInDAIMOShape` (`sh:targetClass
+  odrl:Agreement`); it now targets objects of `daimo:derivedFromAgreement`.
+  Internal obligations (assigner/target, title/identifier/policy, flow/
+  algorithm/agent/start, permission/assignee) are unchanged.
+- New harness `python tests/reused_class_scope_test.py` (9-cell matrix):
+  external incomplete Offer/Model/Run are not selected; in-scope incomplete
+  resources violate; in-scope complete resources conform.
+- SHACL still validates RDF graphs only; it does not apply ODRL policies or
+  control access.
+
+### Fixed — DAIMO-ISSUE-03: optional random seed when applicable
+- `SharedEvaluationContextShape` required `daimo:randomSeed` with `sh:minCount 1`,
+  forcing a seed even for deterministic protocols. The approved CQs ask for
+  "protocol and, when applicable, seed". The property is kept (functional,
+  `xsd:integer`) but SHACL cardinality is now **0..1**. Applicability depends
+  on the evaluation procedure; DAIMO does not maintain a universal list of
+  stochastic protocols. Absence of a seed is not a claim of complete
+  reproducibility.
+
+### Changed — DAIMO-ISSUE-03
+- `daimo:randomSeed` definition/comment: fixes stochastic components *when the
+  protocol uses them*; still functional (one seed per context).
+- `SharedEvaluationContext` definition no longer treats the seed as one of five
+  always-required facets.
+- CQ-V1 uses `OPTIONAL { ?ctx daimo:randomSeed ?seed }`. CQ-V2/CQ-V3 already
+  joined only on the context individual and metric; documented as seed-independent.
+- New harness `python tests/random_seed_test.py`: seedless context conforms and
+  is recovered by CQ-V1 with `?seed` unbound; two seeds and a non-integer seed
+  are rejected.
+- Flood-risk example keeps seed 42 (holdout uses it). Benchmark generator still
+  emits a seed for its synthetic holdout; it no longer treats the property as
+  mandatory for conformance.
+
+### Fixed — DAIMO-ISSUE-02: separation of execution authorization and ODRL agreement
+- `daimo:ExecutionAuthorization` was a **subclass of `odrl:Agreement`** and the
+  flood-risk example used a **single individual** as both the accepted agreement
+  and the execution authorization. CQ-G3 asked for "the authorization and the
+  agreement it derives from" but no property related the two, and the query only
+  returned the authorization. This conflated two distinct governance resources.
+
+### Added — DAIMO-ISSUE-02
+- **`daimo:derivedFromAgreement`** object property
+  (`ExecutionAuthorization → odrl:Agreement`), **functional** (each authorization
+  derives from exactly one agreement) and **asymmetric**. Documented as **not
+  aligned** to any external term in `alignment.ttl` (`prov:wasDerivedFrom` was
+  considered and rejected — generic entity lineage that would force every
+  agreement into `prov:Entity` and lose the governance meaning).
+- **`daimo:AgreementInDAIMOShape`** conformance shape over `odrl:Agreement`
+  (requires `odrl:permission` ≥1 and `odrl:assignee` ≥1).
+- **INV-9** (`AuthorizationAgreementAssigneeInvariant`): the authorization's
+  `daimo:grantedTo` grantee must be an `odrl:assignee` of the `odrl:Agreement`
+  it `daimo:derivedFromAgreement`.
+- Three new negative-test cases: `bad:INV9-auth` (grantee ≠ agreement assignee),
+  `bad:AUTH-no-agreement` (authorization without a source agreement), and
+  `bad:AUTH-bad-agreement` (source agreement missing `odrl:permission`). The
+  negative harness now asserts **all 11** invariant/completeness rules fire
+  (INV-1..INV-9 + the two authorization/agreement per-class rules).
+- `validate.py` now runs a structural check that at least one
+  `ExecutionAuthorization`/`odrl:Agreement` pair exists with distinct IRIs
+  (`FILTER(?auth != ?agreement)`).
+- `reasoner_check.py` `FORBIDDEN_SUPERS` extended with `odrl:Agreement` and
+  `odrl:Policy` so any regression that re-types the authorization as an ODRL
+  policy/agreement is caught.
+
+### Changed — DAIMO-ISSUE-02
+- `daimo:ExecutionAuthorization` is now aligned to **`prov:Entity`** (a governed
+  artefact), **not** to `odrl:Agreement`. Its definition/comment were rewritten.
+- `daimo:grantedTo` is **no longer** `rdfs:subPropertyOf odrl:assignee`
+  (odrl:assignee's domain `odrl:Policy` would re-type the authorization as a
+  policy). The grantee = agreement-assignee equivalence is enforced by INV-9.
+- `ExecutionAuthorizationShape` now requires `daimo:derivedFromAgreement`
+  (1..1, `odrl:Agreement`) and no longer requires `odrl:permission` on the
+  authorization; the ODRL permissions live on the agreement.
+- Example KG: the accepted agreement (`ex:agreement-municipality-flood-v2`,
+  `odrl:Agreement`) and the authorization (`ex:authorization-municipality-flood-v2`,
+  `daimo:ExecutionAuthorization`) are now distinct individuals linked by
+  `daimo:derivedFromAgreement`; the provenance chain is preserved.
+- CQ-G3 rewritten to return `?auth`, `?agreement`, `?grantee`, `?expires`, prove
+  the two resources differ, and check the grantee against the agreement assignee.
+  CQ-E2/CQ-E5 reviewed — unaffected.
+- `scalability_benchmark.py` generates a distinct `odrl:Agreement` per unit and
+  links each synthetic authorization to it via `derivedFromAgreement`; added an
+  `auth_agreements` control query. Re-ran sizes 100 and 1000 — both still conform.
+- Counts updated as technical information: object properties 30 → **31**, total
+  native properties 38 → **39**, functional **29** (21 object + 8 datatype
+  declarations of `owl:FunctionalProperty`; a naïve grep hits 30 because a
+  comment mentions the term), asymmetric 6 → **7**;
+  SHACL conformance shapes 3 → **4**; cross-class invariants 8 → **9**; SHACL
+  node shapes 20 → **22**.
+
 ### Fixed — DAIMO-ISSUE-01: unambiguous DataService–IOContract association
 - A `daimo:ModelDeployment` could declare several `daimo:exposedAs` services and
   several `daimo:hasIOContract` contracts with **no link between a specific

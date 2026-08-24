@@ -1,0 +1,21 @@
+@prefix sc:    <https://example.org/daimo-scope/> .
+@prefix daimo: <https://w3id.org/pionera/daimo#> .
+@prefix it6:   <http://data.europa.eu/it6/> .
+@prefix odrl:  <http://www.w3.org/ns/odrl/2/> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+
+# Incomplete reused individuals NOT reached by any DAIMO property.
+# If OfferInDAIMOShape / MachineLearningModelInDAIMOShape / RunInDAIMOShape
+# still used sh:targetClass, this graph would fail. After ISSUE-04 it must
+# conform: the three resources are out of scope.
+sc:external-offer a odrl:Offer ;
+    rdfs:label "Foreign ODRL offer, not a DAIMO hasOfferPolicy object"@en .
+    # no odrl:assigner, no odrl:target
+
+sc:external-model a it6:MachineLearningModel ;
+    rdfs:label "Foreign MLDCAT-AP model, not offered or deployed via DAIMO"@en .
+    # no dct:title, dct:identifier, odrl:hasPolicy
+
+sc:external-run a it6:Run ;
+    rdfs:label "Foreign MLDCAT-AP run, not authorised and not producing a DAIMO artefact"@en .
+    # no flow, algorithm, agent, start time

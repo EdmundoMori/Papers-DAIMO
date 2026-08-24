@@ -1,0 +1,24 @@
+@prefix sc:    <https://example.org/daimo-scope/> .
+@prefix daimo: <https://w3id.org/pionera/daimo#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix it6:   <http://data.europa.eu/it6/> .
+@prefix odrl:  <http://www.w3.org/ns/odrl/2/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+
+# In-scope incomplete Model: object of daimo:offersModel, missing
+# title/identifier/policy. Offer is complete so only the model should fire.
+sc:agent a foaf:Agent ; rdfs:label "Scope-test provider"@en .
+
+sc:model-incomplete a it6:MachineLearningModel ;
+    rdfs:label "DAIMO-linked model missing DAIMO identity and policy"@en .
+
+sc:offer a odrl:Offer ;
+    odrl:assigner sc:agent ;
+    odrl:target sc:model-incomplete .
+
+sc:offering a daimo:AIAssetOffering ;
+    dct:title "Scope offering (incomplete model)"@en ;
+    daimo:offersModel sc:model-incomplete ;
+    daimo:offeredBy sc:agent ;
+    daimo:hasOfferPolicy sc:offer .

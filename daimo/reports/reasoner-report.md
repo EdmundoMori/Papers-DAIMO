@@ -3,15 +3,15 @@
 ## HermiT (owlready2)
 
 - consistent: **True**
-- reasoning time: 1.5 s
+- reasoning time: 1.46 s
 - unsatisfiable classes: 0
 
 ## OWL-RL (pure Python)
 
-- pre triples: 835
-- post triples: 2018
-- materialised: 1183
-- reasoning time: 0.74 s
+- pre triples: 853
+- post triples: 2048
+- materialised: 1195
+- reasoning time: 0.64 s
 - owl:Nothing individuals (disjoint-class violations): 0
 - unsatisfiable subclasses: 0
 
@@ -29,7 +29,7 @@ For each DAIMO-native class, lists every superclass entailed after OWL-RL materi
 - `daimo:CrossParticipantProvenanceRecord` ⊑ Thing, Bundle
 - `daimo:DerivedArtifact` ⊑ Thing, Resource, Entity
 - `daimo:Evaluator` ⊑ Thing, Role, ParticipantRole
-- `daimo:ExecutionAuthorization` ⊑ Thing, Agreement
+- `daimo:ExecutionAuthorization` ⊑ Thing, Entity
 - `daimo:GovernanceActor` ⊑ Thing, Role, ParticipantRole
 - `daimo:IOContract` ⊑ Thing
 - `daimo:ModelConsumer` ⊑ Thing, Role, ParticipantRole

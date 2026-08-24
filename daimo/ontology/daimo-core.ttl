@@ -94,7 +94,7 @@ daimo:Evaluator a owl:Class ;
     rdfs:subClassOf daimo:ParticipantRole ;
     rdfs:label "evaluator"@en ;
     skos:definition "Role of an agent that evaluates or compares AI models under a shared evaluation context."@en ;
-    skos:example "Any agent that produces it6:Evaluation instances linked to a shared SharedEvaluationContext (via daimo:usesEvaluationContext) holds an Evaluator role — for example, a benchmarking team comparing candidate models on the same dataset version and seed."@en ;
+    skos:example "Any agent that produces it6:Evaluation instances linked to a shared SharedEvaluationContext (via daimo:usesEvaluationContext) holds an Evaluator role — for example, a benchmarking team comparing candidate models on the same dataset version, protocol and, when applicable, seed."@en ;
     rdfs:comment "Role of an agent that evaluates or compares AI models under a shared evaluation context."@en ;
     rdfs:isDefinedBy <https://w3id.org/pionera/daimo> .
 
@@ -122,12 +122,12 @@ daimo:IOContract a owl:Class ;
     rdfs:comment "The minimum machine-actionable invocation contract for a deployment: the service it applies to (daimo:forService), input format, output format, authentication method, and optional input/output schemas. Binding each contract to exactly one dcat:DataService is what lets a multi-endpoint deployment expose, e.g., a JSON/OAuth2 REST service and a protobuf/mTLS gRPC service without ambiguity."@en .
 
 daimo:ExecutionAuthorization a owl:Class ;
-    rdfs:subClassOf odrl:Agreement ;
+    rdfs:subClassOf prov:Entity ;
     rdfs:label "execution authorization"@en ;
     rdfs:isDefinedBy <https://w3id.org/pionera/daimo> ;
-    skos:definition "An ODRL agreement, produced by a Dataspace-Protocol contract negotiation, that binds specific ODRL permissions to concrete MLDCAT-AP run invocations it authorises, with an expiry timestamp and a grantee agent."@en ;
-    skos:example "After a successful DSP contract negotiation, the resulting agreement is represented as an ExecutionAuthorization granting odrl:use to the consumer (daimo:grantedTo), covering one or more runs via daimo:authorizesRun, expiring at a specified daimo:expiresAt timestamp."@en ;
-    rdfs:comment "An ODRL agreement (produced by a DSP contract negotiation) that binds at least one odrl:permission to concrete it6:Run invocations it authorises. Specialises odrl:Agreement; MUST carry at least one odrl:permission per the ODRL policy model."@en .
+    skos:definition "A governance artefact that binds an accepted odrl:Agreement (via daimo:derivedFromAgreement) to the concrete MLDCAT-AP run invocations it authorises (daimo:authorizesRun), for a specific grantee agent (daimo:grantedTo) and until an expiry timestamp (daimo:expiresAt). The authorization is NOT the agreement itself: it is a separate individual that operationalises a single agreement over one or more executions."@en ;
+    skos:example "After a successful DSP contract negotiation the accepted terms are represented as an odrl:Agreement; a distinct ExecutionAuthorization then declares daimo:derivedFromAgreement that agreement, grants execution to the consumer (daimo:grantedTo), covers one or more runs via daimo:authorizesRun, and expires at a daimo:expiresAt timestamp."@en ;
+    rdfs:comment "A governed authorisation resource (a prov:Entity) that links exactly one accepted odrl:Agreement (daimo:derivedFromAgreement) to the it6:Run invocations it permits. Deliberately NOT a subclass of odrl:Agreement: the agreement is the negotiated policy artefact that carries the ODRL permissions, whereas the authorization is the derived resource that ties that agreement to concrete executions, a grantee, and an expiry. Keeping them apart lets one agreement back several authorizations and prevents the authorization from being (mis)typed as an odrl:Policy. SHACL invariant INV-9 checks that the grantee (daimo:grantedTo) is the odrl:assignee of the agreement it derives from."@en .
 
 daimo:DerivedArtifact a owl:Class ;
     rdfs:subClassOf prov:Entity , dcat:Resource ;
@@ -156,9 +156,9 @@ daimo:AuditEvidence a owl:Class ;
 daimo:SharedEvaluationContext a owl:Class ;
     rdfs:label "shared evaluation context"@en ;
     rdfs:isDefinedBy <https://w3id.org/pionera/daimo> ;
-    skos:definition "A reified grouping of the conditions under which model evaluations are comparable: task, dataset, dataset version, evaluation protocol, and random seed."@en ;
-    skos:example "Two candidate models evaluated on the same SharedEvaluationContext (identical it6:Task, dcat:Dataset, daimo:datasetVersion, daimo:protocol, and daimo:randomSeed) yield metric values that are directly comparable; changing any of the five facets breaks comparability."@en ;
-    rdfs:comment "A reified grouping of the conditions under which model results are comparable: task, dataset, dataset version, protocol, and random seed. Does not claim to cover every facet that affects comparability (metric, split strategy, hyperparameters); it is the minimum grouping required by CQ-V1..CQ-V3."@en .
+    skos:definition "A reified grouping of the conditions under which model evaluations are comparable: task, dataset, dataset version, evaluation protocol and, when applicable, random seed."@en ;
+    skos:example "Two candidate models evaluated on the same SharedEvaluationContext (identical it6:Task, dcat:Dataset, daimo:datasetVersion, daimo:protocol, and — when the procedure is stochastic — the same daimo:randomSeed) can be ranked on the same metric; changing task, dataset, version or protocol, or comparing under incompatible metrics, breaks comparability. A deterministic protocol such as leave-one-out may omit the seed."@en ;
+    rdfs:comment "A reified grouping of the conditions under which model results are comparable: task, dataset, dataset version, protocol and, when applicable, random seed. Does not claim that those facets alone guarantee comparability (the same metric and compatible conditions are also required), nor that every facet of a study is covered (split strategy, hyperparameters, metric formula). Absence of a seed is not an assertion of complete reproducibility; it records that the declared procedure does not use one. This is the minimum grouping required by CQ-V1..CQ-V3."@en .
 
 #################################################################
 # Pairwise disjointness among top-level DAIMO-native kinds.
@@ -252,14 +252,23 @@ daimo:authorizesRun a owl:ObjectProperty , owl:AsymmetricProperty ;
     rdfs:label "authorizes run"@en ;
     rdfs:domain daimo:ExecutionAuthorization ;
     rdfs:range  it6:Run ;
-    rdfs:comment "Links an authorization to a run it permits. Non-functional: a single authorization can cover multiple runs (e.g., subscription-style access). Asymmetric: an authorization is distinct from any run it authorises. Deliberately NOT declared a subproperty of prov:used: an odrl:Agreement is a policy artefact (an Entity), not a prov:Activity; the prov:used domain would incorrectly force ExecutionAuthorization ⊑ prov:Activity."@en .
+    rdfs:comment "Links an authorization to a run it permits. Non-functional: a single authorization can cover multiple runs (e.g., subscription-style access). Asymmetric: an authorization is distinct from any run it authorises. Deliberately NOT declared a subproperty of prov:used: a daimo:ExecutionAuthorization is a governed artefact (a prov:Entity), not a prov:Activity; the prov:used domain would incorrectly force ExecutionAuthorization ⊑ prov:Activity."@en .
 
 daimo:authorizedBy a owl:ObjectProperty , owl:FunctionalProperty ;
     owl:inverseOf daimo:authorizesRun ;
     rdfs:label "authorized by"@en ;
     rdfs:domain it6:Run ;
     rdfs:range  daimo:ExecutionAuthorization ;
-    rdfs:comment "Inverse of daimo:authorizesRun. Functional: each run is authorized by exactly one agreement."@en .
+    rdfs:comment "Inverse of daimo:authorizesRun. Functional: each run is authorized by exactly one authorization."@en .
+
+daimo:derivedFromAgreement a owl:ObjectProperty , owl:FunctionalProperty , owl:AsymmetricProperty ;
+    rdfs:label "derived from agreement"@en ;
+    rdfs:domain daimo:ExecutionAuthorization ;
+    rdfs:range  odrl:Agreement ;
+    rdfs:isDefinedBy <https://w3id.org/pionera/daimo> ;
+    skos:definition "The accepted odrl:Agreement that a given execution authorization operationalises."@en ;
+    skos:example "The ExecutionAuthorization granting flood-risk-v2 execution to Leganés declares daimo:derivedFromAgreement the odrl:Agreement produced by the UPM–Leganés contract negotiation, so the concrete run authorisation is traceable back to the exact accepted terms."@en ;
+    rdfs:comment "Links a daimo:ExecutionAuthorization to the single accepted odrl:Agreement whose terms it enforces over concrete runs. Functional: each authorization derives from exactly one agreement (a run's authorisation must trace to one accepted set of terms). Asymmetric: the authorization and the agreement are distinct individuals. Deliberately NOT declared a subproperty of prov:wasDerivedFrom: prov:wasDerivedFrom has domain and range prov:Entity and expresses generic data-lineage between entities; using it would (i) force every odrl:Agreement to be a prov:Entity, and (ii) blur the specific governance meaning 'the accepted ODRL agreement this authorization enforces'. No property in ODRL, DCAT, MLDCAT-AP, PROV-O or DSP carries this exact meaning, so daimo:derivedFromAgreement is a native, unaligned object property; see alignment.ttl for the non-alignment rationale."@en .
 
 #################################################################
 # Inverse properties for convenient reverse traversal of the four
@@ -298,11 +307,10 @@ daimo:hasOffering a owl:ObjectProperty ;
     rdfs:comment "Inverse of daimo:offersModel: from a model, retrieve every catalog offering that registers it. Non-functional (the same model may be offered by different providers in different catalogs). Declared rdfs:subPropertyOf foaf:isPrimaryTopicOf for symmetry with daimo:offersModel ⊑ foaf:primaryTopic."@en .
 
 daimo:grantedTo a owl:ObjectProperty , owl:FunctionalProperty ;
-    rdfs:subPropertyOf odrl:assignee ;
     rdfs:label "granted to"@en ;
     rdfs:domain daimo:ExecutionAuthorization ;
     rdfs:range  foaf:Agent ;
-    rdfs:comment "Links an authorization to the grantee agent. Functional. Specialises odrl:assignee (the ODRL party receiving an agreement's terms). Deliberately NOT aligned to prov:qualifiedAssociation: that property points to a reified prov:Association object, not to the agent itself; using it here would incorrectly type every grantee Agent as a prov:Association."@en .
+    rdfs:comment "Links an execution authorization to the grantee agent it authorises. Functional: one grantee per authorization. Deliberately NOT declared rdfs:subPropertyOf odrl:assignee: odrl:assignee has domain odrl:Policy, so — now that daimo:ExecutionAuthorization is no longer an odrl:Agreement/odrl:Policy — that alignment would re-type every authorization as an odrl:Policy and reintroduce the very conflation DAIMO-ISSUE-02 removes. The intended equivalence (the authorization's grantee IS the odrl:assignee of the agreement it derives from) is instead enforced by SHACL invariant INV-9 rather than by OWL subsumption. Also deliberately NOT aligned to prov:qualifiedAssociation, whose range is a reified prov:Association object, not the agent itself."@en .
 
 daimo:derivedFromRun a owl:ObjectProperty , owl:FunctionalProperty , owl:AsymmetricProperty ;
     rdfs:subPropertyOf prov:wasGeneratedBy ;
@@ -416,19 +424,22 @@ daimo:expiresAt a owl:DatatypeProperty , owl:FunctionalProperty ;
     rdfs:label "expires at"@en ;
     rdfs:domain daimo:ExecutionAuthorization ;
     rdfs:range  xsd:dateTime ;
-    rdfs:comment "Expiry timestamp of the execution authorisation."@en .
+    rdfs:comment "Expiry timestamp of the execution authorisation — the operational window during which the derived authorization may cover runs. The accepted odrl:Agreement may carry its own ODRL constraints; expiry of the authorization is recorded here, not on the agreement."@en .
 
 daimo:protocol a owl:DatatypeProperty , owl:FunctionalProperty ;
     rdfs:label "evaluation protocol"@en ;
     rdfs:domain daimo:SharedEvaluationContext ;
     rdfs:range  xsd:string ;
-    rdfs:comment "Name of the evaluation protocol (e.g. \"holdout\", \"5-fold-cv\", \"bootstrap-1000\")."@en .
+    rdfs:comment "Name of the evaluation protocol (e.g. \"holdout\", \"5-fold-cv\", \"leave-one-out\", \"bootstrap-1000\"). Whether a random seed applies is a property of this procedure, not of DAIMO: stochastic protocols typically declare daimo:randomSeed; deterministic ones omit it."@en .
 
 daimo:randomSeed a owl:DatatypeProperty , owl:FunctionalProperty ;
     rdfs:label "random seed"@en ;
     rdfs:domain daimo:SharedEvaluationContext ;
     rdfs:range  xsd:integer ;
-    rdfs:comment "Random seed fixing stochastic components of the protocol, required for reproducibility."@en .
+    rdfs:isDefinedBy <https://w3id.org/pionera/daimo> ;
+    skos:definition "Integer seed that fixes the stochastic components of an evaluation protocol when that protocol uses them."@en ;
+    skos:example "A holdout or k-fold protocol that shuffles folds records daimo:randomSeed 42; a fully deterministic leave-one-out protocol omits the property."@en ;
+    rdfs:comment "Fixes stochastic components of the evaluation procedure when that procedure uses them. Functional: a given SharedEvaluationContext must not declare two incompatible seeds. Optional: SHACL allows cardinality 0..1 because applicability depends on the evaluation procedure, not on a universal DAIMO list of 'stochastic protocols'. Omitting the seed is not a claim of complete reproducibility; it only records that the declared protocol does not use a seed."@en .
 
 daimo:datasetVersion a owl:DatatypeProperty , owl:FunctionalProperty ;
     rdfs:label "dataset version"@en ;

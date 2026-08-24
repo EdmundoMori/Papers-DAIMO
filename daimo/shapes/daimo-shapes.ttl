@@ -20,7 +20,7 @@
 
 <https://w3id.org/pionera/daimo/shapes> a owl:Ontology ;
     dct:title "DAIMO SHACL Shapes"@en ;
-    dct:description "SHACL node shapes, conformance shapes over reused classes, and cross-class SHACL-SPARQL invariants for DAIMO v0.1.6. Used by the validation pipeline (validate.py, tests/negative_test.py) to enforce minimum completeness on DAIMO-native classes, ODRL / MLDCAT-AP conformance obligations on reused classes, and eight business-rule invariants across classes."@en ;
+    dct:description "SHACL node shapes, conformance shapes over reused classes linked by DAIMO relations, and cross-class SHACL-SPARQL invariants for DAIMO v0.1.6. Used by the validation pipeline (validate.py, tests/negative_test.py) to enforce minimum completeness on DAIMO-native classes, profile obligations on reused ODRL/MLDCAT-AP resources that participate in DAIMO relations, and nine business-rule invariants across classes. SHACL checks RDF graphs; it does not apply ODRL policies or control access."@en ;
     dct:creator <https://orcid.org/0000-0000-0000-0000> ,
                 <https://orcid.org/0000-0000-0000-0001> ;
     dct:license <https://creativecommons.org/licenses/by/4.0/> ;
@@ -30,13 +30,14 @@
     owl:versionInfo "0.1.6" ;
     rdfs:seeAlso <https://w3id.org/pionera/daimo> ,      # core ontology
                  <https://w3id.org/pionera/daimo/align> ; # alignment module
-    rdfs:comment "Load alongside daimo-core.ttl to validate knowledge graphs that use DAIMO. Contains 9 per-class completeness shapes, 3 conformance shapes (over odrl:Offer, it6:MachineLearningModel, it6:Run) and 8 cross-class SHACL-SPARQL invariants (INV-1..INV-8)."@en .
+    rdfs:comment "Load alongside daimo-core.ttl to validate knowledge graphs that use DAIMO. Contains 9 per-class completeness shapes, 4 conformance shapes (over odrl:Offer, odrl:Agreement, it6:MachineLearningModel, it6:Run *as linked by DAIMO properties*, not every instance of those classes) and 9 cross-class SHACL-SPARQL invariants (INV-1..INV-9)."@en .
 
 #################################################################
 # SHACL shapes for DAIMO v0.1.6
 # Each shape enforces the minimum set of properties required for the
-# paper's operational claims, plus ODRL conformance where DAIMO classes
-# subclass ODRL types.
+# paper's operational claims. Conformance shapes over reused ODRL and
+# MLDCAT-AP classes apply only to resources linked by DAIMO properties
+# (sh:targetObjectsOf), not to every instance of those classes in a graph.
 #################################################################
 
 daimo:AIAssetOfferingShape a sh:NodeShape ;
@@ -122,14 +123,17 @@ daimo:IOContractShape a sh:NodeShape ;
                   sh:maxCount 1 ;
                   sh:message "An I/O contract must identify exactly one dcat:DataService it applies to (daimo:forService)."@en ] .
 
-# ExecutionAuthorization MUST carry at least one odrl:permission.
-# This is required by the ODRL 2.2 model: every agreement is a policy,
-# and every policy must have at least one permission/prohibition/duty.
+# ExecutionAuthorization MUST identify exactly one odrl:Agreement it derives
+# from (daimo:derivedFromAgreement). The ODRL permissions live on that agreement,
+# not on the authorization (see daimo:AgreementInDAIMOShape). The authorization
+# itself must authorise at least one run, name a grantee, and declare an expiry.
 daimo:ExecutionAuthorizationShape a sh:NodeShape ;
     sh:targetClass daimo:ExecutionAuthorization ;
-    sh:property [ sh:path odrl:permission ;
+    sh:property [ sh:path daimo:derivedFromAgreement ;
+                  sh:class odrl:Agreement ;
                   sh:minCount 1 ;
-                  sh:message "ExecutionAuthorization is an odrl:Agreement and must carry at least one odrl:permission."@en ] ;
+                  sh:maxCount 1 ;
+                  sh:message "An ExecutionAuthorization must derive from exactly one odrl:Agreement (daimo:derivedFromAgreement)."@en ] ;
     sh:property [ sh:path daimo:authorizesRun ;
                   sh:class it6:Run ;
                   sh:minCount 1 ] ;
@@ -175,8 +179,8 @@ daimo:SharedEvaluationContextShape a sh:NodeShape ;
                   sh:message "daimo:protocol must match: holdout, stratified-holdout, leave-one-out, temporal-split, <n>-fold-cv, stratified-<n>-fold-cv, or bootstrap-<n>."@en ] ;
     sh:property [ sh:path daimo:randomSeed ;
                   sh:datatype xsd:integer ;
-                  sh:minCount 1 ;
-                  sh:maxCount 1 ] .
+                  sh:maxCount 1 ;
+                  sh:message "daimo:randomSeed is optional (omit it when the evaluation procedure has no stochastic component) but, if declared, must be a single xsd:integer; two seeds or a non-integer value are invalid."@en ] .
 
 daimo:AuditEvidenceShape a sh:NodeShape ;
     sh:targetClass daimo:AuditEvidence ;
@@ -217,53 +221,84 @@ daimo:CrossParticipantProvenanceRecordShape a sh:NodeShape ;
                   sh:message "A cross-participant provenance record must span at least two participant contexts."@en ] .
 
 #################################################################
-# Conformance shapes for reused classes in DAIMO's context
+# Conformance shapes for reused classes linked by DAIMO relations
+#
+# These are PROFILE obligations on data that participates in DAIMO, not
+# redefinitions of ODRL or MLDCAT-AP. Targets use SHACL Core
+# sh:targetObjectsOf so that an odrl:Offer / it6:MachineLearningModel /
+# it6:Run / odrl:Agreement sitting in the same graph but not reached by a
+# DAIMO property is not selected. SHACL validates RDF graphs; it does not
+# apply policies or control access.
+#
+# Scope (union of the listed properties):
+#   OfferInDAIMOShape                  <- objects of daimo:hasOfferPolicy
+#   AgreementInDAIMOShape              <- objects of daimo:derivedFromAgreement
+#   MachineLearningModelInDAIMOShape   <- objects of daimo:offersModel
+#                                        OR daimo:deploysModel
+#   RunInDAIMOShape                    <- objects of daimo:authorizesRun
+#                                        OR daimo:derivedFromRun
 #################################################################
 
-# An odrl:Offer used within DAIMO (as the policy carried by an
-# AIAssetOffering) MUST identify the asset it licenses (odrl:target) and
-# the party issuing the offer (odrl:assigner). ODRL 2.2 allows target to
-# be declared at either Policy or Permission level; this shape accepts
-# both, via sh:or.
+# An odrl:Offer that an AIAssetOffering carries (daimo:hasOfferPolicy)
+# MUST identify the asset it licenses (odrl:target) and the party issuing
+# the offer (odrl:assigner). ODRL 2.2 allows target at Policy or Permission
+# level; this shape accepts both, via sh:or.
 daimo:OfferInDAIMOShape a sh:NodeShape ;
-    sh:targetClass odrl:Offer ;
+    sh:targetObjectsOf daimo:hasOfferPolicy ;
     sh:property [ sh:path odrl:assigner ;
                   sh:minCount 1 ;
-                  sh:message "An odrl:Offer must declare its assigner (the party issuing the offer)."@en ] ;
+                  sh:message "An odrl:Offer used as daimo:hasOfferPolicy must declare its assigner (the party issuing the offer)."@en ] ;
     sh:or (
       [ sh:property [ sh:path odrl:target ;
                       sh:minCount 1 ] ]
       [ sh:property [ sh:path (odrl:permission odrl:target) ;
                       sh:minCount 1 ] ]
     ) ;
-    sh:message "An odrl:Offer must declare odrl:target at either Policy level or on each Permission."@en .
+    sh:message "An odrl:Offer used as daimo:hasOfferPolicy must declare odrl:target at either Policy level or on each Permission."@en .
 
-# A MachineLearningModel exchanged via DAIMO must have a policy attached,
-# plus the minimum DCAT identity fields.
+# An odrl:Agreement that an ExecutionAuthorization derives from
+# (daimo:derivedFromAgreement) MUST carry at least one odrl:permission
+# and MUST name odrl:assignee, so INV-9 can check the authorization grantee.
+daimo:AgreementInDAIMOShape a sh:NodeShape ;
+    sh:targetObjectsOf daimo:derivedFromAgreement ;
+    sh:property [ sh:path odrl:permission ;
+                  sh:minCount 1 ;
+                  sh:message "An odrl:Agreement used as daimo:derivedFromAgreement must carry at least one odrl:permission (ODRL policy model)."@en ] ;
+    sh:property [ sh:path odrl:assignee ;
+                  sh:minCount 1 ;
+                  sh:message "An odrl:Agreement used as daimo:derivedFromAgreement must name its odrl:assignee (the party the terms are granted to)."@en ] .
+
+# An it6:MachineLearningModel offered or deployed through DAIMO
+# (daimo:offersModel or daimo:deploysModel) must carry a policy plus the
+# minimum DCAT identity fields. Models that merely sit in the same graph
+# are out of scope.
 daimo:MachineLearningModelInDAIMOShape a sh:NodeShape ;
-    sh:targetClass it6:MachineLearningModel ;
+    sh:targetObjectsOf daimo:offersModel ;
+    sh:targetObjectsOf daimo:deploysModel ;
     sh:property [ sh:path odrl:hasPolicy ;
                   sh:minCount 1 ;
-                  sh:message "Models exchanged under DAIMO must carry at least one ODRL policy."@en ] ;
+                  sh:message "Models offered or deployed under DAIMO must carry at least one ODRL policy."@en ] ;
     sh:property [ sh:path dct:title ;
                   sh:minCount 1 ] ;
     sh:property [ sh:path dct:identifier ;
                   sh:minCount 1 ] .
 
-# A Run referenced by DAIMO must be linked to a flow, an implementation,
-# the agent that executed it, and a start timestamp, because reproducibility
-# and auditability depend on these four facts.
+# An it6:Run authorised by DAIMO or producing a DAIMO derived artefact
+# (daimo:authorizesRun or daimo:derivedFromRun) must record flow,
+# algorithm, agent and start time. Unrelated MLDCAT-AP runs in the same
+# graph are out of scope.
 daimo:RunInDAIMOShape a sh:NodeShape ;
-    sh:targetClass it6:Run ;
+    sh:targetObjectsOf daimo:authorizesRun ;
+    sh:targetObjectsOf daimo:derivedFromRun ;
     sh:property [ sh:path it6:hasFlow ;
                   sh:minCount 1 ;
-                  sh:message "Runs must reference their it6:Flow for reproducibility."@en ] ;
+                  sh:message "Runs authorised or producing DAIMO artefacts must reference their it6:Flow for reproducibility."@en ] ;
     sh:property [ sh:path mls:realizes ;
                   sh:minCount 1 ;
-                  sh:message "Runs must reference the algorithm they realise."@en ] ;
+                  sh:message "Runs authorised or producing DAIMO artefacts must reference the algorithm they realise."@en ] ;
     sh:property [ sh:path prov:wasAssociatedWith ;
                   sh:minCount 1 ;
-                  sh:message "Runs must record the agent they were associated with."@en ] ;
+                  sh:message "Runs authorised or producing DAIMO artefacts must record the agent they were associated with."@en ] ;
     sh:property [ sh:path prov:startedAtTime ;
                   sh:datatype xsd:dateTime ;
                   sh:minCount 1 ] .
@@ -357,7 +392,7 @@ daimo:DeploymentServiceInvariant a sh:NodeShape ;
 
 # INV-4 — An authorization's expiresAt MUST be strictly after the
 #         startedAtTime of every run it authorizes. Otherwise the run was
-#         executed under an already-expired agreement.
+#         executed under an already-expired authorization.
 daimo:AuthorizationTemporalInvariant a sh:NodeShape ;
     rdfs:label "INV-4: Authorization expiry after run start"@en ;
     sh:targetClass daimo:ExecutionAuthorization ;
@@ -456,6 +491,30 @@ daimo:DeploymentServiceContractInvariant a sh:NodeShape ;
                     $this daimo:hasIOContract ?c .
                     ?c <https://w3id.org/pionera/daimo#forService> ?svc .
                 }
+            }
+        """ ;
+    ] .
+
+# INV-9 — The grantee of an ExecutionAuthorization (daimo:grantedTo) MUST be an
+#         odrl:assignee of the odrl:Agreement it derives from
+#         (daimo:derivedFromAgreement). Otherwise the authorization grants
+#         execution to a party the accepted agreement does not name — the very
+#         authorization/agreement inconsistency DAIMO-ISSUE-02 guards against.
+#         This SHACL rule replaces the former grantedTo ⊑ odrl:assignee OWL
+#         alignment, which is no longer sound now that the authorization is not
+#         an odrl:Policy.
+daimo:AuthorizationAgreementAssigneeInvariant a sh:NodeShape ;
+    rdfs:label "INV-9: authorization grantee matches agreement assignee"@en ;
+    sh:targetClass daimo:ExecutionAuthorization ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "INV-9 violation: the authorization's daimo:grantedTo grantee is not an odrl:assignee of the odrl:Agreement it daimo:derivedFromAgreement."@en ;
+        sh:prefixes daimo:_invariantPrefixes ;
+        sh:select """
+            SELECT $this ?grantee ?agreement WHERE {
+                $this daimo:grantedTo ?grantee ;
+                      daimo:derivedFromAgreement ?agreement .
+                FILTER NOT EXISTS { ?agreement odrl:assignee ?grantee }
             }
         """ ;
     ] .

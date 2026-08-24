@@ -83,7 +83,7 @@ elicitation source. Full text in `daimo/ORSD/daimo-cqs.md`.
 - CQ-E5 What derived artefacts did a run produce, under which authorization?
 
 **V — Evaluation and Reproducibility (Evaluator), 5**
-- CQ-V1 What shared evaluation context (dataset, version, protocol, seed) applies?
+- CQ-V1 What shared evaluation context (dataset, version, protocol and, when applicable, seed) applies?
 - CQ-V2 Under a shared context, which model achieves the highest value of a metric?
 - CQ-V3 How do two+ models rank under the same context and metric?
 - CQ-V4 On which benchmark suites has a model been evaluated?
@@ -121,11 +121,12 @@ are **intentionally NOT disjoint**.
 
 ### D3 — Governance = cross-class invariants, not just per-class completeness
 What distinguishes DAIMO from a passive metadata profile is that it enforces
-**business rules that cut across classes** (eight SHACL-SPARQL invariants,
-INV-1..INV-8). A governance ontology must catch cross-class inconsistencies
-(e.g. an artefact derived from a run its authorization never covered, or an I/O
-contract that describes a service the deployment does not expose), not only
-whether each node has its mandatory fields.
+**business rules that cut across classes** (nine SHACL-SPARQL invariants,
+INV-1..INV-9). A governance ontology must catch cross-class inconsistencies
+(e.g. an artefact derived from a run its authorization never covered, an I/O
+contract that describes a service the deployment does not expose, or an
+execution authorization whose grantee is not the assignee of the ODRL agreement
+it derives from), not only whether each node has its mandatory fields.
 
 ---
 
@@ -139,11 +140,11 @@ whether each node has its mandatory fields.
 | `ParticipantRole` (+5 subclasses) | `prov:Role` | Dataspace role types that DCAT/MLDCAT-AP/EDC do not reify (see D2). |
 | `ModelDeployment` | `prov:Entity` | A **running/hosted instance** of a model — distinct from the model *and* from the service that exposes it. |
 | `IOContract` | *(stand-alone)* | The **minimum machine-actionable invocation contract**: input/output media type, auth method, optional I/O schemas. Absent from DCAT/MLDCAT-AP. Identifies the `dcat:DataService` it applies to via `daimo:forService` (functional), so a multi-endpoint deployment resolves format and auth per endpoint without ambiguity. |
-| `ExecutionAuthorization` | `odrl:Agreement` | ODRL agreement **produced by a DSP contract negotiation**, specialised with `authorizesRun`, `grantedTo`, `expiresAt`. |
+| `ExecutionAuthorization` | `prov:Entity` | Governed authorisation artefact that **derives from** an accepted `odrl:Agreement` (`derivedFromAgreement`) and binds it to concrete runs (`authorizesRun`), a grantee (`grantedTo`) and an expiry (`expiresAt`). Deliberately **not** an `odrl:Agreement`: the agreement carries the ODRL permissions, the authorization operationalises it over executions (DAIMO-ISSUE-02). |
 | `DerivedArtifact` | `prov:Entity`, `dcat:Resource` | A **governed, catalog-describable output** of a run, carrying its own provenance (`derivedFromRun`) and policy pointer (`underAuthorization`). |
 | `CrossParticipantProvenanceRecord` | `prov:Bundle` | A PROV bundle aggregating activities/entities across **≥2 EDC participant contexts** into one audit-ready narrative. |
 | `AuditEvidence` | `prov:Entity` | Compliance evidence: structured SPDX checksum (`integrityHash`), signer (`signedBy`), timestamp (`recordedAt`). |
-| `SharedEvaluationContext` | *(stand-alone)* | Reified grouping that makes evaluations **comparable**: task + dataset + dataset version + protocol + random seed. |
+| `SharedEvaluationContext` | *(stand-alone)* | Reified grouping for comparable evaluations: task + dataset + dataset version + protocol and, when applicable, random seed. Those facets plus the **same metric** and compatible conditions are required for ranking; omitting a seed is not a claim of complete reproducibility. |
 
 ### 4.2 Five participant-role subclasses (`rdfs:subClassOf daimo:ParticipantRole`)
 
@@ -163,14 +164,14 @@ top-level kinds pairwise disjoint**. `ParticipantRole` subclasses are
 ### 5.1 What IS aligned (entailed)
 
 **Class alignments** (`rdfs:subClassOf`): `AIAssetOffering ⊑ dcat:CatalogRecord`;
-`ExecutionAuthorization ⊑ odrl:Agreement`; `ModelDeployment ⊑ prov:Entity`;
+`ModelDeployment ⊑ prov:Entity`; `ExecutionAuthorization ⊑ prov:Entity`;
 `DerivedArtifact ⊑ prov:Entity, dcat:Resource`;
 `CrossParticipantProvenanceRecord ⊑ prov:Bundle`; `AuditEvidence ⊑ prov:Entity`;
 `ParticipantRole ⊑ prov:Role`.
 
 **Property alignments** (`rdfs:subPropertyOf`):
 `offersModel ⊑ foaf:primaryTopic`; `hasOfferPolicy ⊑ odrl:hasPolicy`;
-`hasOffering ⊑ foaf:isPrimaryTopicOf`; `grantedTo ⊑ odrl:assignee`;
+`hasOffering ⊑ foaf:isPrimaryTopicOf`;
 `derivedFromRun ⊑ prov:wasGeneratedBy`; `contextTask ⊑ it6:hasTask`.
 
 **Informative mappings** (SKOS, not entailed) to DSP:
@@ -187,8 +188,9 @@ rationale.
 | Native term | Tempting alignment | Why it is REJECTED |
 |---|---|---|
 | `offeredBy` | `⊑ dct:publisher` | On a `dcat:CatalogRecord`, `dct:publisher` is the **catalog maintainer** (the platform), not the **model author**. Conflating them would (wrongly) entail the registering platform is the model creator. |
-| `authorizesRun` | `⊑ prov:used` | `prov:used` has domain `prov:Activity`. An `odrl:Agreement` is a **policy artefact (Entity-like)**, not an Activity; the alignment would silently type every authorization as `prov:Activity`. |
-| `grantedTo` | `⊑ prov:qualifiedAssociation` | `prov:qualifiedAssociation` ranges over a reified `prov:Association`, **not the agent itself**. The correct agent-side alignment is `odrl:assignee`. |
+| `authorizesRun` | `⊑ prov:used` | `prov:used` has domain `prov:Activity`. A `daimo:ExecutionAuthorization` is an **Entity-like authorisation artefact**, not an Activity; the alignment would silently type every authorization as `prov:Activity`. |
+| `grantedTo` | `⊑ odrl:assignee` | **Removed in DAIMO-ISSUE-02.** `odrl:assignee` has domain `odrl:Policy`; now that the authorization is not an `odrl:Agreement`/`odrl:Policy`, the alignment would re-type every authorization as an `odrl:Policy`. The grantee = agreement-assignee equivalence is enforced by **SHACL INV-9** instead. (`grantedTo` is also not `⊑ prov:qualifiedAssociation`, whose range is a reified `prov:Association`, not the agent.) |
+| `derivedFromAgreement` | `⊑ prov:wasDerivedFrom` | `prov:wasDerivedFrom` (domain/range `prov:Entity`) expresses **generic entity lineage**; adopting it would force every `odrl:Agreement` into `prov:Entity` and lose the specific meaning "the accepted ODRL agreement this authorization enforces". No ODRL/DCAT/MLDCAT-AP/PROV-O/DSP property carries that meaning, so it stays **native and unaligned**. |
 | `evidenceOf` | `⊑ prov:hadActivity` | `prov:hadActivity` is used on reified influence objects, not on entities. `AuditEvidence` is an **Entity *about* an activity**; PROV-O has no direct property for this. |
 | `contextDataset` / `contextFlow` | `⊑ it6:trainedOn` / `it6:hasFlow` | Their domains (`it6:MachineLearningModel`, `it6:Run`) would **re-type `SharedEvaluationContext`** via RDFS inference. |
 | `datasetVersion` | `⊑ dct:hasVersion` | `dct:hasVersion` links a resource to *another version resource*; DAIMO needs a **literal** version token for reproducible benchmarking. |
@@ -212,11 +214,21 @@ ontologies.
   `offeredBy`, `hasOfferPolicy`, `deploysModel`, `onInfrastructure`,
   `grantedTo`, `derivedFromRun`, `underAuthorization`, `signedBy`,
   `usesEvaluationContext`, `forService` (each I/O contract describes exactly one
-  service), and all datatype properties.
+  service), `derivedFromAgreement` (each authorization derives from exactly one
+  agreement), and all datatype properties.
 - **Asymmetric properties** encode "distinct individuals" (e.g. `offersModel`,
-  `deploysModel`, `authorizesRun`, `derivedFromRun`, `evidenceOf`, `forService`):
-  an offering is not its model, a deployment is not its model, an I/O contract is
-  not the service it describes, etc.
+  `deploysModel`, `authorizesRun`, `derivedFromRun`, `evidenceOf`, `forService`,
+  `derivedFromAgreement`): an offering is not its model, a deployment is not its
+  model, an I/O contract is not the service it describes, an execution
+  authorization is not the agreement it derives from, etc.
+- **Authorization ↔ agreement chain.** DAIMO keeps the accepted `odrl:Agreement`
+  (the negotiated ODRL permissions and parties) and the
+  `daimo:ExecutionAuthorization` as **two distinct individuals**. The
+  authorization derives from exactly one agreement (`derivedFromAgreement`,
+  functional) and binds it to concrete runs (`authorizesRun`), a grantee
+  (`grantedTo`) and an expiry (`expiresAt`), giving the queryable chain
+  `odrl:Agreement ← ExecutionAuthorization → it6:Run`. SHACL invariant INV-9
+  checks the grantee is the agreement's `odrl:assignee`.
 - **Deployment ↔ service ↔ contract triangle.** A `ModelDeployment` may expose
   several `dcat:DataService` endpoints (`exposedAs`, non-functional) and declare
   several `IOContract`s (`hasIOContract`, non-functional). `forService` links
