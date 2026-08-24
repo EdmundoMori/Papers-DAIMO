@@ -30,11 +30,11 @@ missed by one method is caught by another:
 ### HermiT (via owlready2)
 - **Consistent: True**
 - **Unsatisfiable classes: 0**
-- Reasoning time: **1.7 s**
+- Reasoning time: **1.5 s**
 
 ### OWL-RL materialisation (pure Python)
-- Triples before: **818** → after: **1988** (**1170 inferred**)
-- Reasoning time: **0.63 s**
+- Triples before: **835** → after: **2018** (**1183 inferred**)
+- Reasoning time: **0.74 s**
 - `owl:Nothing` individuals (disjointness violations): **0**
 - Unsatisfiable subclasses: **0**
 
@@ -49,7 +49,9 @@ Representative inferred superclasses (all correct, none spurious):
 `AIAssetOffering ⊑ CatalogRecord`; `DerivedArtifact ⊑ Resource, Entity`;
 `Evaluator ⊑ Role, ParticipantRole`; `ExecutionAuthorization ⊑ Agreement`;
 `CrossParticipantProvenanceRecord ⊑ Bundle`; `IOContract ⊑ Thing` (stand-alone,
-as intended); `SharedEvaluationContext ⊑ Thing` (stand-alone).
+as intended); `SharedEvaluationContext ⊑ Thing` (stand-alone). The new
+`daimo:forService` (IOContract → dcat:DataService) introduces no forbidden
+entailment: its range `dcat:DataService` is not among the flagged targets.
 
 **Verdict: CONSISTENT.**
 
@@ -60,6 +62,13 @@ as intended); `SharedEvaluationContext ⊑ Thing` (stand-alone).
 - Scan date **2026-07-08**, scope `daimo-core.ttl` + `alignment.ttl`, service
   `oops.linkeddata.es/rest`.
 - **0 Critical, 0 Important, 2 Minor.**
+
+> **Note (DAIMO-ISSUE-01):** this OOPS! scan predates the addition of
+> `daimo:forService`. OOPS! was **not re-run** for this change because the
+> external OOPS! service was not reachable from the execution environment. The
+> new property has no inverse, so the expected effect is a `+1` on the P13
+> (undeclared-inverse) count; correctness is unaffected. Re-run OOPS! before the
+> next release and refresh these figures.
 
 | Pitfall | Elements | Interpretation |
 |---|---|---|
@@ -75,37 +84,45 @@ Neither minor pitfall affects correctness; both have a documented rationale.
 Run over `alignment.ttl` + `daimo-core.ttl` + `daimo-shapes.ttl` +
 `flood-risk-scenario.ttl`:
 
-- Ontology triples: **593**; shape triples: **342**; example data triples:
-  **225**.
+- Ontology triples: **608**; shape triples: **364**; example data triples:
+  **227**.
 - **SHACL conforms: True.**
-- Materialised closure for CQ evaluation: **1988 triples**.
+- Materialised closure for CQ evaluation: **2018 triples**.
 - **23 / 23 CQ SPARQL queries return ≥ 1 row.**
 
 Per-CQ result (rows returned):
 
 | CQ | rows | CQ | rows | CQ | rows | CQ | rows |
 |---|---|---|---|---|---|---|---|
-| CQ-R1 | 3 | CQ-D1 | 3 | CQ-E1 | 4 | CQ-V1 | 1 |
+| CQ-R1 | 3 | CQ-D1 | 3 | CQ-E1 | 2 | CQ-V1 | 1 |
 | CQ-R2 | 1 | CQ-D2 | 2 | CQ-E2 | 1 | CQ-V2 | 1 |
-| CQ-R3 | 1 | CQ-D3 | 4 | CQ-E3 | 2 | CQ-V3 | 2 |
+| CQ-R3 | 1 | CQ-D3 | 2 | CQ-E3 | 2 | CQ-V3 | 2 |
 | CQ-R4 | 2 | CQ-D4 | 1 | CQ-E4 | 1 | CQ-V4 | 1 |
 | CQ-R5 | 2 |  |  | CQ-E5 | 1 | CQ-V5 | 4 |
 | CQ-G1 | 1 | CQ-G2 | 2 | CQ-G3 | 1 | CQ-G4 | 1 |
 
 **Summary: 23/23 CQs answerable; SHACL conforms = True.**
 
+**DAIMO-ISSUE-01 effect.** After adding `daimo:forService` and rewriting the
+per-endpoint queries, **CQ-D3 and CQ-E1 now return 2 rows** (one per real
+endpoint), not the previous **4** produced by the cartesian `exposedAs ×
+hasIOContract` join on a two-service / two-contract deployment. CQ-R4 and CQ-G2
+now report the service each contract applies to, and every other CQ is unchanged.
+
 ---
 
 ## 5. Negative testing (`negative-test-results.md`)
 
-A deliberately-violating graph (`daimo/tests/negative-examples.ttl`, **118
+A deliberately-violating graph (`daimo/tests/negative-examples.ttl`, **163
 negative triples**) is validated to prove each invariant actually **fires**.
 
 - **SHACL conforms: False** (expected).
-- **6 / 6 invariants FOUND** on their designated focus nodes:
+- **8 / 8 invariants FOUND** on their designated focus nodes:
   INV-1 (`INV1-artifact`), INV-2 (`INV2-run`), INV-3 (`INV3-deployment`),
-  INV-4 (`INV4-auth`), INV-5 (`INV5-offering`), INV-6 (`INV6-offering`).
-- The harness prints `PASS: all 6 invariants fired on their designated focus
+  INV-4 (`INV4-auth`), INV-5 (`INV5-offering`), INV-6 (`INV6-offering`),
+  INV-7 (`INV7-deployment`, contract points to a non-exposed service),
+  INV-8 (`INV8-deployment`, exposed service with no contract).
+- The harness prints `PASS: all 8 invariants fired on their designated focus
   nodes`.
 
 This closes the loop: §4 shows the invariants **do not** false-positive on a
@@ -122,11 +139,14 @@ is a **reproducible sanity check**, not a production-throughput claim.
 
 | Units | Data triples | Merged | OWL-RL closure | Parse (s) | OWL-RL (s) | SHACL (s) | SPARQL suite (s) | Conforms |
 |---:|---:|---:|---:|---:|---:|---:|---:|:---:|
-| 100 | 8 053 | 8 646 | 16 248 | 0.468 | 5.478 | 10.374 | 0.080 | True |
-| 1 000 | 80 053 | 80 646 | 147 648 | 4.660 | 53.672 | 135.010 | 0.356 | True |
+| 100 | 8 153 | 8 761 | 16 376 | 0.383 | 5.157 | 11.220 | 0.080 | True |
+| 1 000 | 81 053 | 81 661 | 148 676 | 4.686 | 55.313 | 159.033 | 1.937 | True |
 
 Query counts scale linearly (100/1000 offerings, invocation contracts and
-authorised outputs; ranking capped at 10 by the query). **Observation:** the
+authorised outputs; ranking capped at 10 by the query). The `invocation
+contracts` control query now joins each contract to its service through
+`daimo:forService`, so it counts one endpoint per unit (100/1000) with no
+cartesian inflation. **Observation:** the
 ontology stays small and constant while data grows; SPARQL stays sub-second, and
 OWL-RL + SHACL grow roughly linearly (SHACL is the dominant cost at 1000 units).
 
@@ -189,14 +209,14 @@ OWL-RL + SHACL grow roughly linearly (SHACL is the dominant cost at 1000 units).
 
 > DAIMO was evaluated with a reproducible pipeline covering logical consistency
 > (HermiT: consistent, 0 unsatisfiable classes), entailment materialisation and
-> verification (OWL-RL: 818→1988 triples, 0 `owl:Nothing`, 0 forbidden
+> verification (OWL-RL: 835→2018 triples, 0 `owl:Nothing`, 0 forbidden
 > entailments over 14 classes), ontology pitfalls (OOPS!: 0 Critical, 0
 > Important, 2 documented Minor), structural and cross-class constraint
-> validation (SHACL: conforms on a 225-triple scenario graph via 9 completeness
-> shapes, 3 conformance shapes and 6 governance invariants), question
+> validation (SHACL: conforms on a 227-triple scenario graph via 9 completeness
+> shapes, 3 conformance shapes and 8 governance invariants), question
 > answerability (23/23 competency questions return results over the OWL-RL
-> closure), negative testing (all 6 invariants fire on a purpose-built
-> 118-triple violation graph), and bounded scalability (conformant at 100 and
-> 1 000 synthetic exchange units, 80k data / 148k closure triples at 1 000
+> closure), negative testing (all 8 invariants fire on a purpose-built
+> 163-triple violation graph), and bounded scalability (conformant at 100 and
+> 1 000 synthetic exchange units, 81k data / 149k closure triples at 1 000
 > units). The only partial criteria are external expert validation and the final
 > FAIR publication steps (w3id redirect and Zenodo DOI).

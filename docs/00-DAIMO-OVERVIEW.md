@@ -37,11 +37,11 @@ Every reused term keeps its IRI; DAIMO adds `rdfs:subClassOf` /
 `rdfs:subPropertyOf` alignment where semantically justified and **never uses
 `owl:equivalentClass`** that would shadow an external vocabulary.
 
-## What DAIMO adds (14 classes, 37 properties, 3 modules)
+## What DAIMO adds (14 classes, 38 properties, 3 modules)
 
 - **14 native classes** = **9 top-level bridge classes** + **5 participant-role
   subclasses**.
-- **37 native properties** = **29 object properties** + **8 datatype
+- **38 native properties** = **30 object properties** + **8 datatype
   properties**.
 - **3 modules** (separate files so consumers can load only what they need):
   1. **Core** — `daimo/ontology/daimo-core.ttl` (classes + properties + axioms)
@@ -84,14 +84,14 @@ answer** — they carry the novelty argument. Natural-language text is in
 
 | Check | Tool | Result |
 |---|---|---|
-| Logical consistency | HermiT (owlready2) | **Consistent**, 0 unsatisfiable classes, 1.7 s |
-| Entailment materialisation | OWL-RL | 818 → 1988 triples (1170 inferred), 0 `owl:Nothing`, 0.63 s |
+| Logical consistency | HermiT (owlready2) | **Consistent**, 0 unsatisfiable classes, 1.5 s |
+| Entailment materialisation | OWL-RL | 835 → 2018 triples (1183 inferred), 0 `owl:Nothing`, 0.74 s |
 | Entailment verification | custom check | 14 classes inspected, **0 forbidden-entailment warnings** |
-| Ontology pitfalls | OOPS! | **0 Critical, 0 Important, 2 Minor** (both benign/by-design) |
+| Ontology pitfalls | OOPS! | **0 Critical, 0 Important, 2 Minor** (both benign/by-design; scan predates `forService`, see evaluation §3) |
 | Structural + business constraints | SHACL (pySHACL) | example KG **conforms = True** |
 | Question answerability | SPARQL over OWL-RL closure | **23/23 CQs return ≥1 row** |
-| Negative testing | SHACL-SPARQL invariants | **6/6 invariants fire** on malformed graphs (conforms = False, as expected) |
-| Bounded scalability | synthetic benchmark | 100 & 1000 exchange units **conform**; 80k data triples / 147k closure triples at 1000 units |
+| Negative testing | SHACL-SPARQL invariants | **8/8 invariants fire** on malformed graphs (conforms = False, as expected) |
+| Bounded scalability | synthetic benchmark | 100 & 1000 exchange units **conform**; 81k data triples / 149k closure triples at 1000 units |
 
 See [`03-DAIMO-EVALUATION.md`](03-DAIMO-EVALUATION.md) for the full numbers and interpretation.
 
@@ -105,11 +105,11 @@ Papers-DAIMO/
 │   ├── 02-DAIMO-IMPLEMENTATION.md
 │   └── 03-DAIMO-EVALUATION.md
 ├── daimo/
-│   ├── ontology/daimo-core.ttl   ← 14 classes, 37 properties, disjointness, functional/asymmetric/inverse axioms
+│   ├── ontology/daimo-core.ttl   ← 14 classes, 38 properties, disjointness, functional/asymmetric/inverse axioms
 │   ├── ontology/alignment.ttl    ← alignment to DCAT/MLDCAT-AP/ODRL/PROV-O/DSP + external term stubs
-│   ├── shapes/daimo-shapes.ttl   ← 9 completeness + 3 conformance shapes + 6 cross-class invariants
+│   ├── shapes/daimo-shapes.ttl   ← 9 completeness + 3 conformance shapes + 8 cross-class invariants
 │   ├── examples/flood-risk-scenario.ttl   ← running scenario knowledge graph
-│   ├── tests/negative-examples.ttl        ← 6-case deliberately-violating graph
+│   ├── tests/negative-examples.ttl        ← 8-case deliberately-violating graph
 │   ├── queries/queries.md        ← 23 SPARQL competency-question queries
 │   ├── ORSD/daimo-cqs.md         ← 23 natural-language CQs (actor / inference / source)
 │   ├── reports/                  ← generated evidence (validation, reasoner, oops, negative, scalability)

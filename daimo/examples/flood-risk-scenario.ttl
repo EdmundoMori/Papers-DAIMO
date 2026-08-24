@@ -186,6 +186,7 @@ ex:flood-risk-service a dcat:DataService ;
     it6:servesModel ex:flood-risk-v2 .
 
 ex:flood-risk-iocontract a daimo:IOContract ;
+    daimo:forService   ex:flood-risk-service ;
     daimo:inputFormat  "application/json" ;
     daimo:outputFormat "application/geo+json" ;
     daimo:authMethod   "oauth2-bearer" .
@@ -199,6 +200,7 @@ ex:flood-risk-service-grpc a dcat:DataService ;
     it6:servesModel ex:flood-risk-v2 .
 
 ex:flood-risk-iocontract-grpc a daimo:IOContract ;
+    daimo:forService   ex:flood-risk-service-grpc ;
     daimo:inputFormat  "application/x-protobuf" ;
     daimo:outputFormat "application/x-protobuf" ;
     daimo:authMethod   "mtls" .

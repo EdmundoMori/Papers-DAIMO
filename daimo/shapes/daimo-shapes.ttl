@@ -20,7 +20,7 @@
 
 <https://w3id.org/pionera/daimo/shapes> a owl:Ontology ;
     dct:title "DAIMO SHACL Shapes"@en ;
-    dct:description "SHACL node shapes, conformance shapes over reused classes, and cross-class SHACL-SPARQL invariants for DAIMO v0.1.6. Used by the validation pipeline (validate.py, tests/negative_test.py) to enforce minimum completeness on DAIMO-native classes, ODRL / MLDCAT-AP conformance obligations on reused classes, and six business-rule invariants across classes."@en ;
+    dct:description "SHACL node shapes, conformance shapes over reused classes, and cross-class SHACL-SPARQL invariants for DAIMO v0.1.6. Used by the validation pipeline (validate.py, tests/negative_test.py) to enforce minimum completeness on DAIMO-native classes, ODRL / MLDCAT-AP conformance obligations on reused classes, and eight business-rule invariants across classes."@en ;
     dct:creator <https://orcid.org/0000-0000-0000-0000> ,
                 <https://orcid.org/0000-0000-0000-0001> ;
     dct:license <https://creativecommons.org/licenses/by/4.0/> ;
@@ -30,7 +30,7 @@
     owl:versionInfo "0.1.6" ;
     rdfs:seeAlso <https://w3id.org/pionera/daimo> ,      # core ontology
                  <https://w3id.org/pionera/daimo/align> ; # alignment module
-    rdfs:comment "Load alongside daimo-core.ttl to validate knowledge graphs that use DAIMO. Contains 9 per-class completeness shapes, 3 conformance shapes (over odrl:Offer, it6:MachineLearningModel, it6:Run) and 6 cross-class SHACL-SPARQL invariants (INV-1..INV-6)."@en .
+    rdfs:comment "Load alongside daimo-core.ttl to validate knowledge graphs that use DAIMO. Contains 9 per-class completeness shapes, 3 conformance shapes (over odrl:Offer, it6:MachineLearningModel, it6:Run) and 8 cross-class SHACL-SPARQL invariants (INV-1..INV-8)."@en .
 
 #################################################################
 # SHACL shapes for DAIMO v0.1.6
@@ -115,7 +115,12 @@ daimo:IOContractShape a sh:NodeShape ;
                           "mtls"
                           "jwt"
                           "dataspace-token" ) ;
-                  sh:message "daimo:authMethod must be one of the recognised tokens: none, api-key, basic, bearer, oauth2-bearer, oauth2-client-credentials, mtls, jwt, dataspace-token."@en ] .
+                  sh:message "daimo:authMethod must be one of the recognised tokens: none, api-key, basic, bearer, oauth2-bearer, oauth2-client-credentials, mtls, jwt, dataspace-token."@en ] ;
+    sh:property [ sh:path daimo:forService ;
+                  sh:class dcat:DataService ;
+                  sh:minCount 1 ;
+                  sh:maxCount 1 ;
+                  sh:message "An I/O contract must identify exactly one dcat:DataService it applies to (daimo:forService)."@en ] .
 
 # ExecutionAuthorization MUST carry at least one odrl:permission.
 # This is required by the ODRL 2.2 model: every agreement is a policy,
@@ -407,6 +412,50 @@ daimo:OfferingAssignerInvariant a sh:NodeShape ;
                       daimo:hasOfferPolicy ?policy .
                 ?policy odrl:assigner ?assigner .
                 FILTER (?provider != ?assigner)
+            }
+        """ ;
+    ] .
+
+# INV-7 — Every IOContract declared by a deployment (daimo:hasIOContract) MUST
+#         apply (daimo:forService) to a service the SAME deployment exposes
+#         (daimo:exposedAs). Otherwise the contract describes an endpoint that
+#         the deployment does not actually offer, and per-endpoint format/auth
+#         resolution becomes ambiguous.
+daimo:DeploymentContractServiceInvariant a sh:NodeShape ;
+    rdfs:label "INV-7: I/O contract targets a service exposed by the same deployment"@en ;
+    sh:targetClass daimo:ModelDeployment ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "INV-7 violation: an I/O contract of this deployment (daimo:hasIOContract) declares daimo:forService a service that the deployment does not expose (daimo:exposedAs)."@en ;
+        sh:prefixes daimo:_invariantPrefixes ;
+        sh:select """
+            SELECT $this ?contract ?svc WHERE {
+                $this daimo:hasIOContract ?contract .
+                ?contract <https://w3id.org/pionera/daimo#forService> ?svc .
+                FILTER NOT EXISTS { $this daimo:exposedAs ?svc }
+            }
+        """ ;
+    ] .
+
+# INV-8 — Every service a deployment exposes (daimo:exposedAs) MUST have at
+#         least one IOContract of that deployment pointing to it via
+#         daimo:forService. Otherwise an advertised endpoint has no declared
+#         invocation contract (input/output format, authentication), so it
+#         cannot be invoked unambiguously.
+daimo:DeploymentServiceContractInvariant a sh:NodeShape ;
+    rdfs:label "INV-8: every exposed service has at least one I/O contract"@en ;
+    sh:targetClass daimo:ModelDeployment ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "INV-8 violation: a service exposed by this deployment (daimo:exposedAs) has no I/O contract of this deployment pointing to it via daimo:forService."@en ;
+        sh:prefixes daimo:_invariantPrefixes ;
+        sh:select """
+            SELECT $this ?svc WHERE {
+                $this daimo:exposedAs ?svc .
+                FILTER NOT EXISTS {
+                    $this daimo:hasIOContract ?c .
+                    ?c <https://w3id.org/pionera/daimo#forService> ?svc .
+                }
             }
         """ ;
     ] .

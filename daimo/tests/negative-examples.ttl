@@ -13,8 +13,8 @@
 
 #################################################################
 # Negative-test KG: deliberately violates each cross-class invariant
-# (INV-1 through INV-4). Expected SHACL result: conforms=False with
-# exactly four invariant violations.
+# (INV-1 through INV-8). Expected SHACL result: conforms=False, with a
+# dedicated focus node firing each invariant.
 #
 # Every focus node that violates an invariant is named bad:INV1-foo,
 # bad:INV2-foo, etc., so the negative-test script can assert which
@@ -172,3 +172,69 @@ bad:INV6-offering a daimo:AIAssetOffering ;
     daimo:offersModel bad:INV6-model ;
     daimo:offeredBy bad:agent-alice ;                            # offering says Alice
     daimo:hasOfferPolicy bad:INV6-policy .
+
+#################################################################
+# INV-7 violation: an I/O contract of the deployment points
+# (daimo:forService) to a service that the deployment does NOT expose.
+# The deployment still exposes one service that IS correctly contracted,
+# so INV-8 does not fire here — only INV-7.
+#################################################################
+
+bad:INV7-svc-exposed a dcat:DataService ;
+    dct:title "INV-7 exposed service"@en ;
+    dcat:endpointURL <https://api.example.org/inv7/exposed> ;
+    it6:servesModel bad:some-model .
+
+bad:INV7-svc-foreign a dcat:DataService ;
+    dct:title "INV-7 foreign service (not exposed by the deployment)"@en ;
+    dcat:endpointURL <https://api.example.org/inv7/foreign> ;
+    it6:servesModel bad:some-model .
+
+bad:INV7-contract-ok a daimo:IOContract ;
+    daimo:forService bad:INV7-svc-exposed ;
+    daimo:inputFormat "application/json" ;
+    daimo:outputFormat "application/json" ;
+    daimo:authMethod "api-key" .
+
+bad:INV7-contract-foreign a daimo:IOContract ;
+    daimo:forService bad:INV7-svc-foreign ;      # service NOT exposed by INV7-deployment
+    daimo:inputFormat "application/json" ;
+    daimo:outputFormat "application/json" ;
+    daimo:authMethod "api-key" .
+
+bad:INV7-deployment a daimo:ModelDeployment ;
+    rdfs:label "INV-7 deployment (contract targets a non-exposed service)"@en ;
+    daimo:deploysModel bad:some-model ;
+    daimo:exposedAs bad:INV7-svc-exposed ;
+    daimo:onInfrastructure bad:infra ;
+    daimo:hasIOContract bad:INV7-contract-ok , bad:INV7-contract-foreign .
+
+#################################################################
+# INV-8 violation: the deployment exposes a service (daimo:exposedAs)
+# that has NO I/O contract pointing to it via daimo:forService.
+# The other exposed service IS contracted, and no contract points to a
+# foreign service, so INV-7 does not fire here — only INV-8.
+#################################################################
+
+bad:INV8-svc-with-contract a dcat:DataService ;
+    dct:title "INV-8 service with contract"@en ;
+    dcat:endpointURL <https://api.example.org/inv8/a> ;
+    it6:servesModel bad:some-model .
+
+bad:INV8-svc-orphan a dcat:DataService ;
+    dct:title "INV-8 exposed service with NO contract"@en ;
+    dcat:endpointURL <https://api.example.org/inv8/b> ;
+    it6:servesModel bad:some-model .
+
+bad:INV8-contract a daimo:IOContract ;
+    daimo:forService bad:INV8-svc-with-contract ;
+    daimo:inputFormat "application/json" ;
+    daimo:outputFormat "application/json" ;
+    daimo:authMethod "api-key" .
+
+bad:INV8-deployment a daimo:ModelDeployment ;
+    rdfs:label "INV-8 deployment (exposes a service that has no I/O contract)"@en ;
+    daimo:deploysModel bad:some-model ;
+    daimo:exposedAs bad:INV8-svc-with-contract , bad:INV8-svc-orphan ;
+    daimo:onInfrastructure bad:infra ;
+    daimo:hasIOContract bad:INV8-contract .

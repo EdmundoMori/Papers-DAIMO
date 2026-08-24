@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Negative-test harness for DAIMO cross-class invariants (INV-1..INV-6).
+Negative-test harness for DAIMO cross-class invariants (INV-1..INV-8).
 
 Loads the ontology + shapes + a deliberately-bad example KG
 (`tests/negative-examples.ttl`) and asserts:
@@ -37,6 +37,8 @@ EXPECTED = {
     "INV-4": "INV4-auth",       # Authorization that expired before run started
     "INV-5": "INV5-offering",   # Offering whose offersModel is not in policy.target
     "INV-6": "INV6-offering",   # Offering whose offeredBy != policy.assigner
+    "INV-7": "INV7-deployment", # Contract forService a service not exposed by the deployment
+    "INV-8": "INV8-deployment", # Exposed service with no forService contract
 }
 
 

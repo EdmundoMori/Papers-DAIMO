@@ -33,7 +33,7 @@ Presentation pattern: hybrid of RePlanIT (category/lifecycle) + Explanation Onto
 | CQ-R1 | MP | Which AI models has a given provider published as governed catalog assets? | `CQ-R1.rq` | N | paper §3.1 Table 2 |
 | CQ-R2 | MP | For a given model, which catalog offering registered it, by which provider, and when was the registration issued? | `CQ-R2.rq` | **Y (subPropertyOf chain: daimo:offersModel ⊑ foaf:primaryTopic; daimo:offeredBy remains direct by design)** | paper §3.1 Table 2 |
 | CQ-R3 | MP | Which licence and usage policy apply to a published model? | `CQ-R3.rq` | N | paper §3.1 |
-| CQ-R4 | MP | What I/O contract is declared for the invocation interface of a published model? | `CQ-R4.rq` | N | paper §3.1 |
+| CQ-R4 | MP | What I/O contract is declared for each service interface of a published model (input/output format, authentication)? | `CQ-R4.rq` | N (each contract resolved to its `dcat:DataService` via `daimo:forService`) | paper §3.1 |
 | CQ-R5 | MP | For each offering, what concrete ParticipantRole subclass does the providing agent hold? | `CQ-R5.rq` | **Y (rdfs:subClassOf+ path)** | paper §3.1 |
 
 ### D — Discovery and Selection (4)
@@ -42,7 +42,7 @@ Presentation pattern: hybrid of RePlanIT (category/lifecycle) + Explanation Onto
 |---|---|---|---|---|---|
 | CQ-D1 | MC | Which models solve a given task in a given application domain? | `CQ-D1.rq` | Y (task subtype) | paper §5.1 |
 | CQ-D2 | MC | Which of those models are usable under a given licence or policy pattern (e.g. non-commercial allowed)? | `CQ-D2.rq` | N (negation-as-failure via `FILTER NOT EXISTS`, not OWL/RDFS inference) | paper §5.1 |
-| CQ-D3 | MC | Which models expose a service endpoint, and what authentication method does each require? | `CQ-D3.rq` | N (parametrised — auth method is returned, not hard-coded) | paper §3.1 |
+| CQ-D3 | MC | Which models expose a service endpoint, and what authentication method does each require? | `CQ-D3.rq` | N (parametrised — auth returned, not hard-coded; each endpoint paired with its own auth via `daimo:forService`, no cartesian join) | paper §3.1 |
 | CQ-D4 | MC | Which of those models reach a minimum metric threshold under a shared evaluation context? | `CQ-D4.rq` | N | paper §5.1 |
 
 Scope note: the discovery questions concern AI model assets, not discovery of
@@ -54,7 +54,7 @@ can be linked through `IOContract` schema references or future
 
 | Code | Actor | Question | SPARQL | Inference | Source |
 |---|---|---|---|---|---|
-| CQ-E1 | PO | For a given catalog offering, what service endpoint, auth method, and I/O contract apply to invoking the underlying model? | `CQ-E1.rq` | **Y (foaf:primaryTopic entailment from daimo:offersModel)** | paper §5.2 |
+| CQ-E1 | PO | For a given catalog offering, what service endpoint, auth method, and I/O contract apply to invoking the underlying model (per endpoint)? | `CQ-E1.rq` | **Y (foaf:primaryTopic entailment from daimo:offersModel)**; contract joined to its endpoint via `daimo:forService` (no cartesian join) | paper §5.2 |
 | CQ-E2 | PO | For a given model deployment, which runs have been executed, by which agents, and under which execution authorization? | `CQ-E2.rq` | Y (agreement-to-run join) | paper §3.1 |
 | CQ-E3 | PO | For a given run, what implementation, algorithm, flow, and compute infrastructure were used? | `CQ-E3.rq` | N | paper §5.2 |
 | CQ-E4 | GA | What audit evidence (hash, signer, timestamp) supports a given run? | `CQ-E4.rq` | N | paper §5.2 |
@@ -70,6 +70,13 @@ I/O contract, execution authorisation, and `it6:Run`; no direct `isInvokedBy`
 property or `AIModelEntity` service class is required in the core. Deep
 alignment of input/output schemas, units, and sector-specific data types belongs
 to `IOContract`-based profiles or dataspace-specific SHACL shapes.
+
+Endpoint-disambiguation note: when a deployment exposes several services
+(e.g. REST + gRPC), each `daimo:IOContract` identifies the concrete
+`dcat:DataService` it applies to via `daimo:forService`. This lets CQ-D3 and
+CQ-E1 pair every endpoint with exactly its own format and authentication instead
+of producing the cartesian product of services and contracts, and lets SHACL
+invariants INV-7/INV-8 keep the service/contract pairing consistent.
 
 ### V — Evaluation and Reproducibility (5)
 
@@ -102,7 +109,7 @@ Enabled by the dataspace-bridge classes introduced in [daimo-ontology-design.md]
 | Code | Actor | Question | SPARQL | Inference | Source |
 |---|---|---|---|---|---|
 | CQ-G1 | MC | Which offerings in the federated catalog include a given model? | `CQ-G1.rq` | N | new, enabled by `daimo:AIAssetOffering` |
-| CQ-G2 | PO | Which deployments serve a given model, on what infrastructure, and with what I/O contract? | `CQ-G2.rq` | N | new, enabled by `daimo:ModelDeployment` |
+| CQ-G2 | PO | Which deployments serve a given model, on what infrastructure, and with what I/O contract per exposed service? | `CQ-G2.rq` | N (contract linked to its `dcat:DataService` via `daimo:forService`) | new, enabled by `daimo:ModelDeployment` |
 | CQ-G3 | GA | Which execution authorisation (and the agreement it derives from) authorised a specific run? | `CQ-G3.rq` | N (direct DAIMO query; the class alignment makes the result interpretable as ODRL) | new, enabled by `daimo:ExecutionAuthorization` |
 | CQ-G4 | GA | Across participant contexts, what is the full provenance bundle for a derived artefact? | `CQ-G4.rq` | Y (aggregation via GROUP_CONCAT) | new, enabled by `daimo:CrossParticipantProvenanceRecord` |
 

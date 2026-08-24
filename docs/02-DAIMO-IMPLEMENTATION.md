@@ -3,7 +3,7 @@
 Companion to [`01-DAIMO-DESIGN.md`](01-DAIMO-DESIGN.md). This document describes
 **how** the design is realised in Turtle: the module layout, the OWL 2 DL
 constructs, the full class/property reference, the SHACL shapes (completeness,
-conformance, and the six cross-class invariants), the example graph, the query
+conformance, and the eight cross-class invariants), the example graph, the query
 suite, and how to reproduce every check.
 
 ---
@@ -12,9 +12,9 @@ suite, and how to reproduce every check.
 
 | Module | File | Ontology IRI | Contents |
 |---|---|---|---|
-| Core | `daimo/ontology/daimo-core.ttl` | `https://w3id.org/pionera/daimo` | 14 classes, 37 properties, disjointness, functional/asymmetric/inverse axioms |
+| Core | `daimo/ontology/daimo-core.ttl` | `https://w3id.org/pionera/daimo` | 14 classes, 38 properties, disjointness, functional/asymmetric/inverse axioms |
 | Alignment | `daimo/ontology/alignment.ttl` | `https://w3id.org/pionera/daimo/align` | `owl:imports` core; external term stubs + alignment axioms + SKOS mappings |
-| Shapes | `daimo/shapes/daimo-shapes.ttl` | `https://w3id.org/pionera/daimo/shapes` | 9 completeness + 3 conformance shapes + 6 SHACL-SPARQL invariants |
+| Shapes | `daimo/shapes/daimo-shapes.ttl` | `https://w3id.org/pionera/daimo/shapes` | 9 completeness + 3 conformance shapes + 8 SHACL-SPARQL invariants |
 
 All three carry `owl:versionInfo "0.1.6"` and versioned `owl:versionIRI`.
 
@@ -74,7 +74,7 @@ The profile is **OWL 2 DL** (`dct:conformsTo <https://www.w3.org/TR/owl2-overvie
 | `AuditEvidence` | `prov:Entity` |
 | `SharedEvaluationContext` | — (stand-alone) |
 
-### 3.2 Object properties (29)
+### 3.2 Object properties (30)
 
 | Property | Domain → Range | Characteristics / alignment |
 |---|---|---|
@@ -89,6 +89,7 @@ The profile is **OWL 2 DL** (`dct:conformsTo <https://www.w3.org/TR/owl2-overvie
 | `exposedAs` | `ModelDeployment` → `dcat:DataService` | non-functional (multi-endpoint) |
 | `onInfrastructure` | `ModelDeployment` → `it6:ComputerInfrastructure` | Functional |
 | `hasIOContract` | `ModelDeployment` → `IOContract` | non-functional (one per service) |
+| `forService` | `IOContract` → `dcat:DataService` | Functional, Asymmetric; native (no external alignment — see design §5.2) |
 | `inputSchema` | `IOContract` → `dcat:Resource` | Functional (optional) |
 | `outputSchema` | `IOContract` → `dcat:Resource` | Functional (optional) |
 | `authorizesRun` | `ExecutionAuthorization` → `it6:Run` | Asymmetric, non-functional; **NOT** `⊑ prov:used` |
@@ -142,7 +143,7 @@ Minimum required properties (with cardinalities) per class:
 - **`ModelDeploymentShape`** — `deploysModel` (1..1), `exposedAs` (≥1
   `dcat:DataService`), `hasIOContract` (≥1), `onInfrastructure` (1..1).
 - **`IOContractShape`** — `inputFormat`, `outputFormat`, `authMethod` (each
-  1..1).
+  1..1), `forService` (1..1, `dcat:DataService`).
 - **`ExecutionAuthorizationShape`** — `odrl:permission` (≥1),
   `authorizesRun` (≥1 `it6:Run`), `grantedTo` (1..1), `expiresAt` (1..1).
 - **`DerivedArtifactShape`** — `derivedFromRun` (1..1), `underAuthorization`
@@ -178,7 +179,7 @@ These enforce DAIMO-context obligations on **reused** classes:
   `mls:realizes`, `prov:wasAssociatedWith`, and `prov:startedAtTime` (for
   reproducibility and auditability).
 
-### 4.4 Cross-class invariants (6 SHACL-SPARQL rules, INV-1..INV-6)
+### 4.4 Cross-class invariants (8 SHACL-SPARQL rules, INV-1..INV-8)
 
 These are the **governance business rules** that make DAIMO active rather than
 passive. All share the prefix declaration `daimo:_invariantPrefixes`.
@@ -191,6 +192,8 @@ passive. All share the prefix declaration `daimo:_invariantPrefixes`.
 | **INV-4** | `ExecutionAuthorization` | `expiresAt` is **not strictly after** the `prov:startedAtTime` of a run it authorizes (run under expired agreement). |
 | **INV-5** | `AIAssetOffering` | the `offersModel` model is **not** an `odrl:target` of the attached offer policy (Policy level or any Permission). |
 | **INV-6** | `AIAssetOffering` | `offeredBy` ≠ the `odrl:assigner` of the attached policy → catalog record and ODRL offer attribute publication to different agents. |
+| **INV-7** | `ModelDeployment` | a `hasIOContract` contract `forService` a service the deployment does **not** `exposedAs` → contract describes an endpoint the deployment does not offer. |
+| **INV-8** | `ModelDeployment` | an `exposedAs` service has **no** `hasIOContract` contract pointing to it via `forService` → advertised endpoint without an invocation contract. |
 
 Each invariant is validated **positively** (holds on the example graph) and
 **negatively** (fires on the deliberately-broken graph) — see
@@ -201,7 +204,7 @@ Each invariant is validated **positively** (holds on the example graph) and
 ## 5. Example knowledge graph
 
 `daimo/examples/flood-risk-scenario.ttl` is the running UPM / Leganés / INESData
-scenario (≈ **225 data triples**). It instantiates every DAIMO class at least
+scenario (≈ **227 data triples**). It instantiates every DAIMO class at least
 once and is the graph over which SHACL conformance and the 23 CQ SPARQL queries
 are checked. It is designed to be **fully SHACL-conformant** and to make all 23
 CQs return ≥ 1 row after OWL-RL materialisation.

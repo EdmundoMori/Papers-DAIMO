@@ -64,12 +64,18 @@ SELECT ?model ?policy ?policyTitle WHERE {
 
 ### CQ-R4 — I/O contract for the invocation interface of a published model.
 
+Each I/O contract is resolved to the concrete service (interface) it applies to
+via `daimo:forService`, so the result is one row per endpoint (REST, gRPC, …)
+with the exact input/output format and authentication of that interface — never
+a cartesian mix across interfaces.
+
 ```sparql
-SELECT ?model ?in ?out ?auth WHERE {
+SELECT ?model ?service ?in ?out ?auth WHERE {
   ?deployment a daimo:ModelDeployment ;
               daimo:deploysModel ?model ;
               daimo:hasIOContract ?contract .
-  ?contract daimo:inputFormat ?in ;
+  ?contract daimo:forService ?service ;
+            daimo:inputFormat ?in ;
             daimo:outputFormat ?out ;
             daimo:authMethod ?auth .
 }
@@ -121,16 +127,21 @@ SELECT ?model ?title WHERE {
 
 ### CQ-D3 — Which models expose a service endpoint, and what authentication method does each require?
 
-Parametrised query — returns all (model, endpoint, auth-method) tuples so the consumer
-can filter client-side. No hard-coded authentication string.
+Returns all (model, endpoint, auth-method) tuples so the consumer can filter
+client-side. No hard-coded authentication string. The contract is bound to its
+endpoint through `daimo:forService`, so each endpoint is paired only with *its
+own* authentication method — a deployment exposing a REST and a gRPC endpoint
+returns exactly two rows, not the four combinations produced by an independent
+service × contract join.
 
 ```sparql
 SELECT ?model ?endpoint ?auth WHERE {
   ?deployment daimo:deploysModel ?model ;
               daimo:exposedAs ?service ;
               daimo:hasIOContract ?contract .
+  ?contract daimo:forService ?service ;
+            daimo:authMethod ?auth .
   ?service dcat:endpointURL ?endpoint .
-  ?contract daimo:authMethod ?auth .
 }
 ```
 
@@ -155,7 +166,9 @@ SELECT ?model ?value WHERE {
 
 Starts from an `AIAssetOffering` and reaches the deployment via the entailed
 `foaf:primaryTopic` link (from `daimo:offersModel ⊑ foaf:primaryTopic`). The query
-therefore tests the *reuse* of DCAT semantics end-to-end.
+therefore tests the *reuse* of DCAT semantics end-to-end. The contract is joined
+to its endpoint through `daimo:forService`, so each row describes one real
+endpoint with its correct format and authentication — no cartesian mix.
 
 ```sparql
 SELECT ?endpoint ?auth ?in ?out WHERE {
@@ -164,10 +177,11 @@ SELECT ?endpoint ?auth ?in ?out WHERE {
   ?deployment daimo:deploysModel ?model ;
               daimo:exposedAs ?service ;
               daimo:hasIOContract ?contract .
-  ?service dcat:endpointURL ?endpoint .
-  ?contract daimo:authMethod ?auth ;
+  ?contract daimo:forService ?service ;
+            daimo:authMethod ?auth ;
             daimo:inputFormat ?in ;
             daimo:outputFormat ?out .
+  ?service dcat:endpointURL ?endpoint .
 }
 ```
 
@@ -312,15 +326,21 @@ SELECT ?offering ?title ?provider WHERE {
 }
 ```
 
-### CQ-G2 — Deployments serving a model, with infrastructure and I/O contract.
+### CQ-G2 — Deployments serving a model, with infrastructure, service, and I/O contract.
+
+Keeps the deployment → infrastructure → service → contract chain intact: each
+contract is tied to its `dcat:DataService` through `daimo:forService`, so the
+row reports the endpoint together with the format and authentication that apply
+to *that* endpoint.
 
 ```sparql
-SELECT ?deployment ?infra ?in ?out ?auth WHERE {
+SELECT ?deployment ?infra ?service ?in ?out ?auth WHERE {
   ?deployment a daimo:ModelDeployment ;
               daimo:deploysModel <https://example.org/daimo-scenario/flood-risk-v2> ;
               daimo:onInfrastructure ?infra ;
               daimo:hasIOContract ?contract .
-  ?contract daimo:inputFormat ?in ;
+  ?contract daimo:forService ?service ;
+            daimo:inputFormat ?in ;
             daimo:outputFormat ?out ;
             daimo:authMethod ?auth .
 }

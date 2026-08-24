@@ -97,10 +97,10 @@ SPARQL_QUERIES = [
         """
         SELECT (COUNT(?endpoint) AS ?count) WHERE {
           ?deployment a daimo:ModelDeployment ;
-                      daimo:exposedAs ?service ;
                       daimo:hasIOContract ?contract .
+          ?contract daimo:forService ?service ;
+                    daimo:authMethod ?auth .
           ?service dcat:endpointURL ?endpoint .
-          ?contract daimo:authMethod ?auth .
         }
         """,
     ),
@@ -278,6 +278,7 @@ def add_unit(g: Graph, i: int) -> None:
     g.add((service, IT6.servesModel, model))
 
     g.add((contract, RDF.type, DAIMO.IOContract))
+    g.add((contract, DAIMO.forService, service))
     g.add((contract, DAIMO.inputFormat, Literal("application/json")))
     g.add((contract, DAIMO.outputFormat, Literal("application/json")))
     g.add((contract, DAIMO.authMethod, Literal("oauth2-bearer")))

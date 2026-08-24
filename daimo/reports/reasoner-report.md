@@ -3,15 +3,15 @@
 ## HermiT (owlready2)
 
 - consistent: **True**
-- reasoning time: 1.7 s
+- reasoning time: 1.5 s
 - unsatisfiable classes: 0
 
 ## OWL-RL (pure Python)
 
-- pre triples: 818
-- post triples: 1988
-- materialised: 1170
-- reasoning time: 0.63 s
+- pre triples: 835
+- post triples: 2018
+- materialised: 1183
+- reasoning time: 0.74 s
 - owl:Nothing individuals (disjoint-class violations): 0
 - unsatisfiable subclasses: 0
 

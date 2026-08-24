@@ -384,6 +384,17 @@ daimo:contextTask    rdfs:subPropertyOf it6:hasTask .
 #   dct:hasVersion links one resource to another version resource, while
 #   daimo:datasetVersion is a datatype property carrying a literal version
 #   token needed for reproducible evaluation contexts.
+#
+# - daimo:forService has NO external superproperty.
+#   No property in DCAT, MLDCAT-AP, ODRL, PROV-O or DSP carries the exact
+#   meaning "the dcat:DataService that this I/O contract describes". The
+#   closest candidate, dcat:endpointDescription, was considered and rejected:
+#   it runs in the opposite direction (dcat:DataService -> a description
+#   resource) and its intended value is an API/endpoint description document
+#   (e.g. an OpenAPI/Swagger file), not a structured daimo:IOContract with
+#   input/output media types and an authentication method. daimo:forService
+#   therefore remains a native, unaligned object property whose range is the
+#   reused dcat:DataService class.
 
 #################################################################
 # Informative mappings (SKOS, not entailed)

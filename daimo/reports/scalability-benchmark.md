@@ -17,8 +17,8 @@ should not be cited unless executed on the target machine.
 
 | Units | Data triples | Merged triples | OWL-RL closure triples | Parse (s) | OWL-RL (s) | SHACL (s) | SPARQL suite (s) | SHACL conforms |
 |---:|---:|---:|---:|---:|---:|---:|---:|:---:|
-| 100 | 8053 | 8646 | 16248 | 0.468 | 5.478 | 10.374 | 0.080 | True |
-| 1000 | 80053 | 80646 | 147648 | 4.660 | 53.672 | 135.010 | 0.356 | True |
+| 100 | 8153 | 8761 | 16376 | 0.383 | 5.157 | 11.220 | 0.080 | True |
+| 1000 | 81053 | 81661 | 148676 | 4.686 | 55.313 | 159.033 | 1.937 | True |
 
 ## Query Counts
 
@@ -38,12 +38,12 @@ should not be cited unless executed on the target machine.
   "results": [
     {
       "units": 100,
-      "data_triples": 8053,
-      "merged_triples": 8646,
-      "closure_triples": 16248,
-      "parse_s": 0.468,
-      "owlrl_s": 5.478,
-      "shacl_s": 10.374,
+      "data_triples": 8153,
+      "merged_triples": 8761,
+      "closure_triples": 16376,
+      "parse_s": 0.383,
+      "owlrl_s": 5.157,
+      "shacl_s": 11.22,
       "sparql_s": 0.08,
       "shacl_conforms": true,
       "query_counts": {
@@ -55,13 +55,13 @@ should not be cited unless executed on the target machine.
     },
     {
       "units": 1000,
-      "data_triples": 80053,
-      "merged_triples": 80646,
-      "closure_triples": 147648,
-      "parse_s": 4.66,
-      "owlrl_s": 53.672,
-      "shacl_s": 135.01,
-      "sparql_s": 0.356,
+      "data_triples": 81053,
+      "merged_triples": 81661,
+      "closure_triples": 148676,
+      "parse_s": 4.686,
+      "owlrl_s": 55.313,
+      "shacl_s": 159.033,
+      "sparql_s": 1.937,
       "shacl_conforms": true,
       "query_counts": {
         "offerings": 1000,

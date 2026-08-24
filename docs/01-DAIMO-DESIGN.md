@@ -121,9 +121,10 @@ are **intentionally NOT disjoint**.
 
 ### D3 — Governance = cross-class invariants, not just per-class completeness
 What distinguishes DAIMO from a passive metadata profile is that it enforces
-**business rules that cut across classes** (six SHACL-SPARQL invariants,
-INV-1..INV-6). A governance ontology must catch cross-class inconsistencies
-(e.g. an artefact derived from a run its authorization never covered), not only
+**business rules that cut across classes** (eight SHACL-SPARQL invariants,
+INV-1..INV-8). A governance ontology must catch cross-class inconsistencies
+(e.g. an artefact derived from a run its authorization never covered, or an I/O
+contract that describes a service the deployment does not expose), not only
 whether each node has its mandatory fields.
 
 ---
@@ -137,7 +138,7 @@ whether each node has its mandatory fields.
 | `AIAssetOffering` | `dcat:CatalogRecord` | Reifies the **dataspace offering event**: bundles the model (`offersModel`), the issuing agent (`offeredBy`) and an ODRL **offer** policy (`hasOfferPolicy`). Neither DCAT nor MLDCAT-AP reifies this. Relates to DSP `dspace:ContractOffer` (negotiation-time) via informative `skos:related`. |
 | `ParticipantRole` (+5 subclasses) | `prov:Role` | Dataspace role types that DCAT/MLDCAT-AP/EDC do not reify (see D2). |
 | `ModelDeployment` | `prov:Entity` | A **running/hosted instance** of a model — distinct from the model *and* from the service that exposes it. |
-| `IOContract` | *(stand-alone)* | The **minimum machine-actionable invocation contract**: input/output media type, auth method, optional I/O schemas. Absent from DCAT/MLDCAT-AP. |
+| `IOContract` | *(stand-alone)* | The **minimum machine-actionable invocation contract**: input/output media type, auth method, optional I/O schemas. Absent from DCAT/MLDCAT-AP. Identifies the `dcat:DataService` it applies to via `daimo:forService` (functional), so a multi-endpoint deployment resolves format and auth per endpoint without ambiguity. |
 | `ExecutionAuthorization` | `odrl:Agreement` | ODRL agreement **produced by a DSP contract negotiation**, specialised with `authorizesRun`, `grantedTo`, `expiresAt`. |
 | `DerivedArtifact` | `prov:Entity`, `dcat:Resource` | A **governed, catalog-describable output** of a run, carrying its own provenance (`derivedFromRun`) and policy pointer (`underAuthorization`). |
 | `CrossParticipantProvenanceRecord` | `prov:Bundle` | A PROV bundle aggregating activities/entities across **≥2 EDC participant contexts** into one audit-ready narrative. |
@@ -191,6 +192,7 @@ rationale.
 | `evidenceOf` | `⊑ prov:hadActivity` | `prov:hadActivity` is used on reified influence objects, not on entities. `AuditEvidence` is an **Entity *about* an activity**; PROV-O has no direct property for this. |
 | `contextDataset` / `contextFlow` | `⊑ it6:trainedOn` / `it6:hasFlow` | Their domains (`it6:MachineLearningModel`, `it6:Run`) would **re-type `SharedEvaluationContext`** via RDFS inference. |
 | `datasetVersion` | `⊑ dct:hasVersion` | `dct:hasVersion` links a resource to *another version resource*; DAIMO needs a **literal** version token for reproducible benchmarking. |
+| `forService` | `⊑ dcat:endpointDescription` | Wrong direction (`dcat:DataService → description`) and different intent: `endpointDescription` points to an **API-description document** (e.g. OpenAPI), not to a structured `IOContract`. No DCAT/MLDCAT-AP/DSP property means "the service this I/O contract describes", so `forService` stays **native and unaligned**. |
 
 ### 5.3 Why alignment lives in a separate module
 
@@ -209,10 +211,19 @@ ontologies.
 - **Functional properties** capture "exactly one" facts: e.g. `offersModel`,
   `offeredBy`, `hasOfferPolicy`, `deploysModel`, `onInfrastructure`,
   `grantedTo`, `derivedFromRun`, `underAuthorization`, `signedBy`,
-  `usesEvaluationContext`, and all datatype properties.
+  `usesEvaluationContext`, `forService` (each I/O contract describes exactly one
+  service), and all datatype properties.
 - **Asymmetric properties** encode "distinct individuals" (e.g. `offersModel`,
-  `deploysModel`, `authorizesRun`, `derivedFromRun`, `evidenceOf`): an offering
-  is not its model, a deployment is not its model, etc.
+  `deploysModel`, `authorizesRun`, `derivedFromRun`, `evidenceOf`, `forService`):
+  an offering is not its model, a deployment is not its model, an I/O contract is
+  not the service it describes, etc.
+- **Deployment ↔ service ↔ contract triangle.** A `ModelDeployment` may expose
+  several `dcat:DataService` endpoints (`exposedAs`, non-functional) and declare
+  several `IOContract`s (`hasIOContract`, non-functional). `forService` links
+  each contract to the specific exposed service it describes, turning what used
+  to be a cartesian `service × contract` join into a direct per-endpoint lookup.
+  SHACL invariants INV-7/INV-8 keep the triangle consistent (contract targets an
+  exposed service; every exposed service has a contract).
 - **Inverse properties** ease reverse traversal of the four most-queried
   one-to-many relations: `hasDeployment` (inv. `deploysModel`),
   `hasDerivedArtifact` (inv. `derivedFromRun`), `hasAuditEvidence` (inv.

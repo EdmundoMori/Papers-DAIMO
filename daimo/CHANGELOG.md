@@ -4,6 +4,50 @@ All notable changes to DAIMO are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and DAIMO adheres
 to semantic versioning (`owl:versionInfo` mirrors this file).
 
+## [Unreleased]
+
+### Fixed — DAIMO-ISSUE-01: unambiguous DataService–IOContract association
+- A `daimo:ModelDeployment` could declare several `daimo:exposedAs` services and
+  several `daimo:hasIOContract` contracts with **no link between a specific
+  contract and a specific service**. Queries CQ-D3 and CQ-E1 joined services and
+  contracts independently, producing a cartesian product (four combinations for
+  the two-service / two-contract flood-risk example) and making it impossible to
+  determine unambiguously which format and authentication apply to each endpoint.
+
+### Added
+- **`daimo:forService`** object property (`IOContract → dcat:DataService`),
+  **functional** (a contract describes exactly one service) and **asymmetric**.
+  Documented as **not aligned** to any external term in `alignment.ttl`
+  (`dcat:endpointDescription` was considered and rejected — wrong direction and
+  it points to an API-description document, not a structured I/O contract).
+- **INV-7** (`DeploymentContractServiceInvariant`): every `hasIOContract`
+  contract must `forService` a service the same deployment `exposedAs`.
+- **INV-8** (`DeploymentServiceContractInvariant`): every `exposedAs` service
+  must have at least one `forService` contract.
+- `IOContractShape` now requires `forService` (1..1, `dcat:DataService`).
+- Two new negative-test cases (`bad:INV7-deployment`, `bad:INV8-deployment`);
+  the negative harness now asserts **all 8 invariants** fire.
+
+### Changed
+- Example KG: `ex:flood-risk-iocontract` → `forService ex:flood-risk-service`
+  (REST); `ex:flood-risk-iocontract-grpc` → `forService
+  ex:flood-risk-service-grpc` (gRPC). Two endpoints, formats and auth preserved.
+- SPARQL queries CQ-R4, CQ-D3, CQ-E1, CQ-G2 rewritten to join each contract to
+  its service via `daimo:forService`, eliminating the cartesian join. On the
+  example, **CQ-D3 and CQ-E1 now return 2 rows instead of 4**.
+- `scalability_benchmark.py` generator links every synthetic contract to its
+  service via `forService`; the `invocation_contracts` control query uses the
+  corrected relation. Re-ran sizes 100 and 1000 — both still conform.
+- Counts updated as technical information: object properties 29 → **30**, total
+  native properties 37 → **38**; cross-class SHACL invariants 6 → **8**.
+- Comments of `ModelDeployment`, `IOContract`, `exposedAs` and `hasIOContract`
+  updated to reference the new per-endpoint contract/service pairing.
+
+### Notes
+- No version bump, tag, or release in this step. `owl:versionInfo` remains
+  `0.1.6`. OOPS! was not re-run (external service unreachable from the execution
+  environment); the scan in `reports/oops-report.md` predates `forService`.
+
 ## [0.1.6] — 2026-07-06
 
 ### Fixed
