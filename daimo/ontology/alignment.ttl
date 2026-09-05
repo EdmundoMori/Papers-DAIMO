@@ -38,8 +38,8 @@
 
 <https://w3id.org/pionera/daimo/align> a owl:Ontology ;
     rdfs:comment "Alignment axioms linking DAIMO classes and properties to DCAT, MLDCAT-AP, ODRL, PROV-O, and the Dataspace Protocol (DSP)."@en ;
-    owl:versionIRI <https://w3id.org/pionera/daimo/align/0.1.6> ;
-    owl:versionInfo "0.1.6" ;
+    owl:versionIRI <https://w3id.org/pionera/daimo/align/0.1.7> ;
+    owl:versionInfo "0.1.7" ;
     owl:imports <https://w3id.org/pionera/daimo> .
 
 #################################################################

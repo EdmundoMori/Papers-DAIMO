@@ -3,10 +3,10 @@ title: "DAIMO: An Ontology for Governed AI Model Assets in Dataspaces"
 message: >-
   If you use DAIMO in your work, please cite it as below.
 type: software
-version: 0.1.6
-date-released: "2026-07-08"
+version: 0.1.7
+date-released: "2026-09-05"
 license: CC-BY-4.0
-url: "https://github.com/EdmundoMori/Papers-DAIMO/releases/tag/v0.1.6-swj-submission"
+url: "https://github.com/EdmundoMori/Papers-DAIMO/releases/tag/v0.1.7"
 repository-code: "https://github.com/EdmundoMori/Papers-DAIMO"
 abstract: >-
   DAIMO is an OWL 2 DL integration profile connecting DCAT-AP, MLDCAT-AP 3.0.0,
@@ -18,7 +18,7 @@ abstract: >-
   IOContract, ExecutionAuthorization, DerivedArtifact,
   CrossParticipantProvenanceRecord, AuditEvidence, SharedEvaluationContext)
   with axiomatised alignment to the reused vocabularies, SHACL shapes
-  including six cross-class invariants, and an executable validation
+  including nine cross-class invariants, and an executable validation
   package with 23 SPARQL-bound competency questions.
 keywords:
   - ontology
@@ -40,10 +40,10 @@ authors:
     affiliation: "Universidad Politécnica de Madrid"
 identifiers:
   - type: url
-    value: "https://github.com/EdmundoMori/Papers-DAIMO/releases/tag/v0.1.6-swj-submission"
+    value: "https://github.com/EdmundoMori/Papers-DAIMO/releases/tag/v0.1.7"
     description: "Frozen SWJ submission release (immutable review snapshot)"
   - type: url
-    value: "https://github.com/EdmundoMori/Papers-DAIMO/tree/v0.1.6-swj-submission/daimo"
+    value: "https://github.com/EdmundoMori/Papers-DAIMO/tree/v0.1.7/daimo"
     description: "Ontology package directory at the frozen release"
   - type: url
     value: "https://w3id.org/pionera/daimo"

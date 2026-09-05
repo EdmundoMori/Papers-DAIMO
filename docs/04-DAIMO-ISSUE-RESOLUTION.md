@@ -8,6 +8,9 @@
 | DAIMO-ISSUE-03 | Optional random seed when applicable | **RESOLVED** | `2ae0c6d` (working tree also holds ISSUE-02) | `daimo-core.ttl`, `daimo-shapes.ttl`, `queries.md`, `random_seed_test.py` + seed graphs, ORSD, docs 00–04, CHANGELOG, evidence-matrix | SHACL 0 seed conforms; 2 seeds / non-integer rejected; CQ-V1 OPTIONAL unbound on seedless graph; 23/23 CQs; flood-risk still conforms with seed 42 | No universal stochastic-protocol list (by design); WIDOCO not regenerated; no commit/push |
 | DAIMO-ISSUE-04 | Scope of SHACL rules over reused classes | **RESOLVED** | `2ae0c6d` (working tree holds 02–04) | `daimo-shapes.ttl`, `tests/reused_class_scope_test.py` + fixtures, docs 00–04, CHANGELOG, evidence-matrix | 9-cell matrix PASS (mixed complete graph); flood-risk conforms; 11/11 negatives; 23/23 CQs; HermiT 1.46 s | WIDOCO copies still use `sh:targetClass`; INV-2 still `targetClass it6:Run` (SPARQL self-scopes); OOPS! timeout; no commit/push |
 
+
+**Publication packaging (2026-09-05).** The ISSUE-01..04 bundle is released as **DAIMO 0.1.7** (`owl:versionInfo` bumped; CHANGELOG section `[0.1.7]`). Serialisations under `daimo/docs/ontology.*` are regenerated from `daimo-core.ttl`. The Git commit of this packaging is the public candidate (tag `v0.1.7`). The SHA `dfcfd418…` cited in an external evaluation draft was never in this repository.
+
 ---
 
 ## DAIMO-ISSUE-01 — Unambiguous DataService–IOContract association

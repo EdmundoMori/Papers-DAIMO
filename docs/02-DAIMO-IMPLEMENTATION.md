@@ -16,7 +16,7 @@ suite, and how to reproduce every check.
 | Alignment | `daimo/ontology/alignment.ttl` | `https://w3id.org/pionera/daimo/align` | `owl:imports` core; external term stubs + alignment axioms + SKOS mappings |
 | Shapes | `daimo/shapes/daimo-shapes.ttl` | `https://w3id.org/pionera/daimo/shapes` | 9 completeness + 4 conformance shapes + 9 SHACL-SPARQL invariants |
 
-All three carry `owl:versionInfo "0.1.6"` and versioned `owl:versionIRI`.
+All three carry `owl:versionInfo "0.1.7"` and versioned `owl:versionIRI`.
 
 **Prefixes used across the modules:**
 
@@ -250,6 +250,8 @@ python3 -m venv .venv
 .venv/bin/python tests/negative_test.py      # cross-class invariant negative tests
 .venv/bin/python tests/random_seed_test.py   # DAIMO-ISSUE-03: optional randomSeed 0..1
 .venv/bin/python tests/reused_class_scope_test.py  # DAIMO-ISSUE-04: reused-class target scope
+.venv/bin/python tests/serialization_test.py      # core == docs/ontology.{ttl,owl,jsonld,nt}
+.venv/bin/python scripts/export_serializations.py # regenerate public serialisations
 .venv/bin/python scalability_benchmark.py --sizes 100 1000
 ```
 

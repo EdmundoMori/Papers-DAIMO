@@ -6,6 +6,27 @@ to semantic versioning (`owl:versionInfo` mirrors this file).
 
 ## [Unreleased]
 
+## [0.1.7] — 2026-09-05
+
+Release candidate that packages DAIMO-ISSUE-01..04 as a single public version
+on the 0.1 line (SWJ evaluation). `owl:versionInfo` is now **0.1.7**.
+
+### Added
+- Canonical serialisations of the core module regenerated from
+  `ontology/daimo-core.ttl` into `docs/ontology.{ttl,owl,jsonld,nt}`.
+- `tests/serialization_test.py` and `scripts/export_serializations.py`.
+- `daimo/DEPLOYMENT.md` (w3id / Pages / Zenodo procedure) and a repository
+  `README.md`.
+
+### Changed
+- Version IRIs: core `…/daimo/0.1.7`, alignment `…/align/0.1.7`, shapes
+  `…/shapes/0.1.7`. `owl:priorVersion` of the core is `…/daimo/0.1.6`.
+- `CITATION.cff` and `.zenodo.json` point at tag `v0.1.7`.
+- `w3id-redirect/.htaccess` adds the `0.1.7` versioned IRI.
+- WIDOCO copies under `docs/` now ship the current shapes and alignment
+  sources; HTML metadata version strings updated to 0.1.7 (full WIDOCO
+  narrative regen remains optional).
+
 ### Fixed — DAIMO-ISSUE-04: SHACL targets for reused classes
 - `OfferInDAIMOShape`, `MachineLearningModelInDAIMOShape` and `RunInDAIMOShape`
   used `sh:targetClass` on `odrl:Offer`, `it6:MachineLearningModel` and

@@ -20,20 +20,20 @@
 
 <https://w3id.org/pionera/daimo/shapes> a owl:Ontology ;
     dct:title "DAIMO SHACL Shapes"@en ;
-    dct:description "SHACL node shapes, conformance shapes over reused classes linked by DAIMO relations, and cross-class SHACL-SPARQL invariants for DAIMO v0.1.6. Used by the validation pipeline (validate.py, tests/negative_test.py) to enforce minimum completeness on DAIMO-native classes, profile obligations on reused ODRL/MLDCAT-AP resources that participate in DAIMO relations, and nine business-rule invariants across classes. SHACL checks RDF graphs; it does not apply ODRL policies or control access."@en ;
+    dct:description "SHACL node shapes, conformance shapes over reused classes linked by DAIMO relations, and cross-class SHACL-SPARQL invariants for DAIMO v0.1.7. Used by the validation pipeline (validate.py, tests/negative_test.py) to enforce minimum completeness on DAIMO-native classes, profile obligations on reused ODRL/MLDCAT-AP resources that participate in DAIMO relations, and nine business-rule invariants across classes. SHACL checks RDF graphs; it does not apply ODRL policies or control access."@en ;
     dct:creator <https://orcid.org/0000-0000-0000-0000> ,
                 <https://orcid.org/0000-0000-0000-0001> ;
     dct:license <https://creativecommons.org/licenses/by/4.0/> ;
     dct:issued "2026-04-22"^^xsd:date ;
-    dct:modified "2026-07-06"^^xsd:date ;
-    owl:versionIRI <https://w3id.org/pionera/daimo/shapes/0.1.6> ;
-    owl:versionInfo "0.1.6" ;
+    dct:modified "2026-09-05"^^xsd:date ;
+    owl:versionIRI <https://w3id.org/pionera/daimo/shapes/0.1.7> ;
+    owl:versionInfo "0.1.7" ;
     rdfs:seeAlso <https://w3id.org/pionera/daimo> ,      # core ontology
                  <https://w3id.org/pionera/daimo/align> ; # alignment module
     rdfs:comment "Load alongside daimo-core.ttl to validate knowledge graphs that use DAIMO. Contains 9 per-class completeness shapes, 4 conformance shapes (over odrl:Offer, odrl:Agreement, it6:MachineLearningModel, it6:Run *as linked by DAIMO properties*, not every instance of those classes) and 9 cross-class SHACL-SPARQL invariants (INV-1..INV-9)."@en .
 
 #################################################################
-# SHACL shapes for DAIMO v0.1.6
+# SHACL shapes for DAIMO v0.1.7
 # Each shape enforces the minimum set of properties required for the
 # paper's operational claims. Conformance shapes over reused ODRL and
 # MLDCAT-AP classes apply only to resources linked by DAIMO properties

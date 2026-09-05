@@ -10,7 +10,7 @@ Esta matriz acopla cada afirmación del paper (`paper/daimo-paper-es-v3.tex`) a 
 
 ---
 
-## 0. Inventario de artefactos (snapshots al 2026-04-23)
+## 0. Inventario de artefactos (DAIMO 0.1.7) (snapshots al 2026-04-23)
 
 | Artefacto | Ubicación | Líneas | Contenido verificado |
 |---|---|---|---|

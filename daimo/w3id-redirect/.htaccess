@@ -39,6 +39,7 @@ RewriteRule ^daimo/?$ https://edmundomori.github.io/Papers-DAIMO/index-en.html [
 
 # --- Versioned IRIs ---------------------------------------------------
 
+RewriteRule ^daimo/0\.1\.7/?$ https://edmundomori.github.io/Papers-DAIMO/index-en.html [R=303,L]
 RewriteRule ^daimo/0\.1\.6/?$ https://edmundomori.github.io/Papers-DAIMO/index-en.html [R=303,L]
 RewriteRule ^daimo/0\.1\.6-swj-submission/?$ https://edmundomori.github.io/Papers-DAIMO/index-en.html [R=303,L]
 RewriteRule ^daimo/0\.1\.5/?$ https://edmundomori.github.io/Papers-DAIMO/index-en.html [R=303,L]

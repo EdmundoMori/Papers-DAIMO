@@ -35,10 +35,10 @@
     dct:publisher <https://w3id.org/pionera> ;
     dct:license <https://creativecommons.org/licenses/by/4.0/> ;
     dct:issued "2026-04-22"^^xsd:date ;
-    dct:modified "2026-07-06"^^xsd:date ;
-    owl:versionIRI <https://w3id.org/pionera/daimo/0.1.6> ;
-    owl:versionInfo "0.1.6" ;
-    owl:priorVersion <https://w3id.org/pionera/daimo/0.1.5> ;
+    dct:modified "2026-09-05"^^xsd:date ;
+    owl:versionIRI <https://w3id.org/pionera/daimo/0.1.7> ;
+    owl:versionInfo "0.1.7" ;
+    owl:priorVersion <https://w3id.org/pionera/daimo/0.1.6> ;
     dct:conformsTo <https://www.w3.org/TR/owl2-overview/> ;  # OWL 2 DL profile
     vann:preferredNamespacePrefix "daimo" ;
     vann:preferredNamespaceUri "https://w3id.org/pionera/daimo#" ;

@@ -7,7 +7,7 @@
       "en" : "DAIMO: an ontology for governed AI model assets in dataspaces"
     },
     "iri" : "https://w3id.org/pionera/daimo",
-    "version" : "0.1.6",
+    "version" : "0.1.7",
     "author" : [ "_:genid2147483649", "_:genid2147483648" ],
     "description" : {
       "en" : "DAIMO is an integration profile that connects DCAT-AP, MLDCAT-AP, ODRL, PROV-O, and the Dataspace Protocol (DSP, as operationalised by Eclipse EDC) to support publication, discovery, invocation, execution traceability, and contextualised evaluation of AI model assets exchanged in dataspaces. The edc: namespace is used only for EDC-specific extensions (e.g., ParticipantContext) not yet standardised in DSP."
@@ -36,7 +36,7 @@
       "versionInfo" : [ {
         "identifier" : "versionInfo",
         "language" : "undefined",
-        "value" : "0.1.6",
+        "value" : "0.1.7",
         "type" : "label"
       } ],
       "title" : [ {

@@ -15,8 +15,8 @@ can be **published, discovered, invoked, traced and comparably evaluated** when
 they are exchanged inside a **data space**.
 
 - **IRI / namespace:** `https://w3id.org/pionera/daimo#` (prefix `daimo:`)
-- **Version:** `0.1.6` (`owl:versionIRI …/daimo/0.1.6`), frozen review tag
-  `v0.1.6-swj-submission`
+- **Version:** `0.1.7` (`owl:versionIRI …/daimo/0.1.7`). Prior public freeze:
+  `v0.1.6-swj-submission`. Intended release tag: `v0.1.7`.
 - **Licence:** CC-BY 4.0 (ontology + docs), Apache-2.0 (validation code)
 - **Methodology:** LOT — Linked Open Terms (<https://lot.linkeddata.es/>)
 - **Authors:** Edmundo de Elvira Mori Orrillo, Jiayun Liu (Universidad
