@@ -1,0 +1,85 @@
+{
+  "evaluated_commit": "cd3c1ae0f8ad262fbbe899dd9b8b95db128becad",
+  "head": "cd3c1ae0f8ad262fbbe899dd9b8b95db128becad",
+  "tag": "cd3c1ae0f8ad262fbbe899dd9b8b95db128becad",
+  "phase1_started": "2026-09-06T11:52:34Z",
+  "working_tree": "On branch main\nYour branch is up to date with 'origin/main'.\n\nUntracked files:\n  (use \"git add <file>...\" to include in what will be committed)\n\tdaimo/reports/_eval_runner.py\n\tdaimo/reports/checksums-protected-before.json\n\tdaimo/reports/checksums-protected-before.md\n\tpaper/DAIMO_PAPER.pdf\n\tpaper/DAIMO_v1.pdf\n\tpaper/daimo-paper-es-v4 - copia.pdf:Zone.Identifier\n\tpaper/daimo-paper-es-v4-1col.pdf\n\tpaper/fix_vertical_spacing.py\n\tpaper/sync_sage_editorial.py\n\nnothing added to commit but untracked files present (use \"git add\" to track)",
+  "tools": {
+    "python": "Python 3.10.12",
+    "python_path": "daimo/.venv/bin/python",
+    "packages": {
+      "rdflib": "7.6.0",
+      "pyshacl": "0.31.0",
+      "owlrl": "7.6.1",
+      "owlready2": "0.51"
+    },
+    "java": "openjdk version \"21.0.11\" 2026-04-21\nOpenJDK Runtime Environment (build 21.0.11+10-1-22.04.2-Ubuntu)\nOpenJDK 64-Bit Server VM (build 21.0.11+10-1-22.04.2-Ubuntu, mixed mode, sharing)",
+    "java_exit": 0
+  },
+  "runs": [
+    {
+      "name": "reasoner",
+      "command": "daimo/.venv/bin/python reasoner_check.py",
+      "started": "2026-09-06T11:52:35Z",
+      "ended": "2026-09-06T11:52:37Z",
+      "exit_code": 0,
+      "status": "PASS",
+      "report": "daimo/reports/reasoner-report.md"
+    },
+    {
+      "name": "validate-shacl-sparql",
+      "command": "daimo/.venv/bin/python validate.py",
+      "started": "2026-09-06T11:52:38Z",
+      "ended": "2026-09-06T11:52:40Z",
+      "exit_code": 0,
+      "status": "PASS",
+      "report": "daimo/reports/validation-results.md"
+    },
+    {
+      "name": "negative-11",
+      "command": "daimo/.venv/bin/python tests/negative_test.py",
+      "started": "2026-09-06T11:52:40Z",
+      "ended": "2026-09-06T11:52:41Z",
+      "exit_code": 0,
+      "status": "PASS",
+      "report": "daimo/reports/negative-test-results.md"
+    },
+    {
+      "name": "random-seed",
+      "command": "daimo/.venv/bin/python tests/random_seed_test.py",
+      "started": "2026-09-06T11:52:42Z",
+      "ended": "2026-09-06T11:52:43Z",
+      "exit_code": 0,
+      "status": "PASS",
+      "report": "daimo/reports/random-seed-test-results.md"
+    },
+    {
+      "name": "reused-class-scope",
+      "command": "daimo/.venv/bin/python tests/reused_class_scope_test.py",
+      "started": "2026-09-06T11:52:43Z",
+      "ended": "2026-09-06T11:52:45Z",
+      "exit_code": 0,
+      "status": "PASS",
+      "report": "daimo/reports/reused-class-scope-results.md"
+    },
+    {
+      "name": "serializations",
+      "command": "daimo/.venv/bin/python tests/serialization_test.py",
+      "started": "2026-09-06T11:52:45Z",
+      "ended": "2026-09-06T11:52:46Z",
+      "exit_code": 0,
+      "status": "PASS",
+      "report": "daimo/reports/serialization-test-results.md"
+    },
+    {
+      "name": "structural-metrics",
+      "command": "daimo/.venv/bin/python -c '<rdflib counts>'",
+      "started": "2026-09-06T11:52:46Z",
+      "ended": "2026-09-06T11:52:47Z",
+      "exit_code": 0,
+      "status": "PASS",
+      "report": "daimo/reports/structural-metrics.md"
+    }
+  ],
+  "phase2_finished": "2026-09-06T11:52:47Z"
+}

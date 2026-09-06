@@ -1,30 +1,34 @@
 [
   {
-    "@id": "https://w3id.org/pionera/daimo#inputFormat",
+    "@id": "https://w3id.org/pionera/daimo#hasDeployment",
     "@type": [
-      "http://www.w3.org/2002/07/owl#DatatypeProperty",
-      "http://www.w3.org/2002/07/owl#FunctionalProperty"
+      "http://www.w3.org/2002/07/owl#ObjectProperty"
     ],
     "http://www.w3.org/2000/01/rdf-schema#comment": [
       {
         "@language": "en",
-        "@value": "IANA media type of the expected input payload (e.g. \"application/json\")."
+        "@value": "Inverse of daimo:deploysModel: from a model, retrieve every deployment that serves it. Non-functional (a model can have multiple deployments across contexts)."
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#domain": [
       {
-        "@id": "https://w3id.org/pionera/daimo#IOContract"
+        "@id": "http://data.europa.eu/it6/MachineLearningModel"
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@language": "en",
-        "@value": "input format"
+        "@value": "has deployment"
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#range": [
       {
-        "@id": "http://www.w3.org/2001/XMLSchema#string"
+        "@id": "https://w3id.org/pionera/daimo#ModelDeployment"
+      }
+    ],
+    "http://www.w3.org/2002/07/owl#inverseOf": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#deploysModel"
       }
     ]
   },
@@ -63,148 +67,14 @@
     ]
   },
   {
-    "@id": "https://w3id.org/pionera/daimo#contextFlow",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty",
-      "http://www.w3.org/2002/07/owl#FunctionalProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "The it6:Flow (pipeline / reproducibility artefact) referenced by the evaluation context. Functional. Not declared a subproperty of it6:hasFlow because the evaluation context is not itself a run."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#SharedEvaluationContext"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "context flow"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "http://data.europa.eu/it6/Flow"
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#usesEvaluationContext",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty",
-      "http://www.w3.org/2002/07/owl#FunctionalProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Links an it6:Evaluation to the shared evaluation context under which its results are comparable to other evaluations. Functional."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "http://data.europa.eu/it6/Evaluation"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "uses evaluation context"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#SharedEvaluationContext"
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#forService",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty",
-      "http://www.w3.org/2002/07/owl#FunctionalProperty",
-      "http://www.w3.org/2002/07/owl#AsymmetricProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Links an I/O contract to the specific dcat:DataService endpoint it applies to. Functional: each contract describes exactly one service (several contracts may still describe the same service if a real need arises, e.g. distinct authentication variants, but a single contract targets one service). Asymmetric: a contract and the service it describes are distinct individuals. Introduced to remove the ambiguity that appears when a ModelDeployment exposes several services (daimo:exposedAs) and declares several contracts (daimo:hasIOContract) with no per-endpoint link, which otherwise forces CQ-R4/CQ-D3/CQ-E1/CQ-G2 into a cartesian join between services and contracts. No external property (e.g. dcat:endpointDescription) carries this exact meaning; see alignment.ttl for the non-alignment rationale."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#IOContract"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
-      {
-        "@id": "https://w3id.org/pionera/daimo"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "for service"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "http://www.w3.org/ns/dcat#DataService"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@language": "en",
-        "@value": "The DCAT data service (deployment endpoint) that a given I/O contract describes."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#example": [
-      {
-        "@language": "en",
-        "@value": "On a deployment exposing a REST endpoint and a gRPC endpoint, the REST IOContract (application/json, oauth2-bearer) declares daimo:forService the REST dcat:DataService and the gRPC IOContract (application/x-protobuf, mtls) declares daimo:forService the gRPC dcat:DataService, so each endpoint's format and authentication method are unambiguous."
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#expiresAt",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#DatatypeProperty",
-      "http://www.w3.org/2002/07/owl#FunctionalProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Expiry timestamp of the execution authorisation — the operational window during which the derived authorization may cover runs. The accepted odrl:Agreement may carry its own ODRL constraints; expiry of the authorization is recorded here, not on the agreement."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#ExecutionAuthorization"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "expires at"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "http://www.w3.org/2001/XMLSchema#dateTime"
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#GovernanceActor",
+    "@id": "https://w3id.org/pionera/daimo#ModelDeployment",
     "@type": [
       "http://www.w3.org/2002/07/owl#Class"
     ],
     "http://www.w3.org/2000/01/rdf-schema#comment": [
       {
         "@language": "en",
-        "@value": "Role of an agent that audits execution evidence, enforces compliance obligations, and validates governance across the dataspace."
+        "@value": "A running or hosted instance of an MLDCAT-AP MachineLearningModel exposed through one or more dcat:DataServices under an operational environment. Each exposed service (daimo:exposedAs) is paired with the I/O contract that describes it (daimo:hasIOContract + daimo:forService); SHACL invariants INV-7 and INV-8 keep that pairing consistent."
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
@@ -215,47 +85,7 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@language": "en",
-        "@value": "governance actor"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#ParticipantRole"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@language": "en",
-        "@value": "Role of an agent that audits execution evidence, enforces compliance obligations, and validates governance across the dataspace."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#example": [
-      {
-        "@language": "en",
-        "@value": "An external compliance body that reads CrossParticipantProvenanceRecord bundles and AuditEvidence records to verify lawful execution holds a GovernanceActor role — for example, a regulator or a conformance-labelling body."
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#ExecutionAuthorization",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#Class"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "A governed authorisation resource (a prov:Entity) that links exactly one accepted odrl:Agreement (daimo:derivedFromAgreement) to the it6:Run invocations it permits. Deliberately NOT a subclass of odrl:Agreement: the agreement is the negotiated policy artefact that carries the ODRL permissions, whereas the authorization is the derived resource that ties that agreement to concrete executions, a grantee, and an expiry. Keeping them apart lets one agreement back several authorizations and prevents the authorization from being (mis)typed as an odrl:Policy. SHACL invariant INV-9 checks that the grantee (daimo:grantedTo) is the odrl:assignee of the agreement it derives from."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
-      {
-        "@id": "https://w3id.org/pionera/daimo"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "execution authorization"
+        "@value": "model deployment"
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
@@ -266,42 +96,13 @@
     "http://www.w3.org/2004/02/skos/core#definition": [
       {
         "@language": "en",
-        "@value": "A governance artefact that binds an accepted odrl:Agreement (via daimo:derivedFromAgreement) to the concrete MLDCAT-AP run invocations it authorises (daimo:authorizesRun), for a specific grantee agent (daimo:grantedTo) and until an expiry timestamp (daimo:expiresAt). The authorization is NOT the agreement itself: it is a separate individual that operationalises a single agreement over one or more executions."
+        "@value": "A running or hosted instance of a machine-learning model exposed through one or more DCAT data services over a named compute infrastructure, under a per-service I/O contract."
       }
     ],
     "http://www.w3.org/2004/02/skos/core#example": [
       {
         "@language": "en",
-        "@value": "After a successful DSP contract negotiation the accepted terms are represented as an odrl:Agreement; a distinct ExecutionAuthorization then declares daimo:derivedFromAgreement that agreement, grants execution to the consumer (daimo:grantedTo), covers one or more runs via daimo:authorizesRun, and expires at a daimo:expiresAt timestamp."
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#datasetVersion",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#DatatypeProperty",
-      "http://www.w3.org/2002/07/owl#FunctionalProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Literal version identifier of the evaluation dataset used by the context. Deliberately not aligned to dct:hasVersion because dct:hasVersion relates a resource to another version resource, whereas DAIMO records the dataset-version token as a literal for reproducible benchmarking."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#SharedEvaluationContext"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "dataset version"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "http://www.w3.org/2001/XMLSchema#string"
+        "@value": "A PlatformOperator that stands up a live inference endpoint for a given model creates a ModelDeployment that (i) deploys the model, (ii) is exposed as one or more dcat:DataServices (e.g., REST + gRPC), (iii) runs on a specific it6:ComputerInfrastructure, and (iv) declares an IOContract per exposed service."
       }
     ]
   },
@@ -335,153 +136,6 @@
     ]
   },
   {
-    "@id": "https://w3id.org/pionera/daimo#TopLevelKindsDisjointness",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#AllDisjointClasses"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Asserts that the nine top-level DAIMO-native kinds are pairwise disjoint. ParticipantRole subclasses are deliberately excluded so that a single agent may simultaneously hold several roles (e.g., a research group acting as both Evaluator and Model Provider)."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "DAIMO top-level kinds pairwise disjointness"
-      }
-    ],
-    "http://www.w3.org/2002/07/owl#members": [
-      {
-        "@list": [
-          {
-            "@id": "https://w3id.org/pionera/daimo#AIAssetOffering"
-          },
-          {
-            "@id": "https://w3id.org/pionera/daimo#ParticipantRole"
-          },
-          {
-            "@id": "https://w3id.org/pionera/daimo#ModelDeployment"
-          },
-          {
-            "@id": "https://w3id.org/pionera/daimo#IOContract"
-          },
-          {
-            "@id": "https://w3id.org/pionera/daimo#ExecutionAuthorization"
-          },
-          {
-            "@id": "https://w3id.org/pionera/daimo#DerivedArtifact"
-          },
-          {
-            "@id": "https://w3id.org/pionera/daimo#AuditEvidence"
-          },
-          {
-            "@id": "https://w3id.org/pionera/daimo#SharedEvaluationContext"
-          },
-          {
-            "@id": "https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#hasDerivedArtifact",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Inverse of daimo:derivedFromRun: from a run, retrieve every derived artifact it produced. Non-functional (a run may produce multiple governed outputs)."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "http://data.europa.eu/it6/Run"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "has derived artifact"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#DerivedArtifact"
-      }
-    ],
-    "http://www.w3.org/2002/07/owl#inverseOf": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#derivedFromRun"
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#SharedEvaluationContext",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#Class"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "A reified grouping of the conditions under which model results are comparable: task, dataset, dataset version, protocol and, when applicable, random seed. Does not claim that those facets alone guarantee comparability (the same metric and compatible conditions are also required), nor that every facet of a study is covered (split strategy, hyperparameters, metric formula). Absence of a seed is not an assertion of complete reproducibility; it records that the declared procedure does not use one. This is the minimum grouping required by CQ-V1..CQ-V3."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
-      {
-        "@id": "https://w3id.org/pionera/daimo"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "shared evaluation context"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@language": "en",
-        "@value": "A reified grouping of the conditions under which model evaluations are comparable: task, dataset, dataset version, evaluation protocol and, when applicable, random seed."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#example": [
-      {
-        "@language": "en",
-        "@value": "Two candidate models evaluated on the same SharedEvaluationContext (identical it6:Task, dcat:Dataset, daimo:datasetVersion, daimo:protocol, and — when the procedure is stochastic — the same daimo:randomSeed) can be ranked on the same metric; changing task, dataset, version or protocol, or comparing under incompatible metrics, breaks comparability. A deterministic protocol such as leave-one-out may omit the seed."
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#hasRole",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Links an agent to a dataspace role. Non-functional: agents may hold multiple roles."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "http://xmlns.com/foaf/0.1/Agent"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "has role"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#ParticipantRole"
-      }
-    ]
-  },
-  {
     "@id": "https://w3id.org/pionera/daimo#protocol",
     "@type": [
       "http://www.w3.org/2002/07/owl#DatatypeProperty",
@@ -511,16 +165,15 @@
     ]
   },
   {
-    "@id": "https://w3id.org/pionera/daimo#deploysModel",
+    "@id": "https://w3id.org/pionera/daimo#onInfrastructure",
     "@type": [
       "http://www.w3.org/2002/07/owl#ObjectProperty",
-      "http://www.w3.org/2002/07/owl#FunctionalProperty",
-      "http://www.w3.org/2002/07/owl#AsymmetricProperty"
+      "http://www.w3.org/2002/07/owl#FunctionalProperty"
     ],
     "http://www.w3.org/2000/01/rdf-schema#comment": [
       {
         "@language": "en",
-        "@value": "Links a deployment to the model it serves. Functional: one deployment serves one model. Asymmetric: a deployment and its model are distinct individuals."
+        "@value": "Links a deployment to the MLDCAT-AP computer infrastructure running it. Functional: one deployment runs on one canonical infrastructure instance (redundancy is modelled as multiple deployments)."
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#domain": [
@@ -531,429 +184,12 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@language": "en",
-        "@value": "deploys model"
+        "@value": "on infrastructure"
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#range": [
       {
-        "@id": "http://data.europa.eu/it6/MachineLearningModel"
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#grantedTo",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty",
-      "http://www.w3.org/2002/07/owl#FunctionalProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Links an execution authorization to the grantee agent it authorises. Functional: one grantee per authorization. Deliberately NOT declared rdfs:subPropertyOf odrl:assignee: odrl:assignee has domain odrl:Policy, so — now that daimo:ExecutionAuthorization is no longer an odrl:Agreement/odrl:Policy — that alignment would re-type every authorization as an odrl:Policy and reintroduce the very conflation DAIMO-ISSUE-02 removes. The intended equivalence (the authorization's grantee IS the odrl:assignee of the agreement it derives from) is instead enforced by SHACL invariant INV-9 rather than by OWL subsumption. Also deliberately NOT aligned to prov:qualifiedAssociation, whose range is a reified prov:Association object, not the agent itself."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#ExecutionAuthorization"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "granted to"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "http://xmlns.com/foaf/0.1/Agent"
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#authorizedBy",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty",
-      "http://www.w3.org/2002/07/owl#FunctionalProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Inverse of daimo:authorizesRun. Functional: each run is authorized by exactly one authorization."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "http://data.europa.eu/it6/Run"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "authorized by"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#ExecutionAuthorization"
-      }
-    ],
-    "http://www.w3.org/2002/07/owl#inverseOf": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#authorizesRun"
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#hasOffering",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Inverse of daimo:offersModel: from a model, retrieve every catalog offering that registers it. Non-functional (the same model may be offered by different providers in different catalogs). Declared rdfs:subPropertyOf foaf:isPrimaryTopicOf for symmetry with daimo:offersModel ⊑ foaf:primaryTopic."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "http://data.europa.eu/it6/MachineLearningModel"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "has offering"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#AIAssetOffering"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#subPropertyOf": [
-      {
-        "@id": "http://xmlns.com/foaf/0.1/isPrimaryTopicOf"
-      }
-    ],
-    "http://www.w3.org/2002/07/owl#inverseOf": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#offersModel"
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#integrityHash",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty",
-      "http://www.w3.org/2002/07/owl#FunctionalProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Links audit evidence to an spdx:Checksum that bundles the algorithm (spdx:algorithm) and the digest value (spdx:checksumValue). Functional: exactly one canonical checksum per evidence record. A plain-string digest without its algorithm cannot be verified, so a structured spdx:Checksum is required rather than an xsd:string."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#AuditEvidence"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "integrity hash"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "http://spdx.org/rdf/terms#Checksum"
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#evidenceOf",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty",
-      "http://www.w3.org/2002/07/owl#FunctionalProperty",
-      "http://www.w3.org/2002/07/owl#AsymmetricProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Links audit evidence to the activity it attests. Functional. Asymmetric: audit evidence is distinct from the activity it records. Deliberately NOT declared a subproperty of prov:hadActivity: that property is used on reified influence/generation/usage objects, not on entities — an AuditEvidence is a prov:Entity that is ABOUT an activity, which PROV-O does not provide a direct property for."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#AuditEvidence"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "evidence of"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "http://www.w3.org/ns/prov#Activity"
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#ModelConsumer",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#Class"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Role of an agent that discovers, negotiates, and invokes AI models offered by a Model Provider."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
-      {
-        "@id": "https://w3id.org/pionera/daimo"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "model consumer"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#ParticipantRole"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@language": "en",
-        "@value": "Role of an agent that discovers, negotiates access to, and invokes AI models offered by a Model Provider."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#example": [
-      {
-        "@language": "en",
-        "@value": "Any agent that receives an ExecutionAuthorization (via daimo:grantedTo) and uses it to invoke runs of a deployed model holds a ModelConsumer role within the corresponding participant context."
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#ParticipantRole",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#Class"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "A dataspace-scoped role taken by a participant with respect to AI assets. Anti-rigid: an agent can gain and lose roles over time. Subclasses are intentionally NOT mutually disjoint — one agent can hold several roles simultaneously (e.g., a research group may be both Evaluator and Model Provider)."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
-      {
-        "@id": "https://w3id.org/pionera/daimo"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "participant role"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@language": "en",
-        "@value": "A dataspace-scoped role played by a participant with respect to AI assets (anti-rigid; an agent gains and loses roles over time)."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#example": [
-      {
-        "@language": "en",
-        "@value": "An agent acting as a Model Provider within a given EDC participant context has a ParticipantRole instance of type ModelProvider connected via daimo:hasRole and scoped by daimo:inParticipantContext."
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#AIAssetOffering",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#Class"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "A catalog-record entry that registers an AI model in a dataspace catalog, bundling the model reference, the providing agent, and an ODRL offer policy. Specialises dcat:CatalogRecord; carries an odrl:Offer via daimo:hasOfferPolicy. In DSP terms this is the catalog-time artefact that becomes a dspace:ContractOffer during negotiation."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
-      {
-        "@id": "https://w3id.org/pionera/daimo"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "AI asset offering"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
-      {
-        "@id": "http://www.w3.org/ns/dcat#CatalogRecord"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@language": "en",
-        "@value": "A catalog-record entry registering an AI model in a dataspace catalog as a governed offer, bundling the model, the issuing agent, and an ODRL offer policy."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#example": [
-      {
-        "@language": "en",
-        "@value": "A research organisation publishing one of its machine-learning models into a dataspace catalog declares an AIAssetOffering that references the model (via offersModel), the organisation itself (via offeredBy), and an ODRL offer policy (via hasOfferPolicy) permitting use and distribution under a specific licence."
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#AuditEvidence",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#Class"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "A compliance-oriented evidence record attached to a governed event, carrying integrity hash, signer, and timestamp."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
-      {
-        "@id": "https://w3id.org/pionera/daimo"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "audit evidence"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
-      {
-        "@id": "http://www.w3.org/ns/prov#Entity"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@language": "en",
-        "@value": "A compliance-oriented evidence record attached to a governed activity, carrying a structured SPDX checksum (algorithm + digest), a signer, and a timestamp."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#example": [
-      {
-        "@language": "en",
-        "@value": "For each run of a deployed model, the PlatformOperator produces an AuditEvidence record that references the run (daimo:evidenceOf), carries a structured spdx:Checksum (algorithm + digest) over the run's outputs (daimo:integrityHash), identifies the signer (daimo:signedBy), and timestamps the sealing (daimo:recordedAt)."
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#inputSchema",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty",
-      "http://www.w3.org/2002/07/owl#FunctionalProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Optional link to a resource describing the input payload schema (JSON Schema, SHACL shape, etc.)."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#IOContract"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "input schema"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "http://www.w3.org/ns/dcat#Resource"
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#Evaluator",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#Class"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Role of an agent that evaluates or compares AI models under a shared evaluation context."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
-      {
-        "@id": "https://w3id.org/pionera/daimo"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "evaluator"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#ParticipantRole"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@language": "en",
-        "@value": "Role of an agent that evaluates or compares AI models under a shared evaluation context."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#example": [
-      {
-        "@language": "en",
-        "@value": "Any agent that produces it6:Evaluation instances linked to a shared SharedEvaluationContext (via daimo:usesEvaluationContext) holds an Evaluator role — for example, a benchmarking team comparing candidate models on the same dataset version, protocol and, when applicable, seed."
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#hasDeployment",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Inverse of daimo:deploysModel: from a model, retrieve every deployment that serves it. Non-functional (a model can have multiple deployments across contexts)."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "http://data.europa.eu/it6/MachineLearningModel"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "has deployment"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#ModelDeployment"
-      }
-    ],
-    "http://www.w3.org/2002/07/owl#inverseOf": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#deploysModel"
+        "@id": "http://data.europa.eu/it6/ComputerInfrastructure"
       }
     ]
   },
@@ -982,188 +218,6 @@
     "http://www.w3.org/2000/01/rdf-schema#range": [
       {
         "@id": "http://www.w3.org/ns/dcat#DataService"
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#ModelProvider",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#Class"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Role of an agent that publishes one or more AI models as governed offerings in a dataspace catalog."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
-      {
-        "@id": "https://w3id.org/pionera/daimo"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "model provider"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#ParticipantRole"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@language": "en",
-        "@value": "Role of an agent that publishes AI models as governed offerings in a dataspace catalog."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#example": [
-      {
-        "@language": "en",
-        "@value": "Any organisation that declares one or more AIAssetOfferings under its own authorship and policy holds a ModelProvider role in the dataspace contexts where those offerings are listed."
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#DerivedArtifact",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#Class"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "A governed, catalog-describable output produced by an it6:Run in a dataspace context, bearing its own provenance and policy."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
-      {
-        "@id": "https://w3id.org/pionera/daimo"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "derived artifact"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
-      {
-        "@id": "http://www.w3.org/ns/prov#Entity"
-      },
-      {
-        "@id": "http://www.w3.org/ns/dcat#Resource"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@language": "en",
-        "@value": "A governed, catalog-describable output produced by a run in a dataspace context, carrying its own provenance pointer and authorisation pointer."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#example": [
-      {
-        "@language": "en",
-        "@value": "When a consumer invokes a deployed model, the run's output (a prediction dataset, a classification result, a generated artefact) is typed as a DerivedArtifact that points back to the producing run (daimo:derivedFromRun) and to the authorisation under which it was produced (daimo:underAuthorization)."
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#IOContract",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#Class"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "The minimum machine-actionable invocation contract for a deployment: the service it applies to (daimo:forService), input format, output format, authentication method, and optional input/output schemas. Binding each contract to exactly one dcat:DataService is what lets a multi-endpoint deployment expose, e.g., a JSON/OAuth2 REST service and a protobuf/mTLS gRPC service without ambiguity."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
-      {
-        "@id": "https://w3id.org/pionera/daimo"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "I/O contract"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@language": "en",
-        "@value": "The minimum machine-actionable invocation contract for a deployment endpoint: the dcat:DataService it applies to (daimo:forService), input media type, output media type, authentication method, and optional input/output schemas."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#example": [
-      {
-        "@language": "en",
-        "@value": "A REST inference endpoint might declare an IOContract with inputFormat \"application/json\", outputFormat \"application/geo+json\", and authMethod \"oauth2-bearer\"; a parallel gRPC endpoint on the same deployment can declare a second IOContract with inputFormat \"application/x-protobuf\" and authMethod \"mtls\"."
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#offeredBy",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty",
-      "http://www.w3.org/2002/07/owl#FunctionalProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Links an offering to the agent that authored the offered AI model (i.e., the model provider). Functional: each offering has exactly one offering agent. Deliberately NOT declared rdfs:subPropertyOf dct:publisher: on a dcat:CatalogRecord, dct:publisher denotes the catalog maintainer (the platform registering the record), not the author of the asset being registered. Conflating them would entail that the catalog-time publisher is the model creator — semantically wrong in a real dataspace where e.g. INESData publishes records authored by UPM."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#AIAssetOffering"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "offered by"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "http://xmlns.com/foaf/0.1/Agent"
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#offersModel",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty",
-      "http://www.w3.org/2002/07/owl#FunctionalProperty",
-      "http://www.w3.org/2002/07/owl#AsymmetricProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Links a catalog-record offering to the AI model it registers. Functional: one offering registers exactly one model. Asymmetric: an offering is distinct from the model it offers."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#AIAssetOffering"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "offers model"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "http://data.europa.eu/it6/MachineLearningModel"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#subPropertyOf": [
-      {
-        "@id": "http://xmlns.com/foaf/0.1/primaryTopic"
       }
     ]
   },
@@ -1215,184 +269,7 @@
     ]
   },
   {
-    "@id": "https://w3id.org/pionera/daimo#randomSeed",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#DatatypeProperty",
-      "http://www.w3.org/2002/07/owl#FunctionalProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Fixes stochastic components of the evaluation procedure when that procedure uses them. Functional: a given SharedEvaluationContext must not declare two incompatible seeds. Optional: SHACL allows cardinality 0..1 because applicability depends on the evaluation procedure, not on a universal DAIMO list of 'stochastic protocols'. Omitting the seed is not a claim of complete reproducibility; it only records that the declared protocol does not use a seed."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#SharedEvaluationContext"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
-      {
-        "@id": "https://w3id.org/pionera/daimo"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "random seed"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "http://www.w3.org/2001/XMLSchema#integer"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@language": "en",
-        "@value": "Integer seed that fixes the stochastic components of an evaluation protocol when that protocol uses them."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#example": [
-      {
-        "@language": "en",
-        "@value": "A holdout or k-fold protocol that shuffles folds records daimo:randomSeed 42; a fully deterministic leave-one-out protocol omits the property."
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#hasAuditEvidence",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Inverse of daimo:evidenceOf: from an activity, retrieve every audit-evidence record attesting it. Non-functional (multiple auditors can independently attest the same activity)."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "http://www.w3.org/ns/prov#Activity"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "has audit evidence"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#AuditEvidence"
-      }
-    ],
-    "http://www.w3.org/2002/07/owl#inverseOf": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#evidenceOf"
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#outputFormat",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#DatatypeProperty",
-      "http://www.w3.org/2002/07/owl#FunctionalProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "IANA media type of the produced output payload (e.g. \"application/geo+json\")."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#IOContract"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "output format"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "http://www.w3.org/2001/XMLSchema#string"
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#inParticipantContext",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty",
-      "http://www.w3.org/2002/07/owl#FunctionalProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Scopes a role assignment to a specific EDC participant context. Functional: a role instance is held within exactly one context."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#ParticipantRole"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "in participant context"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "https://w3id.org/edc/v0.0.1/ns/ParticipantContext"
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#ModelDeployment",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#Class"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "A running or hosted instance of an MLDCAT-AP MachineLearningModel exposed through one or more dcat:DataServices under an operational environment. Each exposed service (daimo:exposedAs) is paired with the I/O contract that describes it (daimo:hasIOContract + daimo:forService); SHACL invariants INV-7 and INV-8 keep that pairing consistent."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
-      {
-        "@id": "https://w3id.org/pionera/daimo"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "model deployment"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
-      {
-        "@id": "http://www.w3.org/ns/prov#Entity"
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#definition": [
-      {
-        "@language": "en",
-        "@value": "A running or hosted instance of a machine-learning model exposed through one or more DCAT data services over a named compute infrastructure, under a per-service I/O contract."
-      }
-    ],
-    "http://www.w3.org/2004/02/skos/core#example": [
-      {
-        "@language": "en",
-        "@value": "A PlatformOperator that stands up a live inference endpoint for a given model creates a ModelDeployment that (i) deploys the model, (ii) is exposed as one or more dcat:DataServices (e.g., REST + gRPC), (iii) runs on a specific it6:ComputerInfrastructure, and (iv) declares an IOContract per exposed service."
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#derivedFromRun",
+    "@id": "https://w3id.org/pionera/daimo#deploysModel",
     "@type": [
       "http://www.w3.org/2002/07/owl#ObjectProperty",
       "http://www.w3.org/2002/07/owl#FunctionalProperty",
@@ -1401,40 +278,7 @@
     "http://www.w3.org/2000/01/rdf-schema#comment": [
       {
         "@language": "en",
-        "@value": "Links a derived artifact to the run that produced it. Functional: each derived artifact has exactly one originating run. Asymmetric: an artifact and its generating run are distinct."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#DerivedArtifact"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "derived from run"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "http://data.europa.eu/it6/Run"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#subPropertyOf": [
-      {
-        "@id": "http://www.w3.org/ns/prov#wasGeneratedBy"
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#hasIOContract",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Links a deployment to its invocation contract(s). Non-functional: a deployment exposing multiple services (see daimo:exposedAs) may carry a distinct IOContract per protocol (e.g., JSON+OAuth2 for REST and protobuf+mTLS for gRPC). Each contract records which exposed service it applies to via daimo:forService, so a multi-service deployment never requires a cartesian join between services and contracts."
+        "@value": "Links a deployment to the model it serves. Functional: one deployment serves one model. Asymmetric: a deployment and its model are distinct individuals."
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#domain": [
@@ -1445,46 +289,57 @@
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@language": "en",
-        "@value": "has I/O contract"
+        "@value": "deploys model"
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#range": [
       {
-        "@id": "https://w3id.org/pionera/daimo#IOContract"
+        "@id": "http://data.europa.eu/it6/MachineLearningModel"
       }
     ]
   },
   {
-    "@id": "https://w3id.org/pionera/daimo#authorizesRun",
+    "@id": "https://w3id.org/pionera/daimo#ModelConsumer",
     "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty",
-      "http://www.w3.org/2002/07/owl#AsymmetricProperty"
+      "http://www.w3.org/2002/07/owl#Class"
     ],
     "http://www.w3.org/2000/01/rdf-schema#comment": [
       {
         "@language": "en",
-        "@value": "Links an authorization to a run it permits. Non-functional: a single authorization can cover multiple runs (e.g., subscription-style access). Asymmetric: an authorization is distinct from any run it authorises. Deliberately NOT declared a subproperty of prov:used: a daimo:ExecutionAuthorization is a governed artefact (a prov:Entity), not a prov:Activity; the prov:used domain would incorrectly force ExecutionAuthorization ⊑ prov:Activity."
+        "@value": "Role of an agent that discovers, negotiates, and invokes AI models offered by a Model Provider."
       }
     ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
+    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
       {
-        "@id": "https://w3id.org/pionera/daimo#ExecutionAuthorization"
+        "@id": "https://w3id.org/pionera/daimo"
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@language": "en",
-        "@value": "authorizes run"
+        "@value": "model consumer"
       }
     ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
       {
-        "@id": "http://data.europa.eu/it6/Run"
+        "@id": "https://w3id.org/pionera/daimo#ParticipantRole"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@language": "en",
+        "@value": "Role of an agent that discovers, negotiates access to, and invokes AI models offered by a Model Provider."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#example": [
+      {
+        "@language": "en",
+        "@value": "Any agent that receives an ExecutionAuthorization (via daimo:grantedTo) and uses it to invoke runs of a deployed model holds a ModelConsumer role within the corresponding participant context."
       }
     ]
   },
   {
-    "@id": "https://w3id.org/pionera/daimo#underAuthorization",
+    "@id": "https://w3id.org/pionera/daimo#hasOfferPolicy",
     "@type": [
       "http://www.w3.org/2002/07/owl#ObjectProperty",
       "http://www.w3.org/2002/07/owl#FunctionalProperty"
@@ -1492,23 +347,166 @@
     "http://www.w3.org/2000/01/rdf-schema#comment": [
       {
         "@language": "en",
-        "@value": "Links a derived artifact to the authorisation under which it was produced. Functional."
+        "@value": "Links an offering to the ODRL offer policy that governs the offered model. Functional: each offering carries exactly one canonical offer policy."
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#domain": [
       {
-        "@id": "https://w3id.org/pionera/daimo#DerivedArtifact"
+        "@id": "https://w3id.org/pionera/daimo#AIAssetOffering"
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@language": "en",
-        "@value": "under authorization"
+        "@value": "has offer policy"
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#range": [
       {
-        "@id": "https://w3id.org/pionera/daimo#ExecutionAuthorization"
+        "@id": "http://www.w3.org/ns/odrl/2/Offer"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subPropertyOf": [
+      {
+        "@id": "http://www.w3.org/ns/odrl/2/hasPolicy"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#offeredBy",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "http://www.w3.org/2002/07/owl#FunctionalProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Links an offering to the agent that authored the offered AI model (i.e., the model provider). Functional: each offering has exactly one offering agent. Deliberately NOT declared rdfs:subPropertyOf dct:publisher: on a dcat:CatalogRecord, dct:publisher denotes the catalog maintainer (the platform registering the record), not the author of the asset being registered. Conflating them would entail that the catalog-time publisher is the model creator — semantically wrong in a real dataspace where e.g. INESData publishes records authored by UPM."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#AIAssetOffering"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "offered by"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://xmlns.com/foaf/0.1/Agent"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#GovernanceActor",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Role of an agent that audits execution evidence, enforces compliance obligations, and validates governance across the dataspace."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
+      {
+        "@id": "https://w3id.org/pionera/daimo"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "governance actor"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#ParticipantRole"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@language": "en",
+        "@value": "Role of an agent that audits execution evidence, enforces compliance obligations, and validates governance across the dataspace."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#example": [
+      {
+        "@language": "en",
+        "@value": "An external compliance body that reads CrossParticipantProvenanceRecord bundles and AuditEvidence records to verify lawful execution holds a GovernanceActor role — for example, a regulator or a conformance-labelling body."
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#inputSchema",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "http://www.w3.org/2002/07/owl#FunctionalProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Optional link to a resource describing the input payload schema (JSON Schema, SHACL shape, etc.)."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#IOContract"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "input schema"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/ns/dcat#Resource"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#ExecutionAuthorization",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "A governed authorisation resource (a prov:Entity) that links exactly one accepted odrl:Agreement (daimo:derivedFromAgreement) to the it6:Run invocations it permits. Deliberately NOT a subclass of odrl:Agreement: the agreement is the negotiated policy artefact that carries the ODRL permissions, whereas the authorization is the derived resource that ties that agreement to concrete executions, a grantee, and an expiry. Keeping them apart lets one agreement back several authorizations and prevents the authorization from being (mis)typed as an odrl:Policy. SHACL invariant INV-9 checks that the grantee (daimo:grantedTo) is the odrl:assignee of the agreement it derives from."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
+      {
+        "@id": "https://w3id.org/pionera/daimo"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "execution authorization"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://www.w3.org/ns/prov#Entity"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@language": "en",
+        "@value": "A governance artefact that binds an accepted odrl:Agreement (via daimo:derivedFromAgreement) to the concrete MLDCAT-AP run invocations it authorises (daimo:authorizesRun), for a specific grantee agent (daimo:grantedTo) and until an expiry timestamp (daimo:expiresAt). The authorization is NOT the agreement itself: it is a separate individual that operationalises a single agreement over one or more executions."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#example": [
+      {
+        "@language": "en",
+        "@value": "After a successful DSP contract negotiation the accepted terms are represented as an odrl:Agreement; a distinct ExecutionAuthorization then declares daimo:derivedFromAgreement that agreement, grants execution to the consumer (daimo:grantedTo), covers one or more runs via daimo:authorizesRun, and expires at a daimo:expiresAt timestamp."
       }
     ]
   },
@@ -1529,10 +527,10 @@
     ],
     "http://purl.org/dc/terms/creator": [
       {
-        "@id": "_:ne83e70ac7f56477da30889730e5f818db1"
+        "@id": "_:nf9b60b6f97bc4bee98a7f002d384cdf8b1"
       },
       {
-        "@id": "_:ne83e70ac7f56477da30889730e5f818db2"
+        "@id": "_:nf9b60b6f97bc4bee98a7f002d384cdf8b2"
       }
     ],
     "http://purl.org/dc/terms/description": [
@@ -1613,7 +611,7 @@
     ]
   },
   {
-    "@id": "_:ne83e70ac7f56477da30889730e5f818db1",
+    "@id": "_:nf9b60b6f97bc4bee98a7f002d384cdf8b1",
     "@type": [
       "http://xmlns.com/foaf/0.1/Person"
     ],
@@ -1630,7 +628,7 @@
     ]
   },
   {
-    "@id": "_:ne83e70ac7f56477da30889730e5f818db2",
+    "@id": "_:nf9b60b6f97bc4bee98a7f002d384cdf8b2",
     "@type": [
       "http://xmlns.com/foaf/0.1/Person"
     ],
@@ -1638,6 +636,649 @@
       {
         "@language": "en",
         "@value": "Jiayun Liu"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#hasDerivedArtifact",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Inverse of daimo:derivedFromRun: from a run, retrieve every derived artifact it produced. Non-functional (a run may produce multiple governed outputs)."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://data.europa.eu/it6/Run"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "has derived artifact"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#DerivedArtifact"
+      }
+    ],
+    "http://www.w3.org/2002/07/owl#inverseOf": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#derivedFromRun"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#records",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Links a cross-participant provenance bundle to each prov:Activity that forms part of the audit-ready narrative."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "records"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/ns/prov#Activity"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#randomSeed",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "http://www.w3.org/2002/07/owl#FunctionalProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Fixes stochastic components of the evaluation procedure when that procedure uses them. Functional: a given SharedEvaluationContext must not declare two incompatible seeds. Optional: SHACL allows cardinality 0..1 because applicability depends on the evaluation procedure, not on a universal DAIMO list of 'stochastic protocols'. Omitting the seed is not a claim of complete reproducibility; it only records that the declared protocol does not use a seed."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#SharedEvaluationContext"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
+      {
+        "@id": "https://w3id.org/pionera/daimo"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "random seed"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#integer"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@language": "en",
+        "@value": "Integer seed that fixes the stochastic components of an evaluation protocol when that protocol uses them."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#example": [
+      {
+        "@language": "en",
+        "@value": "A holdout or k-fold protocol that shuffles folds records daimo:randomSeed 42; a fully deterministic leave-one-out protocol omits the property."
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#expiresAt",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "http://www.w3.org/2002/07/owl#FunctionalProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Expiry timestamp of the execution authorisation — the operational window during which the derived authorization may cover runs. The accepted odrl:Agreement may carry its own ODRL constraints; expiry of the authorization is recorded here, not on the agreement."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#ExecutionAuthorization"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "expires at"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#dateTime"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#offersModel",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "http://www.w3.org/2002/07/owl#FunctionalProperty",
+      "http://www.w3.org/2002/07/owl#AsymmetricProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Links a catalog-record offering to the AI model it registers. Functional: one offering registers exactly one model. Asymmetric: an offering is distinct from the model it offers."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#AIAssetOffering"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "offers model"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://data.europa.eu/it6/MachineLearningModel"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subPropertyOf": [
+      {
+        "@id": "http://xmlns.com/foaf/0.1/primaryTopic"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#AuditEvidence",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "A compliance-oriented evidence record attached to a governed event, carrying integrity hash, signer, and timestamp."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
+      {
+        "@id": "https://w3id.org/pionera/daimo"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "audit evidence"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://www.w3.org/ns/prov#Entity"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@language": "en",
+        "@value": "A compliance-oriented evidence record attached to a governed activity, carrying a structured SPDX checksum (algorithm + digest), a signer, and a timestamp."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#example": [
+      {
+        "@language": "en",
+        "@value": "For each run of a deployed model, the PlatformOperator produces an AuditEvidence record that references the run (daimo:evidenceOf), carries a structured spdx:Checksum (algorithm + digest) over the run's outputs (daimo:integrityHash), identifies the signer (daimo:signedBy), and timestamps the sealing (daimo:recordedAt)."
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#contextFlow",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "http://www.w3.org/2002/07/owl#FunctionalProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "The it6:Flow (pipeline / reproducibility artefact) referenced by the evaluation context. Functional. Not declared a subproperty of it6:hasFlow because the evaluation context is not itself a run."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#SharedEvaluationContext"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "context flow"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://data.europa.eu/it6/Flow"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#SharedEvaluationContext",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "A reified grouping of the conditions under which model results are comparable: task, dataset, dataset version, protocol and, when applicable, random seed. Does not claim that those facets alone guarantee comparability (the same metric and compatible conditions are also required), nor that every facet of a study is covered (split strategy, hyperparameters, metric formula). Absence of a seed is not an assertion of complete reproducibility; it records that the declared procedure does not use one. This is the minimum grouping required by CQ-V1..CQ-V3."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
+      {
+        "@id": "https://w3id.org/pionera/daimo"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "shared evaluation context"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@language": "en",
+        "@value": "A reified grouping of the conditions under which model evaluations are comparable: task, dataset, dataset version, evaluation protocol and, when applicable, random seed."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#example": [
+      {
+        "@language": "en",
+        "@value": "Two candidate models evaluated on the same SharedEvaluationContext (identical it6:Task, dcat:Dataset, daimo:datasetVersion, daimo:protocol, and — when the procedure is stochastic — the same daimo:randomSeed) can be ranked on the same metric; changing task, dataset, version or protocol, or comparing under incompatible metrics, breaks comparability. A deterministic protocol such as leave-one-out may omit the seed."
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#contextDataset",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "http://www.w3.org/2002/07/owl#FunctionalProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "The dcat:Dataset the evaluation context is defined over. Functional. Not declared a subproperty of it6:trainedOn because an evaluation-context dataset is an evaluation dataset, not necessarily a training dataset."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#SharedEvaluationContext"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "context dataset"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/ns/dcat#Dataset"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#hasAuditEvidence",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Inverse of daimo:evidenceOf: from an activity, retrieve every audit-evidence record attesting it. Non-functional (multiple auditors can independently attest the same activity)."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://www.w3.org/ns/prov#Activity"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "has audit evidence"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#AuditEvidence"
+      }
+    ],
+    "http://www.w3.org/2002/07/owl#inverseOf": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#evidenceOf"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#forService",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "http://www.w3.org/2002/07/owl#FunctionalProperty",
+      "http://www.w3.org/2002/07/owl#AsymmetricProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Links an I/O contract to the specific dcat:DataService endpoint it applies to. Functional: each contract describes exactly one service (several contracts may still describe the same service if a real need arises, e.g. distinct authentication variants, but a single contract targets one service). Asymmetric: a contract and the service it describes are distinct individuals. Introduced to remove the ambiguity that appears when a ModelDeployment exposes several services (daimo:exposedAs) and declares several contracts (daimo:hasIOContract) with no per-endpoint link, which otherwise forces CQ-R4/CQ-D3/CQ-E1/CQ-G2 into a cartesian join between services and contracts. No external property (e.g. dcat:endpointDescription) carries this exact meaning; see alignment.ttl for the non-alignment rationale."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#IOContract"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
+      {
+        "@id": "https://w3id.org/pionera/daimo"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "for service"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/ns/dcat#DataService"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@language": "en",
+        "@value": "The DCAT data service (deployment endpoint) that a given I/O contract describes."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#example": [
+      {
+        "@language": "en",
+        "@value": "On a deployment exposing a REST endpoint and a gRPC endpoint, the REST IOContract (application/json, oauth2-bearer) declares daimo:forService the REST dcat:DataService and the gRPC IOContract (application/x-protobuf, mtls) declares daimo:forService the gRPC dcat:DataService, so each endpoint's format and authentication method are unambiguous."
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#spansParticipantContext",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Links a cross-participant provenance bundle to each participant context whose activities or entities it records. A record must span at least two contexts (enforced by SHACL)."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "spans participant context"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "https://w3id.org/edc/v0.0.1/ns/ParticipantContext"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#usesEvaluationContext",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "http://www.w3.org/2002/07/owl#FunctionalProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Links an it6:Evaluation to the shared evaluation context under which its results are comparable to other evaluations. Functional."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://data.europa.eu/it6/Evaluation"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "uses evaluation context"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#SharedEvaluationContext"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#ModelProvider",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Role of an agent that publishes one or more AI models as governed offerings in a dataspace catalog."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
+      {
+        "@id": "https://w3id.org/pionera/daimo"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "model provider"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#ParticipantRole"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@language": "en",
+        "@value": "Role of an agent that publishes AI models as governed offerings in a dataspace catalog."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#example": [
+      {
+        "@language": "en",
+        "@value": "Any organisation that declares one or more AIAssetOfferings under its own authorship and policy holds a ModelProvider role in the dataspace contexts where those offerings are listed."
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#Evaluator",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Role of an agent that evaluates or compares AI models under a shared evaluation context."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
+      {
+        "@id": "https://w3id.org/pionera/daimo"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "evaluator"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#ParticipantRole"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@language": "en",
+        "@value": "Role of an agent that evaluates or compares AI models under a shared evaluation context."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#example": [
+      {
+        "@language": "en",
+        "@value": "Any agent that produces it6:Evaluation instances linked to a shared SharedEvaluationContext (via daimo:usesEvaluationContext) holds an Evaluator role — for example, a benchmarking team comparing candidate models on the same dataset version, protocol and, when applicable, seed."
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#grantedTo",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "http://www.w3.org/2002/07/owl#FunctionalProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Links an execution authorization to the grantee agent it authorises. Functional: one grantee per authorization. Deliberately NOT declared rdfs:subPropertyOf odrl:assignee: odrl:assignee has domain odrl:Policy, so — now that daimo:ExecutionAuthorization is no longer an odrl:Agreement/odrl:Policy — that alignment would re-type every authorization as an odrl:Policy and reintroduce the very conflation DAIMO-ISSUE-02 removes. The intended equivalence (the authorization's grantee IS the odrl:assignee of the agreement it derives from) is instead enforced by SHACL invariant INV-9 rather than by OWL subsumption. Also deliberately NOT aligned to prov:qualifiedAssociation, whose range is a reified prov:Association object, not the agent itself."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#ExecutionAuthorization"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "granted to"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://xmlns.com/foaf/0.1/Agent"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#derivedFromRun",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "http://www.w3.org/2002/07/owl#FunctionalProperty",
+      "http://www.w3.org/2002/07/owl#AsymmetricProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Links a derived artifact to the run that produced it. Functional: each derived artifact has exactly one originating run. Asymmetric: an artifact and its generating run are distinct."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#DerivedArtifact"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "derived from run"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://data.europa.eu/it6/Run"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subPropertyOf": [
+      {
+        "@id": "http://www.w3.org/ns/prov#wasGeneratedBy"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#evidenceOf",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "http://www.w3.org/2002/07/owl#FunctionalProperty",
+      "http://www.w3.org/2002/07/owl#AsymmetricProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Links audit evidence to the activity it attests. Functional. Asymmetric: audit evidence is distinct from the activity it records. Deliberately NOT declared a subproperty of prov:hadActivity: that property is used on reified influence/generation/usage objects, not on entities — an AuditEvidence is a prov:Entity that is ABOUT an activity, which PROV-O does not provide a direct property for."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#AuditEvidence"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "evidence of"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/ns/prov#Activity"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#hasRole",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Links an agent to a dataspace role. Non-functional: agents may hold multiple roles."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://xmlns.com/foaf/0.1/Agent"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "has role"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#ParticipantRole"
       }
     ]
   },
@@ -1682,7 +1323,7 @@
     ]
   },
   {
-    "@id": "https://w3id.org/pionera/daimo#recordedAt",
+    "@id": "https://w3id.org/pionera/daimo#inputFormat",
     "@type": [
       "http://www.w3.org/2002/07/owl#DatatypeProperty",
       "http://www.w3.org/2002/07/owl#FunctionalProperty"
@@ -1690,171 +1331,23 @@
     "http://www.w3.org/2000/01/rdf-schema#comment": [
       {
         "@language": "en",
-        "@value": "Timestamp at which the audit evidence was sealed."
+        "@value": "IANA media type of the expected input payload (e.g. \"application/json\")."
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#domain": [
       {
-        "@id": "https://w3id.org/pionera/daimo#AuditEvidence"
+        "@id": "https://w3id.org/pionera/daimo#IOContract"
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@language": "en",
-        "@value": "recorded at"
+        "@value": "input format"
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#range": [
       {
-        "@id": "http://www.w3.org/2001/XMLSchema#dateTime"
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#spansParticipantContext",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Links a cross-participant provenance bundle to each participant context whose activities or entities it records. A record must span at least two contexts (enforced by SHACL)."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "spans participant context"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "https://w3id.org/edc/v0.0.1/ns/ParticipantContext"
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#hasOfferPolicy",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty",
-      "http://www.w3.org/2002/07/owl#FunctionalProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Links an offering to the ODRL offer policy that governs the offered model. Functional: each offering carries exactly one canonical offer policy."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#AIAssetOffering"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "has offer policy"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "http://www.w3.org/ns/odrl/2/Offer"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#subPropertyOf": [
-      {
-        "@id": "http://www.w3.org/ns/odrl/2/hasPolicy"
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#records",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Links a cross-participant provenance bundle to each prov:Activity that forms part of the audit-ready narrative."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "records"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "http://www.w3.org/ns/prov#Activity"
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#signedBy",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty",
-      "http://www.w3.org/2002/07/owl#FunctionalProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "Functional: one signer per evidence record."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#AuditEvidence"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "signed by"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "http://xmlns.com/foaf/0.1/Agent"
-      }
-    ]
-  },
-  {
-    "@id": "https://w3id.org/pionera/daimo#contextDataset",
-    "@type": [
-      "http://www.w3.org/2002/07/owl#ObjectProperty",
-      "http://www.w3.org/2002/07/owl#FunctionalProperty"
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#comment": [
-      {
-        "@language": "en",
-        "@value": "The dcat:Dataset the evaluation context is defined over. Functional. Not declared a subproperty of it6:trainedOn because an evaluation-context dataset is an evaluation dataset, not necessarily a training dataset."
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#domain": [
-      {
-        "@id": "https://w3id.org/pionera/daimo#SharedEvaluationContext"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#label": [
-      {
-        "@language": "en",
-        "@value": "context dataset"
-      }
-    ],
-    "http://www.w3.org/2000/01/rdf-schema#range": [
-      {
-        "@id": "http://www.w3.org/ns/dcat#Dataset"
+        "@id": "http://www.w3.org/2001/XMLSchema#string"
       }
     ]
   },
@@ -1888,7 +1381,100 @@
     ]
   },
   {
-    "@id": "https://w3id.org/pionera/daimo#onInfrastructure",
+    "@id": "https://w3id.org/pionera/daimo#ParticipantRole",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "A dataspace-scoped role taken by a participant with respect to AI assets. Anti-rigid: an agent can gain and lose roles over time. Subclasses are intentionally NOT mutually disjoint — one agent can hold several roles simultaneously (e.g., a research group may be both Evaluator and Model Provider)."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
+      {
+        "@id": "https://w3id.org/pionera/daimo"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "participant role"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@language": "en",
+        "@value": "A dataspace-scoped role played by a participant with respect to AI assets (anti-rigid; an agent gains and loses roles over time)."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#example": [
+      {
+        "@language": "en",
+        "@value": "An agent acting as a Model Provider within a given EDC participant context has a ParticipantRole instance of type ModelProvider connected via daimo:hasRole and scoped by daimo:inParticipantContext."
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#datasetVersion",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "http://www.w3.org/2002/07/owl#FunctionalProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Literal version identifier of the evaluation dataset used by the context. Deliberately not aligned to dct:hasVersion because dct:hasVersion relates a resource to another version resource, whereas DAIMO records the dataset-version token as a literal for reproducible benchmarking."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#SharedEvaluationContext"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "dataset version"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#string"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#authorizesRun",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "http://www.w3.org/2002/07/owl#AsymmetricProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Links an authorization to a run it permits. Non-functional: a single authorization can cover multiple runs (e.g., subscription-style access). Asymmetric: an authorization is distinct from any run it authorises. Deliberately NOT declared a subproperty of prov:used: a daimo:ExecutionAuthorization is a governed artefact (a prov:Entity), not a prov:Activity; the prov:used domain would incorrectly force ExecutionAuthorization ⊑ prov:Activity."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#ExecutionAuthorization"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "authorizes run"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://data.europa.eu/it6/Run"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#inParticipantContext",
     "@type": [
       "http://www.w3.org/2002/07/owl#ObjectProperty",
       "http://www.w3.org/2002/07/owl#FunctionalProperty"
@@ -1896,23 +1482,302 @@
     "http://www.w3.org/2000/01/rdf-schema#comment": [
       {
         "@language": "en",
-        "@value": "Links a deployment to the MLDCAT-AP computer infrastructure running it. Functional: one deployment runs on one canonical infrastructure instance (redundancy is modelled as multiple deployments)."
+        "@value": "Scopes a role assignment to a specific EDC participant context. Functional: a role instance is held within exactly one context."
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#domain": [
       {
-        "@id": "https://w3id.org/pionera/daimo#ModelDeployment"
+        "@id": "https://w3id.org/pionera/daimo#ParticipantRole"
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#label": [
       {
         "@language": "en",
-        "@value": "on infrastructure"
+        "@value": "in participant context"
       }
     ],
     "http://www.w3.org/2000/01/rdf-schema#range": [
       {
-        "@id": "http://data.europa.eu/it6/ComputerInfrastructure"
+        "@id": "https://w3id.org/edc/v0.0.1/ns/ParticipantContext"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#underAuthorization",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "http://www.w3.org/2002/07/owl#FunctionalProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Links a derived artifact to the authorisation under which it was produced. Functional."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#DerivedArtifact"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "under authorization"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#ExecutionAuthorization"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#TopLevelKindsDisjointness",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#AllDisjointClasses"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Asserts that the nine top-level DAIMO-native kinds are pairwise disjoint. ParticipantRole subclasses are deliberately excluded so that a single agent may simultaneously hold several roles (e.g., a research group acting as both Evaluator and Model Provider)."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "DAIMO top-level kinds pairwise disjointness"
+      }
+    ],
+    "http://www.w3.org/2002/07/owl#members": [
+      {
+        "@list": [
+          {
+            "@id": "https://w3id.org/pionera/daimo#AIAssetOffering"
+          },
+          {
+            "@id": "https://w3id.org/pionera/daimo#ParticipantRole"
+          },
+          {
+            "@id": "https://w3id.org/pionera/daimo#ModelDeployment"
+          },
+          {
+            "@id": "https://w3id.org/pionera/daimo#IOContract"
+          },
+          {
+            "@id": "https://w3id.org/pionera/daimo#ExecutionAuthorization"
+          },
+          {
+            "@id": "https://w3id.org/pionera/daimo#DerivedArtifact"
+          },
+          {
+            "@id": "https://w3id.org/pionera/daimo#AuditEvidence"
+          },
+          {
+            "@id": "https://w3id.org/pionera/daimo#SharedEvaluationContext"
+          },
+          {
+            "@id": "https://w3id.org/pionera/daimo#CrossParticipantProvenanceRecord"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#recordedAt",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "http://www.w3.org/2002/07/owl#FunctionalProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Timestamp at which the audit evidence was sealed."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#AuditEvidence"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "recorded at"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#dateTime"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#DerivedArtifact",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "A governed, catalog-describable output produced by an it6:Run in a dataspace context, bearing its own provenance and policy."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
+      {
+        "@id": "https://w3id.org/pionera/daimo"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "derived artifact"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://www.w3.org/ns/prov#Entity"
+      },
+      {
+        "@id": "http://www.w3.org/ns/dcat#Resource"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@language": "en",
+        "@value": "A governed, catalog-describable output produced by a run in a dataspace context, carrying its own provenance pointer and authorisation pointer."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#example": [
+      {
+        "@language": "en",
+        "@value": "When a consumer invokes a deployed model, the run's output (a prediction dataset, a classification result, a generated artefact) is typed as a DerivedArtifact that points back to the producing run (daimo:derivedFromRun) and to the authorisation under which it was produced (daimo:underAuthorization)."
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#AIAssetOffering",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "A catalog-record entry that registers an AI model in a dataspace catalog, bundling the model reference, the providing agent, and an ODRL offer policy. Specialises dcat:CatalogRecord; carries an odrl:Offer via daimo:hasOfferPolicy. In DSP terms this is the catalog-time artefact that becomes a dspace:ContractOffer during negotiation."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
+      {
+        "@id": "https://w3id.org/pionera/daimo"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "AI asset offering"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://www.w3.org/ns/dcat#CatalogRecord"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@language": "en",
+        "@value": "A catalog-record entry registering an AI model in a dataspace catalog as a governed offer, bundling the model, the issuing agent, and an ODRL offer policy."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#example": [
+      {
+        "@language": "en",
+        "@value": "A research organisation publishing one of its machine-learning models into a dataspace catalog declares an AIAssetOffering that references the model (via offersModel), the organisation itself (via offeredBy), and an ODRL offer policy (via hasOfferPolicy) permitting use and distribution under a specific licence."
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#integrityHash",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "http://www.w3.org/2002/07/owl#FunctionalProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Links audit evidence to an spdx:Checksum that bundles the algorithm (spdx:algorithm) and the digest value (spdx:checksumValue). Functional: exactly one canonical checksum per evidence record. A plain-string digest without its algorithm cannot be verified, so a structured spdx:Checksum is required rather than an xsd:string."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#AuditEvidence"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "integrity hash"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://spdx.org/rdf/terms#Checksum"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#outputFormat",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#DatatypeProperty",
+      "http://www.w3.org/2002/07/owl#FunctionalProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "IANA media type of the produced output payload (e.g. \"application/geo+json\")."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#IOContract"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "output format"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#string"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#signedBy",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "http://www.w3.org/2002/07/owl#FunctionalProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Functional: one signer per evidence record."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#AuditEvidence"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "signed by"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://xmlns.com/foaf/0.1/Agent"
       }
     ]
   },
@@ -1953,6 +1818,141 @@
       {
         "@language": "en",
         "@value": "A dataspace platform provider hosting one or more ModelDeployments, signing AuditEvidence records, and running the EDC connector acts as a PlatformOperator in each participant context it administers."
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#hasIOContract",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Links a deployment to its invocation contract(s). Non-functional: a deployment exposing multiple services (see daimo:exposedAs) may carry a distinct IOContract per protocol (e.g., JSON+OAuth2 for REST and protobuf+mTLS for gRPC). Each contract records which exposed service it applies to via daimo:forService, so a multi-service deployment never requires a cartesian join between services and contracts."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#ModelDeployment"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "has I/O contract"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#IOContract"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#IOContract",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "The minimum machine-actionable invocation contract for a deployment: the service it applies to (daimo:forService), input format, output format, authentication method, and optional input/output schemas. Binding each contract to exactly one dcat:DataService is what lets a multi-endpoint deployment expose, e.g., a JSON/OAuth2 REST service and a protobuf/mTLS gRPC service without ambiguity."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
+      {
+        "@id": "https://w3id.org/pionera/daimo"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "I/O contract"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#definition": [
+      {
+        "@language": "en",
+        "@value": "The minimum machine-actionable invocation contract for a deployment endpoint: the dcat:DataService it applies to (daimo:forService), input media type, output media type, authentication method, and optional input/output schemas."
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#example": [
+      {
+        "@language": "en",
+        "@value": "A REST inference endpoint might declare an IOContract with inputFormat \"application/json\", outputFormat \"application/geo+json\", and authMethod \"oauth2-bearer\"; a parallel gRPC endpoint on the same deployment can declare a second IOContract with inputFormat \"application/x-protobuf\" and authMethod \"mtls\"."
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#authorizedBy",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty",
+      "http://www.w3.org/2002/07/owl#FunctionalProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Inverse of daimo:authorizesRun. Functional: each run is authorized by exactly one authorization."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://data.europa.eu/it6/Run"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "authorized by"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#ExecutionAuthorization"
+      }
+    ],
+    "http://www.w3.org/2002/07/owl#inverseOf": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#authorizesRun"
+      }
+    ]
+  },
+  {
+    "@id": "https://w3id.org/pionera/daimo#hasOffering",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#ObjectProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@language": "en",
+        "@value": "Inverse of daimo:offersModel: from a model, retrieve every catalog offering that registers it. Non-functional (the same model may be offered by different providers in different catalogs). Declared rdfs:subPropertyOf foaf:isPrimaryTopicOf for symmetry with daimo:offersModel ⊑ foaf:primaryTopic."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://data.europa.eu/it6/MachineLearningModel"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@language": "en",
+        "@value": "has offering"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#AIAssetOffering"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subPropertyOf": [
+      {
+        "@id": "http://xmlns.com/foaf/0.1/isPrimaryTopicOf"
+      }
+    ],
+    "http://www.w3.org/2002/07/owl#inverseOf": [
+      {
+        "@id": "https://w3id.org/pionera/daimo#offersModel"
       }
     ]
   }

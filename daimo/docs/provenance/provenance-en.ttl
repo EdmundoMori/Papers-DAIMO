@@ -9,7 +9,7 @@
 	 prov:wasAttributedTo <https://ror.org/03n6nwv02>;
 	 dc:contributor <https://ror.org/03n6nwv02>;
 	 prov:wasAttributedTo <https://github.com/dgarijo/Widoco/>,<http://www.essepuntato.it/lode/>;
-	 prov:wasRevisionOf <https://w3id.org/pionera/daimo/0.1.5>;
+	 prov:wasRevisionOf <https://w3id.org/pionera/daimo/0.1.6>;
 .
 :agent0 a prov:Agent; foaf:name "Edmundo de Elvira Mori Orrillo".
 :agent1 a prov:Agent; foaf:name "Jiayun Liu".

@@ -3,13 +3,15 @@
 ## Status summary
 | ID | Issue | Status | Base commit | Main files changed | Validation | Residual risk |
 |---|---|---|---|---|---|---|
-| DAIMO-ISSUE-01 | Unambiguous DataService–IOContract association | **RESOLVED** | `c525c79` | ontology, shapes, example, negatives, queries, benchmark, reports, docs 00–03, ORSD, CHANGELOG, evidence-matrix | SHACL conforms=True; 23/23 CQs; CQ-D3/CQ-E1 = 2 rows; INV-7/INV-8 fire; HermiT consistent | WIDOCO site under `daimo/docs/` not regenerated |
-| DAIMO-ISSUE-02 | Separation of execution authorization and ODRL agreement | **RESOLVED** | `2ae0c6d` | ontology, shapes, example, negatives, CQs, `validate.py`, `reasoner_check.py`, benchmark, reports, docs 00–04, ORSD, CHANGELOG, evidence-matrix, CHOWLK guide | SHACL conforms=True; 23/23 CQs; CQ-G3 = 1 distinct auth≠agreement row; 11/11 negative checks; HermiT consistent; 0 forbidden entailments; benchmark 100/1000 conform | OOPS! timed out; WIDOCO copies under `daimo/docs/` still show `⊑ odrl:Agreement` |
-| DAIMO-ISSUE-03 | Optional random seed when applicable | **RESOLVED** | `2ae0c6d` (working tree also holds ISSUE-02) | `daimo-core.ttl`, `daimo-shapes.ttl`, `queries.md`, `random_seed_test.py` + seed graphs, ORSD, docs 00–04, CHANGELOG, evidence-matrix | SHACL 0 seed conforms; 2 seeds / non-integer rejected; CQ-V1 OPTIONAL unbound on seedless graph; 23/23 CQs; flood-risk still conforms with seed 42 | No universal stochastic-protocol list (by design); WIDOCO not regenerated; no commit/push |
-| DAIMO-ISSUE-04 | Scope of SHACL rules over reused classes | **RESOLVED** | `2ae0c6d` (working tree holds 02–04) | `daimo-shapes.ttl`, `tests/reused_class_scope_test.py` + fixtures, docs 00–04, CHANGELOG, evidence-matrix | 9-cell matrix PASS (mixed complete graph); flood-risk conforms; 11/11 negatives; 23/23 CQs; HermiT 1.46 s | WIDOCO copies still use `sh:targetClass`; INV-2 still `targetClass it6:Run` (SPARQL self-scopes); OOPS! timeout; no commit/push |
+| DAIMO-ISSUE-01 | Unambiguous DataService–IOContract association | **RESOLVED** | `c525c79` | ontology, shapes, example, negatives, queries, benchmark, reports, docs 00–03, ORSD, CHANGELOG, evidence-matrix | SHACL conforms=True; 23/23 CQs; CQ-D3/CQ-E1 = 2 rows; INV-7/INV-8 fire; HermiT consistent | Historical residual (WIDOCO not regenerated at issue time) closed on 2026-09-06 |
+| DAIMO-ISSUE-02 | Separation of execution authorization and ODRL agreement | **RESOLVED** | `2ae0c6d` | ontology, shapes, example, negatives, CQs, `validate.py`, `reasoner_check.py`, benchmark, reports, docs 00–04, ORSD, CHANGELOG, evidence-matrix, CHOWLK guide | SHACL conforms=True; 23/23 CQs; CQ-G3 = 1 distinct auth≠agreement row; 11/11 negative checks; HermiT consistent; 0 forbidden entailments; benchmark 100/1000 conform | OOPS! still timed out historically; WIDOCO HTML regenerated 2026-09-06 (authorization documented as `prov:Entity`, not a subclass of `odrl:Agreement`) |
+| DAIMO-ISSUE-03 | Optional random seed when applicable | **RESOLVED** | `2ae0c6d` (working tree also holds ISSUE-02) | `daimo-core.ttl`, `daimo-shapes.ttl`, `queries.md`, `random_seed_test.py` + seed graphs, ORSD, docs 00–04, CHANGELOG, evidence-matrix | SHACL 0 seed conforms; 2 seeds / non-integer rejected; CQ-V1 OPTIONAL unbound on seedless graph; 23/23 CQs; flood-risk still conforms with seed 42 | No universal stochastic-protocol list (by design); WIDOCO regenerated 2026-09-06 |
+| DAIMO-ISSUE-04 | Scope of SHACL rules over reused classes | **RESOLVED** | `2ae0c6d` (working tree holds 02–04) | `daimo-shapes.ttl`, `tests/reused_class_scope_test.py` + fixtures, docs 00–04, CHANGELOG, evidence-matrix | 9-cell matrix PASS (mixed complete graph); flood-risk conforms; 11/11 negatives; 23/23 CQs; HermiT 1.46 s | WIDOCO regenerated 2026-09-06 from the core TBox; INV-2 still `targetClass it6:Run` (SPARQL self-scopes); OOPS! timeout |
 
 
-**Publication packaging (2026-09-05).** The ISSUE-01..04 bundle is released as **DAIMO 0.1.7** (`owl:versionInfo` bumped; CHANGELOG section `[0.1.7]`). Serialisations under `daimo/docs/ontology.*` are regenerated from `daimo-core.ttl`. The Git commit of this packaging is the public candidate (tag `v0.1.7`). The SHA `dfcfd418…` cited in an external evaluation draft was never in this repository.
+**Publication packaging (2026-09-05).** The ISSUE-01..04 bundle is released as **DAIMO 0.1.7** (`owl:versionInfo` bumped; CHANGELOG section `[0.1.7]`). Serialisations under `daimo/docs/ontology.*` are regenerated from `daimo-core.ttl`. The Git commit of this packaging is the public candidate (tag `v0.1.7` → `cd3c1ae0f8ad262fbbe899dd9b8b95db128becad`). The SHA `dfcfd418…` cited in an external evaluation draft was never in this repository.
+
+**Documentation and evidence consolidation (2026-09-06).** WIDOCO 1.4.25 + WebVOWL were regenerated from `daimo-core.ttl` at that tagged content. Evaluation harnesses were re-run on the same commit and their reports updated in the working tree. This does **not** change `owl:versionInfo` 0.1.7 and does **not** move tag `v0.1.7`. w3id public resolution and a Zenodo DOI remain external follow-ups; they are not claimed here.
 
 ---
 
@@ -173,8 +175,8 @@ graph 225 → **227** triples; negative graph 118 → **163** triples; OWL-RL cl
 ### Remaining limitations or risks
 1. **OOPS!** could not be re-run (service unreachable). Re-run before the next
    release and refresh `reports/oops-report.md` and evaluation §3.
-2. **WIDOCO site** under `daimo/docs/` (generated HTML + copied `.ttl`/`.owl`) is
-   a build artefact that predates `forService`; regenerate it at the next release.
+2. **WIDOCO site** under `daimo/docs/` predates `forService` at issue time.
+   Regenerated on 2026-09-06 from `daimo-core.ttl` 0.1.7 (see packaging note above).
 3. **git line endings:** `git diff --check` flags trailing whitespace on the
    `docs/*.md` files. This is a pre-existing CRLF/LF condition (the docs already
    showed as modified before the content edits of this task), not introduced
@@ -349,7 +351,7 @@ Reports regenerated by redirecting `validate.py` / `negative_test.py` and by the
 
 ### Remaining limitations or risks
 1. **OOPS!** could not be re-run (service timeout). Re-run before the next release.
-2. **WIDOCO copies** under `daimo/docs/alignment.ttl` and `daimo/docs/daimo-shapes.ttl` still contain `ExecutionAuthorization ⊑ odrl:Agreement` and `grantedTo ⊑ odrl:assignee`. They are generated artefacts; regenerate at the next release. Runtime validation loads `daimo/ontology/` and `daimo/shapes/`, not those copies.
+2. **WIDOCO copies** under `daimo/docs/` still showed `ExecutionAuthorization ⊑ odrl:Agreement` at issue time. Regenerated on 2026-09-06; published `docs/alignment.ttl` and `docs/daimo-shapes.ttl` were refreshed from the canonical sources. Runtime validation still loads `daimo/ontology/` and `daimo/shapes/`.
 3. **RDFS range vs `sh:class`:** a target of `derivedFromAgreement` is always typed `odrl:Agreement` under RDFS inference, so “not an Agreement” is enforced as “not a well-formed Agreement” (`odrl:permission` missing).
 4. **Commit/push deferred** per the task. Local `main` remains at `2ae0c6d` plus uncommitted ISSUE-02 work.
 5. No version bump: still `0.1.6`.
@@ -457,7 +459,7 @@ git diff --check
 ### Remaining limitations or risks
 1. DAIMO still does **not** decide automatically when a seed is required (no invented protocol taxonomy). Publishers must omit or declare it according to their procedure.
 2. OWL `owl:FunctionalProperty` and SHACL `maxCount 1` both police two seeds; a reasoner may additionally infer inconsistency, but the SHACL test does not depend on that.
-3. WIDOCO copies under `daimo/docs/` are not regenerated.
+3. WIDOCO copies under `daimo/docs/` were not regenerated in the issue step; they were regenerated on 2026-09-06.
 4. No version bump / commit / push in this step.
 
 ### Final status
@@ -551,7 +553,7 @@ git diff --check
 `daimo-shapes.ttl`, `CHANGELOG.md`, docs 00–04, `docs/02` §4.3, `reports/reused-class-scope-results.md`, plus regenerated validation/reasoner/negative/scalability reports.
 
 ### Remaining limitations or risks
-1. WIDOCO copies under `daimo/docs/` still contain the old `sh:targetClass` axioms; runtime validation loads `daimo/shapes/`.
+1. WIDOCO copies under `daimo/docs/` still contained the old `sh:targetClass` axioms at issue time. Regenerated on 2026-09-06 from the core TBox; SHACL targets are defined in `daimo/shapes/`, which runtime validation loads.
 2. INV-2 remains `sh:targetClass it6:Run` but SPARQL-scoped; documented, not a conformance-shape leak.
 3. A model that is only `it6:evaluates`’d under a `SharedEvaluationContext` is **not** selected by `MachineLearningModelInDAIMOShape` (by design: not offered/deployed).
 4. OOPS! still unreachable.
@@ -600,16 +602,16 @@ HermiT consistent, 0 unsatisfiable, 1.46 s. OWL-RL 853→2048 (1195), 0.64 s, 0 
 Service timeout. Last stored scan (2026-07-08): 0 Critical, 0 Important, 2 Minor. Predates `forService` / `derivedFromAgreement`. Not cited as a new result.
 
 ### Documentation consistency check
-docs 00–04, ORSD CQs, CHANGELOG Unreleased, evidence-matrix and CHOWLK guide updated for all four issues. WIDOCO `daimo/docs/` **not** regenerated.
+docs 00–04, ORSD CQs, CHANGELOG and evidence notes cover ISSUE-01..04. WIDOCO HTML + WebVOWL under `daimo/docs/` were regenerated on 2026-09-06 from `daimo-core.ttl` 0.1.7 (previous version 0.1.6). Published RDF copies of shapes and alignment were refreshed from the canonical sources. The manuscript under `paper/` was not edited in that consolidation step.
 
 ### Unresolved warnings
-- OOPS! unreachable.
-- WIDOCO stale copies of alignment/shapes.
+- OOPS! unreachable at last attempt; stored scan still predates ISSUE-01..04.
+- w3id public resolution and Zenodo DOI are external and not claimed.
 - Expert validation (SWJ C9) still pending (pre-existing).
-- `git diff --check` clean on this audit run.
+- WIDOCO documents the core TBox; SHACL conformance shapes and the nine invariants live in `shapes/daimo-shapes.ttl`, not as a separate WIDOCO catalogue.
 
 ### Versioning recommendation
-Keep **one** Unreleased bundle. After human review, a **single** version bump is recommended: **0.2.0** (new properties `forService` and `derivedFromAgreement`; breaking removal of `ExecutionAuthorization ⊑ odrl:Agreement`; SHACL target narrowing). If the SWJ freeze must remain on the 0.1 line, use **0.1.7** with the same Unreleased notes. Do **not** increment four times.
+**0.1.7 is the published 0.1-line freeze** (annotated tag `v0.1.7` on `cd3c1ae0f8ad262fbbe899dd9b8b95db128becad`). Do **not** move that tag. Documentation and evaluation reports produced after the tag belong in a later commit of evidence, not in a new ontology version and not in a mandatory 0.2.0 bump. A 0.2.0 line would only be justified by a later TBox change, which this consolidation does not make.
 
 ### Overall conclusion
-ISSUE-01, ISSUE-02, ISSUE-03 and ISSUE-04 are **RESOLVED** on the local working tree. Specific harnesses and the shared validate/reasoner/negative/benchmark suite all passed. No commit, push, tag, release or PR was made.
+ISSUE-01, ISSUE-02, ISSUE-03 and ISSUE-04 are **RESOLVED** and packaged as public **DAIMO 0.1.7**. The ontology content of tag `v0.1.7` is unchanged by the 2026-09-06 documentation/evidence consolidation.

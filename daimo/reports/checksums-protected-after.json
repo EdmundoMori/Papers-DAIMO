@@ -1,0 +1,103 @@
+{
+  "evaluated_commit": "cd3c1ae0f8ad262fbbe899dd9b8b95db128becad",
+  "compared_against": "daimo/reports/checksums-protected-before.json",
+  "compared_against_head": "cd3c1ae0f8ad262fbbe899dd9b8b95db128becad",
+  "note": "El commit evaluado es cd3c1ae0f8ad262fbbe899dd9b8b95db128becad. La coincidencia/diferencia es respecto de los checksums before tomados en ese HEAD.",
+  "all_match": true,
+  "files_before": 18,
+  "files_after": 18,
+  "matched": 18,
+  "changed": [],
+  "files": [
+    {
+      "path": "daimo/examples/flood-risk-scenario.ttl",
+      "sha256": "4a241f073ae3e3b231bb00081aad0159b75a6dcab3ae59044d94c2578f2613bc",
+      "bytes": 14378
+    },
+    {
+      "path": "daimo/ontology/alignment.ttl",
+      "sha256": "9615fd4e3f371d9f8b680d6fe47307ec6781d4c33e7fae3bb1b28e3344e46b41",
+      "bytes": 22719
+    },
+    {
+      "path": "daimo/ontology/daimo-core.ttl",
+      "sha256": "e6ab04b21e7480e974f5deb21d3a85b77ecff13daaf68b330f08f67f52eb56be",
+      "bytes": 37271
+    },
+    {
+      "path": "daimo/queries/queries.md",
+      "sha256": "1f6338c7a96ef2e6143696348d75fe18d081eeb1b0246073b3939e30d25fcbf1",
+      "bytes": 14060
+    },
+    {
+      "path": "daimo/shapes/daimo-shapes.ttl",
+      "sha256": "6a7a2ef7ce2c13a081d4e0e4ecb3221e183e9188520ba0b00bb4809974cbac7c",
+      "bytes": 26804
+    },
+    {
+      "path": "daimo/tests/negative-examples.ttl",
+      "sha256": "d38930a32ecfbcf4805bbd16538b0a8a634fbff481c7744d15429bbfabad49d0",
+      "bytes": 14682
+    },
+    {
+      "path": "daimo/tests/negative_test.py",
+      "sha256": "0aa1edd12813020aac985f06c20a8ca6f4dfc6126a831a06ad916be649102373",
+      "bytes": 4246
+    },
+    {
+      "path": "daimo/tests/random-seed-badtype.ttl",
+      "sha256": "2f7e411614aece16e080e0be66e3054477baecc5f34730da09e37dbb801fbee4",
+      "bytes": 777
+    },
+    {
+      "path": "daimo/tests/random-seed-two.ttl",
+      "sha256": "dbba1b40f9a21808682437dd4a6f191031cdcad844894be8e77a7c3217dd02ac",
+      "bytes": 793
+    },
+    {
+      "path": "daimo/tests/random_seed_test.py",
+      "sha256": "12fe2372fc8c569a921d8318c0648845b33768fa7985058ab02694aa080edfac",
+      "bytes": 5417
+    },
+    {
+      "path": "daimo/tests/reused-class-scope/daimo-complete.ttl",
+      "sha256": "4969a9e3758ce02993c2a81696ea24dd4d072d49fa2019564a94b2225254c5ef",
+      "bytes": 2239
+    },
+    {
+      "path": "daimo/tests/reused-class-scope/daimo-model-incomplete.ttl",
+      "sha256": "e06ab71d8b3f2d404e2fb0a8f59b62c5c58694e472dbad51b3cc672becf5392d",
+      "bytes": 996
+    },
+    {
+      "path": "daimo/tests/reused-class-scope/daimo-offer-incomplete.ttl",
+      "sha256": "f11508044e8c7e75510ffd8a5c7e944af08f46bc0b86c9cad580d4a3a9ca1dee",
+      "bytes": 1190
+    },
+    {
+      "path": "daimo/tests/reused-class-scope/daimo-run-incomplete.ttl",
+      "sha256": "1bc3bb231212e96e35665b188ceda20fccab10478642500098d7e591996b0f70",
+      "bytes": 1095
+    },
+    {
+      "path": "daimo/tests/reused-class-scope/external-incomplete.ttl",
+      "sha256": "39aaf0b446986a85a8b3b1fdc84655bd1e34afcea6195aabdb89a7c57539d000",
+      "bytes": 1039
+    },
+    {
+      "path": "daimo/tests/reused_class_scope_test.py",
+      "sha256": "9269de6add4318db5651914dde7f96f4f362e5124bedf7e100c03892409d7d04",
+      "bytes": 6314
+    },
+    {
+      "path": "daimo/tests/seedless-eval-context.ttl",
+      "sha256": "df2d1ec660c6478c3e6028168b3a90bfaf1ff00d08da87a6181efbdd1e4a522f",
+      "bytes": 2089
+    },
+    {
+      "path": "daimo/tests/serialization_test.py",
+      "sha256": "058e3befd4c63eccf82e7e56f48180b9dd899133a803f8e34871ce1ff334f8f4",
+      "bytes": 1863
+    }
+  ]
+}
